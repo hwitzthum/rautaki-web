@@ -3,6 +3,7 @@ import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import N8nChatWidget from "@/components/N8nChatWidget";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -36,6 +37,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css"
+        />
+      </head>
       <body className={`${dmSans.variable} antialiased`}>
         <a href="#main-content" className="skip-to-content">
           Skip to content
@@ -43,6 +50,7 @@ export default function RootLayout({
         <Navigation />
         <main id="main-content">{children}</main>
         <Footer />
+        <N8nChatWidget />
       </body>
     </html>
   );

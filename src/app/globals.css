@@ -225,6 +225,189 @@ h4 em {
 }
 
 /* ==========================================================================
+   Chat Theme: Premium Minimal Subtle
+   N8N Chat Widget — Rautaki Brand Overrides
+   ========================================================================== */
+
+:root {
+  --chat--font-family: var(--font-dm-sans), "DM Sans", system-ui, sans-serif;
+  --chat--color--primary: #f5a623;
+  --chat--color--primary-shade-50: #e59a1a;
+  --chat--color--primary--shade-100: #cc8716;
+  --chat--color--secondary: #f5a623;
+  --chat--color-secondary-shade-50: #e59a1a;
+  --chat--color-light: #f4f2ee;
+  --chat--color-light-shade-50: #dfdbd3;
+  --chat--color-light-shade-100: #cfc9bf;
+  --chat--color-medium: #9a968e;
+  --chat--color-dark: #0d1118;
+  --chat--color-typing: rgba(245, 166, 35, 0.8);
+  --chat--border-radius: 0px;
+  --chat--spacing: 0.9rem;
+  --chat--window--width: min(420px, calc(100vw - 2rem));
+  --chat--window--height: min(680px, calc(100vh - 7rem));
+  --chat--window--bottom: 0.9rem;
+  --chat--window--right: 0.9rem;
+  --chat--window--z-index: 1400;
+  --chat--window--border: 1px solid rgba(255, 255, 255, 0.12);
+  --chat--window--border-radius: 0px;
+  --chat--window--margin-bottom: 0.9rem;
+  --chat--header--padding: 1.1rem 1.1rem 0.95rem;
+  --chat--header--background: #0a0a0a;
+  --chat--header--color: #fafafa;
+  --chat--heading--font-size: 1.62rem;
+  --chat--subtitle--font-size: 0.69rem;
+  --chat--subtitle--line-height: 1.4;
+  --chat--body--background: #0a0a0a;
+  --chat--footer--background: #0a0a0a;
+  --chat--footer--color: #f4f2ee;
+  --chat--message--font-size: 0.93rem;
+  --chat--message--padding: 0.7rem 0.85rem;
+  --chat--message--margin-bottom: 0.65rem;
+  --chat--message--bot--background: #161d29;
+  --chat--message--bot--color: #f4f2ee;
+  --chat--message--bot--border: 1px solid rgba(255, 255, 255, 0.08);
+  --chat--message--user--background: #e8a236;
+  --chat--message--user--color: #090b10;
+  --chat--message--user--border: 1px solid rgba(9, 11, 16, 0.16);
+  --chat--message--pre--background: rgba(255, 255, 255, 0.06);
+  --chat--toggle--size: 50px;
+  --chat--toggle--background: #e8a236;
+  --chat--toggle--hover--background: #d6932d;
+  --chat--toggle--active--background: #c48728;
+  --chat--toggle--color: #090b10;
+  --chat--textarea--height: 50px;
+  --chat--textarea--max-height: 16rem;
+  --chat--input--font-size: 0.95rem;
+  --chat--input--border: 1px solid rgba(255, 255, 255, 0.1);
+  --chat--input--border-radius: 0px;
+  --chat--input--padding: 0.82rem 0.95rem;
+  --chat--input--background: #141b27;
+  --chat--input--text-color: #f4f2ee;
+  --chat--input--placeholder--font-size: 0.9rem;
+  --chat--input--border-active: 1px solid rgba(255, 255, 255, 0.2);
+  --chat--input--left--panel--width: 0.4rem;
+  --chat--button--padding: 0.85rem 1.2rem;
+  --chat--button--border-radius: 0px;
+  --chat--button--font-size: 0.82rem;
+  --chat--button--background--primary: #e8a236;
+  --chat--button--color--primary: #090b10;
+  --chat--button--background--primary--hover: #d6932d;
+  --chat--button--color--primary--hover: #090b10;
+  --chat--input--send--button--background: #141b27;
+  --chat--input--send--button--color: #dca14a;
+  --chat--input--send--button--background-hover: #141b27;
+  --chat--input--send--button--color-hover: #ebb761;
+  --chat--close--button--color-hover: #dca14a;
+}
+
+.chat-window-wrapper .chat-window {
+  box-shadow:
+    0 6px 22px rgba(0, 0, 0, 0.32),
+    0 0 0 1px rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(6px);
+}
+
+.chat-window-wrapper .chat-window-toggle {
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
+}
+
+.chat-layout .chat-header {
+  background: #0a0a0a;
+  border-top: 1px solid rgba(245, 166, 35, 0.65);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.chat-layout .chat-header h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  letter-spacing: -0.015em;
+  font-weight: 400;
+}
+
+.chat-layout .chat-header p {
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.chat-layout .chat-body,
+.chat-message,
+.chat-inputs textarea,
+.chat-button {
+  font-family: var(--font-dm-sans), "DM Sans", system-ui, sans-serif;
+}
+
+.chat-layout .chat-footer {
+  border-top-color: rgba(255, 255, 255, 0.08);
+  padding: 0.6rem 0.9rem 0.8rem;
+}
+
+.chat-input {
+  padding: 0.2rem 0.2rem 0.1rem;
+}
+
+.chat-inputs {
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0 0.25rem;
+}
+
+.chat-inputs textarea {
+  width: auto;
+  flex: 1 1 auto;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.chat-input-left-panel {
+  margin-left: 0;
+}
+
+.chat-inputs-controls {
+  align-items: center;
+  gap: 0.25rem;
+  margin-right: 0.1rem;
+}
+
+.chat-input-send-button,
+.chat-input-file-button {
+  border-radius: 2px;
+}
+
+.chat-close-button {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.chat-button,
+.chat-input-send-button,
+.chat-input-file-button {
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.chat-inputs textarea::placeholder {
+  color: rgba(255, 255, 255, 0.28);
+}
+
+.chat-message-markdown a {
+  color: #dca14a;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --chat--window--width: calc(100vw - 1rem);
+    --chat--window--height: min(74vh, 620px);
+    --chat--window--right: 0.4rem;
+    --chat--window--bottom: 0.45rem;
+    --chat--window--margin-bottom: 0.65rem;
+    --chat--toggle--size: 48px;
+  }
+}
+
+/* End Chat Theme: Premium Minimal Subtle */
+
+/* ==========================================================================
    DATE/TIME INPUT STYLING
    ========================================================================== */
 
