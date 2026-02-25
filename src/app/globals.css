@@ -229,7 +229,8 @@ h4 em {
    N8N Chat Widget — Rautaki Brand Overrides
    ========================================================================== */
 
-:root {
+#n8n-chat,
+#n8n-chat .chat-window-wrapper {
   --chat--font-family: var(--font-dm-sans), "DM Sans", system-ui, sans-serif;
   --chat--color--primary: #f5a623;
   --chat--color--primary-shade-50: #e59a1a;
@@ -301,101 +302,105 @@ h4 em {
   --chat--close--button--color-hover: #dca14a;
 }
 
-.chat-window-wrapper .chat-window {
+#n8n-chat .chat-window-wrapper .chat-window {
   box-shadow:
     0 6px 22px rgba(0, 0, 0, 0.32),
     0 0 0 1px rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(6px);
 }
 
-.chat-window-wrapper .chat-window-toggle {
+#n8n-chat .chat-window-wrapper .chat-window-toggle {
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
 }
 
-.chat-layout .chat-header {
+#n8n-chat .chat-layout .chat-header {
   background: #0a0a0a;
   border-top: 1px solid rgba(245, 166, 35, 0.65);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.chat-layout .chat-header h1 {
+#n8n-chat .chat-layout .chat-header h1 {
   font-family: Georgia, "Times New Roman", serif;
   letter-spacing: -0.015em;
   font-weight: 400;
 }
 
-.chat-layout .chat-header p {
+#n8n-chat .chat-layout .chat-header p {
   color: rgba(255, 255, 255, 0.45);
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
-.chat-layout .chat-body,
-.chat-message,
-.chat-inputs textarea,
-.chat-button {
+#n8n-chat .chat-layout .chat-body,
+#n8n-chat .chat-message,
+#n8n-chat .chat-inputs textarea,
+#n8n-chat .chat-button {
   font-family: var(--font-dm-sans), "DM Sans", system-ui, sans-serif;
 }
 
-.chat-layout .chat-footer {
+#n8n-chat .chat-layout .chat-footer {
   border-top-color: rgba(255, 255, 255, 0.08);
   padding: 0.6rem 0.9rem 0.8rem;
 }
 
-.chat-input {
+#n8n-chat .chat-input {
   padding: 0.2rem 0.2rem 0.1rem;
 }
 
-.chat-inputs {
+#n8n-chat .chat-inputs {
   align-items: center;
   gap: 0.55rem;
-  padding: 0 0.25rem;
+  padding: 0 0.45rem 0 0.5rem;
 }
 
-.chat-inputs textarea {
+#n8n-chat .chat-inputs textarea {
   width: auto;
   flex: 1 1 auto;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
 }
 
-.chat-input-left-panel {
-  margin-left: 0;
+#n8n-chat .chat-input-left-panel {
+  width: 0 !important;
+  margin: 0 !important;
+  flex: 0 0 0 !important;
+  overflow: hidden !important;
 }
 
-.chat-inputs-controls {
+#n8n-chat .chat-inputs-controls {
   align-items: center;
   gap: 0.25rem;
-  margin-right: 0.1rem;
+  margin-right: 0.15rem;
 }
 
-.chat-input-send-button,
-.chat-input-file-button {
+#n8n-chat .chat-input-send-button,
+#n8n-chat .chat-input-file-button {
   border-radius: 2px;
 }
 
-.chat-close-button {
+#n8n-chat .chat-close-button {
   color: rgba(255, 255, 255, 0.72);
 }
 
-.chat-button,
-.chat-input-send-button,
-.chat-input-file-button {
+#n8n-chat .chat-button,
+#n8n-chat .chat-input-send-button,
+#n8n-chat .chat-input-file-button {
   letter-spacing: 0.15em;
   text-transform: uppercase;
 }
 
-.chat-inputs textarea::placeholder {
+#n8n-chat .chat-inputs textarea::placeholder {
   color: rgba(255, 255, 255, 0.28);
 }
 
-.chat-message-markdown a {
+#n8n-chat .chat-message-markdown a {
   color: #dca14a;
 }
 
 @media (max-width: 768px) {
-  :root {
+  #n8n-chat,
+  #n8n-chat .chat-window-wrapper {
     --chat--window--width: calc(100vw - 1rem);
     --chat--window--height: min(74vh, 620px);
     --chat--window--right: 0.4rem;
