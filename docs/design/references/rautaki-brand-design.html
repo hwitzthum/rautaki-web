@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rautaki – Brand Design Model v2</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  /* =====================================================
+     RAUTAKI BRAND DESIGN MODEL
+     Core Font: Georgia (system serif)
+     Support Font: DM Sans (body / UI)
+     ===================================================== */
+
+  :root {
+    /* Brand Colours */
+    --gold:        #F5A623;
+    --gold-light:  #FFD07A;
+    --gold-dim:    rgba(245,166,35,0.15);
+    --obsidian:    #0A0A0A;
+    --ink:         #1C1C1C;
+    --white:       #FAFAFA;
+    --cream:       #F4F2EE;
+    --warm-grey:   #E8E5DF;
+    --mid-grey:    #9A9590;
+    --text-muted:  rgba(28,28,28,0.45);
+
+    /* Typography — Georgia scale with corrected kerning */
+    --font-serif:  Georgia, 'Times New Roman', serif;
+    --font-ui:     'DM Sans', system-ui, sans-serif;
+
+    /* Size scale */
+    --sz-hero:     88px;   /* hero display */
+    --sz-d1:       64px;   /* section title */
+    --sz-h1:       48px;   /* page heading */
+    --sz-h2:       36px;   /* section heading */
+    --sz-h3:       26px;   /* card heading */
+    --sz-h4:       20px;   /* sub-heading */
+    --sz-lead:     18px;   /* lead paragraph */
+    --sz-body:     15px;   /* body copy */
+    --sz-sm:       13px;   /* small / meta */
+    --sz-xs:       11px;   /* caption / label */
+    --sz-logo-xl:  56px;   /* logo large */
+    --sz-logo-md:  36px;   /* logo medium */
+    --sz-logo-sm:  24px;   /* logo small */
+    --sz-logo-xs:  18px;   /* logo minimum */
+
+    /* Kerning corrections */
+    --kern-hero:  -0.04em;
+    --kern-d1:    -0.03em;
+    --kern-h1:    -0.03em;
+    --kern-h2:    -0.02em;
+    --kern-h3:    -0.015em;
+    --kern-h4:    -0.01em;
+    --kern-body:   0em;
+
+    /* Line heights */
+    --lh-display:  1.0;
+    --lh-heading:  1.15;
+    --lh-subhead:  1.25;
+    --lh-body:     1.75;
+    --lh-ui:       1.5;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-ui);
+    font-size: var(--sz-body);
+    line-height: var(--lh-body);
+    color: var(--ink);
+    background: var(--cream);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* =====================================================
+     LOGO COMPONENT
+     R-a-u-t = base | a = gold | k = base | i = gold
+     ===================================================== */
+  .logo {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    display: inline-block;
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+  .logo .base  { color: inherit; }
+  .logo .gold  { color: var(--gold); }
+  .logo-xl  { font-size: var(--sz-logo-xl); }
+  .logo-md  { font-size: var(--sz-logo-md); }
+  .logo-sm  { font-size: var(--sz-logo-sm); }
+  .logo-xs  { font-size: var(--sz-logo-xs); }
+
+  /* Tagline under logo */
+  .logo-tagline {
+    font-family: var(--font-ui);
+    font-size: var(--sz-xs);
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--mid-grey);
+    margin-top: 8px;
+  }
+
+  /* =====================================================
+     SECTION UTILITY
+     ===================================================== */
+  .section-label {
+    font-family: var(--font-ui);
+    font-size: var(--sz-xs);
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--mid-grey);
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .section-label::before {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+
+  hr.gold-rule {
+    border: none;
+    height: 3px;
+    background: linear-gradient(to right, var(--gold), transparent);
+  }
+  hr.hair {
+    border: none;
+    height: 1px;
+    background: rgba(28,28,28,0.1);
+  }
+
+  /* =====================================================
+     1. TYPOGRAPHY SYSTEM  (main CD/CI section)
+     ===================================================== */
+  .type-system {
+    background: var(--white);
+    padding: 100px 80px;
+  }
+
+  .type-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-bottom: 80px;
+    align-items: start;
+  }
+
+  .type-intro-text h2 {
+    font-family: var(--font-serif);
+    font-size: var(--sz-h2);
+    letter-spacing: var(--kern-h2);
+    line-height: var(--lh-heading);
+    margin-bottom: 20px;
+  }
+  .type-intro-text p {
+    font-size: var(--sz-body);
+    line-height: var(--lh-body);
+    color: var(--mid-grey);
+  }
+
+  /* Font description cards */
+  .font-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-bottom: 80px;
+  }
+  .font-card {
+    background: var(--cream);
+    padding: 48px;
+  }
+  .font-card.dark { background: var(--obsidian); }
+  .font-label {
+    font-family: var(--font-ui);
+    font-size: var(--sz-xs);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mid-grey);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .font-label::before { content: ''; width: 20px; height: 1px; background: var(--gold); }
+  .font-specimen-large {
+    font-family: var(--font-serif);
+    font-size: 96px;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    margin-bottom: 24px;
+    color: var(--ink);
+  }
+  .font-card.dark .font-specimen-large { color: var(--white); }
+  .font-specimen-alpha {
+    font-family: var(--font-serif);
+    font-size: var(--sz-sm);
+    letter-spacing: 0.12em;
+    color: var(--mid-grey);
+    line-height: 1.8;
+    margin-bottom: 16px;
+  }
+  .font-specimen-note {
+    font-family: var(--font-ui);
+    font-size: var(--sz-xs);
+    color: var(--mid-grey);
+    line-height: 1.7;
+  }
+
+  .font-specimen-ui {
+    font-family: var(--font-ui);
+    font-size: 72px;
+    line-height: 0.9;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+    color: var(--ink);
+  }
+  .font-card.dark .font-specimen-ui { color: var(--white); }
+
+  /* The main type scale table */
+  .type-scale {
+    border-top: 2px solid var(--gold);
+  }
+  .scale-row {
+    display: grid;
+    grid-template-columns: 180px 1fr 120px 140px;
+    align-items: center;
+    border-bottom: 1px solid rgba(28,28,28,0.07);
+    padding: 24px 0;
+    gap: 24px;
+  }
+  .scale-row:hover { background: var(--cream); padding-left: 8px; transition: all 0.2s; }
+  .scale-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .scale-name {
+    font-family: var(--font-ui);
+    font-size: var(--sz-xs);
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+  .scale-usage {
+    font-family: var(--font-ui);
+    font-size: var(--sz-xs);
+    color: var(--mid-grey);
+  }
+  .scale-example { font-family: var(--font-serif); color: var(--ink); line-height: 1; }
+  .scale-size {
+    font-family: var(--font-ui);
+    font-size: var(--sz-xs);
+    color: var(--mid-grey);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-align: right;
+  }
+  .scale-kern {
+    font-family: var(--font-ui);
+    font-size: var(--sz-xs);
+    color: var(--gold);
+    text-align: right;
+    font-weight: 500;
+  }
+
+  /* Individual scale sizes */
+  .ts-hero   { font-size: var(--sz-hero); letter-spacing: var(--kern-hero); font-weight: 400; }
+  .ts-d1     { font-size: var(--sz-d1);   letter-spacing: var(--kern-d1);   font-weight: 400; }
+  .ts-h1     { font-size: var(--sz-h1);   letter-spacing: var(--kern-h1);   font-weight: 400; }
+  .ts-h2     { font-size: var(--sz-h2);   letter-spacing: var(--kern-h2);   font-weight: 400; }
+  .ts-h3     { font-size: var(--sz-h3);   letter-spacing: var(--kern-h3);   font-weight: 400; }
+  .ts-h4     { font-size: var(--sz-h4);   letter-spacing: var(--kern-h4);   font-weight: 400; }
+  .ts-lead   { font-size: var(--sz-lead); letter-spacing: var(--kern-body); font-family: var(--font-serif); color: var(--mid-grey); font-style: italic; }
+  .ts-body   { font-size: var(--sz-body); font-family: var(--font-ui); font-weight: 400; color: var(--ink); line-height: var(--lh-body); }
+  .ts-sm     { font-size: var(--sz-sm);   font-family: var(--font-ui); font-weight: 400; color: var(--mid-grey); }
+  .ts-label  { font-size: var(--sz-xs); font-family: var(--font-ui); font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mid-grey); }
+
+  /* =====================================================
+     2. KERNING DEMONSTRATION
+     ===================================================== */
+  .kern-demo {
+    background: var(--obsidian);
+    padding: 80px;
+  }
+  .kern-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-bottom: 2px;
+  }
+  .kern-box {
+    padding: 48px 56px;
+    background: #111;
+  }
+  .kern-box p {
+    font-family: var(--font-serif);
+    font-size: 52px;
+    line-height: 1.1;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+  .kern-box .kern-tag {
+    font-family: var(--font-ui);
+    font-size: var(--sz-xs);
+    color: var(--mid-grey);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .kern-tag .val { color: var(--gold); }
+
+  /* =====================================================
+     3. LOGO SIZES & CLEARSPACE
+     ===================================================== */
+  .logo-system {
+    background: var(--cream);
+    padding: 80px;
+  }
+  .logo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-bottom: 2px;
+  }
+  .logo-cell {
+    padding: 56px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 200px;
+  }
+  .logo-cell.on-dark   { background: var(--obsidian); color: var(--white); }
+  .logo-cell.on-white  { background: var(--white); color: var(--ink); border: 1px solid rgba(0,0,0,0.06); }
+  .logo-cell.on-gold   { background: var(--gold); color: var(--obsidian); }
+  .logo-cell.on-gold .logo .gold { color: var(--obsidian); }
+  .logo-cell.on-gold .logo .base { color: rgba(0,0,0,0.6); }
+  .logo-cell.on-cream  { background: var(--cream); color: var(--ink); border: 1px solid rgba(0,0,0,0.06);}
+
+  .logo-cell-meta {
+    font-family: var(--font-ui);
+    font-size: var(--sz-xs);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.4;
+    margin-top: 24px;
+  }
+
+  /* Min size warning */
+  .clearspace-note {
+    background: var(--white);
+    padding: 32px 48px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    border-left: 3px solid var(--gold);
+    margin-top: 2px;
+    font-size: var(--sz-sm);
+    color: var(--mid-grey);
+  }
+
+  /* =====================================================
+     4. COLOUR SYSTEM
+     ===================================================== */
+  .colour-system {
+    background: var(--white);
+    padding: 80px;
+  }
+  .colour-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2px;
+    margin-bottom: 40px;
+  }
+  .swatch {
+    aspect-ratio: 3/4;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px;
+  }
+  .swatch-name { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .swatch-hex  { font-family: monospace; font-size: 11px; opacity: 0.6; margin-top: 3px; }
+  .swatch-use  { font-size: 10px; opacity: 0.5; margin-top: 4px; line-height: 1.5; }
+  .sw-dark  { color: rgba(255,255,255,0.85); }
+  .sw-light { color: rgba(28,28,28,0.75); border: 1px solid rgba(0,0,0,0.08); }
+
+  /* =====================================================
+     5. DARK HERO TEMPLATE
+     ===================================================== */
+  .hero-dark {
+    background: var(--obsidian);
+    min-height: 92vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-dark::before {
+    content: '';
+    position: absolute;
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(245,166,35,0.07) 0%, transparent 70%);
+    top: -150px; left: -100px;
+    pointer-events: none;
+  }
+  .hero-dark-left {
+    padding: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1px solid rgba(255,255,255,0.05);
+    z-index: 1;
+  }
+  .hero-dark-right {
+    padding: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    z-index: 1;
+    position: relative;
+  }
+  .hero-dark-right::after {
+    content: 'R';
+    font-family: var(--font-serif);
+    font-size: 500px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.025);
+    position: absolute;
+    top: 50%; right: -40px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .hero-h1 {
+    font-family: var(--font-serif);
+    font-size: var(--sz-hero);
+    font-weight: 400;
+    letter-spacing: var(--kern-hero);
+    line-height: var(--lh-display);
+    color: var(--white);
+    margin-bottom: 28px;
+  }
+  .hero-h1 em { font-style: italic; color: var(--gold); }
+  .hero-body {
+    font-size: var(--sz-body);
+    line-height: var(--lh-body);
+    color: rgba(255,255,255,0.45);
+    max-width: 400px;
+    font-family: var(--font-ui);
+    font-weight: 300;
+  }
+
+  .cta-gold {
+    background: var(--gold);
+    padding: 40px;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 1;
+  }
+  .cta-gold h3 {
+    font-family: var(--font-serif);
+    font-size: var(--sz-h3);
+    letter-spacing: var(--kern-h3);
+    color: var(--obsidian);
+    margin-bottom: 8px;
+  }
+  .cta-gold p {
+    font-size: var(--sz-sm);
+    color: rgba(0,0,0,0.55);
+    margin-bottom: 20px;
+    font-family: var(--font-ui);
+  }
+  .btn-dark {
+    display: inline-block;
+    background: var(--obsidian);
+    color: var(--white);
+    font-family: var(--font-ui);
+    font-size: var(--sz-xs);
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+  }
+  .nav-bar {
+    display: flex;
+    gap: 36px;
+    color: rgba(255,255,255,0.28);
+    font-size: var(--sz-xs);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-family: var(--font-ui);
+    z-index: 1;
+    position: relative;
+  }
+  .nav-bar span { cursor: pointer; transition: color 0.2s; }
+  .nav-bar span:hover, .nav-bar span.active { color: var(--gold); }
+
+  /* =====================================================
+     6. LIGHT HERO TEMPLATE
+     ===================================================== */
+  .hero-light {
+    background: var(--white);
+    padding: 100px 80px;
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr;
+    gap: 80px;
+    align-items: center;
+    border-top: 4px solid var(--gold);
+  }
+  .hero-light h1 {
+    font-family: var(--font-serif);
+    font-size: var(--sz-h1);
+    letter-spacing: var(--kern-h1);
+    line-height: var(--lh-heading);
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+  .hero-light h1 em { font-style: italic; color: var(--gold); }
+  .hero-light p {
+    font-size: var(--sz-body);
+    line-height: var(--lh-body);
+    color: var(--mid-grey);
+    font-family: var(--font-ui);
+    font-weight: 300;
+  }
+  .stat-block {
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+  .stat { padding-left: 20px; border-left: 2px solid var(--gold); }
+  .stat-num {
+    font-family: var(--font-serif);
+    font-size: var(--sz-d1);
+    letter-spacing: var(--kern-d1);
+    line-height: 1;
+    color: var(--ink);
+  }
+  .stat-num span { color: var(--gold); }
+  .stat-lbl {
+    font-family: var(--font-ui);
+    font-size: var(--sz-xs);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--mid-grey);
+    margin-top: 4px;
+  }
+
+  /* =====================================================
+     7. CARDS TEMPLATE
+     ===================================================== */
+  .cards-section {
+    background: var(--obsidian);
+    padding: 80px;
+  }
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  .card {
+    background: #111;
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 0;
+    background: var(--gold);
+    transition: height 0.4s ease;
+  }
+  .card:hover { background: #161616; }
+  .card:hover::before { height: 100%; }
+  .card-num {
+    font-family: var(--font-serif);
+    font-size: 80px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.03);
+    line-height: 1;
+    margin-bottom: -16px;
+    letter-spacing: -0.05em;
+  }
+  .card h3 {
+    font-family: var(--font-serif);
+    font-size: var(--sz-h3);
+    letter-spacing: var(--kern-h3);
+    color: var(--white);
+    margin-bottom: 12px;
+    font-weight: 400;
+  }
+  .card h3 span { color: var(--gold); font-style: italic; }
+  .card p {
+    font-family: var(--font-ui);
+    font-size: var(--sz-sm);
+    line-height: var(--lh-body);
+    color: rgba(255,255,255,0.38);
+    font-weight: 300;
+  }
+
+  /* =====================================================
+     8. SOCIAL CARDS
+     ===================================================== */
+  .social-section {
+    background: var(--warm-grey);
+    padding: 80px;
+  }
+  .social-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .social-card {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .sc-dark    { background: var(--obsidian); }
+  .sc-gold    { background: var(--gold); }
+  .sc-outline { background: transparent; border: 2px solid var(--ink); }
+
+  .social-card .sc-quote {
+    font-family: var(--font-serif);
+    font-size: var(--sz-h4);
+    font-style: italic;
+    letter-spacing: var(--kern-h4);
+    line-height: 1.45;
+  }
+  .sc-dark .sc-quote    { color: var(--white); }
+  .sc-gold .sc-quote    { color: var(--obsidian); }
+  .sc-outline .sc-quote { color: var(--ink); }
+  .sc-dark .logo        { color: var(--white); }
+  .sc-gold .logo        { color: var(--obsidian); }
+  .sc-gold .logo .gold  { color: rgba(0,0,0,0.35); }
+  .sc-outline .logo     { color: var(--ink); }
+
+  .sc-deco {
+    position: absolute;
+    font-family: var(--font-serif);
+    font-size: 200px;
+    line-height: 1;
+    bottom: -24px; right: -10px;
+    opacity: 0.04;
+    letter-spacing: -0.05em;
+    pointer-events: none;
+  }
+  .sc-gold .sc-deco { color: var(--obsidian); opacity: 0.08; }
+
+  /* =====================================================
+     9. BUSINESS CARD
+     ===================================================== */
+  .bizcard-section {
+    background: var(--cream);
+    padding: 80px;
+  }
+  .bizcard-row {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .bizcard {
+    width: 400px;
+    height: 230px;
+    padding: 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .bc-dark  { background: var(--obsidian); }
+  .bc-light { background: var(--white); border: 1px solid rgba(0,0,0,0.1); }
+  .bc-dark::after, .bc-light::before {
+    content: '';
+    position: absolute;
+    height: 3px;
+    left: 0; right: 0;
+    background: var(--gold);
+  }
+  .bc-dark::after  { bottom: 0; }
+  .bc-light::before { top: 0; }
+
+  .bc-name {
+    font-family: var(--font-serif);
+    font-size: var(--sz-h4);
+    letter-spacing: var(--kern-h4);
+    font-weight: 400;
+  }
+  .bc-dark .bc-name  { color: var(--white); }
+  .bc-light .bc-name { color: var(--ink); }
+  .bc-title {
+    font-family: var(--font-ui);
+    font-size: var(--sz-xs);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .bc-dark .bc-title  { color: rgba(255,255,255,0.28); }
+  .bc-light .bc-title { color: var(--mid-grey); }
+  .bc-contact {
+    font-family: var(--font-ui);
+    font-size: var(--sz-xs);
+    line-height: 1.9;
+  }
+  .bc-dark .bc-contact  { color: rgba(255,255,255,0.28); }
+  .bc-light .bc-contact { color: var(--mid-grey); }
+  .bc-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  /* =====================================================
+     10. EMAIL TEMPLATE
+     ===================================================== */
+  .email-section {
+    background: #DDD9D0;
+    padding: 80px;
+  }
+  .email-wrap {
+    max-width: 640px;
+    background: var(--white);
+    box-shadow: 0 24px 80px rgba(0,0,0,0.14);
+  }
+  .email-hdr {
+    background: var(--obsidian);
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .email-hdr .logo { color: var(--white); }
+  .email-hdr-label {
+    font-family: var(--font-ui);
+    font-size: var(--sz-xs);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.2);
+  }
+  .email-body-wrap { padding: 56px 48px; }
+  .email-body-wrap h2 {
+    font-family: var(--font-serif);
+    font-size: var(--sz-h2);
+    letter-spacing: var(--kern-h2);
+    line-height: var(--lh-heading);
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+  .email-body-wrap h2 em { font-style: italic; color: var(--gold); }
+  .email-body-wrap p {
+    font-family: var(--font-ui);
+    font-size: var(--sz-body);
+    line-height: var(--lh-body);
+    color: var(--mid-grey);
+    font-weight: 300;
+    margin-bottom: 28px;
+  }
+  .btn-gold {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--obsidian);
+    font-family: var(--font-ui);
+    font-size: var(--sz-xs);
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 16px 32px;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+  }
+  .email-footer {
+    padding: 24px 48px;
+    border-top: 1px solid rgba(0,0,0,0.07);
+    font-family: var(--font-ui);
+    font-size: var(--sz-xs);
+    color: var(--mid-grey);
+    letter-spacing: 0.05em;
+  }
+
+  /* =====================================================
+     FOOTER
+     ===================================================== */
+  .brand-footer {
+    background: var(--obsidian);
+    padding: 60px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 3px solid var(--gold);
+  }
+  .brand-footer .logo { color: var(--white); }
+  .brand-footer-copy {
+    font-family: var(--font-ui);
+    font-size: var(--sz-xs);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.2);
+  }
+</style>
+</head>
+<body>
+
+<!-- ====================================================
+     SECTION 0 — HERO (DARK)
+     ==================================================== -->
+<div class="hero-dark">
+  <div class="hero-dark-left">
+    <div>
+      <!-- CORRECT LOGO: Raut[GOLD-a]k[GOLD-i] -->
+      <div class="logo logo-xl" style="color: var(--white)">
+        R<span class="base">aut</span><span class="gold">a</span><span class="base">k</span><span class="gold">i</span>
+      </div>
+      <div class="logo-tagline">Strategy · Advisory · Growth</div>
+    </div>
+    <div>
+      <h1 class="hero-h1">Shaping<br><em>bold</em><br>strategy.</h1>
+      <p class="hero-body">We partner with organisations ready to think differently — turning complex challenges into clear, decisive direction.</p>
+    </div>
+  </div>
+  <div class="hero-dark-right">
+    <div class="cta-gold">
+      <h3>Begin your strategy</h3>
+      <p>Discover how Rautaki can accelerate your next move.</p>
+      <span class="btn-dark">Get in touch</span>
+    </div>
+    <div class="nav-bar">
+      <span class="active">Home</span>
+      <span>Services</span>
+      <span>Work</span>
+      <span>About</span>
+      <span>Contact</span>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================
+     SECTION 1 — TYPOGRAPHY SYSTEM (CD / CI CORE)
+     ==================================================== -->
+<div class="type-system">
+  <div class="section-label">Typography System — CD / CI</div>
+
+  <div class="type-intro">
+    <div class="type-intro-text">
+      <h2>Georgia meets DM Sans — authority meets clarity.</h2>
+      <p>Georgia carries the brand's editorial weight: headings, display text, and the logo all use Georgia with carefully tuned letter-spacing corrections. DM Sans handles everything that needs to be read at length — body copy, labels, UI, captions. The two typefaces are distinct but complementary: one speaks in authority, the other in clarity.</p>
+    </div>
+    <div>
+      <p style="font-size: var(--sz-sm); color: var(--mid-grey); line-height: 1.8; font-family: var(--font-ui);">
+        <strong style="color: var(--ink); font-weight: 500;">Why Georgia works for Rautaki:</strong><br>
+        Designed by Matthew Carter for screen rendering, Georgia has excellent legibility at all sizes, generous letterforms, and strong contrast between thick and thin strokes — all qualities that reinforce the brand's character. It is a system font, meaning zero loading time on any device.<br><br>
+        <strong style="color: var(--ink); font-weight: 500;">The kerning rule:</strong><br>
+        Georgia is calibrated for body text. At display sizes (20px+), optical letter-spacing must be corrected downward. Each heading level in this system has its kerning pre-set as a CSS variable.
+      </p>
+    </div>
+  </div>
+
+  <!-- Font specimens -->
+  <div class="font-cards">
+    <div class="font-card">
+      <div class="font-label">Primary — Georgia (Serif)</div>
+      <div class="font-specimen-large">Rautaki</div>
+      <div class="font-specimen-alpha">
+        ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>
+        abcdefghijklmnopqrstuvwxyz<br>
+        0 1 2 3 4 5 6 7 8 9 &amp; . , : ; ! ?
+      </div>
+      <div class="font-specimen-note">
+        System font · No web-font loading · Works on all devices<br>
+        Use for: Logo · Headings · Display · Pull quotes · Numerics
+      </div>
+    </div>
+    <div class="font-card dark">
+      <div class="font-label" style="color: rgba(255,255,255,0.3)">Secondary — DM Sans (Sans-serif)</div>
+      <div class="font-specimen-ui" style="color: rgba(255,255,255,0.9)">DM Sans</div>
+      <div class="font-specimen-alpha" style="font-family: var(--font-ui); font-size: var(--sz-sm);">
+        ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>
+        abcdefghijklmnopqrstuvwxyz<br>
+        0 1 2 3 4 5 6 7 8 9 &amp; . , : ; ! ?
+      </div>
+      <div class="font-specimen-note">
+        Google Font (300 / 400 / 500 weights) · Clean and neutral<br>
+        Use for: Body · Labels · Navigation · Captions · UI text
+      </div>
+    </div>
+  </div>
+
+  <!-- The type scale table -->
+  <div class="type-scale">
+
+    <div class="scale-row">
+      <div class="scale-meta">
+        <span class="scale-name">Hero Display</span>
+        <span class="scale-usage">Homepage, event banners</span>
+      </div>
+      <span class="scale-example ts-hero">Strategy</span>
+      <span class="scale-size">88px / 5.5rem</span>
+      <span class="scale-kern">−0.04em</span>
+    </div>
+
+    <div class="scale-row">
+      <div class="scale-meta">
+        <span class="scale-name">Display D1</span>
+        <span class="scale-usage">Section openers, numbers</span>
+      </div>
+      <span class="scale-example ts-d1">Direction</span>
+      <span class="scale-size">64px / 4rem</span>
+      <span class="scale-kern">−0.03em</span>
+    </div>
+
+    <div class="scale-row">
+      <div class="scale-meta">
+        <span class="scale-name">Heading H1</span>
+        <span class="scale-usage">Page titles, article heads</span>
+      </div>
+      <span class="scale-example ts-h1">Thinking boldly</span>
+      <span class="scale-size">48px / 3rem</span>
+      <span class="scale-kern">−0.03em</span>
+    </div>
+
+    <div class="scale-row">
+      <div class="scale-meta">
+        <span class="scale-name">Heading H2</span>
+        <span class="scale-usage">Section headings, slide titles</span>
+      </div>
+      <span class="scale-example ts-h2">Clear decision-making</span>
+      <span class="scale-size">36px / 2.25rem</span>
+      <span class="scale-kern">−0.02em</span>
+    </div>
+
+    <div class="scale-row">
+      <div class="scale-meta">
+        <span class="scale-name">Heading H3</span>
+        <span class="scale-usage">Cards, email subjects, pull quotes</span>
+      </div>
+      <span class="scale-example ts-h3">Strategic advisory</span>
+      <span class="scale-size">26px / 1.625rem</span>
+      <span class="scale-kern">−0.015em</span>
+    </div>
+
+    <div class="scale-row">
+      <div class="scale-meta">
+        <span class="scale-name">Heading H4</span>
+        <span class="scale-usage">Sub-sections, sidebar headings</span>
+      </div>
+      <span class="scale-example ts-h4">Growth activation</span>
+      <span class="scale-size">20px / 1.25rem</span>
+      <span class="scale-kern">−0.01em</span>
+    </div>
+
+    <div class="scale-row">
+      <div class="scale-meta">
+        <span class="scale-name">Lead / Intro</span>
+        <span class="scale-usage">First paragraph, emphasis italic</span>
+      </div>
+      <span class="scale-example ts-lead">Rautaki partners with organisations ready to think differently.</span>
+      <span class="scale-size">18px / 1.125rem</span>
+      <span class="scale-kern">0em (trust Georgia)</span>
+    </div>
+
+    <div class="scale-row">
+      <div class="scale-meta">
+        <span class="scale-name">Body</span>
+        <span class="scale-usage">All running copy (DM Sans)</span>
+      </div>
+      <span class="scale-example ts-body">Turning complex challenges into clear, decisive direction. Every word is purposeful; every recommendation, evidence-based.</span>
+      <span class="scale-size">15px / 0.9375rem</span>
+      <span class="scale-kern">0em</span>
+    </div>
+
+    <div class="scale-row">
+      <div class="scale-meta">
+        <span class="scale-name">Body Small</span>
+        <span class="scale-usage">Footnotes, supporting info (DM Sans)</span>
+      </div>
+      <span class="scale-example ts-sm">Trusted by leadership teams across 40+ organisations worldwide.</span>
+      <span class="scale-size">13px / 0.8125rem</span>
+      <span class="scale-kern">0em</span>
+    </div>
+
+    <div class="scale-row">
+      <div class="scale-meta">
+        <span class="scale-name">Label / Caption</span>
+        <span class="scale-usage">Section markers, tags, captions (DM Sans)</span>
+      </div>
+      <span class="scale-example ts-label">Strategy · Advisory · Growth</span>
+      <span class="scale-size">11px / 0.6875rem</span>
+      <span class="scale-kern">+0.18em (spaced up)</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- ====================================================
+     SECTION 2 — KERNING DEMO
+     ==================================================== -->
+<div class="kern-demo">
+  <div class="section-label" style="color: rgba(255,255,255,0.2)">Kerning — Before & After at Display Size</div>
+  <div class="kern-pair">
+    <div class="kern-box">
+      <p style="letter-spacing: 0">Strategy</p>
+      <span class="kern-tag">Default Georgia · <span class="val">letter-spacing: 0</span> · Optically loose at 52px</span>
+    </div>
+    <div class="kern-box" style="background: #151515">
+      <p style="letter-spacing: -0.03em; color: var(--gold)">Strategy</p>
+      <span class="kern-tag">Corrected · <span class="val">letter-spacing: −0.03em</span> · Optically correct</span>
+    </div>
+  </div>
+  <div class="kern-pair">
+    <div class="kern-box">
+      <p style="letter-spacing: 0; font-size: 36px">Bold direction</p>
+      <span class="kern-tag">H2 uncorrected · <span class="val">0em</span></span>
+    </div>
+    <div class="kern-box" style="background: #151515">
+      <p style="letter-spacing: -0.02em; font-size: 36px; color: var(--gold)">Bold direction</p>
+      <span class="kern-tag">H2 corrected · <span class="val">−0.02em</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================
+     SECTION 3 — LOGO SYSTEM
+     ==================================================== -->
+<div class="logo-system">
+  <div class="section-label">Logo System — All Backgrounds</div>
+  <div class="logo-grid">
+    <div class="logo-cell on-dark">
+      <div class="logo logo-xl" style="color: var(--white)">R<span>aut</span><span class="gold">a</span><span>k</span><span class="gold">i</span></div>
+      <div class="logo-cell-meta">On Obsidian — primary dark use</div>
+    </div>
+    <div class="logo-cell on-white">
+      <div class="logo logo-xl" style="color: var(--ink)">R<span>aut</span><span class="gold">a</span><span>k</span><span class="gold">i</span></div>
+      <div class="logo-cell-meta" style="color: var(--mid-grey)">On White — primary light use</div>
+    </div>
+    <div class="logo-cell on-gold">
+      <div class="logo logo-xl" style="color: rgba(0,0,0,0.65)">R<span>aut</span><span style="color: rgba(0,0,0,0.35)">a</span><span>k</span><span style="color: rgba(0,0,0,0.35)">i</span></div>
+      <div class="logo-cell-meta" style="color: rgba(0,0,0,0.3)">On Gold — inverted accent use</div>
+    </div>
+    <div class="logo-cell on-cream">
+      <div class="logo logo-md" style="color: var(--ink)">R<span>aut</span><span class="gold">a</span><span>k</span><span class="gold">i</span></div>
+      <div class="logo-tagline">Strategy · Advisory · Growth</div>
+      <div class="logo-cell-meta" style="color: var(--mid-grey)">On Cream — with tagline</div>
+    </div>
+    <div class="logo-cell on-dark" style="justify-content: center; align-items: center; display: flex; flex-direction: column; gap: 32px;">
+      <div class="logo logo-md" style="color: var(--white)">R<span>aut</span><span class="gold">a</span><span>k</span><span class="gold">i</span></div>
+      <div class="logo logo-sm" style="color: var(--white)">R<span>aut</span><span class="gold">a</span><span>k</span><span class="gold">i</span></div>
+      <div class="logo logo-xs" style="color: var(--white)">R<span>aut</span><span class="gold">a</span><span>k</span><span class="gold">i</span></div>
+    </div>
+    <div class="logo-cell on-white" style="justify-content: center; align-items: center; display: flex; flex-direction: column; gap: 32px; border: 1px solid rgba(0,0,0,0.06);">
+      <div class="logo logo-md" style="color: var(--ink)">R<span>aut</span><span class="gold">a</span><span>k</span><span class="gold">i</span></div>
+      <div class="logo logo-sm" style="color: var(--ink)">R<span>aut</span><span class="gold">a</span><span>k</span><span class="gold">i</span></div>
+      <div class="logo logo-xs" style="color: var(--ink)">R<span>aut</span><span class="gold">a</span><span>k</span><span class="gold">i</span></div>
+    </div>
+  </div>
+  <div class="clearspace-note">
+    <strong style="color: var(--ink); font-family: var(--font-ui); font-weight: 500; font-size: var(--sz-sm); white-space: nowrap;">Minimum sizes:</strong>
+    <span>Digital: 18px minimum · Print: 12mm minimum · The golden accent letters (<strong>a</strong> + <strong>i</strong>) must remain legible at all reproduction sizes. Never use below minimum — switch to text-only lockup if constrained.</span>
+  </div>
+</div>
+
+<!-- ====================================================
+     SECTION 4 — COLOUR SYSTEM
+     ==================================================== -->
+<div class="colour-system">
+  <div class="section-label">Colour System</div>
+  <div class="colour-grid">
+    <div class="swatch sw-dark" style="background:#0A0A0A">
+      <span class="swatch-name">Obsidian</span>
+      <span class="swatch-hex">#0A0A0A</span>
+      <span class="swatch-use">Primary dark background · Logo base on dark</span>
+    </div>
+    <div class="swatch sw-dark" style="background:#1C1C1C">
+      <span class="swatch-name">Ink</span>
+      <span class="swatch-hex">#1C1C1C</span>
+      <span class="swatch-use">Body text · Headings on light</span>
+    </div>
+    <div class="swatch sw-dark" style="background:#F5A623">
+      <span class="swatch-name">Gold</span>
+      <span class="swatch-hex">#F5A623</span>
+      <span class="swatch-use">Brand accent · Logo letters a + i · CTAs · Rules</span>
+    </div>
+    <div class="swatch sw-light" style="background:#F4F2EE">
+      <span class="swatch-name">Cream</span>
+      <span class="swatch-hex">#F4F2EE</span>
+      <span class="swatch-use">Warm background · Section alternates</span>
+    </div>
+    <div class="swatch sw-light" style="background:#FAFAFA">
+      <span class="swatch-name">White</span>
+      <span class="swatch-hex">#FAFAFA</span>
+      <span class="swatch-use">Clean background · Cards · Email body</span>
+    </div>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;">
+    <div style="background: var(--obsidian); padding: 32px; display: flex; align-items: center; justify-content: space-between;">
+      <div class="logo logo-sm" style="color: var(--white)">R<span>aut</span><span class="gold">a</span><span>k</span><span class="gold">i</span></div>
+      <span style="font-family: var(--font-ui); font-size: var(--sz-xs); color: rgba(255,255,255,0.25); letter-spacing: 0.1em; text-transform: uppercase;">Obsidian + Gold</span>
+    </div>
+    <div style="background: var(--white); padding: 32px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(0,0,0,0.07);">
+      <div class="logo logo-sm" style="color: var(--ink)">R<span>aut</span><span class="gold">a</span><span>k</span><span class="gold">i</span></div>
+      <span style="font-family: var(--font-ui); font-size: var(--sz-xs); color: var(--mid-grey); letter-spacing: 0.1em; text-transform: uppercase;">White + Gold</span>
+    </div>
+    <div style="background: var(--gold); padding: 32px; display: flex; align-items: center; justify-content: space-between;">
+      <div class="logo logo-sm" style="color: rgba(0,0,0,0.6)">R<span>aut</span><span style="color: rgba(0,0,0,0.28)">a</span><span>k</span><span style="color: rgba(0,0,0,0.28)">i</span></div>
+      <span style="font-family: var(--font-ui); font-size: var(--sz-xs); color: rgba(0,0,0,0.35); letter-spacing: 0.1em; text-transform: uppercase;">Gold + Obsidian</span>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================
+     SECTION 5 — LIGHT HERO
+     ==================================================== -->
+<div class="hero-light">
+  <div>
+    <div class="logo logo-md" style="color: var(--ink); margin-bottom: 48px;">R<span>aut</span><span class="gold">a</span><span>k</span><span class="gold">i</span></div>
+    <h1>We don't just <em>advise</em> — we transform.</h1>
+    <p>Rautaki partners with leaders who understand that real progress demands courage, clarity, and commitment. We bring the frameworks. You bring the ambition.</p>
+  </div>
+  <div class="stat-block">
+    <div class="stat">
+      <div class="stat-num">12<span>+</span></div>
+      <div class="stat-lbl">Years of strategic experience</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">40<span>+</span></div>
+      <div class="stat-lbl">Organisations transformed</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">3<span>×</span></div>
+      <div class="stat-lbl">Average growth acceleration</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================
+     SECTION 6 — SERVICE CARDS
+     ==================================================== -->
+<div class="cards-section">
+  <div class="section-label" style="color: rgba(255,255,255,0.18)">Services Template</div>
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-num">01</div>
+      <h3>Strategic <span>Vision</span></h3>
+      <p>Aligning your organisation around a shared, ambitious direction that drives every decision from the top down.</p>
+    </div>
+    <div class="card">
+      <div class="card-num">02</div>
+      <h3><span>Advisory</span> & Counsel</h3>
+      <p>Trusted guidance for leadership teams navigating change, complexity, and high-stakes decisions.</p>
+    </div>
+    <div class="card">
+      <div class="card-num">03</div>
+      <h3>Growth <span>Activation</span></h3>
+      <p>Turning strategy into action with structured programmes that mobilise teams and accelerate outcomes.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================
+     SECTION 7 — SOCIAL CARDS
+     ==================================================== -->
+<div class="social-section">
+  <div class="section-label">Social Card Templates (1:1)</div>
+  <div class="social-grid">
+    <div class="social-card sc-dark">
+      <div class="logo logo-sm sc-dark" style="color:var(--white)">R<span>aut</span><span class="gold">a</span><span>k</span><span class="gold">i</span></div>
+      <div class="sc-quote">"Strategy without execution is a dream. Execution without strategy is a nightmare."</div>
+      <div class="sc-deco" style="color: white">R</div>
+    </div>
+    <div class="social-card sc-gold">
+      <div class="logo logo-sm" style="color: rgba(0,0,0,0.65)">R<span>aut</span><span style="color:rgba(0,0,0,0.3)">a</span><span>k</span><span style="color:rgba(0,0,0,0.3)">i</span></div>
+      <div class="sc-quote">"The best strategy is the one your whole team believes in."</div>
+      <div class="sc-deco">R</div>
+    </div>
+    <div class="social-card sc-outline">
+      <div class="logo logo-sm" style="color: var(--ink)">R<span>aut</span><span class="gold">a</span><span>k</span><span class="gold">i</span></div>
+      <div class="sc-quote">"Bold thinking. Measured action. Real results."</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================
+     SECTION 8 — BUSINESS CARDS
+     ==================================================== -->
+<div class="bizcard-section">
+  <div class="section-label">Business Card Templates</div>
+  <div class="bizcard-row">
+    <div class="bizcard bc-dark">
+      <div>
+        <div class="bc-name">Alex Morgan</div>
+        <div class="bc-title">Strategy Director</div>
+      </div>
+      <div class="bc-bottom">
+        <div class="bc-contact">
+          alex@rautaki.com<br>
+          +64 9 123 4567<br>
+          rautaki.com
+        </div>
+        <div class="logo logo-sm" style="color: var(--white)">R<span>aut</span><span class="gold">a</span><span>k</span><span class="gold">i</span></div>
+      </div>
+    </div>
+    <div class="bizcard bc-light">
+      <div>
+        <div class="bc-name">Alex Morgan</div>
+        <div class="bc-title">Strategy Director</div>
+      </div>
+      <div class="bc-bottom">
+        <div class="bc-contact">
+          alex@rautaki.com<br>
+          +64 9 123 4567<br>
+          rautaki.com
+        </div>
+        <div class="logo logo-sm" style="color: var(--ink)">R<span>aut</span><span class="gold">a</span><span>k</span><span class="gold">i</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================
+     SECTION 9 — EMAIL TEMPLATE
+     ==================================================== -->
+<div class="email-section">
+  <div class="section-label">Email Newsletter Template</div>
+  <div class="email-wrap">
+    <div class="email-hdr">
+      <div class="logo logo-sm" style="color: var(--white)">R<span>aut</span><span class="gold">a</span><span>k</span><span class="gold">i</span></div>
+      <div class="email-hdr-label">Monthly Insight</div>
+    </div>
+    <hr class="gold-rule">
+    <div class="email-body-wrap">
+      <h2>February's <em>strategic</em> focus</h2>
+      <p>This month, we're examining how high-performing organisations align leadership teams around a single, unambiguous priority — and why it matters more than ever in today's environment.</p>
+      <p>Whether you're navigating growth, restructuring, or preparing for a significant transition, clarity at the top changes everything below it.</p>
+      <span class="btn-gold">Read the full insight →</span>
+    </div>
+    <div class="email-footer">
+      © 2025 Rautaki · Strategy Advisory · rautaki.com · Unsubscribe
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================
+     FOOTER
+     ==================================================== -->
+<div class="brand-footer">
+  <div class="logo logo-sm" style="color: var(--white)">R<span>aut</span><span class="gold">a</span><span>k</span><span class="gold">i</span></div>
+  <div class="brand-footer-copy">Brand Design Model v2 · Georgia + DM Sans · 2025</div>
+</div>
+
+</body>
+</html>

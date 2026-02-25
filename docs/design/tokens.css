@@ -1,0 +1,566 @@
+/* ==========================================================================
+   RAUTAKI DESIGN TOKENS
+   Single source of truth for all design decisions.
+   Import this file first in any stylesheet.
+
+   Usage:
+     @import url('../design/tokens.css');
+     color: var(--color-gold);
+
+   Version: 1.0.0
+   Brand: Rautaki – Strategy · Advisory · Growth
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. COLOUR — PRIMITIVE PALETTE
+   Raw colour values. Do not use these directly in components;
+   reference semantic tokens instead (Section 2).
+   ========================================================================== */
+
+:root {
+
+  /* Gold */
+  --_gold-500:        #F5A623;    /* brand gold — primary */
+  --_gold-300:        #FFD07A;    /* lighter tint */
+  --_gold-900:        #B87400;    /* deep gold — rare, dark-mode contrast only */
+  --_gold-alpha-15:   rgba(245, 166, 35, 0.15);
+  --_gold-alpha-08:   rgba(245, 166, 35, 0.08);
+
+  /* Darks */
+  --_obsidian:        #0A0A0A;    /* deepest dark — hero backgrounds */
+  --_ink:             #1C1C1C;    /* near-black — body text on light */
+  --_charcoal:        #111111;    /* card surface on dark */
+  --_charcoal-mid:    #161616;    /* card hover on dark */
+  --_dark-15:         #151515;    /* kerning-demo alt */
+
+  /* Lights */
+  --_white:           #FAFAFA;    /* off-white — clean surfaces */
+  --_cream:           #F4F2EE;    /* warm off-white — section alternates */
+  --_warm-grey:       #E8E5DF;    /* warm light grey — social card bg */
+  --_email-bg:        #DDD9D0;    /* email section backdrop */
+
+  /* Greys */
+  --_mid-grey:        #9A9590;    /* secondary text, captions, meta */
+
+  /* Alphas on dark */
+  --_white-alpha-45:  rgba(255, 255, 255, 0.45);  /* body text on dark */
+  --_white-alpha-28:  rgba(255, 255, 255, 0.28);  /* nav + contact on dark */
+  --_white-alpha-20:  rgba(255, 255, 255, 0.20);  /* footer copy, email labels */
+  --_white-alpha-05:  rgba(255, 255, 255, 0.05);  /* subtle dividers */
+  --_white-alpha-025: rgba(255, 255, 255, 0.025); /* watermark R letterform */
+
+  /* Alphas on light */
+  --_ink-alpha-45:    rgba(28, 28, 28, 0.45);     /* muted text on light */
+  --_ink-alpha-10:    rgba(28, 28, 28, 0.10);     /* hair rules on light */
+  --_ink-alpha-07:    rgba(28, 28, 28, 0.07);     /* very subtle dividers */
+  --_ink-alpha-06:    rgba(28, 28, 28, 0.06);     /* logo-cell borders */
+
+  /* Alphas on gold */
+  --_gold-ink-60:     rgba(0, 0, 0, 0.60);        /* base letterforms on gold bg */
+  --_gold-ink-35:     rgba(0, 0, 0, 0.35);        /* muted text on gold bg */
+  --_gold-ink-28:     rgba(0, 0, 0, 0.28);        /* gold-accent letters on gold bg */
+  --_gold-ink-55:     rgba(0, 0, 0, 0.55);        /* body copy on gold CTA */
+
+}
+
+
+/* ==========================================================================
+   2. COLOUR — SEMANTIC TOKENS
+   Map primitives to their intended roles. Always use these in components.
+   ========================================================================== */
+
+:root {
+
+  /* --- Brand accent ------------------------------------------------- */
+  --color-gold:           var(--_gold-500);
+  --color-gold-light:     var(--_gold-300);
+  --color-gold-dim:       var(--_gold-alpha-15);
+  --color-gold-glow:      var(--_gold-alpha-08);
+
+  /* --- Backgrounds -------------------------------------------------- */
+  --color-bg-dark:        var(--_obsidian);       /* hero, footer, cards-section */
+  --color-bg-light:       var(--_white);          /* type-system, colour-system */
+  --color-bg-cream:       var(--_cream);          /* body default, logo-system, bizcard-section */
+  --color-bg-warm:        var(--_warm-grey);      /* social section */
+  --color-bg-email:       var(--_email-bg);       /* email section wrapper */
+  --color-bg-card-dark:   var(--_charcoal);       /* service card base */
+  --color-bg-card-hover:  var(--_charcoal-mid);   /* service card hover */
+
+  /* --- Surfaces (component-level) ----------------------------------- */
+  --color-surface-white:  var(--_white);
+  --color-surface-cream:  var(--_cream);
+  --color-surface-dark:   var(--_charcoal);
+
+  /* --- Text on light backgrounds ------------------------------------ */
+  --color-text-primary:   var(--_ink);            /* headings, body — on cream/white */
+  --color-text-secondary: var(--_mid-grey);       /* captions, meta, muted body */
+  --color-text-muted:     var(--_ink-alpha-45);   /* very muted — secondary annotations */
+  --color-text-accent:    var(--_gold-500);       /* gold highlights in headings */
+
+  /* --- Text on dark backgrounds ------------------------------------- */
+  --color-text-on-dark:           var(--_white);
+  --color-text-on-dark-body:      var(--_white-alpha-45);
+  --color-text-on-dark-secondary: var(--_white-alpha-28);
+  --color-text-on-dark-muted:     var(--_white-alpha-20);
+
+  /* --- Text on gold backgrounds ------------------------------------- */
+  --color-text-on-gold:           var(--_gold-ink-60);
+  --color-text-on-gold-muted:     var(--_gold-ink-55);
+  --color-text-on-gold-accent:    var(--_gold-ink-28);
+
+  /* --- Borders & dividers ------------------------------------------ */
+  --color-border-gold:    var(--_gold-500);
+  --color-border-subtle:  var(--_ink-alpha-07);
+  --color-border-hair:    var(--_ink-alpha-10);
+  --color-border-dark:    rgba(255, 255, 255, 0.05);   /* on dark surfaces */
+  --color-border-card:    var(--_ink-alpha-06);        /* logo-cell on white */
+
+}
+
+
+/* ==========================================================================
+   3. TYPOGRAPHY — FONT FAMILIES
+   ========================================================================== */
+
+:root {
+
+  /* Primary serif — Georgia (system font, zero load cost) */
+  /* Role: logo, all headings, display, pull quotes, stats, numerics */
+  --font-serif:   Georgia, 'Times New Roman', serif;
+
+  /* Secondary sans-serif — DM Sans (Google Font, weights 300/400/500) */
+  /* Role: body copy, labels, navigation, captions, UI text */
+  --font-ui:      'DM Sans', system-ui, sans-serif;
+
+  /* Monospace — for code tokens, hex values in design docs only */
+  --font-mono:    'Menlo', 'Consolas', monospace;
+
+}
+
+
+/* ==========================================================================
+   4. TYPOGRAPHY — TYPE SCALE
+   All display sizes use Georgia (--font-serif).
+   Body and UI sizes use DM Sans (--font-ui).
+   ========================================================================== */
+
+:root {
+
+  /* --- Display & heading sizes -------------------------------------- */
+  --sz-hero:   88px;    /* 5.5rem   — Hero display: homepage banners, event headers */
+  --sz-d1:     64px;    /* 4rem     — Display D1: section openers, large numerics */
+  --sz-h1:     48px;    /* 3rem     — H1: page titles, article headings */
+  --sz-h2:     36px;    /* 2.25rem  — H2: section headings, slide titles */
+  --sz-h3:     26px;    /* 1.625rem — H3: cards, email subjects, pull quotes */
+  --sz-h4:     20px;    /* 1.25rem  — H4: sub-sections, sidebar headings */
+
+  /* --- Body & UI sizes --------------------------------------------- */
+  --sz-lead:   18px;    /* 1.125rem — Lead / intro: first paragraph, italic emphasis */
+  --sz-body:   15px;    /* 0.9375rem — Body: all running copy */
+  --sz-sm:     13px;    /* 0.8125rem — Small / meta: footnotes, supporting info */
+  --sz-xs:     11px;    /* 0.6875rem — XS: section labels, tags, captions */
+
+  /* --- Logo sizes -------------------------------------------------- */
+  --sz-logo-xl: 56px;   /* 3.5rem  — Large logo: hero, cover pages */
+  --sz-logo-md: 36px;   /* 2.25rem — Medium logo: headers, hero-light */
+  --sz-logo-sm: 24px;   /* 1.5rem  — Small logo: navigation, cards */
+  --sz-logo-xs: 18px;   /* 1.125rem — Minimum logo: favicons, inline */
+
+  /* --- Decorative -------------------------------------------------- */
+  --sz-deco-card:    80px;   /* Ghost number on service cards */
+  --sz-deco-social: 200px;   /* Ghost R on social cards */
+  --sz-deco-hero:   500px;   /* Watermark R on dark hero */
+  --sz-specimen:     96px;   /* Font specimen in style guide */
+
+}
+
+
+/* ==========================================================================
+   5. TYPOGRAPHY — KERNING (LETTER-SPACING)
+   Georgia is calibrated for body text. At 20px+ apply negative tracking
+   to optically correct the letterforms. Never override for body/UI text.
+   ========================================================================== */
+
+:root {
+
+  --kern-hero:   -0.04em;    /* 88px hero */
+  --kern-d1:     -0.03em;    /* 64px display */
+  --kern-h1:     -0.03em;    /* 48px h1 */
+  --kern-h2:     -0.02em;    /* 36px h2 */
+  --kern-h3:     -0.015em;   /* 26px h3 */
+  --kern-h4:     -0.01em;    /* 20px h4 */
+  --kern-body:    0em;       /* 15px body — trust Georgia */
+
+  /* --- UI label spacing (DM Sans — spaced out, not tight) ---------- */
+  --kern-label-wide:  0.22em;    /* section labels, logo tagline */
+  --kern-label-mid:   0.18em;    /* breadcrumbs, stat labels, bc-title */
+  --kern-label-tight: 0.12em;    /* email header label, swatch names */
+  --kern-btn:         0.20em;    /* buttons */
+  --kern-nav:         0.16em;    /* navigation items */
+  --kern-footer:      0.15em;    /* footer copy */
+
+}
+
+
+/* ==========================================================================
+   6. TYPOGRAPHY — LINE HEIGHTS
+   ========================================================================== */
+
+:root {
+
+  --lh-display:  1.0;     /* Hero and D1 display text */
+  --lh-heading:  1.15;    /* H1–H3 headings */
+  --lh-subhead:  1.25;    /* H4 and pull-quote contexts */
+  --lh-body:     1.75;    /* All running body copy */
+  --lh-ui:       1.5;     /* UI labels and captions */
+  --lh-loose:    1.8;     /* Specimen alpha, contact text */
+  --lh-card:     1.45;    /* Social card quotes */
+
+}
+
+
+/* ==========================================================================
+   7. TYPOGRAPHY — FONT WEIGHTS
+   DM Sans is loaded at weights 300, 400, 500 only.
+   ========================================================================== */
+
+:root {
+
+  --fw-light:   300;    /* DM Sans light — body copy on dark, hero body */
+  --fw-regular: 400;    /* DM Sans regular, Georgia (always 400) */
+  --fw-medium:  500;    /* DM Sans medium — labels, buttons, scale-name */
+
+}
+
+
+/* ==========================================================================
+   8. SPACING SCALE
+   Base unit = 4px. All layout values are multiples of 4.
+   ========================================================================== */
+
+:root {
+
+  --space-1:    4px;     /* 0.25rem  — micro gaps, margin-top on tagline */
+  --space-2:    8px;     /* 0.5rem   — tight gaps in cards */
+  --space-3:    12px;    /* 0.75rem  — small internal padding */
+  --space-4:    16px;    /* 1rem     — standard gap */
+  --space-5:    20px;    /* 1.25rem  — stat left-padding, clearspace-note gap */
+  --space-6:    24px;    /* 1.5rem   — scale-row gap, logo-cell-meta gap */
+  --space-7:    28px;    /* 1.75rem  — hero body margin-bottom */
+  --space-8:    32px;    /* 2rem     — email footer padding, bizcard gap */
+  --space-9:    36px;    /* 2.25rem  — stat-block gap, bizcard nav gap */
+  --space-10:   40px;    /* 2.5rem   — section-label margin, CTA padding */
+  --space-12:   48px;    /* 3rem     — font-card padding, card padding, hero-light logo mb */
+  --space-14:   56px;    /* 3.5rem   — kern-box padding, email body */
+  --space-15:   60px;    /* 3.75rem  — brand-footer padding-y */
+  --space-20:   80px;    /* 5rem     — section padding (default) */
+  --space-25:  100px;    /* 6.25rem  — type-system / hero-light padding */
+
+  /* Semantic spacing aliases */
+  --space-section:      var(--space-20);   /* standard section padding */
+  --space-section-lg:   var(--space-25);   /* large section padding */
+  --space-card:         var(--space-12);   /* card internal padding */
+  --space-card-sm:      var(--space-10);   /* tighter card (social cards) */
+  --space-gap-grid:     2px;              /* hairline gap between grid cells */
+  --space-gap-loose:    var(--space-6);    /* loose grid gap (social cards) */
+
+}
+
+
+/* ==========================================================================
+   9. BORDER & RADIUS
+   Rautaki uses a sharp, rectilinear aesthetic. No rounded corners on
+   structural elements. Zero border-radius unless noted.
+   ========================================================================== */
+
+:root {
+
+  --radius-none:  0;      /* All cards, buttons, CTAs, business cards */
+  --radius-full:  9999px; /* Reserved for pill badges only (use sparingly) */
+
+  /* Gold accent borders — used as structural decoration */
+  --border-gold-rule:     3px solid var(--color-gold);  /* footer top, card hover accent, hero-light top */
+  --border-gold-thin:     2px solid var(--color-gold);  /* type-scale top, stat left-border */
+  --border-gold-hair:     1px solid var(--color-gold);  /* thin accent line (section-label::before) */
+
+  /* Structural borders */
+  --border-subtle:        1px solid var(--color-border-subtle);
+  --border-hair:          1px solid var(--color-border-hair);
+  --border-dark-divider:  1px solid var(--color-border-dark);
+
+  /* CTA accent (clearspace-note, email-body-wrap) */
+  --border-cta-accent:    3px solid var(--color-gold);
+
+}
+
+
+/* ==========================================================================
+   10. SHADOWS
+   Used only where elevation is semantically meaningful (email, modals).
+   The brand is largely flat — avoid gratuitous shadows.
+   ========================================================================== */
+
+:root {
+
+  --shadow-none:   none;
+  --shadow-email:  0 24px 80px rgba(0, 0, 0, 0.14);  /* email template wrapper */
+  --shadow-card:   0 8px 32px rgba(0, 0, 0, 0.10);   /* light-mode card elevation */
+  --shadow-modal:  0 32px 96px rgba(0, 0, 0, 0.20);  /* modals and overlays */
+
+}
+
+
+/* ==========================================================================
+   11. MOTION & TRANSITIONS
+   ========================================================================== */
+
+:root {
+
+  /* Durations */
+  --duration-instant:  80ms;
+  --duration-fast:    150ms;
+  --duration-base:    200ms;    /* standard hover/focus transitions */
+  --duration-slow:    400ms;    /* gold left-border card reveal */
+  --duration-xslow:  600ms;    /* page-level transitions */
+
+  /* Easing */
+  --ease-default:  ease;
+  --ease-out:      cubic-bezier(0.16, 1, 0.3, 1);   /* snappy deceleration */
+  --ease-in-out:   cubic-bezier(0.45, 0, 0.55, 1);
+  --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1); /* slight overshoot */
+
+  /* Shorthand transitions */
+  --transition-base:    all var(--duration-base) var(--ease-default);
+  --transition-color:   color var(--duration-base) var(--ease-default);
+  --transition-bg:      background-color var(--duration-base) var(--ease-default);
+  --transition-height:  height var(--duration-slow) var(--ease-default);
+  --transition-padding: padding var(--duration-base) var(--ease-default);
+
+}
+
+
+/* ==========================================================================
+   12. Z-INDEX SCALE
+   ========================================================================== */
+
+:root {
+
+  --z-below:      -1;      /* decorative watermarks, ::after letterforms */
+  --z-base:        0;      /* default document flow */
+  --z-raised:      1;      /* raised content within a stacking context */
+  --z-dropdown:   10;      /* dropdowns, tooltips */
+  --z-sticky:     20;      /* sticky navigation */
+  --z-overlay:    30;      /* overlays, drawers */
+  --z-modal:      40;      /* modals */
+  --z-toast:      50;      /* notifications and toasts */
+
+}
+
+
+/* ==========================================================================
+   13. LAYOUT & GRID
+   ========================================================================== */
+
+:root {
+
+  /* Max content widths */
+  --layout-max-content:  1440px;   /* full-width sections clip here */
+  --layout-max-reading:   720px;   /* optimal reading width */
+  --layout-max-email:     640px;   /* email template width */
+  --layout-max-narrow:    480px;   /* constrained hero body copy */
+
+  /* Column grids (via CSS grid) */
+  --grid-2col:       1fr 1fr;
+  --grid-3col:       repeat(3, 1fr);
+  --grid-5col:       repeat(5, 1fr);
+  --grid-hero-dark:  1fr 1fr;
+  --grid-hero-light: 1.3fr 0.7fr;
+  --grid-type-scale: 180px 1fr 120px 140px;  /* type scale table */
+
+  /* Section padding shorthand */
+  --padding-section:    var(--space-section) var(--space-section);
+  --padding-section-lg: var(--space-section-lg) var(--space-section);
+
+}
+
+
+/* ==========================================================================
+   14. BREAKPOINTS
+   Rautaki is desktop-primary but must be responsive.
+   Use min-width (mobile-first) media queries.
+
+   Usage:
+     @media (max-width: 1024px) { ... }   -- below lg
+     @media (min-width: 768px)  { ... }   -- from md up
+   ========================================================================== */
+
+/*
+  --bp-sm:   480px    Small mobile
+  --bp-md:   768px    Tablet portrait
+  --bp-lg:  1024px    Tablet landscape / laptop
+  --bp-xl:  1280px    Desktop
+  --bp-2xl: 1440px    Wide desktop
+
+  Note: CSS custom properties cannot be used inside @media queries.
+  Reference these values directly in your media queries.
+*/
+
+
+/* ==========================================================================
+   15. DECORATIVE & BRAND-SPECIFIC TOKENS
+   ========================================================================== */
+
+:root {
+
+  /* Section label — the gold-line prefix element */
+  --section-label-line-width:    28px;
+  --section-label-line-height:   1px;
+  --section-label-gap:           14px;
+
+  /* Logo accent — which letters receive gold colour */
+  /* Letters: R-a-u-t-[a]-k-[i]  positions 5 and 7 (1-indexed) */
+  --logo-accent-color:   var(--color-gold);
+  --logo-letter-spacing: -0.01em;
+
+  /* Card ghost number */
+  --card-num-size:     var(--sz-deco-card);
+  --card-num-opacity:  0.03;           /* on dark (#111) background */
+  --card-num-color:    var(--_white);
+  --card-num-kerning:  -0.05em;
+
+  /* Hero dark — ambient radial glow */
+  --hero-glow-size:    700px;
+  --hero-glow-color:   var(--_gold-alpha-08);
+  --hero-glow-top:    -150px;
+  --hero-glow-left:   -100px;
+
+  /* Watermark R — dark hero right panel */
+  --watermark-size:    500px;
+  --watermark-color:   var(--_white-alpha-025);
+
+  /* Gold gradient rule */
+  --gradient-gold-rule: linear-gradient(to right, var(--color-gold), transparent);
+
+}
+
+
+/* ==========================================================================
+   16. COMPONENT TOKENS — BUTTONS
+   ========================================================================== */
+
+:root {
+
+  /* --- btn-gold (primary CTA) --------------------------------------- */
+  --btn-gold-bg:           var(--color-gold);
+  --btn-gold-color:        var(--_obsidian);
+  --btn-gold-font:         var(--font-ui);
+  --btn-gold-size:         var(--sz-xs);
+  --btn-gold-weight:       var(--fw-medium);
+  --btn-gold-spacing:      var(--kern-btn);
+  --btn-gold-padding:      16px 32px;
+  --btn-gold-radius:       var(--radius-none);
+
+  /* --- btn-dark (secondary CTA) ------------------------------------- */
+  --btn-dark-bg:           var(--_obsidian);
+  --btn-dark-color:        var(--_white);
+  --btn-dark-font:         var(--font-ui);
+  --btn-dark-size:         var(--sz-xs);
+  --btn-dark-weight:       var(--fw-medium);
+  --btn-dark-spacing:      var(--kern-btn);
+  --btn-dark-padding:      14px 28px;
+  --btn-dark-radius:       var(--radius-none);
+
+}
+
+
+/* ==========================================================================
+   17. COMPONENT TOKENS — NAVIGATION
+   ========================================================================== */
+
+:root {
+
+  --nav-color:          var(--_white-alpha-28);
+  --nav-color-active:   var(--color-gold);
+  --nav-color-hover:    var(--color-gold);
+  --nav-font:           var(--font-ui);
+  --nav-size:           var(--sz-xs);
+  --nav-spacing:        var(--kern-nav);
+  --nav-gap:            36px;
+  --nav-transition:     var(--transition-color);
+
+}
+
+
+/* ==========================================================================
+   18. COMPONENT TOKENS — CARDS (SERVICE)
+   ========================================================================== */
+
+:root {
+
+  --card-bg:              var(--_charcoal);
+  --card-bg-hover:        var(--_charcoal-mid);
+  --card-padding:         48px 40px;
+  --card-accent-width:    3px;
+  --card-accent-color:    var(--color-gold);
+  --card-accent-height:   0;
+  --card-accent-hover-h:  100%;
+  --card-heading-color:   var(--_white);
+  --card-heading-accent:  var(--color-gold);  /* <span> inside h3 */
+  --card-body-color:      rgba(255, 255, 255, 0.38);
+  --card-body-weight:     var(--fw-light);
+  --card-gap:             var(--space-gap-grid);
+
+}
+
+
+/* ==========================================================================
+   19. COMPONENT TOKENS — SOCIAL CARDS
+   ========================================================================== */
+
+:root {
+
+  /* Dark variant */
+  --social-dark-bg:         var(--_obsidian);
+  --social-dark-quote:      var(--_white);
+  --social-dark-deco:       var(--_white);
+  --social-dark-deco-opacity: 0.04;
+
+  /* Gold variant */
+  --social-gold-bg:         var(--color-gold);
+  --social-gold-quote:      var(--_obsidian);
+  --social-gold-deco:       var(--_obsidian);
+  --social-gold-deco-opacity: 0.08;
+
+  /* Outline variant */
+  --social-outline-bg:      transparent;
+  --social-outline-border:  2px solid var(--_ink);
+  --social-outline-quote:   var(--_ink);
+
+  --social-card-padding:    40px;
+  --social-card-gap:        var(--space-6);
+  --social-deco-size:       var(--sz-deco-social);
+
+}
+
+
+/* ==========================================================================
+   20. COMPONENT TOKENS — STATS BLOCK
+   ========================================================================== */
+
+:root {
+
+  --stat-accent-border:   2px solid var(--color-gold);
+  --stat-indent:          var(--space-5);
+  --stat-num-font:        var(--font-serif);
+  --stat-num-size:        var(--sz-d1);
+  --stat-num-kern:        var(--kern-d1);
+  --stat-num-color:       var(--_ink);
+  --stat-num-accent:      var(--color-gold);   /* suffix: +, × */
+  --stat-label-font:      var(--font-ui);
+  --stat-label-size:      var(--sz-xs);
+  --stat-label-spacing:   var(--kern-label-mid);
+  --stat-label-color:     var(--_mid-grey);
+  --stat-block-gap:       var(--space-9);
+
+}
