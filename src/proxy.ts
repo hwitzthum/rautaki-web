@@ -66,7 +66,7 @@ const maintenanceHTML = `<!DOCTYPE html>
 </body>
 </html>`;
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   if (process.env.MAINTENANCE_MODE === "true") {
     // Allow Next.js internal requests to pass through
     if (request.nextUrl.pathname.startsWith("/_next")) {
