@@ -5,7 +5,7 @@ const navLinks = [
   { href: "/services", label: "Services" },
   { href: "/work", label: "Work" },
   { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
+  { href: "/booking", label: "Booking" },
 ];
 
 export default function Footer() {
@@ -46,10 +46,10 @@ export default function Footer() {
             <ul className="space-y-3 font-ui text-sm text-white/70">
               <li>
                 <a
-                  href="mailto:hello@rautaki.com"
+                  href="mailto:hello@rautaki.ch"
                   className="no-underline hover:text-gold transition-colors"
                 >
-                  hello@rautaki.com
+                  hello@rautaki.ch
                 </a>
               </li>
               <li className="leading-relaxed">

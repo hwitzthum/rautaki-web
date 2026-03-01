@@ -10,7 +10,7 @@ const navItems = [
   { href: "/services", label: "Services" },
   { href: "/work", label: "Work" },
   { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
+  { href: "/booking", label: "Booking" },
 ];
 
 export default function Navigation() {

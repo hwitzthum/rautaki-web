@@ -137,8 +137,8 @@ export default function ServicesPage() {
             We can quickly assess your strategic position and define a practical
             path to value.
           </p>
-          <Button href="/contact" variant="gold" showArrow>
-            Start the conversation
+          <Button href="/booking" variant="gold" showArrow>
+            Book a consultation
           </Button>
         </ScrollReveal>
       </section>

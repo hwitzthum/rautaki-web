@@ -13,7 +13,7 @@ const projects = [
     description:
       "Defined a three-year AI operating model for a major Swiss financial institution, aligning governance, model rollout, and leadership accountability.",
     tag: "Finance",
-    href: "/contact",
+    href: "/booking",
   },
   {
     image: "/images/work/clinical-ai-prioritisation-framework.webp",
@@ -21,7 +21,7 @@ const projects = [
     description:
       "Built an AI opportunity map for a regional hospital group, focusing investment on high-impact diagnostics and workflow automation.",
     tag: "Healthcare",
-    href: "/contact",
+    href: "/booking",
   },
   {
     image: "/images/work/saas-product-intelligence-roadmap.webp",
@@ -29,7 +29,7 @@ const projects = [
     description:
       "Translated product strategy into a phased AI capability roadmap, increasing retention and accelerating premium feature adoption.",
     tag: "Technology",
-    href: "/contact",
+    href: "/booking",
   },
   {
     image: "/images/work/ai-enabled-operations-programme.webp",
@@ -37,7 +37,7 @@ const projects = [
     description:
       "Reworked manufacturing planning with predictive models and leadership routines that reduced cycle-time volatility across four plants.",
     tag: "Manufacturing",
-    href: "/contact",
+    href: "/booking",
   },
   {
     image: "/images/work/education-platform-decision-intelligence.webp",
@@ -45,7 +45,7 @@ const projects = [
     description:
       "Designed a model-governed experimentation approach to improve acquisition efficiency and reduce expansion risk across DACH markets.",
     tag: "Education",
-    href: "/contact",
+    href: "/booking",
   },
   {
     image: "/images/work/retail-demand-and-pricing-strategy.webp",
@@ -53,7 +53,7 @@ const projects = [
     description:
       "Combined AI demand forecasting with leadership planning cadences, producing a measurable uplift in margin and stock precision.",
     tag: "Retail",
-    href: "/contact",
+    href: "/booking",
   },
 ];
 

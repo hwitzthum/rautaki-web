@@ -1,81 +1,77 @@
 import HeroLight from "@/components/HeroLight";
 import SectionLabel from "@/components/SectionLabel";
-import ContactForm from "@/components/ContactForm";
+import BookingForm from "@/components/BookingForm";
 import ScrollReveal from "@/components/ScrollReveal";
 
-export default function ContactPage() {
+export default function BookingPage() {
   return (
     <>
       <HeroLight
-        label="Contact"
+        label="Booking"
         title={
           <>
-            Start a focused conversation about your <em>AI strategy</em>
+            Book a focused <em>consultation</em> with Rautaki
           </>
         }
-        description="Whether you are evaluating your first AI moves or resetting a programme that has stalled, we can help you define the right next decisions."
-        rightContent={
-          <a
-            href="mailto:hello@rautaki.com"
-            className="block border border-ink/15 px-7 py-8 no-underline hover:border-gold transition-colors"
-          >
-            <div className="font-ui text-xs uppercase tracking-wide-label text-mid-grey mb-2">
-              Email directly
-            </div>
-            <div className="font-serif text-h4 text-ink">hello@rautaki.com</div>
-          </a>
-        }
+        description="Choose a time that works for you. We will confirm your session within one business day and prepare for a focused discussion on your AI strategy needs."
       />
 
       <section className="bg-cream px-6 sm:px-10 lg:px-20 py-24">
         <div className="mx-auto max-w-content grid grid-cols-1 lg:grid-cols-2 gap-16">
           <ScrollReveal>
-            <SectionLabel text="Get in touch" />
+            <SectionLabel text="How it works" />
             <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-8">
-              Reach us directly
+              Reserve your session
             </h2>
 
             <div className="space-y-6">
               <div>
                 <div className="font-ui text-xs font-medium uppercase tracking-wide-label text-mid-grey mb-1">
-                  Email
-                </div>
-                <a
-                  href="mailto:hello@rautaki.com"
-                  className="font-ui text-body text-ink hover:text-gold transition-colors no-underline"
-                >
-                  hello@rautaki.com
-                </a>
-              </div>
-
-              <div>
-                <div className="font-ui text-xs font-medium uppercase tracking-wide-label text-mid-grey mb-1">
-                  LinkedIn
-                </div>
-                <a
-                  href="https://www.linkedin.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="font-ui text-body text-ink hover:text-gold transition-colors no-underline"
-                >
-                  Follow Rautaki on LinkedIn
-                </a>
-              </div>
-
-              <div>
-                <div className="font-ui text-xs font-medium uppercase tracking-wide-label text-mid-grey mb-1">
-                  Response time
+                  Step 1
                 </div>
                 <p className="font-ui text-body text-ink/65 md:text-mid-grey">
-                  We typically respond within one business day.
+                  Fill out the booking form with your preferred date, time, and
+                  topic of discussion.
                 </p>
+              </div>
+
+              <div>
+                <div className="font-ui text-xs font-medium uppercase tracking-wide-label text-mid-grey mb-1">
+                  Step 2
+                </div>
+                <p className="font-ui text-body text-ink/65 md:text-mid-grey">
+                  We review your request and confirm the session within one
+                  business day.
+                </p>
+              </div>
+
+              <div>
+                <div className="font-ui text-xs font-medium uppercase tracking-wide-label text-mid-grey mb-1">
+                  Step 3
+                </div>
+                <p className="font-ui text-body text-ink/65 md:text-mid-grey">
+                  Join the consultation prepared for a focused discussion on
+                  your AI strategy priorities.
+                </p>
+              </div>
+
+              <div>
+                <div className="font-ui text-xs font-medium uppercase tracking-wide-label text-mid-grey mb-1">
+                  Prefer email?
+                </div>
+                <a
+                  href="mailto:hello@rautaki.ch"
+                  className="font-ui text-body text-ink hover:text-gold transition-colors no-underline"
+                >
+                  hello@rautaki.ch
+                </a>
               </div>
             </div>
           </ScrollReveal>
 
           <ScrollReveal delay={100}>
-            <SectionLabel text="Send a message" />
-            <ContactForm />
+            <SectionLabel text="Book a consultation" />
+            <BookingForm />
           </ScrollReveal>
         </div>
       </section>
