@@ -13,13 +13,13 @@ export default function ServicesPage() {
   return (
     <>
       <HeroLight
-        label="Our Services"
+        label="Unsere Leistungen"
         title={
           <>
-            Strategy, advisory, and execution for the <em>AI era</em>
+            Strategie, Beratung und Umsetzung für das <em>KI-Zeitalter</em>
           </>
         }
-        description="Three service lines designed to help leadership teams set direction, govern risk, and move AI initiatives from concept to institutional capability."
+        description="Drei Leistungsbereiche, die Führungsteams dabei unterstützen, Richtung zu setzen, Risiken zu steuern und KI-Initiativen von der Idee zur organisationalen Fähigkeit zu entwickeln."
         rightContent={
           <div className="hidden lg:block space-y-2">
             {services.map((service) => (
@@ -36,7 +36,7 @@ export default function ServicesPage() {
 
       <section className="bg-obsidian px-6 sm:px-10 lg:px-20 py-20">
         <div className="mx-auto max-w-content">
-          <SectionLabel text="What we do" variant="dark" />
+          <SectionLabel text="Was wir tun" variant="dark" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px" style={{ gap: "2px" }}>
             {services.map((service, index) => (
               <ScrollReveal key={service.id} delay={index * 80}>
@@ -57,7 +57,7 @@ export default function ServicesPage() {
           <div>
             <SectionLabel text={firstService.titlePlain} />
             <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
-              Define where AI creates advantage
+              Definieren Sie, wo KI Wettbewerbsvorteile schafft
             </h2>
             <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey max-w-reading">
               {firstService.longDesc}
@@ -91,7 +91,7 @@ export default function ServicesPage() {
           <div className="lg:order-2">
             <SectionLabel text={secondService.titlePlain} />
             <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
-              Make high-stakes AI decisions with confidence
+              Treffen Sie KI-Entscheide mit hoher Tragweite mit Sicherheit
             </h2>
             <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey max-w-reading">
               {secondService.longDesc}
@@ -105,7 +105,7 @@ export default function ServicesPage() {
           <ScrollReveal>
             <SectionLabel text={thirdService.titlePlain} />
             <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6 max-w-reading">
-              Turn strategy into AI capability at operating speed
+              Machen Sie aus Strategie KI-Fähigkeit mit operativer Geschwindigkeit
             </h2>
             <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey max-w-reading">
               {thirdService.longDesc}
@@ -131,11 +131,11 @@ export default function ServicesPage() {
       <section className="bg-obsidian grain px-6 sm:px-10 lg:px-20 py-32">
         <ScrollReveal className="mx-auto max-w-content text-center">
           <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-white mb-4">
-            Ready to build your AI strategy?
+            Bereit, Ihre KI-Strategie aufzubauen?
           </h2>
           <p className="font-ui text-body font-light leading-body text-white/55 mb-10 max-w-reading mx-auto">
-            We can quickly assess your strategic position and define a practical
-            path to value.
+            Wir können Ihre strategische Ausgangslage rasch bewerten und einen
+            praxisnahen Weg zu messbarem Wert definieren.
           </p>
           <Button href="/booking" variant="gold" showArrow>
             Book a consultation

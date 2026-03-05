@@ -3,7 +3,8 @@ import SectionLabel from "./SectionLabel";
 interface HeroLightProps {
   label: string;
   title: React.ReactNode;
-  description?: string;
+  description?: React.ReactNode;
+  descriptionClassName?: string;
   rightContent?: React.ReactNode;
 }
 
@@ -11,6 +12,7 @@ export default function HeroLight({
   label,
   title,
   description,
+  descriptionClassName,
   rightContent,
 }: HeroLightProps) {
   return (
@@ -22,9 +24,14 @@ export default function HeroLight({
             {title}
           </h1>
           {description && (
-            <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey max-w-reading">
+            <div
+              className={
+                descriptionClassName ??
+                "max-w-reading font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey space-y-4"
+              }
+            >
               {description}
-            </p>
+            </div>
           )}
         </div>
 

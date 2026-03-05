@@ -53,11 +53,11 @@ export default function Footer() {
                 </a>
               </li>
               <li className="leading-relaxed">
-                Rautaki AG
+                Rautaki
                 <br />
-                Bahnhofstrasse 10
+                Weinbergstrasse 23
                 <br />
-                8001 Zurich, Switzerland
+                8802 Kilchberg / ZH
               </li>
               <li>
                 <a

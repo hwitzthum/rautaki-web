@@ -16,14 +16,14 @@ export const services: ServiceData[] = [
     slug: "strategic-vision",
     title: (
       <>
-        Strategic <span className="text-gold italic">Vision</span>
+        Strategische <span className="text-gold italic">Vision</span>
       </>
     ),
-    titlePlain: "Strategic Vision",
+    titlePlain: "Strategische Vision",
     shortDesc:
-      "Aligning your organisation around an AI-informed strategic direction that drives every decision from the top down.",
+      "Wir richten Ihre Organisation auf eine KI-informierte strategische Ausrichtung aus, die Entscheidungen von oben bis unten prägt.",
     longDesc:
-      "We work with leadership teams to define a clear strategic vision that accounts for AI's transformative potential. Through structured workshops, stakeholder interviews, and rigorous analysis of where AI can — and should — reshape your operations, we develop a north star that guides investment decisions, talent priorities, and operational focus. The result is an organisation that moves with purpose, not just activity.",
+      "Wir arbeiten mit Führungsteams zusammen, um eine klare strategische Vision zu definieren, die das transformative Potenzial von KI berücksichtigt. Durch strukturierte Workshops, Stakeholder-Interviews und eine fundierte Analyse, wo KI Ihre Abläufe verändern kann und soll, entwickeln wir einen klaren Nordstern für Investitionsentscheide, Talentprioritäten und operative Fokussierung. Das Resultat ist eine Organisation, die mit Zielklarheit handelt statt nur Aktivität zu erzeugen.",
     image: "/images/services/strategic-vision.webp",
   },
   {
@@ -32,14 +32,14 @@ export const services: ServiceData[] = [
     slug: "advisory-counsel",
     title: (
       <>
-        <span className="text-gold italic">Advisory</span> & Counsel
+        <span className="text-gold italic">Beratung</span> & Sparring
       </>
     ),
-    titlePlain: "Advisory & Counsel",
+    titlePlain: "Beratung & Sparring",
     shortDesc:
-      "Trusted guidance for leadership teams navigating AI adoption, organisational change, and high-stakes decisions.",
+      "Verlässliche Begleitung für Führungsteams, die KI-Einführung, organisationalen Wandel und Entscheide mit hoher Tragweite steuern.",
     longDesc:
-      "Our advisory practice provides ongoing strategic counsel to C-suite leaders and boards navigating AI integration. Whether assessing model risk, evaluating build-vs-buy decisions for AI capabilities, or restructuring teams for an AI-augmented future, we bring an outside perspective grounded in deep industry experience. We challenge assumptions, stress-test plans, and help leaders make decisions they can stand behind.",
+      "Unsere Beratungspraxis bietet C-Level-Führungskräften und Verwaltungsräten kontinuierliches strategisches Sparring bei der KI-Integration. Ob Modellrisiken bewertet, Build-vs-Buy-Entscheide für KI-Fähigkeiten getroffen oder Teams für eine KI-unterstützte Zukunft neu ausgerichtet werden: Wir bringen eine externe Perspektive mit fundierter Branchenerfahrung ein. Wir hinterfragen Annahmen, prüfen Pläne auf Belastbarkeit und helfen Führungskräften, Entscheide zu treffen, die Bestand haben.",
     image: "/images/services/advisory-counsel.webp",
   },
   {
@@ -48,14 +48,14 @@ export const services: ServiceData[] = [
     slug: "growth-activation",
     title: (
       <>
-        Growth <span className="text-gold italic">Activation</span>
+        Wachstums <span className="text-gold italic">Aktivierung</span>
       </>
     ),
-    titlePlain: "Growth Activation",
+    titlePlain: "Wachstumsaktivierung",
     shortDesc:
-      "Turning AI strategy into action with structured programmes that mobilise teams and accelerate outcomes.",
+      "Wir überführen KI-Strategie in konkrete Umsetzung mit strukturierten Programmen, die Teams mobilisieren und Ergebnisse beschleunigen.",
     longDesc:
-      "Strategy without execution is a dream. Our Growth Activation programme bridges the gap between AI strategy and performance. We design implementation roadmaps, build AI literacy within teams, and establish the metrics and rhythms needed to sustain momentum. From pilot projects to organisation-wide rollouts, the goal is self-sufficiency — organisations that can execute brilliantly without us.",
+      "Strategie ohne Umsetzung bleibt ein Wunsch. Unser Programm zur Wachstumsaktivierung schliesst die Lücke zwischen KI-Strategie und Performance. Wir gestalten Umsetzungs-Roadmaps, bauen KI-Kompetenz in Teams auf und etablieren die Metriken und Rhythmen, die nachhaltige Dynamik sichern. Von Pilotprojekten bis zu organisationsweiten Rollouts ist das Ziel Selbstständigkeit: Organisationen, die auch ohne uns exzellent umsetzen.",
     image: "/images/services/growth-activation.webp",
   },
 ];

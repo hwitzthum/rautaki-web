@@ -7,57 +7,57 @@ export default function BookingPage() {
   return (
     <>
       <HeroLight
-        label="Booking"
+        label="Terminbuchung"
         title={
           <>
-            Book a focused <em>consultation</em> with Rautaki
+            Buchen Sie eine fokussierte <em>Beratung</em> mit Rautaki
           </>
         }
-        description="Choose a time that works for you. We will confirm your session within one business day and prepare for a focused discussion on your AI strategy needs."
+        description="Wählen Sie einen Termin, der für Sie passt. Wir bestätigen Ihre Sitzung innerhalb eines Arbeitstags und bereiten ein fokussiertes Gespräch zu Ihren KI-Strategiefragen vor."
       />
 
       <section className="bg-cream px-6 sm:px-10 lg:px-20 py-24">
         <div className="mx-auto max-w-content grid grid-cols-1 lg:grid-cols-2 gap-16">
           <ScrollReveal>
-            <SectionLabel text="How it works" />
+            <SectionLabel text="Ablauf" />
             <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-8">
-              Reserve your session
+              Reservieren Sie Ihre Sitzung
             </h2>
 
             <div className="space-y-6">
               <div>
                 <div className="font-ui text-xs font-medium uppercase tracking-wide-label text-mid-grey mb-1">
-                  Step 1
+                  Schritt 1
                 </div>
                 <p className="font-ui text-body text-ink/65 md:text-mid-grey">
-                  Fill out the booking form with your preferred date, time, and
-                  topic of discussion.
+                  Füllen Sie das Buchungsformular mit Ihrem bevorzugten Datum,
+                  Ihrer Uhrzeit und dem Gesprächsthema aus.
                 </p>
               </div>
 
               <div>
                 <div className="font-ui text-xs font-medium uppercase tracking-wide-label text-mid-grey mb-1">
-                  Step 2
+                  Schritt 2
                 </div>
                 <p className="font-ui text-body text-ink/65 md:text-mid-grey">
-                  We review your request and confirm the session within one
-                  business day.
+                  Wir prüfen Ihre Anfrage und bestätigen den Termin innerhalb
+                  eines Arbeitstags.
                 </p>
               </div>
 
               <div>
                 <div className="font-ui text-xs font-medium uppercase tracking-wide-label text-mid-grey mb-1">
-                  Step 3
+                  Schritt 3
                 </div>
                 <p className="font-ui text-body text-ink/65 md:text-mid-grey">
-                  Join the consultation prepared for a focused discussion on
-                  your AI strategy priorities.
+                  Nehmen Sie an der Beratung teil, vorbereitet auf ein
+                  fokussiertes Gespräch zu Ihren KI-Strategieprioritäten.
                 </p>
               </div>
 
               <div>
                 <div className="font-ui text-xs font-medium uppercase tracking-wide-label text-mid-grey mb-1">
-                  Prefer email?
+                  Lieber per E-Mail?
                 </div>
                 <a
                   href="mailto:hello@rautaki.ch"
@@ -70,7 +70,7 @@ export default function BookingPage() {
           </ScrollReveal>
 
           <ScrollReveal delay={100}>
-            <SectionLabel text="Book a consultation" />
+            <SectionLabel text="Beratung buchen" />
             <BookingForm />
           </ScrollReveal>
         </div>
@@ -79,10 +79,10 @@ export default function BookingPage() {
       <section className="bg-obsidian px-6 sm:px-10 lg:px-20 py-10">
         <div className="mx-auto max-w-content flex flex-col md:flex-row md:items-center md:justify-between gap-4 font-ui text-sm text-white/70">
           <div className="font-ui text-xs uppercase tracking-wide-label text-white/45">
-            Zurich Office
+            Büro Kilchberg / ZH
           </div>
           <div className="leading-relaxed">
-            Rautaki AG, Bahnhofstrasse 10, 8001 Zurich, Switzerland
+            Rautaki, Weinbergstrasse 23, 8802 Kilchberg / ZH
           </div>
         </div>
       </section>

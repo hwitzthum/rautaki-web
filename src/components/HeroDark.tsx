@@ -8,7 +8,7 @@ interface HeroDarkProps {
   onBookingClick: () => void;
 }
 
-const headlineLines = ["Shaping", "AI-led", "strategy."];
+const headlineLines = ["Strategie", "im KI-Zeitalter", "mit Wirkung."];
 
 export default function HeroDark({ onBookingClick }: HeroDarkProps) {
   const [parallaxY, setParallaxY] = useState(0);
@@ -52,15 +52,15 @@ export default function HeroDark({ onBookingClick }: HeroDarkProps) {
                   animationDelay: `${index * 80}ms`,
                 }}
               >
-                {line === "AI-led" ? <em>AI-led</em> : line}
+                {index === 1 ? <em>{line}</em> : line}
               </span>
             ))}
           </h1>
 
           <p className="font-ui text-body font-light leading-body text-white/60 max-w-[470px]">
-            We help leadership teams turn AI ambition into executable strategy,
-            balancing model opportunity, operational risk, and organisation-wide
-            adaptation.
+            Wir helfen Führungsteams, KI-Ambition in umsetzbare Strategie zu
+            verwandeln und Modellpotenzial, operationelle Risiken sowie
+            organisationsweite Anpassung auszubalancieren.
           </p>
         </div>
       </div>
@@ -89,11 +89,12 @@ export default function HeroDark({ onBookingClick }: HeroDarkProps) {
           }}
         >
           <h2 className="font-serif text-h3 tracking-tight-h3 text-obsidian mb-3">
-            Build a confident AI strategy
+            Entwickeln Sie eine belastbare KI-Strategie
           </h2>
           <p className="font-ui text-sm text-black/65 mb-6 max-w-[420px]">
-            Reserve a consultation to map priorities, governance decisions, and
-            the leadership capabilities your next phase demands.
+            Reservieren Sie eine Beratung, um Prioritäten,
+            Governance-Entscheide und die Führungskompetenzen für Ihre nächste
+            Phase zu klären.
           </p>
           <Button variant="dark" onClick={onBookingClick} showArrow>
             Reserve a consultation

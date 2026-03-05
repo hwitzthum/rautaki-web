@@ -5,50 +5,122 @@ import SectionLabel from "@/components/SectionLabel";
 
 const values = [
   {
-    title: "Evidence over intuition",
+    title: "Evidenz vor Intuition",
     description:
-      "Major AI decisions should be grounded in data, operating constraints, and clear assumptions instead of executive guesswork.",
+      "Wichtige KI-Entscheide sollten auf Daten, operativen Rahmenbedingungen und klaren Annahmen beruhen statt auf Bauchgefühl der Führung.",
   },
   {
-    title: "Candour under pressure",
+    title: "Klarheit unter Druck",
     description:
-      "We challenge leadership teams directly when ambition and capability are out of sync, especially in high-stakes AI bets.",
+      "Wir fordern Führungsteams direkt heraus, wenn Ambition und Fähigkeiten nicht zueinander passen, besonders bei KI-Entscheiden mit hoher Tragweite.",
   },
   {
-    title: "Execution, not just analysis",
+    title: "Umsetzung statt nur Analyse",
     description:
-      "Strategy only matters when it changes behaviour. We stay close until plans are embedded in routines, governance, and incentives.",
+      "Strategie zählt erst, wenn sie Verhalten verändert. Wir bleiben nah dran, bis Pläne in Routinen, Governance und Anreizen verankert sind.",
   },
 ];
 
 const milestones = [
-  { year: "2018", event: "Rautaki founded in Zurich" },
+  { year: "2018", event: "Rautaki in Zürich gegründet" },
   {
     year: "2019",
-    event: "First leadership advisory engagements in finance and industry",
+    event: "Erste Beratungsmandate für Führungsteams in Finanz- und Industrieunternehmen",
   },
   {
     year: "2021",
-    event: "Scaled cross-border transformation work across the DACH region",
+    event: "Skalierung grenzüberschreitender Transformationsarbeit in der DACH-Region",
   },
   {
     year: "2023",
-    event: "Established dedicated AI strategy and model governance practice",
+    event: "Aufbau einer dedizierten Praxis für KI-Strategie und Modell-Governance",
   },
-  { year: "2025", event: "Expanded to 40+ organisations advised" },
+  { year: "2025", event: "Ausweitung auf über 40 beratene Organisationen" },
 ];
+
+function BrandRautaki() {
+  return (
+    <strong className="inline-flex items-baseline font-serif font-black tracking-tight text-obsidian whitespace-nowrap">
+      Raut<span className="text-gold">a</span>k<span className="text-gold">i</span>
+    </strong>
+  );
+}
 
 export default function AboutPage() {
   return (
     <>
       <HeroLight
-        label="About"
+        label="Über uns"
         title={
           <>
-            The strategy story behind <em>Rautaki</em>
+            <BrandRautaki /> - Strategie für das Zeitalter der Künstlichen Intelligenz
           </>
         }
-        description="Rautaki is a Maori word for strategy. It reflects how we work: clear direction, disciplined execution, and practical leadership in the AI era."
+        descriptionClassName="max-w-[70ch] font-ui text-[1.05rem] md:text-[1.125rem] font-medium leading-[1.88] text-obsidian"
+        description={
+          <div className="space-y-6">
+            <p className="rounded-r-sm border-l-2 border-gold bg-cream/55 px-5 py-3">
+              Der Name <BrandRautaki /> stammt aus der Sprache der Māori und
+              bedeutet Strategie. Eine gute Strategie schafft Orientierung,
+              verbindet Menschen und macht Zukunft gestaltbar.
+            </p>
+            <p>
+              Genau darum geht es bei <BrandRautaki />.
+            </p>
+            <p>
+              Organisationen stehen heute vor einer der grössten
+              Transformationen unserer Zeit: Künstliche Intelligenz verändert,
+              wie wir arbeiten, entscheiden und Innovation schaffen.
+            </p>
+            <p>Doch Technologie allein ist keine Strategie.</p>
+            <p>
+              <BrandRautaki /> unterstützt Organisationen dabei, KI sinnvoll,
+              verantwortungsvoll und wirkungsvoll einzusetzen - von der ersten
+              Einordnung über strategische Entscheidungen bis zur konkreten
+              Umsetzung in Teams und Prozessen.
+            </p>
+            <p>
+              Der Name trägt dabei eine besondere Symbolik: Im Wort <BrandRautaki />
+              stecken die Buchstaben A und I - die Initialen von Artificial
+              Intelligence.
+            </p>
+            <p>Strategie und KI gehören zusammen.</p>
+            <div>
+              <p className="mb-3">
+                <BrandRautaki /> verbindet beides:
+              </p>
+              <ul className="list-none space-y-3 pl-0">
+                <li className="flex items-start gap-3">
+                  <span className="mt-3 h-1.5 w-1.5 flex-none rounded-full bg-gold" aria-hidden="true" />
+                  <span>Strategische KI-Beratung</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-3 h-1.5 w-1.5 flex-none rounded-full bg-gold" aria-hidden="true" />
+                  <span>Transformation von Organisationen</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-3 h-1.5 w-1.5 flex-none rounded-full bg-gold" aria-hidden="true" />
+                  <span>Workshops und Trainings für Führungskräfte und Teams</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-3 h-1.5 w-1.5 flex-none rounded-full bg-gold" aria-hidden="true" />
+                  <span>Praxisorientierte Umsetzung von KI-Anwendungen</span>
+                </li>
+              </ul>
+            </div>
+            <p>
+              Unser Ansatz ist klar: Nicht jede Organisation braucht mehr
+              Technologie.
+            </p>
+            <p>
+              Aber jede Organisation braucht eine klare Strategie für den Umgang
+              mit KI.
+            </p>
+            <p>
+              <BrandRautaki /> hilft Ihnen, diese Strategie zu entwickeln.
+            </p>
+          </div>
+        }
         rightContent={
           <div className="relative h-[220px] overflow-hidden border border-ink/10">
             <Image
@@ -77,19 +149,20 @@ export default function AboutPage() {
           </ScrollReveal>
 
           <ScrollReveal delay={100}>
-            <SectionLabel text="Founder" />
+            <SectionLabel text="Gründung" />
             {/* TODO: Replace with the founder's real name. */}
             <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
               Alex Rangi
             </h2>
             <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey mb-4">
-              Alex founded Rautaki after seeing how often leadership teams
-              either overhype AI or underinvest in the capabilities required to
-              use it responsibly.
+              Alex gründete Rautaki, nachdem er gesehen hatte, wie häufig
+              Führungsteams KI entweder überhöhen oder zu wenig in die nötigen
+              Fähigkeiten für einen verantwortungsvollen Einsatz investieren.
             </p>
             <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey">
-              The firm was built to close that gap: strategy rigor on one side,
-              execution reality on the other.
+              Die Firma wurde gebaut, um genau diese Lücke zu schliessen:
+              strategische Stringenz auf der einen, Umsetzungsrealität auf der
+              anderen Seite.
             </p>
           </ScrollReveal>
         </div>
@@ -98,9 +171,9 @@ export default function AboutPage() {
       <section className="bg-white px-6 sm:px-10 lg:px-20 py-24">
         <div className="mx-auto max-w-content">
           <ScrollReveal>
-            <SectionLabel text="Milestones" />
+            <SectionLabel text="Meilensteine" />
             <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-12">
-              How the practice evolved
+              Wie sich die Praxis entwickelt hat
             </h2>
           </ScrollReveal>
 
@@ -124,9 +197,9 @@ export default function AboutPage() {
       <section className="bg-obsidian grain px-6 sm:px-10 lg:px-20 py-24">
         <div className="mx-auto max-w-content">
           <ScrollReveal>
-            <SectionLabel text="Values" variant="dark" />
+            <SectionLabel text="Werte" variant="dark" />
             <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-white mb-12">
-              Principles that shape our AI advisory work
+              Prinzipien, die unsere KI-Beratung prägen
             </h2>
           </ScrollReveal>
 

@@ -8,7 +8,7 @@ export default function ServiceCards() {
   return (
     <section className="bg-obsidian px-6 sm:px-10 lg:px-20 py-28 grain">
       <div className="mx-auto max-w-content">
-        <SectionLabel text="Services" variant="dark" />
+        <SectionLabel text="Leistungen" variant="dark" />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-px" style={{ gap: "2px" }}>
           {services.map((service, index) => (

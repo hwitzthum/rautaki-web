@@ -9,50 +9,50 @@ import SectionLabel from "@/components/SectionLabel";
 const projects = [
   {
     image: "/images/work/enterprise-ai-transformation-blueprint.webp",
-    title: "Enterprise AI Transformation Blueprint",
+    title: "Blueprint für KI-Transformation im Unternehmen",
     description:
-      "Defined a three-year AI operating model for a major Swiss financial institution, aligning governance, model rollout, and leadership accountability.",
-    tag: "Finance",
+      "Entwicklung eines dreijährigen KI-Betriebsmodells für ein grosses Schweizer Finanzinstitut mit abgestimmter Governance, Modell-Rollout und Führungsverantwortung.",
+    tag: "Finanzwesen",
     href: "/booking",
   },
   {
     image: "/images/work/clinical-ai-prioritisation-framework.webp",
-    title: "Clinical AI Prioritisation Framework",
+    title: "Rahmenwerk zur Priorisierung klinischer KI",
     description:
-      "Built an AI opportunity map for a regional hospital group, focusing investment on high-impact diagnostics and workflow automation.",
-    tag: "Healthcare",
+      "Erstellung einer KI-Chancenkarte für eine regionale Spitalgruppe mit Fokus auf Investitionen in wirkungsstarke Diagnostik und Workflow-Automatisierung.",
+    tag: "Gesundheitswesen",
     href: "/booking",
   },
   {
     image: "/images/work/saas-product-intelligence-roadmap.webp",
-    title: "SaaS Product Intelligence Roadmap",
+    title: "Roadmap für SaaS-Produktintelligenz",
     description:
-      "Translated product strategy into a phased AI capability roadmap, increasing retention and accelerating premium feature adoption.",
-    tag: "Technology",
+      "Übersetzung der Produktstrategie in eine stufenweise Roadmap für KI-Fähigkeiten mit höherer Bindung und schnellerer Einführung von Premium-Funktionen.",
+    tag: "Technologie",
     href: "/booking",
   },
   {
     image: "/images/work/ai-enabled-operations-programme.webp",
-    title: "AI-Enabled Operations Programme",
+    title: "Programm für KI-gestützte Abläufe",
     description:
-      "Reworked manufacturing planning with predictive models and leadership routines that reduced cycle-time volatility across four plants.",
-    tag: "Manufacturing",
+      "Neuausrichtung der Produktionsplanung mit prädiktiven Modellen und Führungsroutinen, die die Zykluszeit-Volatilität über vier Werke hinweg reduzierten.",
+    tag: "Produktion",
     href: "/booking",
   },
   {
     image: "/images/work/education-platform-decision-intelligence.webp",
-    title: "Education Platform Decision Intelligence",
+    title: "Decision Intelligence für eine Bildungsplattform",
     description:
-      "Designed a model-governed experimentation approach to improve acquisition efficiency and reduce expansion risk across DACH markets.",
-    tag: "Education",
+      "Entwicklung eines modellgesteuerten Experimentieransatzes zur Verbesserung der Akquisitionseffizienz und zur Senkung von Expansionsrisiken in DACH-Märkten.",
+    tag: "Bildung",
     href: "/booking",
   },
   {
     image: "/images/work/retail-demand-and-pricing-strategy.webp",
-    title: "Retail Demand and Pricing Strategy",
+    title: "Strategie für Nachfrage und Preisgestaltung im Detailhandel",
     description:
-      "Combined AI demand forecasting with leadership planning cadences, producing a measurable uplift in margin and stock precision.",
-    tag: "Retail",
+      "Verknüpfung von KI-Nachfrageprognosen mit Führungsrhythmen, was zu einem messbaren Anstieg bei Marge und Warenverfügbarkeit führte.",
+    tag: "Detailhandel",
     href: "/booking",
   },
 ];
@@ -63,18 +63,18 @@ export default function WorkPage() {
   return (
     <>
       <HeroLight
-        label="Our Work"
+        label="Unsere Arbeit"
         title={
           <>
-            Selected partnerships shaping measurable <em>AI impact</em>
+            Ausgewählte Partnerschaften mit messbarer <em>KI-Wirkung</em>
           </>
         }
-        description="Representative engagements where we helped executive teams define priorities, manage risk, and execute AI-driven transformation."
+        description="Beispielhafte Mandate, in denen wir Führungsteams unterstützt haben, Prioritäten zu setzen, Risiken zu steuern und KI-getriebene Transformation umzusetzen."
         rightContent={
           <div className="bg-cream border border-ink/10 px-8 py-9">
             <div className="font-serif text-[56px] leading-none text-ink">24</div>
             <div className="mt-2 font-ui text-xs uppercase tracking-wide-label text-mid-grey">
-              AI projects supported since 2018
+              Seit 2018 unterstützte KI-Projekte
             </div>
           </div>
         }
@@ -82,7 +82,7 @@ export default function WorkPage() {
 
       <section className="bg-cream px-6 sm:px-10 lg:px-20 py-24">
         <div className="mx-auto max-w-content">
-          <SectionLabel text="Case Studies" />
+          <SectionLabel text="Fallbeispiele" />
 
           <ScrollReveal>
             <Link
@@ -103,7 +103,7 @@ export default function WorkPage() {
 
                 <div className="p-10 lg:p-14 flex flex-col justify-center">
                   <div className="font-ui text-xs uppercase tracking-wide-label text-gold mb-3">
-                    Featured | {featured.tag}
+                    Ausgewählt | {featured.tag}
                   </div>
                   <h2 className="font-serif text-h2 tracking-tight-h2 font-normal text-ink mb-4">
                     {featured.title}
@@ -135,23 +135,23 @@ export default function WorkPage() {
         <div className="mx-auto max-w-content grid grid-cols-1 lg:grid-cols-2 gap-10">
           <ScrollReveal>
             <blockquote className="font-serif text-h4 tracking-tight-h4 font-normal italic leading-card text-white mb-6">
-              &ldquo;Rautaki helped us decide where AI should matter most, then
-              gave our executive team the operating discipline to deliver
-              it.&rdquo;
+              &ldquo;Rautaki half uns zu entscheiden, wo KI am meisten Wirkung
+              entfalten soll, und gab unserem Führungsteam die operative
+              Disziplin für die Umsetzung.&rdquo;
             </blockquote>
             <div className="font-ui text-xs uppercase tracking-wide-label text-white/55">
-              Chief Strategy Officer, Zurich-based Private Bank
+              Chief Strategy Officer, Zürcher Privatbank
             </div>
           </ScrollReveal>
 
           <ScrollReveal delay={100}>
             <blockquote className="font-serif text-h4 tracking-tight-h4 font-normal italic leading-card text-white mb-6">
-              &ldquo;Their advice was direct, evidence-led, and practical. Within
-              six months, our AI programme moved from scattered pilots to
-              aligned execution.&rdquo;
+              &ldquo;Ihre Beratung war direkt, evidenzbasiert und praxisnah.
+              Innerhalb von sechs Monaten wechselte unser KI-Programm von
+              verstreuten Piloten zu abgestimmter Umsetzung.&rdquo;
             </blockquote>
             <div className="font-ui text-xs uppercase tracking-wide-label text-white/55">
-              COO, Regional Healthcare Network (DACH)
+              COO, Regionales Gesundheitsnetzwerk (DACH)
             </div>
           </ScrollReveal>
         </div>
