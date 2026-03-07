@@ -67,7 +67,9 @@ const maintenanceHTML = `<!DOCTYPE html>
 </html>`;
 
 export function proxy(request: NextRequest) {
-  if (process.env.MAINTENANCE_MODE === "true") {
+  const maintenanceMode = process.env["MAINTENANCE_MODE"] === "true";
+
+  if (maintenanceMode) {
     // Allow Next.js internal requests to pass through
     if (request.nextUrl.pathname.startsWith("/_next")) {
       return NextResponse.next();
