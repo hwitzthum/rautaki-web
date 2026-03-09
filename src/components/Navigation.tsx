@@ -107,8 +107,9 @@ export default function Navigation() {
       <nav
         id="mobile-nav"
         aria-label="Mobile navigation"
-        className={`lg:hidden overflow-hidden border-t border-white/10 transition-[max-height] duration-300 ${
-          menuOpen ? "max-h-80" : "max-h-0"
+        aria-hidden={!menuOpen}
+        className={`lg:hidden overflow-hidden border-t border-white/10 transition-[max-height,visibility] duration-300 ${
+          menuOpen ? "max-h-80 visible" : "max-h-0 invisible"
         }`}
       >
         <div className="px-6 sm:px-10 pb-6 pt-4 flex flex-col gap-4 font-ui text-xs uppercase tracking-wide-nav">

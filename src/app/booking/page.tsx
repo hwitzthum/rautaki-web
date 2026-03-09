@@ -1,7 +1,14 @@
+import type { Metadata } from "next";
 import HeroLight from "@/components/HeroLight";
 import SectionLabel from "@/components/SectionLabel";
 import BookingForm from "@/components/BookingForm";
 import ScrollReveal from "@/components/ScrollReveal";
+
+export const metadata: Metadata = {
+  title: "Booking",
+  description:
+    "Buchen Sie eine fokussierte Beratung mit Rautaki. Wir bestätigen Ihre Sitzung innerhalb eines Arbeitstags.",
+};
 
 export default function BookingPage() {
   return (

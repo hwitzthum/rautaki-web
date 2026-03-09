@@ -40,7 +40,7 @@ export default function RootLayout({
       <head>
         <link
           rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css"
+          href="https://cdn.jsdelivr.net/npm/@n8n/chat@1.9.3/dist/style.css"
         />
       </head>
       <body className={`${dmSans.variable} antialiased`}>

@@ -1,61 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import type { RefObject } from "react";
 import Button from "./Button";
+import { RequiredAsterisk, inputClasses, useBookingSubmit } from "./booking-shared";
 
-const WEBHOOK_URL =
-  "https://n8n-service-ayxj.onrender.com/webhook/booking";
-
-function RequiredAsterisk() {
-  return <span className="text-gold"> *</span>;
+interface BookingFormProps {
+  firstInputRef?: RefObject<HTMLInputElement | null>;
+  onSuccess?: () => void;
 }
 
-const inputClasses =
-  "border border-ink/10 px-4 py-3 font-ui text-body text-ink bg-cream outline-none focus:border-gold focus:shadow-[0_0_0_3px_rgba(245,166,35,0.22)] transition-all";
-
-export default function BookingForm() {
-  const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setSubmitting(true);
-    setError(null);
-
-    const form = event.currentTarget;
-    const formData = new FormData(form);
-
-    const dateValue = formData.get("date") as string;
-    const timeValue = formData.get("time") as string;
-    const dateTime = dateValue && timeValue
-      ? `${dateValue}T${timeValue}:00`
-      : dateValue || "";
-
-    const payload = {
-      name: formData.get("name") as string,
-      company: (formData.get("company") as string) || "",
-      email: formData.get("email") as string,
-      topic: formData.get("topic") as string,
-      date: dateTime,
-      message: (formData.get("message") as string) || "",
-    };
-
-    try {
-      await fetch(WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      setSubmitted(true);
-    } catch {
-      setError("Something went wrong. Please try again or email us directly.");
-    } finally {
-      setSubmitting(false);
-    }
-  };
+export default function BookingForm({ firstInputRef, onSuccess }: BookingFormProps) {
+  const { submitted, submitting, error, handleSubmit } = useBookingSubmit();
 
   if (submitted) {
+    onSuccess?.();
     return (
       <div className="py-12">
         <h3 className="font-serif text-h3 tracking-tight-h3 text-ink mb-4">
@@ -75,7 +33,7 @@ export default function BookingForm() {
         <span className="font-ui text-xs font-medium uppercase tracking-wide-label text-mid-grey">
           Name<RequiredAsterisk />
         </span>
-        <input name="name" type="text" required className={inputClasses} />
+        <input ref={firstInputRef} name="name" type="text" required aria-required="true" className={inputClasses} />
       </label>
 
       <label className="flex flex-col gap-1">
@@ -89,7 +47,7 @@ export default function BookingForm() {
         <span className="font-ui text-xs font-medium uppercase tracking-wide-label text-mid-grey">
           Email<RequiredAsterisk />
         </span>
-        <input name="email" type="email" required className={inputClasses} />
+        <input name="email" type="email" required aria-required="true" className={inputClasses} />
       </label>
 
       <label className="flex flex-col gap-1">
@@ -100,6 +58,7 @@ export default function BookingForm() {
           name="topic"
           type="text"
           required
+          aria-required="true"
           placeholder="e.g. AI strategy, model governance, leadership adaptation"
           className={inputClasses}
         />
@@ -110,14 +69,14 @@ export default function BookingForm() {
           <span className="font-ui text-xs font-medium uppercase tracking-wide-label text-mid-grey">
             Preferred date<RequiredAsterisk />
           </span>
-          <input name="date" type="date" required className={inputClasses} />
+          <input name="date" type="date" required aria-required="true" className={inputClasses} />
         </label>
 
         <label className="flex flex-col gap-1">
           <span className="font-ui text-xs font-medium uppercase tracking-wide-label text-mid-grey">
             Preferred time<RequiredAsterisk />
           </span>
-          <input name="time" type="time" required className={inputClasses} />
+          <input name="time" type="time" required aria-required="true" className={inputClasses} />
         </label>
       </div>
 
@@ -134,7 +93,7 @@ export default function BookingForm() {
       </label>
 
       {error && (
-        <p className="font-ui text-sm text-red-600">{error}</p>
+        <p className="font-ui text-sm text-error" role="alert">{error}</p>
       )}
 
       <div className="mt-2">

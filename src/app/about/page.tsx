@@ -1,7 +1,14 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import HeroLight from "@/components/HeroLight";
 import ScrollReveal from "@/components/ScrollReveal";
 import SectionLabel from "@/components/SectionLabel";
+
+export const metadata: Metadata = {
+  title: "About",
+  description:
+    "Rautaki wurde in Zürich gegründet, um Führungsteams bei der verantwortungsvollen KI-Strategie zu unterstützen. Erfahren Sie mehr über unsere Werte und unseren Ansatz.",
+};
 
 const values = [
   {
@@ -40,7 +47,7 @@ const milestones = [
 
 function BrandRautaki() {
   return (
-    <strong className="inline-flex items-baseline font-serif font-black tracking-tight text-obsidian whitespace-nowrap">
+    <strong className="inline-flex items-baseline font-serif font-medium tracking-tight text-obsidian whitespace-nowrap">
       Raut<span className="text-gold">a</span>k<span className="text-gold">i</span>
     </strong>
   );
@@ -59,7 +66,7 @@ export default function AboutPage() {
         descriptionClassName="max-w-[70ch] font-ui text-[1.05rem] md:text-[1.125rem] font-medium leading-[1.88] text-obsidian"
         description={
           <div className="space-y-6">
-            <p className="rounded-r-sm border-l-2 border-gold bg-cream/55 px-5 py-3">
+            <p className="border-l-2 border-gold bg-cream/55 px-5 py-3">
               Der Name <BrandRautaki /> stammt aus der Sprache der Māori und
               bedeutet Strategie. Eine gute Strategie schafft Orientierung,
               verbindet Menschen und macht Zukunft gestaltbar.
@@ -203,7 +210,7 @@ export default function AboutPage() {
             </h2>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-3" style={{ gap: "2px" }}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-[2px]">
             {values.map((value, index) => (
               <ScrollReveal key={value.title} delay={index * 90}>
                 <article className="bg-charcoal p-10 border-t-2 border-gold/75">

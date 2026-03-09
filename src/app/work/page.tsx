@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import HeroLight from "@/components/HeroLight";
@@ -5,6 +6,12 @@ import GoldRule from "@/components/GoldRule";
 import ProjectCard from "@/components/ProjectCard";
 import ScrollReveal from "@/components/ScrollReveal";
 import SectionLabel from "@/components/SectionLabel";
+
+export const metadata: Metadata = {
+  title: "Work",
+  description:
+    "Ausgewählte Partnerschaften mit messbarer KI-Wirkung. Beispielhafte Mandate für Führungsteams.",
+};
 
 const projects = [
   {

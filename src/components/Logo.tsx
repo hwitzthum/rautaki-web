@@ -28,7 +28,6 @@ export default function Logo({
     <Link href="/" aria-label="Rautaki — home" className="inline-block">
       <div
         className={`font-serif font-normal leading-none tracking-tight-h4 ${sizeClasses[size]} ${baseColor}`}
-        style={{ letterSpacing: "-0.01em" }}
       >
         R<span>aut</span>
         <span className="text-gold">a</span>

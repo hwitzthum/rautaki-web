@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import Logo from "./Logo";
 import Button from "./Button";
 
@@ -11,11 +11,14 @@ interface HeroDarkProps {
 const headlineLines = ["Strategie", "im KI-Zeitalter", "mit Wirkung."];
 
 export default function HeroDark({ onBookingClick }: HeroDarkProps) {
-  const [parallaxY, setParallaxY] = useState(0);
+  const parallaxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => {
-      setParallaxY(Math.min(window.scrollY * 0.08, 34));
+      if (parallaxRef.current) {
+        const y = Math.min(window.scrollY * 0.08, 34);
+        parallaxRef.current.style.transform = `translateY(calc(-50% + ${y}px))`;
+      }
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -57,7 +60,7 @@ export default function HeroDark({ onBookingClick }: HeroDarkProps) {
             ))}
           </h1>
 
-          <p className="font-ui text-body font-light leading-body text-white/60 max-w-[470px]">
+          <p className="font-ui text-body font-light leading-body text-white/45 max-w-[470px]">
             Wir helfen Führungsteams, KI-Ambition in umsetzbare Strategie zu
             verwandeln und Modellpotenzial, operationelle Risiken sowie
             organisationsweite Anpassung auszubalancieren.
@@ -67,12 +70,13 @@ export default function HeroDark({ onBookingClick }: HeroDarkProps) {
 
       <div className="px-6 sm:px-10 lg:px-20 py-12 lg:py-16 flex flex-col justify-end relative">
         <div
+          ref={parallaxRef}
           className="absolute font-serif text-white/[0.05] pointer-events-none select-none hidden lg:block"
           style={{
             fontSize: "520px",
             top: "50%",
             right: "-44px",
-            transform: `translateY(calc(-50% + ${parallaxY}px))`,
+            transform: "translateY(-50%)",
             letterSpacing: "-0.05em",
             lineHeight: 1,
           }}

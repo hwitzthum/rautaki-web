@@ -1,14 +1,10 @@
-"use client";
-
-import { useState } from "react";
-import HeroDark from "@/components/HeroDark";
 import ServiceCards from "@/components/ServiceCards";
 import SectionLabel from "@/components/SectionLabel";
 import StatBlock from "@/components/StatBlock";
 import Button from "@/components/Button";
 import GoldRule from "@/components/GoldRule";
-import BookingModal from "@/components/BookingModal";
 import ScrollReveal from "@/components/ScrollReveal";
+import HeroWithBooking from "@/components/BookingTrigger";
 
 const stats = [
   { value: 12, suffix: "+", label: "Jahre Erfahrung in KI und Strategie" },
@@ -17,11 +13,9 @@ const stats = [
 ];
 
 export default function Home() {
-  const [bookingOpen, setBookingOpen] = useState(false);
-
   return (
     <>
-      <HeroDark onBookingClick={() => setBookingOpen(true)} />
+      <HeroWithBooking />
 
       <ServiceCards />
 
@@ -32,7 +26,7 @@ export default function Home() {
             <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
               Messbare Ergebnisse für Führungsteams unter KI-Druck.
             </h2>
-            <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey max-w-narrow">
+            <p className="font-ui text-body font-light leading-body text-ink/45 md:text-mid-grey max-w-narrow">
               Wir arbeiten mit Führungsteams zusammen, um Strategie, Governance
               und Umsetzung so aufeinander abzustimmen, dass KI-Initiativen
               dauerhaften Geschäftswert schaffen.
@@ -50,21 +44,16 @@ export default function Home() {
           <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-white mb-4">
             Ist Ihre Organisation bereit für <em>KI</em>?
           </h2>
-          <p className="font-ui text-body font-light leading-body text-white/55 mb-10 max-w-reading mx-auto">
+          <p className="font-ui text-body font-light leading-body text-white/45 mb-10 max-w-reading mx-auto">
             Wir unterstützen Führungsteams dabei, festzulegen, wo KI führen
             soll, wo Leitplanken essenziell sind und wie Sie von Ambition zu
             sicherer Umsetzung gelangen.
           </p>
-          <Button variant="gold" onClick={() => setBookingOpen(true)} showArrow>
+          <Button href="/booking" variant="gold" showArrow>
             Reserve a consultation
           </Button>
         </ScrollReveal>
       </section>
-
-      <BookingModal
-        isOpen={bookingOpen}
-        onClose={() => setBookingOpen(false)}
-      />
     </>
   );
 }

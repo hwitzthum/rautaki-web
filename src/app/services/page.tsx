@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Button from "@/components/Button";
 import GoldRule from "@/components/GoldRule";
@@ -6,6 +7,12 @@ import ScrollReveal from "@/components/ScrollReveal";
 import SectionLabel from "@/components/SectionLabel";
 import ServiceCard from "@/components/ServiceCard";
 import { services } from "@/data/services";
+
+export const metadata: Metadata = {
+  title: "Services",
+  description:
+    "Strategie, Beratung und Umsetzung für das KI-Zeitalter. Drei Leistungsbereiche für Führungsteams.",
+};
 
 export default function ServicesPage() {
   const [firstService, secondService, thirdService] = services;
@@ -37,7 +44,7 @@ export default function ServicesPage() {
       <section className="bg-obsidian px-6 sm:px-10 lg:px-20 py-20">
         <div className="mx-auto max-w-content">
           <SectionLabel text="Was wir tun" variant="dark" />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-px" style={{ gap: "2px" }}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-[2px]">
             {services.map((service, index) => (
               <ScrollReveal key={service.id} delay={index * 80}>
                 <ServiceCard

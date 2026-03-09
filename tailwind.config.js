@@ -39,6 +39,7 @@ module.exports = {
       cream:      '#F4F2EE',
       'warm-grey':'#E8E5DF',
       'mid-grey': '#9A9590',
+      error:      '#C53030',
 
       // Semantic aliases — use these in components
       accent: {
