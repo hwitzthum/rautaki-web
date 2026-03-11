@@ -888,9 +888,9 @@ Print-ready business card templates. Two variants: Dark (obsidian with gold bott
   </div>
   <div class="bc-bottom">
     <div class="bc-contact">
-      alex@rautaki.com<br>
+      alex@rautaki.ch<br>
       +64 9 123 4567<br>
-      rautaki.com
+      rautaki.ch
     </div>
     <div class="logo logo-sm" style="color: var(--color-text-on-dark)">
       R<span class="logo-base">aut</span><span class="logo-gold">a</span><span class="logo-base">k</span><span class="logo-gold">i</span>
@@ -905,9 +905,9 @@ Print-ready business card templates. Two variants: Dark (obsidian with gold bott
   </div>
   <div class="bc-bottom">
     <div class="bc-contact">
-      alex@rautaki.com<br>
+      alex@rautaki.ch<br>
       +64 9 123 4567<br>
-      rautaki.com
+      rautaki.ch
     </div>
     <div class="logo logo-sm" style="color: var(--color-text-primary)">
       R<span class="logo-base">aut</span><span class="logo-gold">a</span><span class="logo-base">k</span><span class="logo-gold">i</span>
@@ -1027,7 +1027,7 @@ HTML email layout for newsletters and client communications. Max-width 640px, wh
 
         <!-- Footer -->
         <div class="email-footer">
-          © 2025 Rautaki · Strategy Advisory · <a href="https://rautaki.com">rautaki.com</a> · Unsubscribe
+          © 2025 Rautaki · Strategy Advisory · <a href="https://rautaki.ch">rautaki.ch</a> · Unsubscribe
         </div>
 
       </div>

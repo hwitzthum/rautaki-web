@@ -1,0 +1,23 @@
+{
+  "skill_name": "rautaki-assistant",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Ich brauche eine Präsentation für einen neuen Kunden. Thema: 'Digitale Transformation im Schweizer Mittelstand'. Etwa 8-10 Folien mit Titelfolie, Agenda, ein paar Inhaltsfolien mit Statistiken, und eine Abschlussfolie. Bitte im Rautaki-Design.",
+      "expected_output": "A pptxgenjs script generating 8-10 slides following Rautaki design system: obsidian/cream variants, Georgia headings with proper kerning, Calibri body, gold accents, section labels with gold dash prefix, footer on every slide, proper logo with gold a and i.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Can you review the homepage code at src/app/page.tsx and check if it follows our Rautaki design system? I want a compliance report.",
+      "expected_output": "A structured compliance report checking colors, typography kerning, border-radius, gold usage, spacing grid compliance, logo construction, and section label patterns against the Rautaki design system. Should reference specific lines and provide fixes.",
+      "files": ["src/app/page.tsx"]
+    },
+    {
+      "id": 3,
+      "prompt": "Erstelle mir eine E-Mail-Vorlage für unseren monatlichen Newsletter. Thema diesen Monat: 'Warum Strategieberatung in unsicheren Zeiten wichtiger denn je ist'. Die E-Mail soll professionell aussehen und zum Blog-Artikel auf unserer Website verlinken.",
+      "expected_output": "An HTML email template following Rautaki email spec: max 640px width, obsidian header with logo, gold gradient rule, white body with Georgia heading (gold italic emphasis on 1-2 words), DM Sans body text, gold CTA button, proper footer. All styles inline for email client compatibility.",
+      "files": []
+    }
+  ]
+}

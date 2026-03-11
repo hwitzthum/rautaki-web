@@ -16,16 +16,16 @@ export default function ServiceCard({
   return (
     <Link
       href={href}
-      className="group block bg-charcoal p-12 relative overflow-hidden transition-transform duration-300 hover:-translate-y-[2px] hover:bg-charcoal-hover no-underline"
+      className="group block bg-charcoal p-12 relative overflow-hidden transition-colors duration-200 hover:-translate-y-[2px] hover:bg-charcoal-hover no-underline"
     >
       <article>
         <div
-          className="absolute top-0 left-0 w-[3px] h-0 bg-gold transition-all duration-slow ease-out group-hover:h-full"
+          className="absolute top-0 left-0 w-[3px] h-0 bg-gold transition-[height] duration-slow ease-out group-hover:h-full"
           aria-hidden="true"
         />
 
         <div
-          className="font-serif text-white/[0.04] leading-none pointer-events-none select-none -mb-4 hidden md:block"
+          className="font-serif text-white/[0.03] leading-none pointer-events-none select-none -mb-4 hidden md:block"
           style={{ fontSize: "80px", letterSpacing: "-0.05em" }}
           aria-hidden="true"
         >
@@ -36,12 +36,12 @@ export default function ServiceCard({
           {title}
         </h3>
 
-        <p className="font-ui text-sm leading-body text-white/55 font-light">
+        <p className="font-ui text-sm leading-body text-white/45 font-light">
           {description}
         </p>
 
-        <div className="mt-6 font-ui text-xs uppercase tracking-wide-label text-gold/80">
-          Learn more
+        <div className="mt-6 font-ui text-xs uppercase tracking-wide-label text-gold">
+          Mehr erfahren
         </div>
       </article>
     </Link>

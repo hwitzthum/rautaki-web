@@ -47,7 +47,7 @@ export default function Button({
   showArrow = false,
   disabled = false,
 }: ButtonProps) {
-  const baseClasses = `group inline-flex items-center gap-2 font-ui text-xs font-medium uppercase tracking-wide-btn px-8 py-4 cursor-pointer border-none rounded-none transition-all duration-200 active:scale-[0.98] ${variantStyles[variant]} ${disabled ? "opacity-50 pointer-events-none" : ""} ${className}`;
+  const baseClasses = `group inline-flex items-center gap-2 font-ui text-xs font-medium uppercase tracking-wide-btn px-8 py-4 cursor-pointer border-none rounded-none transition-colors duration-200 active:scale-[0.98] ${variantStyles[variant]} ${disabled ? "opacity-50 pointer-events-none" : ""} ${className}`;
 
   const content = (
     <>

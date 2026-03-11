@@ -17,30 +17,34 @@ export default function N8nChatWidget() {
     if (window.__n8nChatInitialized) return;
 
     const initializeChat = async () => {
-      const { createChat } = await import("@n8n/chat");
+      try {
+        const { createChat } = await import("@n8n/chat");
 
-      createChat({
-        webhookUrl: WEBHOOK_URL,
-        target: "#n8n-chat",
-        mode: "window",
-        showWelcomeScreen: false,
-        initialMessages: [
-          "Welcome to Rautaki.",
-          "Share your challenge and we will help structure the next move.",
-        ],
-        i18n: {
-          en: {
-            title: "Rautaki Advisory",
-            subtitle: "Strategy · Advisory · Growth",
-            footer: "",
-            getStarted: "Start Conversation",
-            inputPlaceholder: "Ask about AI strategy, risk, or execution...",
-            closeButtonTooltip: "Close chat",
+        createChat({
+          webhookUrl: WEBHOOK_URL,
+          target: "#n8n-chat",
+          mode: "window",
+          showWelcomeScreen: false,
+          initialMessages: [
+            "Welcome to Rautaki.",
+            "Share your challenge and we will help structure the next move.",
+          ],
+          i18n: {
+            en: {
+              title: "Rautaki Advisory",
+              subtitle: "Strategy · Advisory · Growth",
+              footer: "",
+              getStarted: "Start Conversation",
+              inputPlaceholder: "Ask about AI strategy, risk, or execution...",
+              closeButtonTooltip: "Close chat",
+            },
           },
-        },
-      });
+        });
 
-      window.__n8nChatInitialized = true;
+        window.__n8nChatInitialized = true;
+      } catch {
+        // Chat widget may fail due to CORS in local dev — non-critical
+      }
     };
 
     initializeChat();

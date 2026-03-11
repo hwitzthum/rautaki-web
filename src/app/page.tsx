@@ -19,7 +19,7 @@ export default function Home() {
 
       <ServiceCards />
 
-      <section className="bg-cream px-6 sm:px-10 lg:px-20 py-32">
+      <section className="bg-cream px-6 sm:px-10 lg:px-20 py-25">
         <div className="mx-auto max-w-content grid grid-cols-1 lg:grid-cols-hero-light gap-20 items-center">
           <ScrollReveal>
             <SectionLabel text="Wirkung" />
@@ -39,7 +39,7 @@ export default function Home() {
 
       <GoldRule />
 
-      <section className="bg-obsidian grain px-6 sm:px-10 lg:px-20 py-36">
+      <section className="bg-obsidian grain px-6 sm:px-10 lg:px-20 py-25">
         <ScrollReveal className="mx-auto max-w-content text-center">
           <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-white mb-4">
             Ist Ihre Organisation bereit für <em>KI</em>?
@@ -50,7 +50,7 @@ export default function Home() {
             sicherer Umsetzung gelangen.
           </p>
           <Button href="/booking" variant="gold" showArrow>
-            Reserve a consultation
+            Beratung reservieren
           </Button>
         </ScrollReveal>
       </section>

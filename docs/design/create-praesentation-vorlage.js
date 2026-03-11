@@ -69,7 +69,7 @@ function addFooterLight(slide) {
     x: ML, y: SH - 0.45, w: CW, h: 0,
     line: { color: C.gold, width: 1.5, transparency: 60 },
   });
-  slide.addText("rautaki.com", {
+  slide.addText("rautaki.ch", {
     x: ML, y: SH - 0.4, w: CW, h: 0.3,
     fontFace: FONT_UI, fontSize: 7, color: C.midGrey,
     charSpacing: 2, align: "right", margin: 0,
@@ -81,7 +81,7 @@ function addFooterDark(slide) {
     x: ML, y: SH - 0.45, w: CW, h: 0,
     line: { color: C.gold, width: 1.5, transparency: 70 },
   });
-  slide.addText("rautaki.com", {
+  slide.addText("rautaki.ch", {
     x: ML, y: SH - 0.4, w: CW, h: 0.3,
     fontFace: FONT_UI, fontSize: 7, color: C.midGrey,
     charSpacing: 2, align: "right", margin: 0,
@@ -919,7 +919,7 @@ pres.title  = "Rautaki Präsentationsvorlage";
 
   // Contact info
   slide.addText([
-    { text: "[Name]  ·  [E-Mail]  ·  rautaki.com", options: { color: C.midGrey } },
+    { text: "[Name]  ·  [E-Mail]  ·  rautaki.ch", options: { color: C.midGrey } },
   ], {
     x: ML, y: 3.55, w: 6, h: 0.4,
     fontFace: FONT_UI, fontSize: 11, margin: 0,
@@ -960,7 +960,7 @@ pres.title  = "Rautaki Präsentationsvorlage";
   });
 
   // Contact info
-  slide.addText("[Name]  ·  [E-Mail]  ·  rautaki.com", {
+  slide.addText("[Name]  ·  [E-Mail]  ·  rautaki.ch", {
     x: ML, y: 3.55, w: 6, h: 0.4,
     fontFace: FONT_UI, fontSize: 11, color: C.midGrey, margin: 0,
   });

@@ -12,7 +12,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://rautaki.com"),
+  metadataBase: new URL("https://rautaki.ch"),
   title: {
     default: "Rautaki | AI Strategy, Advisory, and Leadership Transformation",
     template: "%s | Rautaki",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: "Rautaki | AI Strategy, Advisory, and Leadership Transformation",
     description:
       "AI strategy and advisory for leadership teams navigating change, risk, and execution.",
-    url: "https://rautaki.com",
+    url: "https://rautaki.ch",
     siteName: "Rautaki",
     locale: "en_US",
     type: "website",

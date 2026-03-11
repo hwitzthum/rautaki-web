@@ -15,7 +15,7 @@ interface StatBlockProps {
 
 export default function StatBlock({ stats }: StatBlockProps) {
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-9">
       {stats.map((stat, index) => (
         <ScrollReveal key={stat.label} delay={index * 100}>
           <div className="pl-5 border-l-2 border-gold">

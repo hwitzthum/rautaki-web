@@ -8,9 +8,9 @@ export default function SectionLabel({
   variant = "light",
 }: SectionLabelProps) {
   const textColor =
-    variant === "dark" ? "text-white/18" : "text-mid-grey";
+    variant === "dark" ? "text-white/20" : "text-mid-grey";
   const lineColor =
-    variant === "dark" ? "bg-white/18" : "bg-gold";
+    variant === "dark" ? "bg-white/20" : "bg-gold";
 
   return (
     <div

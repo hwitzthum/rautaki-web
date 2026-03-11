@@ -10,7 +10,7 @@ export default function ServiceCards() {
       <div className="mx-auto max-w-content">
         <SectionLabel text="Leistungen" variant="dark" />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-px" style={{ gap: "2px" }}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-[2px]">
           {services.map((service, index) => (
             <ScrollReveal key={service.id} delay={index * 90}>
               <ServiceCard
@@ -25,7 +25,7 @@ export default function ServiceCards() {
 
         <div className="mt-14 text-center">
           <Button href="/services" variant="gold" showArrow>
-            Explore our services
+            Unsere Leistungen entdecken
           </Button>
         </div>
       </div>
