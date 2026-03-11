@@ -4,15 +4,16 @@
 
 import * as Sentry from "@sentry/nextjs";
 
+const tracesSampleRate = process.env.NODE_ENV === "production" ? 0.1 : 1;
+
 Sentry.init({
   dsn: "https://c425aa465ac5c72f3bb2a34eb729656e@o4511026569412608.ingest.de.sentry.io/4511026614960208",
 
-  // Define how likely traces are sampled. Adjust this value in production, or use tracesSampler for greater control.
-  tracesSampleRate: 1,
+  // Keep local verification easy, but reduce production trace volume.
+  tracesSampleRate,
 
-  // Enable sending user PII (Personally Identifiable Information)
-  // https://docs.sentry.io/platforms/javascript/guides/nextjs/configuration/options/#sendDefaultPii
-  sendDefaultPii: true,
+  // Leave automatic IP/cookie/user collection disabled unless you explicitly need it.
+  sendDefaultPii: false,
 });
 
 export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;
