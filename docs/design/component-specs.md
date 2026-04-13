@@ -1,8 +1,8 @@
 # Rautaki — Component Specifications
 
-> **Tech stack:** Vanilla HTML / CSS / JS — no framework.
-> **Dependency:** `docs/design/tokens.css` must be imported before any component stylesheet.
-> **Font:** DM Sans loaded from Google Fonts (see style-guide §3).
+> **Tech stack:** Next.js 16, React 19, TypeScript, Tailwind CSS v4.
+> **Dependency:** Design tokens consumed via `tailwind.config.js` (sourced from `docs/design/tokens.css` / `tokens.json`).
+> **Font:** DM Sans loaded via `next/font/google` (see style-guide §3).
 
 ---
 

@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 
-// Rautaki — Tailwind CSS v3 configuration
+// Rautaki — Tailwind CSS v4 configuration
 // All values derived from docs/design/tokens.json and docs/design/tokens.css
 // Run: npx tailwindcss -i ./src/input.css -o ./src/output.css --watch
 

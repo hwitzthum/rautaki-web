@@ -1,5 +1,7 @@
 # Rautaki Design Compliance Report — Homepage
 
+> **Status:** Historical — generated March 2026. Several items (animation durations, English CTAs, glow opacity) have since been resolved. Review current code before acting on findings.
+
 **Scope:** `src/app/page.tsx` and all imported components
 **Date:** March 2026
 **Reviewer:** Rautaki Assistant (Design System Guardian)

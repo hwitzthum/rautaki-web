@@ -206,7 +206,7 @@
 │ - Remove Location section (duplicates Contact page content)                                                                                                      │
 │ - Grain on Values section                                                                                                                                        │
 │                                                                                                                                                                  │
-│ 4.5 src/app/contact/page.tsx                                                                                                                                     │
+│ 4.5 src/app/booking/page.tsx                                                                                                                                     │
 │                                                                                                                                                                  │
 │ - Distinct hero right column (email link)                                                                                                                        │
 │ - Copy mentions AI strategy exploration                                                                                                                          │
@@ -232,7 +232,7 @@
 │ ├─────────────────────────────────┼─────────────────────────────────────────┤                                                                                    │
 │ │ src/app/about/page.tsx          │ Rewrite (values, timeline, founder)     │                                                                                    │
 │ ├─────────────────────────────────┼─────────────────────────────────────────┤                                                                                    │
-│ │ src/app/contact/page.tsx        │ Edit (GDPR, compact location)           │                                                                                    │
+│ │ src/app/booking/page.tsx        │ Edit (GDPR, compact location)           │                                                                                    │
 │ ├─────────────────────────────────┼─────────────────────────────────────────┤                                                                                    │
 │ │ src/components/Navigation.tsx   │ Full rewrite                            │                                                                                    │
 │ ├─────────────────────────────────┼─────────────────────────────────────────┤                                                                                    │

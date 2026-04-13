@@ -31,7 +31,7 @@ export default function HeroDark({ onBookingClick }: HeroDarkProps) {
         className="absolute w-[700px] h-[700px] pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle, rgba(245,166,35,0.08) 0%, transparent 70%)",
+            "radial-gradient(circle, var(--color-gold-glow) 0%, transparent 70%)",
           top: "-200px",
           left: "-140px",
           animation: "glow-drift 600ms ease-in-out infinite",

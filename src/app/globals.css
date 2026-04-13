@@ -7,14 +7,17 @@
    ========================================================================== */
 
 @theme inline {
-  --color-background: #F4F2EE;
-  --color-foreground: #1C1C1C;
+  --color-background: #F4F2EE; /* tokens: --_cream / --color-bg-cream */
+  --color-foreground: #1C1C1C; /* tokens: --_ink / --color-text-primary */
   --font-sans: var(--font-dm-sans);
 }
 
 :root {
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --color-gold: #F5A623;
+  --color-gold-glow: rgba(245, 166, 35, 0.08);
+  --color-gold-focus: rgba(245, 166, 35, 0.22);
 }
 
 /* ==========================================================================
@@ -44,7 +47,7 @@ h2 em,
 h3 em,
 h4 em {
   font-style: italic;
-  color: #F5A623;
+  color: var(--color-gold);
 }
 
 /* ==========================================================================
@@ -52,7 +55,7 @@ h4 em {
    ========================================================================== */
 
 :focus-visible {
-  outline: 2px solid #F5A623;
+  outline: 2px solid var(--color-gold);
   outline-offset: 3px;
 }
 
@@ -70,7 +73,7 @@ h4 em {
   top: -100%;
   z-index: 9999;
   padding: 12px 20px;
-  background: #F5A623;
+  background: var(--color-gold);
   color: #0A0A0A;
   font-family: "DM Sans", system-ui, sans-serif;
   font-size: 12px;
@@ -215,7 +218,7 @@ h4 em {
   left: 0;
   width: 0;
   height: 2px;
-  background: #F5A623;
+  background: var(--color-gold);
   transition: width 0.28s var(--ease-out-expo);
 }
 

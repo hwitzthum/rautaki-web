@@ -2,7 +2,7 @@
 
 import type { RefObject } from "react";
 import Button from "./Button";
-import { RequiredAsterisk, inputClasses, useBookingSubmit } from "./booking-shared";
+import { RequiredAsterisk, inputClasses, useBookingSubmit } from "./BookingShared";
 
 interface BookingFormProps {
   firstInputRef?: RefObject<HTMLInputElement | null>;
