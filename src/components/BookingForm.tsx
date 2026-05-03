@@ -17,11 +17,11 @@ export default function BookingForm({ firstInputRef, onSuccess }: BookingFormPro
     return (
       <div className="py-12">
         <h3 className="font-serif text-h3 tracking-tight-h3 text-ink mb-4">
-          Booking received
+          Buchungsanfrage eingegangen
         </h3>
         <p className="font-ui text-body text-mid-grey">
-          Thank you for booking a consultation. We will confirm your session
-          within one business day.
+          Vielen Dank für Ihre Buchung. Wir bestätigen Ihre Sitzung innerhalb
+          eines Arbeitstags.
         </p>
       </div>
     );

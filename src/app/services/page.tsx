@@ -3,6 +3,7 @@ import Image from "next/image";
 import Button from "@/components/Button";
 import GoldRule from "@/components/GoldRule";
 import HeroLight from "@/components/HeroLight";
+import JsonLd from "@/components/JsonLd";
 import ScrollReveal from "@/components/ScrollReveal";
 import SectionLabel from "@/components/SectionLabel";
 import ServiceCard from "@/components/ServiceCard";
@@ -14,11 +15,27 @@ export const metadata: Metadata = {
     "Strategie, Beratung und Umsetzung für das KI-Zeitalter. Drei Leistungsbereiche für Führungsteams.",
 };
 
+const serviceSchemas = services.map((service) => ({
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: service.titlePlain,
+  description: service.longDesc,
+  url: `https://rautaki.ch/services#${service.slug}`,
+  provider: {
+    "@type": "Organization",
+    name: "Rautaki",
+    url: "https://rautaki.ch",
+  },
+  areaServed: { "@type": "Country", name: "Switzerland" },
+  serviceType: "AI Consulting",
+}));
+
 export default function ServicesPage() {
   const [firstService, secondService, thirdService] = services;
 
   return (
     <>
+      <JsonLd schema={serviceSchemas} />
       <HeroLight
         label="Unsere Leistungen"
         title={
@@ -145,7 +162,7 @@ export default function ServicesPage() {
             praxisnahen Weg zu messbarem Wert definieren.
           </p>
           <Button href="/booking" variant="gold" showArrow>
-            Book a consultation
+            Beratung reservieren
           </Button>
         </ScrollReveal>
       </section>
