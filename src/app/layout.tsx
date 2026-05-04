@@ -70,10 +70,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/@n8n/chat@1.9.3/dist/style.css"
-        />
         <JsonLd schema={organizationSchema} />
       </head>
       <body className={`${dmSans.variable} antialiased`}>

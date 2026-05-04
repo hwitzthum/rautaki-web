@@ -1,12 +1,49 @@
 import { withSentryConfig } from "@sentry/nextjs";
 import type { NextConfig } from "next";
 
+function buildCsp(): string {
+  // Derive the n8n chat webhook origin from the public env var so it can be
+  // included in connect-src without hard-coding a domain in the policy.
+  let n8nOrigin = "";
+  try {
+    const raw = process.env.NEXT_PUBLIC_N8N_CHAT_WEBHOOK_URL;
+    if (raw) n8nOrigin = new URL(raw).origin;
+  } catch {
+    // malformed URL — omit from CSP
+  }
+
+  const connectSrc = ["'self'", "*.ingest.de.sentry.io", "*.sentry.io", n8nOrigin]
+    .filter(Boolean)
+    .join(" ");
+
+  // Next.js App Router requires 'unsafe-inline' for its hydration scripts.
+  // 'unsafe-eval' is only needed during local development (HMR).
+  const scriptSrc =
+    process.env.NODE_ENV === "development"
+      ? "'self' 'unsafe-inline' 'unsafe-eval'"
+      : "'self' 'unsafe-inline'";
+
+  return [
+    "default-src 'self'",
+    `script-src ${scriptSrc}`,
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' data: images.unsplash.com",
+    "font-src 'self' data:",
+    `connect-src ${connectSrc}`,
+    "frame-src 'none'",
+    "frame-ancestors 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+  ].join("; ");
+}
+
 const nextConfig: NextConfig = {
   async headers() {
     return [
       {
         source: "/(.*)",
         headers: [
+          { key: "Content-Security-Policy", value: buildCsp() },
           { key: "X-Frame-Options", value: "DENY" },
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
