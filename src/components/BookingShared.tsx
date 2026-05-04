@@ -43,14 +43,11 @@ export function useBookingSubmit(errorMessage?: string) {
         body: JSON.stringify(payload),
       });
       if (!response.ok) {
-        throw new Error(`Request failed with status ${response.status}`);
+        throw new Error("Request failed");
       }
       setSubmitted(true);
     } catch {
-      setError(
-        errorMessage ??
-          "Something went wrong. Please try again or email us directly."
-      );
+      setError(errorMessage ?? "Something went wrong. Please try again or email us directly.");
     } finally {
       setSubmitting(false);
     }

@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect } from "react";
+import "@n8n/chat/dist/style.css";
 
-const WEBHOOK_URL =
-  process.env.NEXT_PUBLIC_N8N_CHAT_WEBHOOK_URL ??
-  "https://n8n-service-ayxj.onrender.com/webhook/3c7ae152-893a-4893-a8da-dac3b2c8db05/chat";
+const WEBHOOK_URL = process.env.NEXT_PUBLIC_N8N_CHAT_WEBHOOK_URL ?? "";
 
 declare global {
   interface Window {
@@ -14,7 +13,7 @@ declare global {
 
 export default function N8nChatWidget() {
   useEffect(() => {
-    if (window.__n8nChatInitialized) return;
+    if (!WEBHOOK_URL || window.__n8nChatInitialized) return;
 
     const initializeChat = async () => {
       try {
