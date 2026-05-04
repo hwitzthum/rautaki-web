@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import "@n8n/chat/dist/style.css";
+import "@/styles/n8n-chat.css";
 
 const WEBHOOK_URL = process.env.NEXT_PUBLIC_N8N_CHAT_WEBHOOK_URL ?? "";
 
