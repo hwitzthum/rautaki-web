@@ -1,12 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 
 // ── Rate limiting ──────────────────────────────────────────────────────────
-// Simple in-memory token bucket, best-effort in serverless (per-instance).
+// In-memory token bucket — best-effort in serverless (per-instance).
+// Entries are pruned on each request to prevent unbounded growth.
 const rateMap = new Map<string, { count: number; resetAt: number }>();
 const RATE_MAX = 5;
 const RATE_WINDOW_MS = 15 * 60 * 1000;
 
+function pruneRateMap(): void {
+  const now = Date.now();
+  for (const [key, entry] of rateMap) {
+    if (now > entry.resetAt) rateMap.delete(key);
+  }
+}
+
 function isRateLimited(ip: string): boolean {
+  pruneRateMap();
   const now = Date.now();
   const entry = rateMap.get(ip);
   if (!entry || now > entry.resetAt) {
@@ -16,6 +25,23 @@ function isRateLimited(ip: string): boolean {
   if (entry.count >= RATE_MAX) return true;
   entry.count++;
   return false;
+}
+
+// ── SSRF guard ─────────────────────────────────────────────────────────────
+// Private/loopback CIDR ranges that must never be the target of server-side requests.
+const PRIVATE_IP_RE =
+  /^(127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|::1$|fc00:|fd)/i;
+
+function isValidWebhookUrl(raw: string): boolean {
+  let parsed: URL;
+  try {
+    parsed = new URL(raw);
+  } catch {
+    return false;
+  }
+  if (parsed.protocol !== "https:") return false;
+  if (PRIVATE_IP_RE.test(parsed.hostname)) return false;
+  return true;
 }
 
 // ── Payload validation ─────────────────────────────────────────────────────
@@ -46,19 +72,31 @@ function isValidPayload(body: unknown): body is BookingPayload {
     typeof b.date === "string" &&
     b.date.length > 0 &&
     ISO_DATETIME_RE.test(b.date) &&
-    (b.company === undefined || (typeof b.company === "string" && b.company.length <= 200)) &&
-    (b.message === undefined || (typeof b.message === "string" && b.message.length <= 2000))
+    (b.company === undefined ||
+      (typeof b.company === "string" && b.company.length <= 200)) &&
+    (b.message === undefined ||
+      (typeof b.message === "string" && b.message.length <= 2000))
   );
 }
 
 // ── Handler ────────────────────────────────────────────────────────────────
 export async function POST(request: NextRequest) {
   const webhookUrl = process.env.N8N_BOOKING_WEBHOOK_URL;
-  if (!webhookUrl) {
-    return NextResponse.json({ error: "Booking service not configured" }, { status: 503 });
+  if (!webhookUrl || !isValidWebhookUrl(webhookUrl)) {
+    return NextResponse.json(
+      { error: "Booking service not configured" },
+      { status: 503 },
+    );
   }
 
-  const ip = (request.headers.get("x-forwarded-for") ?? "unknown").split(",")[0].trim();
+  // Prefer the real-client IP set by the edge proxy; fall back to x-forwarded-for.
+  const ip =
+    request.headers.get("cf-connecting-ip") ??
+    request.headers.get("x-real-ip") ??
+    (request.headers.get("x-forwarded-for") ?? "unknown")
+      .split(",")[0]
+      .trim();
+
   if (isRateLimited(ip)) {
     return NextResponse.json(
       { error: "Too many requests" },
@@ -92,10 +130,16 @@ export async function POST(request: NextRequest) {
     });
 
     if (!response.ok) {
-      return NextResponse.json({ error: "Booking service unavailable" }, { status: 502 });
+      return NextResponse.json(
+        { error: "Booking service unavailable" },
+        { status: 502 },
+      );
     }
   } catch {
-    return NextResponse.json({ error: "Booking service unavailable" }, { status: 502 });
+    return NextResponse.json(
+      { error: "Booking service unavailable" },
+      { status: 502 },
+    );
   }
 
   return NextResponse.json({ ok: true });
