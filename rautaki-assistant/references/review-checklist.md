@@ -152,6 +152,88 @@ Must include `@media (prefers-reduced-motion: reduce)` override.
 
 ---
 
+## Web / Tailwind Audit
+
+### Token Compliance
+- All colors must use Tailwind brand classes (`bg-gold`, `text-ink`, `bg-obsidian`, etc.)
+- Flag any raw hex values in `className` strings (e.g., `text-[#F5A623]`) — use the token class instead
+- Flag any inline `style={{ color: '...' }}` that should be a Tailwind class
+- Exceptions: ghost number opacity (`text-white/[0.03]`), fluid type (`clamp()`), and computed values are acceptable as arbitrary Tailwind values
+
+### Component Pattern Checks
+- ServiceCard grid: must use `gap-[2px]` (not `gap-2` or `gap-4`) — the "seam" aesthetic
+- ServiceCard body: must use `font-light` (300) and `text-white/[0.38]`
+- ServiceCard padding: `py-12 px-10` (48px × 40px, not uniform 48px)
+- Logo: gold spans on positions 5 (a) and 7 (i) only — no other letters
+- SectionLabel: must include gold/white line prefix (`w-7 h-px` span)
+- SectionLabel dark: must use `white/[0.18]` (not white/20) for both line and text
+- Buttons: must have `rounded-none` (zero border-radius)
+- Dark button hover: must be `bg-charcoal` (#111111), NOT `bg-ink` (#1C1C1C)
+- All serif headings: must combine `font-serif` + `text-hN` + `font-normal` (text-hN includes kerning)
+- Gold italic emphasis: `<em>` inside headings renders italic + gold via global CSS — max 1-2 words
+- Lead text (18px): must use Georgia (serif), NOT DM Sans — it is for first paragraphs only
+- Stat labels: must use `tracking-wide-mid` (0.18em), NOT `tracking-wide-label` (0.22em)
+- Navigation: dark backgrounds only — using nav on light requires explicit colour adaptation
+
+### Responsive Checks
+- All multi-column grids must collapse to single column below `lg` (1024px)
+- Hero heading must use fluid sizing (`text-fluid-hero` or responsive classes)
+- Watermark R and ghost card numbers: hidden below `lg` / `md`
+- Navigation: hamburger menu below `lg`
+- Section padding: `px-6 sm:px-10 lg:px-20` (not fixed `px-20` everywhere)
+- Touch targets: minimum 44x44px on mobile
+
+---
+
+## Accessibility Audit (Web)
+
+### Structure
+- [ ] Skip link present: `<a href="#main-content" className="skip-to-content">`
+- [ ] One `<h1>` per page, heading levels never skip (h1 → h2 → h3)
+- [ ] `<main id="main-content">` wraps page content
+
+### Focus & Keyboard
+- [ ] `:focus-visible` styles: 2px gold outline, 3px offset
+- [ ] `:focus:not(:focus-visible)` suppresses mouse focus outlines
+- [ ] Modal focus trapping: Tab cycle within modal, Escape closes, focus returns to trigger
+- [ ] All interactive elements reachable via Tab in logical order
+
+### ARIA
+- [ ] `aria-current="page"` on active nav link
+- [ ] `aria-label` on icon-only buttons (hamburger, close, logo link)
+- [ ] `aria-hidden="true"` on decorative elements (ghost numbers, watermark R, gold line spans, glow div)
+- [ ] `aria-expanded` on hamburger button reflecting menu state
+- [ ] Modal: `role="dialog"`, `aria-modal="true"`, `aria-labelledby`
+
+### Reduced Motion
+- [ ] `@media (prefers-reduced-motion: reduce)` override in global stylesheet
+- [ ] ScrollReveal checks `matchMedia` and sets `data-visible` immediately
+- [ ] AnimatedCounter checks `matchMedia` and shows target value without animation
+- [ ] Grain texture hidden in reduced motion
+
+### Forms
+- [ ] Inputs wrapped in explicit `<label>` elements
+- [ ] Required fields: `aria-required="true"`
+- [ ] Error messages: container with `role="alert"`
+- [ ] Placeholder supplements labels, never replaces them
+
+### Contrast
+- Gold `#F5A623` as foreground on body-size text (under 18px) → **critical violation**
+- `text-white/28` used for interactive or essential content → **critical violation** (~3:1 ratio)
+- Mid Grey `#9A9590` on cream for body text → verify context (acceptable for non-essential labels)
+- Any new color pairing not in approved list → **critical violation**
+
+---
+
+## Section Rhythm Check
+
+- Verify dark/light alternation pattern across the page
+- No consecutive same-background sections (e.g., two `bg-obsidian` sections in a row)
+- GoldRule (`<hr>`) used only at select transitions, not between every section
+- Each section uses standard wrapper: `px-6 sm:px-10 lg:px-20 py-20` with `max-w-content` inner container
+
+---
+
 ## Report Format
 
 ```markdown

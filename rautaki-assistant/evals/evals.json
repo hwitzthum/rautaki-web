@@ -9,14 +9,32 @@
     },
     {
       "id": 2,
-      "prompt": "Can you review the homepage code at src/app/page.tsx and check if it follows our Rautaki design system? I want a compliance report.",
+      "prompt": "Can you review this homepage code and check if it follows our Rautaki design system? I want a compliance report.",
       "expected_output": "A structured compliance report checking colors, typography kerning, border-radius, gold usage, spacing grid compliance, logo construction, and section label patterns against the Rautaki design system. Should reference specific lines and provide fixes.",
-      "files": ["src/app/page.tsx"]
+      "files": []
     },
     {
       "id": 3,
       "prompt": "Erstelle mir eine E-Mail-Vorlage für unseren monatlichen Newsletter. Thema diesen Monat: 'Warum Strategieberatung in unsicheren Zeiten wichtiger denn je ist'. Die E-Mail soll professionell aussehen und zum Blog-Artikel auf unserer Website verlinken.",
       "expected_output": "An HTML email template following Rautaki email spec: max 640px width, obsidian header with logo, gold gradient rule, white body with Georgia heading (gold italic emphasis on 1-2 words), DM Sans body text, gold CTA button, proper footer. All styles inline for email client compatibility.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Create a new page component for a team members page. It should follow the Rautaki inner-page pattern with HeroLight, alternating sections, and proper brand styling.",
+      "expected_output": "A React page component using HeroLight with SectionLabel, alternating bg-white/bg-cream/bg-obsidian sections following section rhythm, proper Tailwind brand classes (font-serif text-h2 font-normal, not text-h2 font-bold), ScrollReveal wrappers with staggered delays, gap-[2px] for card grids, gold accents following the one-gold-per-unit rule, responsive grid collapse below lg, standard section wrapper (px-6 sm:px-10 lg:px-20 py-20 with max-w-content).",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Review this Navigation component for accessibility compliance. Check contrast, focus management, ARIA attributes, and reduced motion support.",
+      "expected_output": "An accessibility audit checking: nav element has aria-label, active link has aria-current='page', hamburger button has aria-expanded + aria-controls, focus-visible styling applies (2px gold outline, 3px offset), nav-link-sweep hover respects reduced motion, text contrast of nav links on obsidian/95 backdrop is sufficient (white/60 on dark ≈7:1), mobile menu toggles aria-hidden, decorative elements are aria-hidden='true'. Report follows compliance report format with severity grouping.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "I need a new card component similar to ServiceCard but for team members. Dark background, a number, serif heading with gold accent, photo, and role description. Make sure it follows our existing patterns.",
+      "expected_output": "A React component using bg-charcoal (hover: bg-charcoal-hover), p-12, ghost number (text-[80px] font-serif text-white/[0.03] leading-none, aria-hidden='true'), font-serif text-h3 font-normal for name (not font-bold), gold italic emphasis on 1-2 words via <em>, gold left-border hover reveal (w-[3px] bg-gold, h-0 to h-full, duration-slow), rounded-none on everything, image with alt text, grid parent with gap-[2px], responsive collapse below lg, wrapped in ScrollReveal with staggered delay.",
       "files": []
     }
   ]

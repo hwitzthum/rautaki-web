@@ -32,15 +32,18 @@ const milestones = [
   { year: "2018", event: "Rautaki in Zürich gegründet" },
   {
     year: "2019",
-    event: "Erste Beratungsmandate für Führungsteams in Finanz- und Industrieunternehmen",
+    event:
+      "Erste Beratungsmandate für Führungsteams in Finanz- und Industrieunternehmen",
   },
   {
     year: "2021",
-    event: "Skalierung grenzüberschreitender Transformationsarbeit in der DACH-Region",
+    event:
+      "Skalierung grenzüberschreitender Transformationsarbeit in der DACH-Region",
   },
   {
     year: "2023",
-    event: "Aufbau einer dedizierten Praxis für KI-Strategie und Modell-Governance",
+    event:
+      "Aufbau einer dedizierten Praxis für KI-Strategie und Modell-Governance",
   },
   { year: "2025", event: "Ausweitung auf über 40 beratene Organisationen" },
 ];
@@ -48,7 +51,8 @@ const milestones = [
 function BrandRautaki() {
   return (
     <strong className="inline-flex items-baseline font-serif font-medium tracking-tight text-obsidian whitespace-nowrap">
-      Raut<span className="text-gold">a</span>k<span className="text-gold">i</span>
+      Raut<span className="text-gold">a</span>k
+      <span className="text-gold">i</span>
     </strong>
   );
 }
@@ -60,7 +64,8 @@ export default function AboutPage() {
         label="Über uns"
         title={
           <>
-            <BrandRautaki /> - Strategie für das Zeitalter der Künstlichen Intelligenz
+            <BrandRautaki /> - Strategie für das Zeitalter der Künstlichen
+            Intelligenz
           </>
         }
         descriptionClassName="max-w-[70ch] font-ui text-[1.05rem] md:text-[1.125rem] font-medium leading-[1.88] text-obsidian"
@@ -87,7 +92,8 @@ export default function AboutPage() {
               Umsetzung in Teams und Prozessen.
             </p>
             <p>
-              Der Name trägt dabei eine besondere Symbolik: Im Wort <BrandRautaki />
+              Der Name trägt dabei eine besondere Symbolik: Im Wort{" "}
+              <BrandRautaki />
               stecken die Buchstaben A und I - die Initialen von Artificial
               Intelligence.
             </p>
@@ -98,19 +104,33 @@ export default function AboutPage() {
               </p>
               <ul className="list-none space-y-3 pl-0">
                 <li className="flex items-start gap-3">
-                  <span className="mt-3 h-1.5 w-1.5 flex-none rounded-full bg-gold" aria-hidden="true" />
+                  <span
+                    className="mt-3 h-1.5 w-1.5 flex-none rounded-full bg-gold"
+                    aria-hidden="true"
+                  />
                   <span>Strategische KI-Beratung</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="mt-3 h-1.5 w-1.5 flex-none rounded-full bg-gold" aria-hidden="true" />
+                  <span
+                    className="mt-3 h-1.5 w-1.5 flex-none rounded-full bg-gold"
+                    aria-hidden="true"
+                  />
                   <span>Transformation von Organisationen</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="mt-3 h-1.5 w-1.5 flex-none rounded-full bg-gold" aria-hidden="true" />
-                  <span>Workshops und Trainings für Führungskräfte und Teams</span>
+                  <span
+                    className="mt-3 h-1.5 w-1.5 flex-none rounded-full bg-gold"
+                    aria-hidden="true"
+                  />
+                  <span>
+                    Workshops und Trainings für Führungskräfte und Teams
+                  </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="mt-3 h-1.5 w-1.5 flex-none rounded-full bg-gold" aria-hidden="true" />
+                  <span
+                    className="mt-3 h-1.5 w-1.5 flex-none rounded-full bg-gold"
+                    aria-hidden="true"
+                  />
                   <span>Praxisorientierte Umsetzung von KI-Anwendungen</span>
                 </li>
               </ul>
@@ -131,7 +151,7 @@ export default function AboutPage() {
         rightContent={
           <div className="relative h-[220px] overflow-hidden border border-ink/10">
             <Image
-              src="/images/about/founder-portrait.webp"
+              src="/images/about/witzthum_portrait.webp"
               alt="Founder portrait preview"
               fill
               className="object-cover"
@@ -146,7 +166,7 @@ export default function AboutPage() {
           <ScrollReveal>
             <div className="relative h-[400px] lg:h-[460px] bg-charcoal overflow-hidden">
               <Image
-                src="/images/about/founder-portrait.webp"
+                src="/images/about/witzthum_portrait.webp"
                 alt="Founder portrait"
                 fill
                 className="object-cover opacity-90"
@@ -185,12 +205,17 @@ export default function AboutPage() {
           </ScrollReveal>
 
           <div className="relative max-w-reading pl-8">
-            <div className="absolute left-3 top-1 bottom-1 w-px bg-gold/70" aria-hidden="true" />
+            <div
+              className="absolute left-3 top-1 bottom-1 w-px bg-gold/70"
+              aria-hidden="true"
+            />
             {milestones.map((milestone, index) => (
               <ScrollReveal key={milestone.year} delay={index * 90}>
                 <div className="relative pb-10 last:pb-0">
                   <span className="absolute -left-[21px] top-2 h-4 w-4 rounded-full border-2 border-gold bg-white" />
-                  <div className="font-serif text-h4 text-gold mb-1">{milestone.year}</div>
+                  <div className="font-serif text-h4 text-gold mb-1">
+                    {milestone.year}
+                  </div>
                   <p className="font-ui text-body text-ink/65 md:text-mid-grey font-light leading-body">
                     {milestone.event}
                   </p>
