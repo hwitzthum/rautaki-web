@@ -31,7 +31,7 @@ export default function ProjectCard({
             sizes="(max-width: 768px) 100vw, 50vw"
           />
           <div className="absolute inset-0 bg-gold/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-          <div className="absolute left-0 right-0 bottom-0 px-6 py-4 bg-obsidian/90 text-white font-ui text-xs uppercase tracking-wide-label translate-y-full transition-transform duration-300 group-hover:translate-y-0" aria-hidden="true">
+          <div className="absolute left-0 right-0 bottom-0 px-6 py-4 bg-obsidian/90 text-white font-ui text-xs uppercase tracking-wide-label translate-y-full transition-transform duration-300 group-hover:translate-y-0 group-focus-within:translate-y-0">
             View case study
           </div>
         </div>
