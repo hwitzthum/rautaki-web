@@ -43,6 +43,15 @@ export default function Navigation() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [pathname, menuOpen]);
 
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [menuOpen]);
+
   const headerSurface =
     scrolled || menuOpen
       ? "bg-obsidian/95 backdrop-blur-sm border-b border-white/10"
