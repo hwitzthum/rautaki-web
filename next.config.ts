@@ -56,6 +56,7 @@ const nextConfig: NextConfig = {
             value: "max-age=31536000; includeSubDomains; preload",
           },
           { key: "X-Permitted-Cross-Domain-Policies", value: "none" },
+          { key: "X-DNS-Prefetch-Control", value: "off" },
         ],
       },
     ];

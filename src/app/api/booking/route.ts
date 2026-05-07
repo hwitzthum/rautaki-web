@@ -79,8 +79,27 @@ function isValidPayload(body: unknown): body is BookingPayload {
   );
 }
 
+// ── CSRF guard ─────────────────────────────────────────────────────────────
+// Reject cross-origin requests by comparing the Origin header to the Host.
+// Absent Origin (e.g. direct server-to-server calls) is allowed through.
+function isValidOrigin(request: NextRequest): boolean {
+  const origin = request.headers.get("origin");
+  if (!origin) return true;
+  const host = request.headers.get("host");
+  if (!host) return false;
+  try {
+    return new URL(origin).host === host;
+  } catch {
+    return false;
+  }
+}
+
 // ── Handler ────────────────────────────────────────────────────────────────
 export async function POST(request: NextRequest) {
+  if (!isValidOrigin(request)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
   const webhookUrl = process.env.N8N_BOOKING_WEBHOOK_URL;
   if (!webhookUrl || !isValidWebhookUrl(webhookUrl)) {
     return NextResponse.json(
