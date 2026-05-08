@@ -28,9 +28,9 @@ function isRateLimited(ip: string): boolean {
 }
 
 // ── SSRF guard ─────────────────────────────────────────────────────────────
-// Private/loopback CIDR ranges that must never be the target of server-side requests.
+// Private/loopback/link-local ranges that must never be the target of server-side requests.
 const PRIVATE_IP_RE =
-  /^(127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|::1$|fc00:|fd)/i;
+  /^(localhost$|127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|169\.254\.|0\.|::1$|fc00:|fd[0-9a-f]{2}:|fe80:)/i;
 
 function isValidWebhookUrl(raw: string): boolean {
   let parsed: URL;
@@ -40,7 +40,8 @@ function isValidWebhookUrl(raw: string): boolean {
     return false;
   }
   if (parsed.protocol !== "https:") return false;
-  if (PRIVATE_IP_RE.test(parsed.hostname)) return false;
+  const host = parsed.hostname.replace(/^\[|\]$/g, ""); // strip IPv6 brackets
+  if (PRIVATE_IP_RE.test(host)) return false;
   return true;
 }
 

@@ -1,3 +1,4 @@
 Contact: mailto:security@rautaki.ch
 Expires: 2027-01-01T00:00:00.000Z
+Policy: https://rautaki.ch/.well-known/security.txt
 Preferred-Languages: de, en
