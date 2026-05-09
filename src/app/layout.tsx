@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
+import { headers } from "next/headers";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -62,24 +63,33 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headerList = await headers();
+  const isMaintenance = headerList.get("x-maintenance") === "true";
+
   return (
     <html lang="en">
-      <head>
-        <JsonLd schema={organizationSchema} />
-      </head>
+      <head>{!isMaintenance && <JsonLd schema={organizationSchema} />}</head>
       <body className={`${dmSans.variable} antialiased`}>
-        <a href="#main-content" className="skip-to-content">
-          Skip to content
-        </a>
-        <Navigation />
+        {!isMaintenance && (
+          <>
+            <a href="#main-content" className="skip-to-content">
+              Skip to content
+            </a>
+            <Navigation />
+          </>
+        )}
         <main id="main-content">{children}</main>
-        <Footer />
-        <N8nChatWidget />
+        {!isMaintenance && (
+          <>
+            <Footer />
+            <N8nChatWidget />
+          </>
+        )}
       </body>
     </html>
   );
