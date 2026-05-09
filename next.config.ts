@@ -30,6 +30,7 @@ function buildCsp(): string {
     "img-src 'self' data: images.unsplash.com",
     "font-src 'self' data:",
     `connect-src ${connectSrc}`,
+    "object-src 'none'",
     "frame-src 'none'",
     "frame-ancestors 'none'",
     "base-uri 'self'",
@@ -38,6 +39,7 @@ function buildCsp(): string {
 }
 
 const nextConfig: NextConfig = {
+  poweredByHeader: false,
   async headers() {
     return [
       {
