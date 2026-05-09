@@ -2,10 +2,10 @@ import Link from "next/link";
 import Logo from "./Logo";
 
 const navLinks = [
-  { href: "/services", label: "Services" },
+  { href: "/services", label: "Leistungen" },
   { href: "/lab", label: "Lab" },
-  { href: "/about", label: "About" },
-  { href: "/booking", label: "Booking" },
+  { href: "/about", label: "Über uns" },
+  { href: "/booking", label: "Buchung" },
 ];
 
 export default function Footer() {
@@ -16,14 +16,14 @@ export default function Footer() {
           <div>
             <Logo size="sm" variant="dark" />
             <p className="mt-4 max-w-[280px] font-ui text-sm text-white/60">
-              AI strategy and leadership advisory for organisations navigating
-              rapid change.
+              Wir helfen Führungsteams, KI-Ambition in messbare Wirkung zu
+              verwandeln.
             </p>
           </div>
 
           <div>
             <h3 className="font-ui text-xs uppercase tracking-wide-label text-white/45 mb-4">
-              Navigate
+              Navigation
             </h3>
             <ul className="space-y-3 font-ui text-sm text-white/70">
               {navLinks.map((link) => (
@@ -41,13 +41,13 @@ export default function Footer() {
 
           <div>
             <h3 className="font-ui text-xs uppercase tracking-wide-label text-white/45 mb-4">
-              Connect
+              Kontakt
             </h3>
             <ul className="space-y-3 font-ui text-sm text-white/70">
               <li>
                 <a
                   href="mailto:hello@rautaki.ch"
-                  className="no-underline hover:text-gold transition-colors"
+                  className="underline decoration-gold/40 underline-offset-4 hover:text-gold hover:decoration-gold transition-colors"
                 >
                   hello@rautaki.ch
                 </a>
@@ -74,19 +74,19 @@ export default function Footer() {
         </div>
 
         <div className="mt-14 pt-6 border-t border-white/10 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between font-ui text-xs uppercase tracking-wide-footer text-white/45">
-          <div>© {new Date().getFullYear()} Rautaki. All rights reserved.</div>
+          <div>© {new Date().getFullYear()} Rautaki. Alle Rechte vorbehalten.</div>
           <div className="flex gap-6">
             <Link
               href="/privacy"
               className="no-underline hover:text-gold transition-colors"
             >
-              Privacy
+              Datenschutz
             </Link>
             <Link
               href="/imprint"
               className="no-underline hover:text-gold transition-colors"
             >
-              Imprint
+              Impressum
             </Link>
           </div>
         </div>

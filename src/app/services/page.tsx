@@ -84,13 +84,13 @@ export default function ServicesPage() {
         <section
           key={service.id}
           id={service.slug}
-          className={`${sectionBg[index]} px-6 sm:px-10 lg:px-20 py-24`}
+          className={`${sectionBg[index]} px-6 sm:px-10 lg:px-20 py-16 border-b border-ink/[0.07]`}
         >
           <div className="mx-auto max-w-content">
 
             {/* Header row: text + image */}
             <ScrollReveal>
-              <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-12 lg:gap-16 items-start mb-14">
+              <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-12 lg:gap-16 items-start mb-10">
                 <div>
                   <SectionLabel text={service.titlePlain} />
                   <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">

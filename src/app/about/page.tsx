@@ -141,14 +141,25 @@ export default function AboutPage() {
           </div>
         }
         rightContent={
-          <div className="relative h-[220px] overflow-hidden border border-ink/10">
-            <Image
-              src="/images/about/witzthum_portrait.webp"
-              alt="Founder portrait preview"
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 320px"
-            />
+          <div className="flex flex-col gap-0">
+            <div className="relative h-[420px] overflow-hidden">
+              <Image
+                src="/images/about/witzthum_portrait.webp"
+                alt="Harry Witzthum, Gründer von Rautaki"
+                fill
+                className="object-cover object-top"
+                sizes="(max-width: 1024px) 100vw, 380px"
+                priority
+              />
+            </div>
+            <div className="border border-t-0 border-ink/10 px-5 py-4 bg-white/60">
+              <p className="font-ui text-xs uppercase tracking-wide-label text-mid-grey">
+                Harry Witzthum
+              </p>
+              <p className="font-serif italic text-[0.9rem] text-ink/60 leading-snug mt-0.5">
+                Gründer, Rautaki
+              </p>
+            </div>
           </div>
         }
       />

@@ -27,10 +27,40 @@ const stats = [
   },
 ];
 
+const credentials = [
+  "Universität Zürich",
+  "Institut für Kommunikation und Führung ikf",
+  "Hepatitis Schweiz",
+  "Age Stiftung",
+  "Astara Switzerland",
+  "VMI Universität Fribourg",
+  "Glaux Group",
+  "SPAS",
+];
+
 export default function Home() {
   return (
     <>
       <HeroWithBooking />
+
+      {/* ── Referenzen-Streifen ─────────────────────────── */}
+      <div className="bg-charcoal border-b border-white/5 overflow-hidden py-5">
+        <ScrollReveal>
+          <p className="text-center font-ui text-xs uppercase tracking-wide-label text-white/20 mb-4">
+            Referenzen aus Lehre &amp; Beratung
+          </p>
+          <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 px-6 sm:px-10 lg:px-20 max-w-content mx-auto">
+            {credentials.map((name) => (
+              <span
+                key={name}
+                className="font-ui text-xs text-white/30 whitespace-nowrap"
+              >
+                {name}
+              </span>
+            ))}
+          </div>
+        </ScrollReveal>
+      </div>
 
       <ServiceCards />
 
@@ -56,9 +86,12 @@ export default function Home() {
 
       <GoldRule />
 
-      <section className="bg-obsidian grain px-6 sm:px-10 lg:px-20 py-25">
+      <section className="bg-obsidian grain px-6 sm:px-10 lg:px-20 py-28">
         <ScrollReveal className="mx-auto max-w-content text-center">
-          <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-white mb-4">
+          <div className="flex justify-center">
+            <SectionLabel text="Nächster Schritt" variant="dark" />
+          </div>
+          <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-white mb-4 mt-10">
             Ist Ihre Organisation bereit für <em>KI</em>?
           </h2>
           <p className="font-ui text-body font-light leading-body text-white/45 mb-10 max-w-reading mx-auto">

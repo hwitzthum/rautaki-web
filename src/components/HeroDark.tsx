@@ -34,7 +34,7 @@ export default function HeroDark({ onBookingClick }: HeroDarkProps) {
             "radial-gradient(circle, var(--color-gold-glow) 0%, transparent 70%)",
           top: "-200px",
           left: "-140px",
-          animation: "glow-drift 600ms ease-in-out infinite",
+          animation: "glow-drift 12s ease-in-out infinite",
         }}
         aria-hidden="true"
       />
@@ -85,6 +85,7 @@ export default function HeroDark({ onBookingClick }: HeroDarkProps) {
           R
         </div>
 
+        {/* Gold CTA card */}
         <div
           className="bg-gold p-9 md:p-10 mb-8 relative"
           style={{

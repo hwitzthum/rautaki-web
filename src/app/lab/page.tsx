@@ -73,17 +73,27 @@ export default function LabPage() {
             ))}
           </div>
 
+          {/* Coming soon card */}
           <ScrollReveal delay={tools.length * 90}>
-            <p className="mt-16 max-w-reading font-ui text-sm font-light leading-body text-mid-grey">
-              Weitere Werkzeuge folgen. Hast du eine Idee oder einen
-              Anwendungsfall, der hier reinpassen würde?{" "}
-              <a
-                href="/booking"
-                className="text-ink underline decoration-gold/40 underline-offset-4 hover:decoration-gold"
-              >
-                Sag uns Bescheid.
-              </a>
-            </p>
+            <div className="mt-[2px] bg-cream border border-dashed border-ink/15 p-10 lg:p-14">
+              <div className="font-ui text-xs uppercase tracking-wide-label text-mid-grey mb-4">
+                Demnächst
+              </div>
+              <h2 className="font-serif text-h3 tracking-tight-h3 font-normal leading-heading text-ink/40 mb-3">
+                Weitere Werkzeuge in Entwicklung
+              </h2>
+              <p className="font-ui text-sm font-light leading-body text-mid-grey max-w-reading">
+                Governance-Checklisten, Prompt-Bibliotheken und
+                interaktive KI-Readiness-Assessments. Hast du eine Idee oder
+                einen konkreten Anwendungsfall?{" "}
+                <a
+                  href="/booking"
+                  className="text-ink underline decoration-gold/40 underline-offset-4 hover:decoration-gold"
+                >
+                  Sag uns Bescheid.
+                </a>
+              </p>
+            </div>
           </ScrollReveal>
         </div>
       </section>

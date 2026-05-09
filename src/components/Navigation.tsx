@@ -6,11 +6,11 @@ import { useEffect, useRef, useState } from "react";
 import Logo from "./Logo";
 
 const navItems = [
-  { href: "/", label: "Home" },
-  { href: "/services", label: "Services" },
+  { href: "/", label: "Start" },
+  { href: "/services", label: "Leistungen" },
   { href: "/lab", label: "Lab" },
-  { href: "/about", label: "About" },
-  { href: "/booking", label: "Booking" },
+  { href: "/about", label: "Über uns" },
+  { href: "/booking", label: "Buchung" },
 ];
 
 export default function Navigation() {
@@ -69,7 +69,7 @@ export default function Navigation() {
         </div>
 
         <nav
-          aria-label="Main navigation"
+          aria-label="Hauptnavigation"
           className="hidden lg:flex items-center gap-9 font-ui text-xs uppercase tracking-wide-nav"
         >
           {navItems.map((item) => {
@@ -92,7 +92,7 @@ export default function Navigation() {
         <button
           className="lg:hidden text-white p-2"
           onClick={() => setMenuOpen((prev) => !prev)}
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-label={menuOpen ? "Menü schliessen" : "Menü öffnen"}
           aria-expanded={menuOpen}
           aria-controls="mobile-nav"
         >
@@ -115,7 +115,7 @@ export default function Navigation() {
 
       <nav
         id="mobile-nav"
-        aria-label="Mobile navigation"
+        aria-label="Mobile Navigation"
         aria-hidden={!menuOpen}
         className={`lg:hidden overflow-hidden border-t border-white/10 transition-[max-height,visibility] duration-300 ${
           menuOpen ? "max-h-80 visible" : "max-h-0 invisible"
