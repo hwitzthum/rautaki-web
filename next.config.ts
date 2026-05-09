@@ -12,16 +12,25 @@ function buildCsp(): string {
     // malformed URL — omit from CSP
   }
 
-  const connectSrc = ["'self'", "*.ingest.de.sentry.io", "*.sentry.io", n8nOrigin]
+  const connectSrc = [
+    "'self'",
+    "*.ingest.de.sentry.io",
+    "*.sentry.io",
+    // Cal.com API calls (availability, booking confirmation)
+    "https://cal.com",
+    "https://app.cal.com",
+    n8nOrigin,
+  ]
     .filter(Boolean)
     .join(" ");
 
   // Next.js App Router requires 'unsafe-inline' for its hydration scripts.
   // 'unsafe-eval' is only needed during local development (HMR).
+  // Cal.com's embed script is loaded from app.cal.com.
   const scriptSrc =
     process.env.NODE_ENV === "development"
-      ? "'self' 'unsafe-inline' 'unsafe-eval'"
-      : "'self' 'unsafe-inline'";
+      ? "'self' 'unsafe-inline' 'unsafe-eval' https://app.cal.com"
+      : "'self' 'unsafe-inline' https://app.cal.com";
 
   return [
     "default-src 'self'",
@@ -31,7 +40,8 @@ function buildCsp(): string {
     "font-src 'self' data:",
     `connect-src ${connectSrc}`,
     "object-src 'none'",
-    "frame-src 'none'",
+    // Cal.com renders its booking UI inside an iframe from app.cal.com
+    "frame-src https://cal.com https://app.cal.com",
     "frame-ancestors 'none'",
     "base-uri 'self'",
     "form-action 'self'",

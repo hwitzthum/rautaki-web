@@ -30,12 +30,14 @@ const serviceSchemas = services.map((service) => ({
   serviceType: "AI Consulting",
 }));
 
-export default function ServicesPage() {
-  const [firstService, secondService, thirdService] = services;
+const sectionBg = ["bg-white", "bg-cream", "bg-white"] as const;
 
+export default function ServicesPage() {
   return (
     <>
       <JsonLd schema={serviceSchemas} />
+
+      {/* ── Hero ──────────────────────────────────────────── */}
       <HeroLight
         label="Unsere Leistungen"
         title={
@@ -58,6 +60,7 @@ export default function ServicesPage() {
         }
       />
 
+      {/* ── Service overview cards ─────────────────────────── */}
       <section className="bg-obsidian px-6 sm:px-10 lg:px-20 py-20">
         <div className="mx-auto max-w-content">
           <SectionLabel text="Was wir tun" variant="dark" />
@@ -76,82 +79,69 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section id={firstService.slug} className="bg-white px-6 sm:px-10 lg:px-20 py-24">
-        <ScrollReveal className="mx-auto max-w-content grid grid-cols-1 lg:grid-cols-[1.4fr_0.6fr] gap-10 items-start">
-          <div>
-            <SectionLabel text={firstService.titlePlain} />
-            <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
-              Definieren Sie, wo KI Wettbewerbsvorteile schafft
-            </h2>
-            <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey max-w-reading">
-              {firstService.longDesc}
-            </p>
-          </div>
+      {/* ── Individual service sections ────────────────────── */}
+      {services.map((service, index) => (
+        <section
+          key={service.id}
+          id={service.slug}
+          className={`${sectionBg[index]} px-6 sm:px-10 lg:px-20 py-24`}
+        >
+          <div className="mx-auto max-w-content">
 
-          <div className="relative h-[440px] lg:h-[520px] overflow-hidden">
-            <Image
-              src={firstService.image}
-              alt={firstService.titlePlain}
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 35vw"
-            />
-          </div>
-        </ScrollReveal>
-      </section>
+            {/* Header row: text + image */}
+            <ScrollReveal>
+              <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-12 lg:gap-16 items-start mb-14">
+                <div>
+                  <SectionLabel text={service.titlePlain} />
+                  <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
+                    {service.detailHeading}
+                  </h2>
+                  <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey mb-8 max-w-reading">
+                    {service.longDesc}
+                  </p>
+                  <p className="font-serif italic text-[1.0625rem] leading-[1.6] text-ink border-l-2 border-gold pl-5">
+                    {service.forWhom}
+                  </p>
+                </div>
 
-      <section id={secondService.slug} className="bg-cream px-6 sm:px-10 lg:px-20 py-24">
-        <ScrollReveal className="mx-auto max-w-content grid grid-cols-1 lg:grid-cols-[0.6fr_1.4fr] gap-10 items-center">
-          <div className="relative h-[340px] lg:h-[420px] overflow-hidden lg:order-1">
-            <Image
-              src={secondService.image}
-              alt={secondService.titlePlain}
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 40vw"
-            />
-          </div>
+                <div className="relative h-[280px] lg:h-[360px] overflow-hidden">
+                  <Image
+                    src={service.image}
+                    alt={service.titlePlain}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 40vw"
+                  />
+                </div>
+              </div>
+            </ScrollReveal>
 
-          <div className="lg:order-2">
-            <SectionLabel text={secondService.titlePlain} />
-            <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
-              Treffen Sie KI-Entscheide mit hoher Tragweite mit Sicherheit
-            </h2>
-            <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey max-w-reading">
-              {secondService.longDesc}
-            </p>
-          </div>
-        </ScrollReveal>
-      </section>
+            {/* Process steps */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-x-10 gap-y-8 pt-10 border-t border-ink/10">
+              {service.steps.map((step, i) => (
+                <ScrollReveal key={step.title} delay={i * 80}>
+                  <div className="border-l-2 border-gold pl-5">
+                    <div className="font-ui text-xs font-medium uppercase tracking-wide-label text-mid-grey mb-3">
+                      {String(i + 1).padStart(2, "0")}
+                    </div>
+                    <h3 className="font-serif text-h4 text-ink font-normal mb-2 leading-snug">
+                      {step.title}
+                    </h3>
+                    <p className="font-ui text-sm font-light leading-body text-mid-grey">
+                      {step.body}
+                    </p>
+                  </div>
+                </ScrollReveal>
+              ))}
+            </div>
 
-      <section id={thirdService.slug} className="bg-white px-6 sm:px-10 lg:px-20 pt-24 pb-28 overflow-hidden">
-        <div className="mx-auto max-w-content">
-          <ScrollReveal>
-            <SectionLabel text={thirdService.titlePlain} />
-            <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6 max-w-reading">
-              Machen Sie aus Strategie KI-Fähigkeit mit operativer Geschwindigkeit
-            </h2>
-            <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey max-w-reading">
-              {thirdService.longDesc}
-            </p>
-          </ScrollReveal>
-        </div>
-
-        <ScrollReveal className="mt-14">
-          <div className="relative h-[360px] md:h-[460px] lg:h-[560px] -mx-6 sm:-mx-10 lg:-mx-20">
-            <Image
-              src={thirdService.image}
-              alt={thirdService.titlePlain}
-              fill
-              className="object-cover"
-              sizes="100vw"
-            />
           </div>
-        </ScrollReveal>
-      </section>
+        </section>
+      ))}
 
       <GoldRule />
 
+      {/* ── CTA ───────────────────────────────────────────── */}
       <section className="bg-obsidian grain px-6 sm:px-10 lg:px-20 py-32">
         <ScrollReveal className="mx-auto max-w-content text-center">
           <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-white mb-4">

@@ -7,9 +7,24 @@ import ScrollReveal from "@/components/ScrollReveal";
 import HeroWithBooking from "@/components/BookingTrigger";
 
 const stats = [
-  { value: 12, suffix: "+", label: "Jahre Erfahrung in KI und Strategie" },
-  { value: 40, suffix: "+", label: "Organisationen beim KI-Wandel begleitet" },
-  { value: 3, suffix: "x", label: "Durchschnittliche Beschleunigung vom Piloten zur Skalierung" },
+  {
+    value: 78,
+    suffix: "%",
+    label: "der Unternehmen setzen KI bereits in mindestens einer Funktion ein",
+    source: "McKinsey State of AI, 2025",
+  },
+  {
+    value: 95,
+    suffix: "%",
+    label: "der KI-Pilotprojekte scheitern vor dem Produktivbetrieb",
+    source: "MIT GenAI Enterprise Report, 2025",
+  },
+  {
+    value: 2,
+    suffix: "×",
+    label: "schnelleres Umsatzwachstum für KI-Vorreiter gegenüber Nachzüglern",
+    source: "BCG The Widening AI Value Gap, 2025",
+  },
 ];
 
 export default function Home() {
@@ -22,14 +37,16 @@ export default function Home() {
       <section className="bg-cream px-6 sm:px-10 lg:px-20 py-25">
         <div className="mx-auto max-w-content grid grid-cols-1 lg:grid-cols-hero-light gap-20 items-center">
           <ScrollReveal>
-            <SectionLabel text="Wirkung" />
+            <SectionLabel text="KI-Wirkung" />
             <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
-              Messbare Ergebnisse für Führungsteams unter KI-Druck.
+              Das Potenzial ist real. Die Lücke zur{" "}
+              <em className="italic text-gold">Wirkung</em> auch.
             </h2>
             <p className="font-ui text-body font-light leading-body text-ink/45 md:text-mid-grey max-w-narrow">
-              Wir arbeiten mit Führungsteams zusammen, um Strategie, Governance
-              und Umsetzung so aufeinander abzustimmen, dass KI-Initiativen
-              dauerhaften Geschäftswert schaffen.
+              78 Prozent der Unternehmen setzen KI bereits ein — doch nur
+              6 Prozent erzielen damit messbare Geschäftsergebnisse. Die Lücke
+              zwischen Aktivität und Wirkung ist die zentrale strategische
+              Herausforderung unserer Zeit.
             </p>
           </ScrollReveal>
 

@@ -7,6 +7,7 @@ interface Stat {
   value: number;
   suffix?: string;
   label: string;
+  source?: string;
 }
 
 interface StatBlockProps {
@@ -28,6 +29,11 @@ export default function StatBlock({ stats }: StatBlockProps) {
             <div className="mt-1 font-ui text-xs font-medium uppercase tracking-wide-mid text-mid-grey">
               {stat.label}
             </div>
+            {stat.source && (
+              <div className="mt-1 font-ui text-[10px] font-light leading-snug text-ink/30 not-italic">
+                {stat.source}
+              </div>
+            )}
           </div>
         </ScrollReveal>
       ))}

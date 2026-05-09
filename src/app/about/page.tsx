@@ -28,25 +28,6 @@ const values = [
   },
 ];
 
-const milestones = [
-  { year: "2018", event: "Rautaki in Zürich gegründet" },
-  {
-    year: "2019",
-    event:
-      "Erste Beratungsmandate für Führungsteams in Finanz- und Industrieunternehmen",
-  },
-  {
-    year: "2021",
-    event:
-      "Skalierung grenzüberschreitender Transformationsarbeit in der DACH-Region",
-  },
-  {
-    year: "2023",
-    event:
-      "Aufbau einer dedizierten Praxis für KI-Strategie und Modell-Governance",
-  },
-  { year: "2025", event: "Ausweitung auf über 40 beratene Organisationen" },
-];
 
 const workshopClients = [
   "Hepatitis Schweiz",
@@ -157,110 +138,6 @@ export default function AboutPage() {
               </p>
             </section>
 
-            <section className="space-y-4">
-              <h2 className="font-serif text-h3 tracking-tight-h3 leading-heading text-ink font-normal">
-                Vielfalt der Perspektiven – <em>im Kern</em> unserer Arbeit
-              </h2>
-              <p>
-                Eine gute KI-Strategie entsteht nie aus einem einzigen
-                Blickwinkel.
-              </p>
-              <p>
-                Sie braucht Technik{" "}
-                <span className="font-serif italic text-ink">und</span>{" "}
-                Fachwissen. Führung{" "}
-                <span className="font-serif italic text-ink">und</span>{" "}
-                Mitarbeitende. Ökonomie{" "}
-                <span className="font-serif italic text-ink">und</span> Ethik.
-                Wer KI nur durch die Linse der Technologie betrachtet, übersieht
-                ihren menschlichen Kontext. Wer nur über Risiken spricht,
-                verschenkt ihre Möglichkeiten. Wer nur den Business Case sieht,
-                vergisst die Menschen, die sie tragen müssen.
-              </p>
-              <p>
-                Die besten Strategien entstehen dort, wo verschiedene Stimmen
-                aufeinandertreffen – und wo zugehört wird, bevor entschieden
-                wird. Das ist kein methodischer Zusatz. Das ist der Kern.
-              </p>
-            </section>
-
-            <section className="space-y-5">
-              <h2 className="font-serif text-h3 tracking-tight-h3 leading-heading text-ink font-normal">
-                Was wir tun
-              </h2>
-              <p>
-                Rautaki begleitet Organisationen dabei, KI sinnvoll,
-                verantwortungsvoll und wirkungsvoll einzusetzen – von der ersten
-                Einordnung über strategische Entscheidungen bis zur konkreten
-                Umsetzung in Teams und Prozessen.
-              </p>
-              <ul className="list-none space-y-3 pl-0 pt-1">
-                <li className="flex items-start gap-3">
-                  <span
-                    className="mt-[0.7em] h-1.5 w-1.5 flex-none rounded-full bg-gold"
-                    aria-hidden="true"
-                  />
-                  <span>
-                    <span className="font-medium text-ink">
-                      Strategische KI-Beratung
-                    </span>{" "}
-                    — Klarheit schaffen, bevor investiert wird.
-                  </span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span
-                    className="mt-[0.7em] h-1.5 w-1.5 flex-none rounded-full bg-gold"
-                    aria-hidden="true"
-                  />
-                  <span>
-                    <span className="font-medium text-ink">
-                      Transformation von Organisationen
-                    </span>{" "}
-                    — KI in Strukturen, Prozessen und Kultur verankern.
-                  </span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span
-                    className="mt-[0.7em] h-1.5 w-1.5 flex-none rounded-full bg-gold"
-                    aria-hidden="true"
-                  />
-                  <span>
-                    <span className="font-medium text-ink">
-                      Workshops und Trainings
-                    </span>{" "}
-                    — Führungskräfte und Teams befähigen.
-                  </span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span
-                    className="mt-[0.7em] h-1.5 w-1.5 flex-none rounded-full bg-gold"
-                    aria-hidden="true"
-                  />
-                  <span>
-                    <span className="font-medium text-ink">
-                      Praxisorientierte Umsetzung
-                    </span>{" "}
-                    — Anwendungen, die im Alltag tragen.
-                  </span>
-                </li>
-              </ul>
-            </section>
-
-            <section className="space-y-4">
-              <h2 className="font-serif text-h3 tracking-tight-h3 leading-heading text-ink font-normal">
-                Unser Ansatz
-              </h2>
-              <p>Nicht jede Organisation braucht mehr Technologie.</p>
-              <p>
-                Aber jede Organisation, die KI einsetzen will, braucht eine
-                klare Strategie für deren Einsatz – mit Respekt vor der
-                Komplexität, mit Offenheit für unterschiedliche Stimmen, und mit
-                einem klaren Blick auf das, was wirklich Wert schafft.
-              </p>
-              <p className="font-serif italic text-[1.25rem] leading-[1.5] text-ink pt-2">
-                Dabei helfen wir Ihnen.
-              </p>
-            </section>
           </div>
         }
         rightContent={
@@ -276,6 +153,127 @@ export default function AboutPage() {
         }
       />
 
+      {/* ── Perspektiven ──────────────────────────────────── */}
+      <section className="bg-cream px-6 sm:px-10 lg:px-20 py-24">
+        <div className="mx-auto max-w-content">
+          <ScrollReveal>
+            <SectionLabel text="Perspektive" />
+            <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-12">
+              Vielfalt der Perspektiven —{" "}
+              <em>im Kern</em> unserer Arbeit
+            </h2>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-16 gap-y-6">
+            <ScrollReveal>
+              <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey mb-4">
+                Eine gute KI-Strategie entsteht nie aus einem einzigen
+                Blickwinkel. Sie braucht Technik{" "}
+                <span className="font-serif italic text-ink">und</span>{" "}
+                Fachwissen. Führung{" "}
+                <span className="font-serif italic text-ink">und</span>{" "}
+                Mitarbeitende. Ökonomie{" "}
+                <span className="font-serif italic text-ink">und</span> Ethik.
+              </p>
+              <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey">
+                Wer KI nur durch die Linse der Technologie betrachtet, übersieht
+                ihren menschlichen Kontext. Wer nur über Risiken spricht,
+                verschenkt ihre Möglichkeiten. Wer nur den Business Case sieht,
+                vergisst die Menschen, die sie tragen müssen.
+              </p>
+            </ScrollReveal>
+
+            <ScrollReveal delay={100}>
+              <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey mb-4">
+                Die besten Strategien entstehen dort, wo verschiedene Stimmen
+                aufeinandertreffen — und wo zugehört wird, bevor entschieden
+                wird.
+              </p>
+              <p className="font-serif italic text-[1.125rem] leading-[1.6] text-ink border-l-2 border-gold pl-5">
+                Das ist kein methodischer Zusatz. Das ist der Kern.
+              </p>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Was wir tun ───────────────────────────────────── */}
+      <section className="bg-obsidian grain px-6 sm:px-10 lg:px-20 py-24">
+        <div className="mx-auto max-w-content">
+          <ScrollReveal>
+            <SectionLabel text="Leistungen" variant="dark" />
+            <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-white mb-12">
+              Was wir tun
+            </h2>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-[2px]">
+            {[
+              {
+                title: "Strategische KI-Beratung",
+                body: "Klarheit schaffen, bevor investiert wird — von der ersten Einordnung bis zur fundierten Entscheidungsgrundlage.",
+              },
+              {
+                title: "Transformation von Organisationen",
+                body: "KI in Strukturen, Prozessen und Kultur verankern, damit Veränderung wirklich trägt.",
+              },
+              {
+                title: "Workshops und Trainings",
+                body: "Führungskräfte und Teams befähigen, KI verantwortungsvoll und wirkungsvoll einzusetzen.",
+              },
+              {
+                title: "Praxisorientierte Umsetzung",
+                body: "Anwendungen entwickeln und begleiten, die im Alltag von Organisationen bestehen.",
+              },
+            ].map((item, index) => (
+              <ScrollReveal key={item.title} delay={index * 80}>
+                <article className="bg-charcoal p-10 border-t-2 border-gold/75 h-full">
+                  <h3 className="font-serif text-h3 tracking-tight-h3 text-white font-normal mb-3">
+                    {item.title}
+                  </h3>
+                  <p className="font-ui text-sm leading-body text-white/55 font-light">
+                    {item.body}
+                  </p>
+                </article>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Unser Ansatz ──────────────────────────────────── */}
+      <section className="bg-white px-6 sm:px-10 lg:px-20 py-24">
+        <div className="mx-auto max-w-content">
+          <ScrollReveal>
+            <SectionLabel text="Ansatz" />
+            <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-12">
+              Unser Ansatz
+            </h2>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-16 gap-y-8 items-center">
+            <ScrollReveal>
+              <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey mb-4">
+                Nicht jede Organisation braucht mehr Technologie.
+              </p>
+              <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey">
+                Aber jede Organisation, die KI einsetzen will, braucht eine
+                klare Strategie für deren Einsatz — mit Respekt vor der
+                Komplexität, mit Offenheit für unterschiedliche Stimmen, und mit
+                einem klaren Blick auf das, was wirklich Wert schafft.
+              </p>
+            </ScrollReveal>
+
+            <ScrollReveal delay={100}>
+              <p className="font-serif italic text-[1.375rem] leading-[1.55] text-ink border-l-2 border-gold pl-6">
+                Dabei helfen wir Ihnen.
+              </p>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Gründung ──────────────────────────────────────── */}
       <section className="bg-cream px-6 sm:px-10 lg:px-20 py-24">
         <div className="mx-auto max-w-content grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <ScrollReveal>
@@ -382,37 +380,6 @@ export default function AboutPage() {
                 ))}
               </ul>
             </ScrollReveal>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-white px-6 sm:px-10 lg:px-20 py-24">
-        <div className="mx-auto max-w-content">
-          <ScrollReveal>
-            <SectionLabel text="Meilensteine" />
-            <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-12">
-              Wie sich die Praxis entwickelt hat
-            </h2>
-          </ScrollReveal>
-
-          <div className="relative max-w-reading pl-8">
-            <div
-              className="absolute left-3 top-1 bottom-1 w-px bg-gold/70"
-              aria-hidden="true"
-            />
-            {milestones.map((milestone, index) => (
-              <ScrollReveal key={milestone.year} delay={index * 90}>
-                <div className="relative pb-10 last:pb-0">
-                  <span className="absolute -left-[21px] top-2 h-4 w-4 rounded-full border-2 border-gold bg-white" />
-                  <div className="font-serif text-h4 text-gold mb-1">
-                    {milestone.year}
-                  </div>
-                  <p className="font-ui text-body text-ink/65 md:text-mid-grey font-light leading-body">
-                    {milestone.event}
-                  </p>
-                </div>
-              </ScrollReveal>
-            ))}
           </div>
         </div>
       </section>
