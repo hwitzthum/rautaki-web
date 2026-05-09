@@ -1,0 +1,1695 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EU AI Act Compliance Checker · Rautaki Lab</title>
+    <link
+      rel="preload"
+      href="/lab/vendor/fonts/dm-sans-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <style>
+      /* =================================================================
+     FONTS — DM Sans (self-hosted, OFL 1.1)
+     ================================================================= */
+      @font-face {
+        font-family: "DM Sans";
+        font-style: normal;
+        font-weight: 100 1000;
+        font-display: swap;
+        src: url("/lab/vendor/fonts/dm-sans-latin.woff2") format("woff2");
+        unicode-range:
+          U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+          U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+          U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      @font-face {
+        font-family: "DM Sans";
+        font-style: normal;
+        font-weight: 100 1000;
+        font-display: swap;
+        src: url("/lab/vendor/fonts/dm-sans-latin-ext.woff2") format("woff2");
+        unicode-range:
+          U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+          U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF,
+          U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+      }
+
+      /* =================================================================
+     RAUTAKI DESIGN SYSTEM
+     ================================================================= */
+      :root {
+        --gold: #f5a623;
+        --gold-light: #ffd07a;
+        --gold-dim: rgba(245, 166, 35, 0.15);
+        --gold-glow: rgba(245, 166, 35, 0.08);
+        --obsidian: #0a0a0a;
+        --ink: #1c1c1c;
+        --charcoal: #111111;
+        --charcoal-hover: #161616;
+        --cream: #f4f2ee;
+        --white: #fafafa;
+        --warm-grey: #e8e5df;
+        --mid-grey: #9a9590;
+        --error: #c53030;
+
+        --alpha-body-dark: rgba(255, 255, 255, 0.45);
+        --alpha-nav-dark: rgba(255, 255, 255, 0.28);
+        --alpha-footer-dark: rgba(255, 255, 255, 0.2);
+        --alpha-label-dark: rgba(255, 255, 255, 0.18);
+        --alpha-divider-dark: rgba(255, 255, 255, 0.05);
+        --alpha-muted-light: rgba(28, 28, 28, 0.45);
+        --alpha-hair-light: rgba(28, 28, 28, 0.1);
+        --alpha-divider-light: rgba(28, 28, 28, 0.07);
+        --alpha-card-border: rgba(28, 28, 28, 0.06);
+
+        /* Tier colours */
+        --tier-unacceptable: #9b1c1c;
+        --tier-high: #c2410c;
+        --tier-limited: #92400e;
+        --tier-minimal: #166534;
+      }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+
+      body {
+        font-family: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 1.75;
+        color: var(--ink);
+        background: var(--cream);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      h1, h2, h3, h4 {
+        font-family: Georgia, "Times New Roman", serif;
+        font-weight: 400;
+        color: inherit;
+      }
+      h1 { font-size: clamp(40px, 7vw, 68px); letter-spacing: -0.04em; line-height: 1; }
+      h2 { font-size: 36px; letter-spacing: -0.02em; line-height: 1.15; }
+      h3 { font-size: 26px; letter-spacing: -0.015em; line-height: 1.15; }
+      h4 { font-size: 20px; letter-spacing: -0.01em; line-height: 1.25; }
+
+      .lead {
+        font-family: Georgia, serif;
+        font-size: 18px;
+        line-height: 1.75;
+        font-weight: 400;
+      }
+
+      em.gold { font-style: italic; color: var(--gold); }
+
+      .section-label {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 11px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 40px;
+        color: var(--ink);
+      }
+      .section-label::before {
+        content: "";
+        display: block;
+        width: 28px;
+        height: 1px;
+        background: var(--gold);
+        flex-shrink: 0;
+      }
+      .section-label.on-dark { color: var(--alpha-label-dark); }
+      .section-label.on-dark::before { background: var(--alpha-label-dark); }
+
+      .section { padding: 80px 40px; }
+      .section.large { padding: 100px 40px; }
+      .section.dark { background: var(--obsidian); color: var(--white); }
+      .container { max-width: 1080px; margin: 0 auto; }
+      .reading { max-width: 720px; }
+
+      .gold-rule {
+        height: 3px;
+        background: linear-gradient(to right, var(--gold), transparent);
+        border: none;
+        margin: 0;
+      }
+      .hair-rule { height: 1px; background: var(--alpha-hair-light); border: none; margin: 24px 0; }
+      .hair-rule.on-dark { background: var(--alpha-divider-dark); }
+
+      /* Header */
+      header {
+        background: var(--obsidian);
+        color: var(--white);
+        padding: 32px 40px;
+        border-bottom: 1px solid var(--alpha-divider-dark);
+      }
+      .header-inner {
+        max-width: 1080px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      .logo {
+        font-family: Georgia, serif;
+        font-weight: 400;
+        font-size: 24px;
+        letter-spacing: -0.01em;
+        color: var(--white);
+        text-decoration: none;
+      }
+      a.logo:hover { opacity: 0.85; }
+      .logo .gold-letter { color: var(--gold); }
+      .header-meta {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--alpha-label-dark);
+      }
+
+      /* Hero */
+      .hero {
+        background: var(--obsidian);
+        color: var(--white);
+        padding: 120px 40px 100px;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero::before {
+        content: "";
+        position: absolute;
+        width: 700px;
+        height: 700px;
+        background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
+        top: -150px;
+        left: -100px;
+        pointer-events: none;
+      }
+      .hero-inner {
+        max-width: 1080px;
+        margin: 0 auto;
+        position: relative;
+      }
+      .hero h1 { color: var(--white); margin-bottom: 32px; max-width: 880px; }
+      .hero .lead { color: var(--alpha-body-dark); max-width: 640px; }
+
+      /* Risk tier overview grid */
+      .tier-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2px;
+        margin-top: 48px;
+        background: var(--alpha-hair-light);
+      }
+      .tier-item {
+        background: var(--white);
+        padding: 28px 24px;
+        border-left: 3px solid transparent;
+        transition: border-color 200ms;
+      }
+      .tier-item:hover { border-left-color: var(--gold); }
+      .tier-dot {
+        width: 10px;
+        height: 10px;
+        margin-bottom: 12px;
+      }
+      .tier-dot.unacceptable { background: var(--tier-unacceptable); }
+      .tier-dot.high { background: var(--tier-high); }
+      .tier-dot.limited { background: var(--tier-limited); }
+      .tier-dot.minimal { background: var(--tier-minimal); }
+      .tier-item-label {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 13px;
+        color: var(--ink);
+        line-height: 1.4;
+        margin-bottom: 4px;
+      }
+      .tier-item-sub {
+        font-size: 12px;
+        color: var(--alpha-muted-light);
+        line-height: 1.4;
+      }
+
+      /* Steps */
+      .steps { list-style: none; counter-reset: step; margin-top: 32px; }
+      .steps li {
+        counter-increment: step;
+        padding: 24px 0 24px 72px;
+        border-bottom: 1px solid var(--alpha-hair-light);
+        position: relative;
+      }
+      .steps li:last-child { border-bottom: none; }
+      .steps li::before {
+        content: counter(step, decimal-leading-zero);
+        position: absolute;
+        left: 0;
+        top: 24px;
+        font-family: Georgia, serif;
+        font-size: 28px;
+        color: var(--gold);
+        letter-spacing: -0.02em;
+        width: 56px;
+      }
+      .steps h4 { margin-bottom: 8px; }
+
+      /* Hints */
+      .hint-block {
+        padding: 32px 40px;
+        background: var(--warm-grey);
+        border-left: 3px solid var(--gold);
+        margin: 24px 0;
+      }
+      .hint-block.dark { background: var(--charcoal); color: var(--white); }
+      .hint-block .label {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 11px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 12px;
+        display: block;
+      }
+      .hint-block p + p { margin-top: 12px; }
+
+      /* Forms */
+      .field-group { display: grid; gap: 24px; margin-top: 32px; }
+      .field-group.two-col { grid-template-columns: 1fr 1fr; }
+      .field { display: flex; flex-direction: column; }
+      .field-label {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--ink);
+        margin-bottom: 8px;
+      }
+      .field-help {
+        font-size: 13px;
+        color: var(--alpha-muted-light);
+        margin-bottom: 12px;
+        line-height: 1.6;
+      }
+      .field input,
+      .field select,
+      .field textarea {
+        font-family: "DM Sans", sans-serif;
+        font-size: 15px;
+        line-height: 1.6;
+        color: var(--ink);
+        background: var(--white);
+        border: 1px solid var(--alpha-card-border);
+        padding: 14px 16px;
+        border-radius: 0;
+        width: 100%;
+        transition: border-color 200ms;
+        -webkit-appearance: none;
+        appearance: none;
+      }
+      .field select {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%231C1C1C' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 16px center;
+        padding-right: 40px;
+        cursor: pointer;
+      }
+      .field input:focus,
+      .field select:focus,
+      .field textarea:focus {
+        outline: 2px solid var(--gold);
+        outline-offset: 3px;
+        border-color: var(--gold);
+      }
+      .field textarea { resize: vertical; min-height: 100px; }
+
+      /* Radio groups */
+      .radio-group { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+      .radio-option {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        cursor: pointer;
+        padding: 12px 16px;
+        background: var(--white);
+        border: 1px solid var(--alpha-card-border);
+        transition: border-color 200ms, background 200ms;
+      }
+      .radio-option:hover { border-color: var(--gold); }
+      .radio-option input[type="radio"] {
+        width: 18px;
+        height: 18px;
+        min-width: 18px;
+        margin-top: 2px;
+        accent-color: var(--gold);
+        cursor: pointer;
+      }
+      .radio-option-body { flex: 1; }
+      .radio-option-label {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        color: var(--ink);
+        line-height: 1.4;
+      }
+      .radio-option-sub {
+        font-size: 12px;
+        color: var(--alpha-muted-light);
+        line-height: 1.5;
+        margin-top: 2px;
+      }
+      .radio-option.selected {
+        border-color: var(--gold);
+        background: rgba(245, 166, 35, 0.04);
+      }
+
+      /* Conditional field */
+      .conditional-field {
+        display: none;
+        padding: 20px 0 0 30px;
+        border-left: 2px solid var(--gold-dim);
+        margin-top: 8px;
+      }
+      .conditional-field.visible { display: block; }
+
+      /* Buttons */
+      .btn {
+        display: inline-block;
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 12px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        padding: 14px 28px;
+        border: 1px solid var(--gold);
+        background: transparent;
+        color: var(--gold);
+        cursor: pointer;
+        transition: background 200ms, color 200ms;
+        border-radius: 0;
+      }
+      .btn:hover { background: var(--gold); color: var(--obsidian); }
+      .btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+      .btn.solid { background: var(--gold); color: rgba(0, 0, 0, 0.65); }
+      .btn.solid:hover { background: var(--gold-light); color: var(--obsidian); }
+      .btn.compact { padding: 10px 18px; font-size: 11px; }
+      .btn.on-light { border-color: var(--ink); color: var(--ink); }
+      .btn.on-light:hover { background: var(--ink); color: var(--cream); }
+      .btn:disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+
+      .btn-group { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+
+      /* Step badges */
+      .step-badge { display: inline-flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+      .step-badge-num {
+        font-family: Georgia, serif;
+        font-size: 48px;
+        color: var(--gold);
+        line-height: 1;
+        letter-spacing: -0.02em;
+      }
+      .step-badge-label {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 11px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--alpha-muted-light);
+      }
+
+      /* ---------------------------------------------------------------
+       RESULT SECTION
+       --------------------------------------------------------------- */
+      .result-section {
+        background: var(--obsidian);
+        color: var(--white);
+        display: none;
+      }
+      .result-section.visible { display: block; }
+
+      /* Risk meter */
+      .risk-meter-wrap {
+        margin: 40px 0 48px;
+        position: relative;
+      }
+      .risk-meter-labels {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+      .risk-meter-label {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 10px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--alpha-nav-dark);
+        text-align: center;
+        flex: 1;
+      }
+      .risk-meter-label.active { color: var(--gold); }
+      .risk-meter-bar {
+        height: 8px;
+        display: flex;
+        gap: 3px;
+        position: relative;
+        margin-bottom: 12px;
+      }
+      .risk-meter-seg {
+        flex: 1;
+        border-radius: 0;
+        opacity: 0.25;
+        transition: opacity 300ms;
+      }
+      .risk-meter-seg.active { opacity: 1; }
+      .risk-meter-seg.minimal { background: #22c55e; }
+      .risk-meter-seg.limited { background: #f59e0b; }
+      .risk-meter-seg.high { background: #f97316; }
+      .risk-meter-seg.unacceptable { background: #ef4444; }
+
+      /* Tier badge */
+      .tier-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 24px;
+        margin-bottom: 32px;
+        border-left: 4px solid;
+      }
+      .tier-badge.minimal { border-color: #22c55e; background: rgba(34,197,94,0.06); }
+      .tier-badge.limited { border-color: #f59e0b; background: rgba(245,158,11,0.06); }
+      .tier-badge.high { border-color: #f97316; background: rgba(249,115,22,0.06); }
+      .tier-badge.unacceptable { border-color: #ef4444; background: rgba(239,68,68,0.06); }
+
+      .tier-badge-icon { font-size: 22px; line-height: 1; }
+      .tier-badge-body {}
+      .tier-badge-title {
+        font-family: Georgia, serif;
+        font-size: 22px;
+        color: var(--white);
+        margin-bottom: 2px;
+      }
+      .tier-badge-sub {
+        font-family: "DM Sans", sans-serif;
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--alpha-nav-dark);
+      }
+
+      /* Result card */
+      .result-card {
+        background: var(--charcoal);
+        border-left: 3px solid var(--gold);
+        padding: 40px 40px;
+        margin-top: 32px;
+      }
+      .result-card-title {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 11px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 20px;
+      }
+
+      /* Checklist */
+      .checklist { list-style: none; margin-top: 8px; }
+      .checklist li {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 14px 0;
+        border-bottom: 1px solid var(--alpha-divider-dark);
+      }
+      .checklist li:last-child { border-bottom: none; }
+      .checklist-cb {
+        width: 18px;
+        height: 18px;
+        min-width: 18px;
+        margin-top: 2px;
+        accent-color: var(--gold);
+        cursor: pointer;
+      }
+      .checklist-text {
+        font-family: "DM Sans", sans-serif;
+        font-size: 14px;
+        line-height: 1.6;
+        color: var(--alpha-body-dark);
+        cursor: pointer;
+        user-select: none;
+      }
+      .checklist li.done .checklist-text {
+        text-decoration: line-through;
+        opacity: 0.5;
+      }
+      .checklist-tag {
+        font-family: "DM Sans", sans-serif;
+        font-size: 10px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        padding: 2px 8px;
+        border-radius: 0;
+        white-space: nowrap;
+        margin-left: auto;
+        min-width: 0;
+        flex-shrink: 0;
+        align-self: flex-start;
+        margin-top: 3px;
+      }
+      .tag-mandatory { background: rgba(239,68,68,0.15); color: #fca5a5; }
+      .tag-recommended { background: rgba(245,158,11,0.15); color: #fcd34d; }
+      .tag-best-practice { background: rgba(34,197,94,0.1); color: #86efac; }
+
+      /* Progress bar for checklist */
+      .checklist-progress {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid var(--alpha-divider-dark);
+      }
+      .checklist-progress-bar-wrap {
+        height: 4px;
+        background: var(--alpha-divider-dark);
+        margin-top: 8px;
+      }
+      .checklist-progress-bar {
+        height: 100%;
+        background: var(--gold);
+        transition: width 300ms;
+        width: 0%;
+      }
+      .checklist-progress-label {
+        font-family: "DM Sans", sans-serif;
+        font-size: 11px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--alpha-nav-dark);
+      }
+
+      /* Swiss context note */
+      .swiss-note {
+        background: var(--charcoal-hover);
+        border-left: 3px solid var(--alpha-divider-dark);
+        padding: 24px 28px;
+        margin-top: 32px;
+      }
+      .swiss-note .label {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 10px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--alpha-nav-dark);
+        margin-bottom: 10px;
+        display: block;
+      }
+      .swiss-note p {
+        font-size: 13px;
+        color: var(--alpha-body-dark);
+        line-height: 1.65;
+      }
+
+      /* Download bar */
+      .download-bar {
+        background: var(--gold);
+        color: rgba(0, 0, 0, 0.65);
+        padding: 60px 40px;
+        text-align: center;
+      }
+      .download-bar h3 { color: rgba(0, 0, 0, 0.65); margin-bottom: 16px; }
+      .download-bar p {
+        color: rgba(0, 0, 0, 0.55);
+        margin-bottom: 28px;
+        max-width: 520px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .download-bar .btn {
+        border-color: rgba(0, 0, 0, 0.65);
+        color: rgba(0, 0, 0, 0.65);
+        background: transparent;
+      }
+      .download-bar .btn:hover {
+        background: rgba(0, 0, 0, 0.65);
+        color: var(--gold);
+      }
+
+      /* CTA section */
+      .cta-section {
+        background: var(--charcoal);
+        padding: 80px 40px;
+        border-top: 1px solid var(--alpha-divider-dark);
+      }
+      .cta-section h3 { color: var(--white); margin-bottom: 16px; }
+      .cta-section p { color: var(--alpha-body-dark); margin-bottom: 32px; max-width: 560px; }
+
+      /* Footer */
+      footer {
+        background: var(--obsidian);
+        color: var(--alpha-footer-dark);
+        padding: 60px 40px 40px;
+      }
+      footer .footer-inner { max-width: 1080px; margin: 0 auto; }
+      footer .gold-rule { margin-bottom: 32px; }
+      footer .footer-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 24px;
+        flex-wrap: wrap;
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 11px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+
+      /* Validation */
+      .field.error input,
+      .field.error select,
+      .field.error textarea { border-color: var(--error); }
+      .field-error-msg {
+        font-size: 12px;
+        color: var(--error);
+        margin-top: 6px;
+        display: none;
+      }
+      .field.error .field-error-msg { display: block; }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .section { padding: 60px 24px; }
+        .hero { padding: 80px 24px 60px; }
+        header { padding: 24px 24px; }
+        .field-group.two-col { grid-template-columns: 1fr; }
+        .download-bar { padding: 48px 24px; }
+        .result-card { padding: 28px 24px; }
+        .tier-grid { grid-template-columns: 1fr 1fr; }
+        .cta-section { padding: 60px 24px; }
+        footer { padding: 48px 24px 32px; }
+      }
+      @media (max-width: 480px) {
+        .tier-grid { grid-template-columns: 1fr; }
+      }
+
+      /* Print */
+      @media print {
+        header, .form-section, .download-bar, .cta-section, footer { display: none !important; }
+        .result-section { display: block !important; background: white !important; color: black !important; }
+        .result-card { background: #f4f2ee !important; border-color: #f5a623 !important; }
+        .tier-badge { border-width: 3px; }
+        .checklist-text { color: #1c1c1c !important; }
+        .swiss-note { background: #e8e5df !important; }
+      }
+
+      /* Reduced motion */
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          transition-duration: 0ms !important;
+          animation-duration: 0ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- HEADER -->
+    <header>
+      <div class="header-inner">
+        <a href="/lab" class="logo" aria-label="Zurück zum Rautaki Lab">
+          Raut<span class="gold-letter">a</span>k<span class="gold-letter">i</span>
+        </a>
+        <span class="header-meta">Rautaki Lab · EU AI Act Compliance Checker</span>
+      </div>
+    </header>
+
+    <hr class="gold-rule" />
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-inner">
+        <div class="section-label on-dark">Regulatorisches Werkzeug</div>
+        <h1>EU AI Act <em class="gold">Compliance</em> Checker.</h1>
+        <p class="lead" style="margin-top:32px;">
+          Beantworte 12 Fragen zu deinem KI-System. Du erhältst eine sofortige Risikoklassifizierung nach EU AI Act — mit einer massgeschneiderten Massnahmenliste, die du abhaken und als Bericht herunterladen kannst.
+        </p>
+
+        <!-- Tier overview -->
+        <div class="tier-grid">
+          <div class="tier-item">
+            <div class="tier-dot minimal"></div>
+            <div class="tier-item-label">Minimales Risiko</div>
+            <div class="tier-item-sub">Keine spezifischen Pflichten — freiwillige Verhaltenskodizes empfohlen</div>
+          </div>
+          <div class="tier-item">
+            <div class="tier-dot limited"></div>
+            <div class="tier-item-label">Begrenztes Risiko</div>
+            <div class="tier-item-sub">Transparenzpflichten: Nutzer müssen über KI-Interaktion informiert werden</div>
+          </div>
+          <div class="tier-item">
+            <div class="tier-dot high"></div>
+            <div class="tier-item-label">Hohes Risiko</div>
+            <div class="tier-item-sub">Vollständige Konformitätsprüfung, CE-Kennzeichnung und laufende Überwachung</div>
+          </div>
+          <div class="tier-item">
+            <div class="tier-dot unacceptable"></div>
+            <div class="tier-item-label">Unzulässig</div>
+            <div class="tier-item-sub">Verboten nach Art. 5 EU AI Act — sofortige Einstellung erforderlich</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FORM SECTIONS -->
+    <section class="section large form-section" style="background: var(--cream);">
+      <div class="container">
+        <div class="section-label">Schritt 01 von 04</div>
+        <div class="step-badge">
+          <span class="step-badge-num">01</span>
+          <span class="step-badge-label">System &amp; Sektor</span>
+        </div>
+        <h2>Beschreibe dein KI-System.</h2>
+        <p class="lead reading" style="margin-top:16px; color: var(--alpha-muted-light);">
+          Gib einen kurzen Überblick über das System und den Einsatzbereich. Diese Angaben erscheinen später in deinem Bericht.
+        </p>
+
+        <div class="field-group two-col" style="margin-top:40px;">
+          <div class="field" id="f-name">
+            <label class="field-label" for="sys-name">Name des Systems</label>
+            <p class="field-help">Interner oder öffentlicher Produktname</p>
+            <input type="text" id="sys-name" placeholder="z. B. HR-Screening-Tool, Kreditscoring-Engine" />
+            <span class="field-error-msg">Pflichtfeld</span>
+          </div>
+          <div class="field" id="f-sektor">
+            <label class="field-label" for="sys-sektor">Einsatzbereich / Sektor</label>
+            <p class="field-help">Wähle den primären Anwendungskontext</p>
+            <select id="sys-sektor">
+              <option value="">— Bitte wählen —</option>
+              <option value="justiz">Justiz &amp; Strafverfolgung</option>
+              <option value="migration">Migration &amp; Grenzkontrollen</option>
+              <option value="kritische-infrastruktur">Kritische Infrastruktur (Energie, Wasser, Verkehr)</option>
+              <option value="gesundheit">Gesundheit &amp; Medizinprodukte</option>
+              <option value="bildung">Bildung &amp; Berufsausbildung</option>
+              <option value="beschaeftigung">Beschäftigung &amp; Personalwesen</option>
+              <option value="finanzen">Finanzdienstleistungen &amp; Versicherungen</option>
+              <option value="oeffentliche-dienste">Öffentliche Dienste &amp; Leistungsverwaltung</option>
+              <option value="soziale-medien">Soziale Medien &amp; Empfehlungssysteme</option>
+              <option value="produktion">Produktion &amp; Qualitätssicherung</option>
+              <option value="marketing">Marketing &amp; Vertrieb</option>
+              <option value="sonstige">Sonstige</option>
+            </select>
+            <span class="field-error-msg">Bitte Sektor wählen</span>
+          </div>
+        </div>
+
+        <div class="field-group" style="margin-top:24px;">
+          <div class="field">
+            <label class="field-label" for="sys-desc">Kurzbeschreibung des Systems</label>
+            <p class="field-help">Was tut das System, wer nutzt es, und welche Daten verarbeitet es?</p>
+            <textarea id="sys-desc" rows="3" placeholder="z. B. Automatisiertes Screening von Bewerbungsunterlagen auf Basis von CV-Daten. Wird von HR-Teams genutzt, um Kandidaten vorzuselektieren."></textarea>
+          </div>
+        </div>
+
+        <div class="field-group" style="margin-top:24px;">
+          <div class="field" id="f-markt">
+            <label class="field-label" for="sys-markt">Zielmarkt / Geltungsbereich</label>
+            <p class="field-help">Wo wird das System eingesetzt oder vermarktet?</p>
+            <select id="sys-markt">
+              <option value="">— Bitte wählen —</option>
+              <option value="eu">EU / EWR</option>
+              <option value="schweiz">Schweiz (ohne EU-Marktaktivität)</option>
+              <option value="eu-ch">EU / EWR + Schweiz</option>
+              <option value="weltweit">Weltweit (inkl. EU)</option>
+            </select>
+            <span class="field-error-msg">Bitte Markt wählen</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="gold-rule" />
+
+    <section class="section large form-section" style="background: var(--white);">
+      <div class="container">
+        <div class="section-label">Schritt 02 von 04</div>
+        <div class="step-badge">
+          <span class="step-badge-num">02</span>
+          <span class="step-badge-label">Entscheidungen &amp; Daten</span>
+        </div>
+        <h2>Wie entscheidet das System?</h2>
+        <p class="lead reading" style="margin-top:16px; color: var(--alpha-muted-light);">
+          Die Entscheidungsautonomie und die Schwere möglicher Folgen sind zentrale Faktoren für die Risikoklassifizierung.
+        </p>
+
+        <div class="field-group" style="margin-top:40px;">
+          <div class="field" id="f-auto">
+            <label class="field-label">Automatisierte Entscheidungen</label>
+            <p class="field-help">Trifft das System Entscheidungen oder Empfehlungen, die direkte Auswirkungen auf natürliche Personen haben — ohne zwingend menschliche Prüfung im Einzelfall?</p>
+            <div class="radio-group" id="rg-auto">
+              <label class="radio-option" onclick="selectRadio(this,'auto','ja')">
+                <input type="radio" name="auto" value="ja" />
+                <div class="radio-option-body">
+                  <div class="radio-option-label">Ja</div>
+                  <div class="radio-option-sub">Das System entscheidet oder empfiehlt autonom (z. B. Ablehnung, Zuweisung, Score)</div>
+                </div>
+              </label>
+              <label class="radio-option" onclick="selectRadio(this,'auto','nein')">
+                <input type="radio" name="auto" value="nein" />
+                <div class="radio-option-body">
+                  <div class="radio-option-label">Nein</div>
+                  <div class="radio-option-sub">Das System unterstützt nur (Analyse, Visualisierung, interne Prozesse)</div>
+                </div>
+              </label>
+            </div>
+            <span class="field-error-msg" id="e-auto" style="display:none;">Bitte auswählen</span>
+          </div>
+
+          <div class="field" id="f-auswirkung">
+            <label class="field-label">Schwere möglicher Auswirkungen</label>
+            <p class="field-help">Wie gravierend können die Konsequenzen einer Fehlentscheidung des Systems für betroffene Personen sein?</p>
+            <div class="radio-group" id="rg-auswirkung">
+              <label class="radio-option" onclick="selectRadio(this,'auswirkung','gering')">
+                <input type="radio" name="auswirkung" value="gering" />
+                <div class="radio-option-body">
+                  <div class="radio-option-label">Gering</div>
+                  <div class="radio-option-sub">Keine wesentlichen Folgen für Grundrechte oder materielle Interessen</div>
+                </div>
+              </label>
+              <label class="radio-option" onclick="selectRadio(this,'auswirkung','mittel')">
+                <input type="radio" name="auswirkung" value="mittel" />
+                <div class="radio-option-body">
+                  <div class="radio-option-label">Mittel</div>
+                  <div class="radio-option-sub">Mögliche Benachteiligungen (z. B. im Bewerbungsprozess, Kreditwürdigkeit)</div>
+                </div>
+              </label>
+              <label class="radio-option" onclick="selectRadio(this,'auswirkung','erheblich')">
+                <input type="radio" name="auswirkung" value="erheblich" />
+                <div class="radio-option-body">
+                  <div class="radio-option-label">Erheblich</div>
+                  <div class="radio-option-sub">Wesentliche Beeinträchtigung von Grundrechten, Gesundheit oder Freiheit</div>
+                </div>
+              </label>
+              <label class="radio-option" onclick="selectRadio(this,'auswirkung','kritisch')">
+                <input type="radio" name="auswirkung" value="kritisch" />
+                <div class="radio-option-body">
+                  <div class="radio-option-label">Kritisch</div>
+                  <div class="radio-option-sub">Unmittelbare Gefährdung von Leben, Freiheitsentzug oder irreversible Schäden</div>
+                </div>
+              </label>
+            </div>
+            <span class="field-error-msg" id="e-auswirkung" style="display:none;">Bitte auswählen</span>
+          </div>
+
+          <div class="field" id="f-biometrik">
+            <label class="field-label">Biometrische Verarbeitung</label>
+            <p class="field-help">Verarbeitet das System biometrische Daten (Gesichtserkennung, Fingerabdrücke, Stimme, Ganganalyse, Emotionserkennung etc.)?</p>
+            <div class="radio-group" id="rg-biometrik">
+              <label class="radio-option" onclick="selectRadio(this,'biometrik','ja'); toggleConditional('bio-rt-wrap','ja')">
+                <input type="radio" name="biometrik" value="ja" />
+                <div class="radio-option-body">
+                  <div class="radio-option-label">Ja</div>
+                  <div class="radio-option-sub">Das System nutzt biometrische Daten zur Identifizierung oder Analyse von Personen</div>
+                </div>
+              </label>
+              <label class="radio-option" onclick="selectRadio(this,'biometrik','nein'); toggleConditional('bio-rt-wrap','nein')">
+                <input type="radio" name="biometrik" value="nein" />
+                <div class="radio-option-body">
+                  <div class="radio-option-label">Nein</div>
+                  <div class="radio-option-sub">Keine biometrischen Daten im Einsatz</div>
+                </div>
+              </label>
+            </div>
+            <div class="conditional-field" id="bio-rt-wrap">
+              <div class="field" id="f-bio-rt">
+                <label class="field-label">Echtzeit-Biometrie im öffentlichen Raum</label>
+                <p class="field-help">Erfolgt die biometrische Identifikation in Echtzeit an öffentlich zugänglichen Orten?</p>
+                <div class="radio-group" id="rg-bio-rt">
+                  <label class="radio-option" onclick="selectRadio(this,'bio-rt','ja')">
+                    <input type="radio" name="bio-rt" value="ja" />
+                    <div class="radio-option-body">
+                      <div class="radio-option-label">Ja — Echtzeit, öffentlicher Raum</div>
+                    </div>
+                  </label>
+                  <label class="radio-option" onclick="selectRadio(this,'bio-rt','nein')">
+                    <input type="radio" name="bio-rt" value="nein" />
+                    <div class="radio-option-body">
+                      <div class="radio-option-label">Nein — offline / kontrollierter Zugang</div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <span class="field-error-msg" id="e-biometrik" style="display:none;">Bitte auswählen</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="gold-rule" />
+
+    <section class="section large form-section" style="background: var(--cream);">
+      <div class="container">
+        <div class="section-label">Schritt 03 von 04</div>
+        <div class="step-badge">
+          <span class="step-badge-num">03</span>
+          <span class="step-badge-label">Nutzerinteraktion &amp; Aufsicht</span>
+        </div>
+        <h2>Wie interagieren Nutzer mit dem System?</h2>
+        <p class="lead reading" style="margin-top:16px; color: var(--alpha-muted-light);">
+          Transparenzpflichten greifen bei direkter Nutzerinteraktion. Menschliche Aufsicht beeinflusst die Risikoklasse.
+        </p>
+
+        <div class="field-group" style="margin-top:40px;">
+          <div class="field" id="f-chatbot">
+            <label class="field-label">Chatbot / Konversations-KI</label>
+            <p class="field-help">Kommuniziert das System direkt mit natürlichen Personen in natürlicher Sprache (Text oder Sprache)?</p>
+            <div class="radio-group" id="rg-chatbot">
+              <label class="radio-option" onclick="selectRadio(this,'chatbot','ja')">
+                <input type="radio" name="chatbot" value="ja" />
+                <div class="radio-option-body">
+                  <div class="radio-option-label">Ja</div>
+                  <div class="radio-option-sub">Das System führt Gespräche mit Nutzern (Chatbot, Voicebot, virtueller Assistent)</div>
+                </div>
+              </label>
+              <label class="radio-option" onclick="selectRadio(this,'chatbot','nein')">
+                <input type="radio" name="chatbot" value="nein" />
+                <div class="radio-option-body">
+                  <div class="radio-option-label">Nein</div>
+                </div>
+              </label>
+            </div>
+            <span class="field-error-msg" id="e-chatbot" style="display:none;">Bitte auswählen</span>
+          </div>
+
+          <div class="field" id="f-generiert">
+            <label class="field-label">Generierung von Inhalten</label>
+            <p class="field-help">Erstellt das System Texte, Bilder, Audio oder Video, die als von Menschen produziert wahrgenommen werden könnten (Deepfakes, synthetische Medien, generierter Content)?</p>
+            <div class="radio-group" id="rg-generiert">
+              <label class="radio-option" onclick="selectRadio(this,'generiert','ja')">
+                <input type="radio" name="generiert" value="ja" />
+                <div class="radio-option-body">
+                  <div class="radio-option-label">Ja</div>
+                  <div class="radio-option-sub">Das System generiert synthetische Inhalte (Text, Bild, Audio, Video)</div>
+                </div>
+              </label>
+              <label class="radio-option" onclick="selectRadio(this,'generiert','nein')">
+                <input type="radio" name="generiert" value="nein" />
+                <div class="radio-option-body">
+                  <div class="radio-option-label">Nein</div>
+                </div>
+              </label>
+            </div>
+            <span class="field-error-msg" id="e-generiert" style="display:none;">Bitte auswählen</span>
+          </div>
+
+          <div class="field" id="f-aufsicht">
+            <label class="field-label">Menschliche Aufsicht</label>
+            <p class="field-help">In welchem Umfang überprüft ein Mensch die Entscheidungen des Systems, bevor sie wirksam werden?</p>
+            <div class="radio-group" id="rg-aufsicht">
+              <label class="radio-option" onclick="selectRadio(this,'aufsicht','immer')">
+                <input type="radio" name="aufsicht" value="immer" />
+                <div class="radio-option-body">
+                  <div class="radio-option-label">Immer</div>
+                  <div class="radio-option-sub">Jede Ausgabe wird vor Verwendung manuell geprüft und freigegeben</div>
+                </div>
+              </label>
+              <label class="radio-option" onclick="selectRadio(this,'aufsicht','manchmal')">
+                <input type="radio" name="aufsicht" value="manchmal" />
+                <div class="radio-option-body">
+                  <div class="radio-option-label">Manchmal</div>
+                  <div class="radio-option-sub">Stichprobenartige Prüfung oder nur bei Ausreissern / Grenzfällen</div>
+                </div>
+              </label>
+              <label class="radio-option" onclick="selectRadio(this,'aufsicht','nie')">
+                <input type="radio" name="aufsicht" value="nie" />
+                <div class="radio-option-body">
+                  <div class="radio-option-label">Nie / vollautomatisch</div>
+                  <div class="radio-option-sub">Das System handelt ohne menschliche Überprüfung im Einzelfall</div>
+                </div>
+              </label>
+            </div>
+            <span class="field-error-msg" id="e-aufsicht" style="display:none;">Bitte auswählen</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="gold-rule" />
+
+    <section class="section large form-section" style="background: var(--white);">
+      <div class="container">
+        <div class="section-label">Schritt 04 von 04</div>
+        <div class="step-badge">
+          <span class="step-badge-num">04</span>
+          <span class="step-badge-label">Verbotene Praktiken</span>
+        </div>
+        <h2>Verbotene Praktiken nach Art. 5 EU AI Act.</h2>
+
+        <div class="hint-block" style="margin-top:32px; margin-bottom:0;">
+          <span class="label">Wichtiger Hinweis</span>
+          <p>Diese Praktiken sind gemäss Art. 5 EU AI Act <strong>ohne Ausnahme verboten</strong>. Beantworte alle Fragen gewissenhaft. Ein einziges "Ja" führt zur Klassifizierung als <strong>Unzulässiges System</strong>.</p>
+        </div>
+
+        <div class="field-group" style="margin-top:40px;">
+          <div class="field" id="f-scoring">
+            <label class="field-label">Soziales Scoring</label>
+            <p class="field-help">Bewertet das System natürliche Personen auf Basis ihres Sozialverhaltens oder persönlicher Merkmale, um ihnen Zugang zu Gütern, Dienstleistungen oder Rechten zu gewähren oder zu verweigern?</p>
+            <div class="radio-group" id="rg-scoring">
+              <label class="radio-option" onclick="selectRadio(this,'scoring','ja')">
+                <input type="radio" name="scoring" value="ja" />
+                <div class="radio-option-body">
+                  <div class="radio-option-label">Ja — das System erstellt personen­basierte Sozial-Scores</div>
+                </div>
+              </label>
+              <label class="radio-option" onclick="selectRadio(this,'scoring','nein')">
+                <input type="radio" name="scoring" value="nein" />
+                <div class="radio-option-body">
+                  <div class="radio-option-label">Nein</div>
+                </div>
+              </label>
+            </div>
+            <span class="field-error-msg" id="e-scoring" style="display:none;">Bitte auswählen</span>
+          </div>
+
+          <div class="field" id="f-manipulation">
+            <label class="field-label">Unbewusste Beeinflussung / Manipulation</label>
+            <p class="field-help">Setzt das System subliminale Techniken, Täuschung oder psychologischen Druck ein, um das Verhalten von Personen ohne deren Wissen oder gegen ihre Interessen zu beeinflussen?</p>
+            <div class="radio-group" id="rg-manipulation">
+              <label class="radio-option" onclick="selectRadio(this,'manipulation','ja')">
+                <input type="radio" name="manipulation" value="ja" />
+                <div class="radio-option-body">
+                  <div class="radio-option-label">Ja</div>
+                </div>
+              </label>
+              <label class="radio-option" onclick="selectRadio(this,'manipulation','nein')">
+                <input type="radio" name="manipulation" value="nein" />
+                <div class="radio-option-body">
+                  <div class="radio-option-label">Nein</div>
+                </div>
+              </label>
+            </div>
+            <span class="field-error-msg" id="e-manipulation" style="display:none;">Bitte auswählen</span>
+          </div>
+
+          <div class="field" id="f-emotion">
+            <label class="field-label">Emotionserkennung in Schule oder Arbeit</label>
+            <p class="field-help">Erkennt oder inferiert das System Emotionen von Personen in Bildungseinrichtungen oder am Arbeitsplatz?</p>
+            <div class="radio-group" id="rg-emotion">
+              <label class="radio-option" onclick="selectRadio(this,'emotion','ja')">
+                <input type="radio" name="emotion" value="ja" />
+                <div class="radio-option-body">
+                  <div class="radio-option-label">Ja</div>
+                </div>
+              </label>
+              <label class="radio-option" onclick="selectRadio(this,'emotion','nein')">
+                <input type="radio" name="emotion" value="nein" />
+                <div class="radio-option-body">
+                  <div class="radio-option-label">Nein</div>
+                </div>
+              </label>
+            </div>
+            <span class="field-error-msg" id="e-emotion" style="display:none;">Bitte auswählen</span>
+          </div>
+
+          <div class="field" id="f-bio-pub">
+            <label class="field-label">Biometrische Massenüberwachung in Echtzeit</label>
+            <p class="field-help">Identifiziert das System Personen aus der Ferne in Echtzeit an öffentlich zugänglichen Orten (Ausnahmen: gezielte Fahndung nach konkreten Verdächtigen durch Strafverfolgungsbehörden)?</p>
+            <div class="radio-group" id="rg-bio-pub">
+              <label class="radio-option" onclick="selectRadio(this,'bio-pub','ja')">
+                <input type="radio" name="bio-pub" value="ja" />
+                <div class="radio-option-body">
+                  <div class="radio-option-label">Ja</div>
+                </div>
+              </label>
+              <label class="radio-option" onclick="selectRadio(this,'bio-pub','nein')">
+                <input type="radio" name="bio-pub" value="nein" />
+                <div class="radio-option-body">
+                  <div class="radio-option-label">Nein</div>
+                </div>
+              </label>
+            </div>
+            <span class="field-error-msg" id="e-bio-pub" style="display:none;">Bitte auswählen</span>
+          </div>
+        </div>
+
+        <div style="margin-top:56px;" class="btn-group">
+          <button class="btn solid" onclick="runCheck()" id="run-btn">
+            Risiko jetzt klassifizieren →
+          </button>
+        </div>
+
+        <p id="form-error" style="display:none; margin-top:16px; color:var(--error); font-size:13px; letter-spacing:0.05em;">
+          Bitte alle markierten Felder ausfüllen, bevor du fortfährst.
+        </p>
+      </div>
+    </section>
+
+    <!-- RESULT SECTION -->
+    <section class="result-section" id="result-section">
+      <div style="padding:80px 40px 0;" id="result-top">
+        <div class="container">
+          <div class="section-label on-dark">Ergebnis</div>
+          <h2 id="result-heading" style="color:var(--white);">Risikoklassifizierung</h2>
+          <p id="result-system-name" style="color:var(--alpha-nav-dark); margin-top:8px; font-family:'DM Sans',sans-serif; font-size:13px; letter-spacing:0.15em; text-transform:uppercase;"></p>
+
+          <!-- Risk meter -->
+          <div class="risk-meter-wrap">
+            <div class="risk-meter-labels">
+              <span class="risk-meter-label" id="ml-minimal">Minimal</span>
+              <span class="risk-meter-label" id="ml-limited">Begrenzt</span>
+              <span class="risk-meter-label" id="ml-high">Hoch</span>
+              <span class="risk-meter-label" id="ml-unacceptable">Unzulässig</span>
+            </div>
+            <div class="risk-meter-bar">
+              <div class="risk-meter-seg minimal" id="seg-minimal"></div>
+              <div class="risk-meter-seg limited" id="seg-limited"></div>
+              <div class="risk-meter-seg high" id="seg-high"></div>
+              <div class="risk-meter-seg unacceptable" id="seg-unacceptable"></div>
+            </div>
+          </div>
+
+          <!-- Tier badge -->
+          <div class="tier-badge" id="tier-badge">
+            <span class="tier-badge-icon" id="tier-icon"></span>
+            <div class="tier-badge-body">
+              <div class="tier-badge-title" id="tier-title"></div>
+              <div class="tier-badge-sub" id="tier-sub"></div>
+            </div>
+          </div>
+
+          <!-- Explanation -->
+          <p id="tier-explanation" style="max-width:680px; color:var(--alpha-body-dark); line-height:1.8;"></p>
+        </div>
+      </div>
+
+      <!-- Checklist -->
+      <div style="padding:60px 40px;" id="checklist-section">
+        <div class="container">
+          <div class="result-card">
+            <div class="result-card-title">Massnahmen-Checkliste</div>
+            <ul class="checklist" id="checklist-items"></ul>
+            <div class="checklist-progress">
+              <div class="checklist-progress-label">
+                <span id="progress-text">0 von 0 abgehakt</span>
+              </div>
+              <div class="checklist-progress-bar-wrap">
+                <div class="checklist-progress-bar" id="progress-bar"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Swiss note -->
+          <div class="swiss-note" id="swiss-note" style="display:none;">
+            <span class="label">Schweizer Kontext</span>
+            <p id="swiss-note-text"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta-section">
+        <div class="container">
+          <h3>Nächste Schritte mit Rautaki.</h3>
+          <p>Unsere Berater begleiten dich von der ersten Compliance-Lückenanalyse bis zur vollständigen technischen Dokumentation — damit du dein KI-System gesetzeskonform betreiben kannst.</p>
+          <div class="btn-group">
+            <a href="/booking" class="btn solid">Erstgespräch buchen</a>
+            <a href="/leistungen" class="btn">Leistungsübersicht</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DOWNLOAD BAR (shown after result) -->
+    <div class="download-bar" id="download-bar" style="display:none;">
+      <div class="container" style="max-width:800px;">
+        <h3>Bericht speichern.</h3>
+        <p>Lade deinen Compliance-Bericht als druckfertiges HTML herunter. Deine Antworten und das Ergebnis bleiben lokal auf deinem Gerät.</p>
+        <div class="btn-group" style="justify-content:center;">
+          <button class="btn" onclick="downloadReport()">Als HTML herunterladen</button>
+          <button class="btn" onclick="window.print()">Drucken / als PDF speichern</button>
+          <button class="btn" onclick="resetForm()">Neue Analyse</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-inner">
+        <hr class="gold-rule" />
+        <div class="footer-row" style="margin-top:32px;">
+          <span>© 2025 Rautaki GmbH · Zürich</span>
+          <span>EU AI Act Compliance Checker · Rautaki Lab</span>
+          <span>Kein Rechtsrat — nur zur Orientierung</span>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      /* =================================================================
+         HELPERS
+         ================================================================= */
+      function v(id) {
+        const el = document.getElementById(id);
+        return el ? el.value.trim() : "";
+      }
+
+      function radio(name) {
+        const el = document.querySelector('input[name="' + name + '"]:checked');
+        return el ? el.value : "";
+      }
+
+      function selectRadio(label, name, value) {
+        // Clear siblings
+        label.closest('.radio-group').querySelectorAll('.radio-option').forEach(function(opt) {
+          opt.classList.remove('selected');
+        });
+        label.classList.add('selected');
+        label.querySelector('input[type="radio"]').checked = true;
+        // Clear error
+        var errEl = document.getElementById('e-' + name);
+        if (errEl) errEl.style.display = 'none';
+      }
+
+      function toggleConditional(wrapId, val) {
+        var el = document.getElementById(wrapId);
+        if (!el) return;
+        el.classList.toggle('visible', val === 'ja');
+        // If hiding, clear its radio
+        if (val !== 'ja') {
+          el.querySelectorAll('input[type="radio"]').forEach(function(r) {
+            r.checked = false;
+            r.closest('.radio-option').classList.remove('selected');
+          });
+        }
+      }
+
+      /* =================================================================
+         CLASSIFICATION LOGIC
+         ================================================================= */
+      function classify(s) {
+        // UNACCEPTABLE (Art. 5)
+        if (
+          s.scoring === 'ja' ||
+          s.manipulation === 'ja' ||
+          s.emotion === 'ja' ||
+          s.bioPub === 'ja'
+        ) {
+          return 'unacceptable';
+        }
+
+        // HIGH RISK (Annex III)
+        var highSektors = ['justiz','strafverfolgung','migration','kritische-infrastruktur'];
+        var condHighSektors = ['beschaeftigung','bildung','oeffentliche-dienste'];
+        var condHighSektors2 = ['gesundheit','finanzen'];
+
+        if (highSektors.indexOf(s.sektor) !== -1) return 'high';
+        if (condHighSektors.indexOf(s.sektor) !== -1 && s.auto === 'ja') return 'high';
+        if (condHighSektors2.indexOf(s.sektor) !== -1 && s.auto === 'ja' &&
+            (s.auswirkung === 'erheblich' || s.auswirkung === 'kritisch')) return 'high';
+        if (s.biometrik === 'ja' && s.auto === 'ja') return 'high';
+        if (s.aufsicht === 'nie' && s.auto === 'ja' && s.auswirkung === 'kritisch') return 'high';
+
+        // LIMITED RISK (Art. 50)
+        if (s.chatbot === 'ja' || s.generiert === 'ja') return 'limited';
+
+        // MINIMAL
+        return 'minimal';
+      }
+
+      /* =================================================================
+         CHECKLIST CONTENT
+         ================================================================= */
+      var CHECKLISTS = {
+        unacceptable: [
+          { text: "System sofort ausser Betrieb nehmen oder verbotene Funktionalität vollständig entfernen", tag: "mandatory" },
+          { text: "Rechtlichen Beistand hinzuziehen — Bussrisiko bis 35 Mio. € oder 7 % des Jahresumsatzes", tag: "mandatory" },
+          { text: "Betroffene Personen und zuständige Behörde benachrichtigen", tag: "mandatory" },
+          { text: "Schriftliche Dokumentation aller ergriffenen Sofortmassnahmen erstellen", tag: "mandatory" },
+          { text: "Intern prüfen, ob ähnliche Systeme betroffen sind (Breitenprüfung)", tag: "recommended" },
+          { text: "KI-Governance-Prozess überarbeiten, um künftige Verletzungen zu verhindern", tag: "recommended" },
+        ],
+        high: [
+          { text: "Konformitätsbewertung durchführen (intern oder durch benannte Stelle je nach Bereich)", tag: "mandatory" },
+          { text: "Risikomanagementsystem gemäss Art. 9 EU AI Act implementieren", tag: "mandatory" },
+          { text: "Technische Dokumentation nach Anhang IV erstellen und auf dem aktuellen Stand halten", tag: "mandatory" },
+          { text: "Protokollierung und Aufzeichnungspflichten gemäss Art. 12 sicherstellen", tag: "mandatory" },
+          { text: "Massnahmen zur menschlichen Aufsicht gemäss Art. 14 implementieren", tag: "mandatory" },
+          { text: "Transparenzinformationen für Nutzer gemäss Art. 13 bereitstellen", tag: "mandatory" },
+          { text: "Qualitätsmanagementsystem gemäss Art. 17 einrichten", tag: "mandatory" },
+          { text: "CE-Kennzeichnung anbringen (sofern Inverkehrbringen im EU-Binnenmarkt)", tag: "mandatory" },
+          { text: "Registrierung im EU-Datenbank-System (sofern zutreffend)", tag: "mandatory" },
+          { text: "Grundrechte-Folgenabschätzung (FRIA) durchführen — insb. für öffentliche Stellen", tag: "recommended" },
+          { text: "Daten-Governance nach Art. 10 sicherstellen (Trainingsdaten-Qualität, Bias-Tests)", tag: "recommended" },
+          { text: "Robustheit, Genauigkeit und Cybersicherheit gemäss Art. 15 sicherstellen", tag: "recommended" },
+          { text: "Post-Market-Surveillance-System einrichten", tag: "best-practice" },
+          { text: "Vertragsgestaltung mit Zulieferern und nachgelagerten Betreibern prüfen", tag: "best-practice" },
+        ],
+        limited: [
+          { text: "Nutzer klar und verständlich darüber informieren, dass sie mit einem KI-System interagieren (Art. 50)", tag: "mandatory" },
+          { text: "Bei KI-generierten Inhalten: Kennzeichnungspflicht für synthetische Medien sicherstellen", tag: "mandatory" },
+          { text: "Bei Deepfakes / synthetischen Medien: Maschinenlesbare Markierung (Wasserzeichen) implementieren", tag: "recommended" },
+          { text: "Datenschutz-Folgenabschätzung (DSFA) gemäss DSGVO prüfen", tag: "recommended" },
+          { text: "Freiwilligen Verhaltenskodex für KI-Transparenz erwägen", tag: "best-practice" },
+          { text: "Interne Richtlinien für verantwortungsvolle KI dokumentieren", tag: "best-practice" },
+        ],
+        minimal: [
+          { text: "Freiwillige Selbstverpflichtung zu Transparenz und verantwortungsvollem KI-Einsatz in Betracht ziehen", tag: "best-practice" },
+          { text: "Datenschutzpflichten gemäss DSGVO / DSG einhalten", tag: "recommended" },
+          { text: "Interne KI-Nutzungsrichtlinien für Mitarbeitende erstellen", tag: "best-practice" },
+          { text: "Regelmässige Überprüfung, ob neue Funktionen die Risikoklasse erhöhen", tag: "recommended" },
+          { text: "Branchenspezifische Vorschriften gesondert prüfen (z. B. MedizinproduktG, FinTech-Regulierung)", tag: "best-practice" },
+        ],
+      };
+
+      var TIER_CONTENT = {
+        unacceptable: {
+          icon: "🚫",
+          title: "Unzulässiges System",
+          sub: "Art. 5 EU AI Act — verboten",
+          label: "Unzulässig",
+          meterKey: "unacceptable",
+          explanation: "Dein System fällt in eine der absolut verbotenen Kategorien nach Art. 5 EU AI Act. Diese Praktiken sind ohne Ausnahme untersagt. Das System darf weder in der EU betrieben noch in Verkehr gebracht werden. Das Bussrisiko beträgt bis zu 35 Mio. € oder 7 % des weltweiten Jahresumsatzes — je nachdem, welcher Betrag höher ist.",
+          swissNote: "Die Schweiz ist kein EU-Mitgliedstaat, reguliert KI aber zunehmend über bestehende Gesetze (DSG, ZGB, OR). Verbotene Praktiken gemäss EU AI Act werden aller Voraussicht nach auch durch das Schweizer Recht oder bilaterale Abkommen adressiert. Rechtliche Beratung ist dringend empfohlen.",
+        },
+        high: {
+          icon: "⚠️",
+          title: "Hohes Risiko",
+          sub: "Anhang III EU AI Act — umfassende Pflichten",
+          label: "Hoch",
+          meterKey: "high",
+          explanation: "Dein System gilt als Hochrisiko-KI-System nach Anhang III des EU AI Act. Es unterliegt umfassenden Pflichten: Konformitätsbewertung, technische Dokumentation, CE-Kennzeichnung (wenn im EU-Markt), laufende Überwachung und verpflichtende menschliche Aufsicht. Diese Anforderungen müssen vor Inbetriebnahme erfüllt sein.",
+          swissNote: "Schweizer Unternehmen, die Hochrisiko-KI-Systeme in der EU einsetzen oder dort vermarkten, unterliegen dem EU AI Act vollständig. Für rein inländische Schweizer Märkte gilt der AI Act derzeit nicht direkt — jedoch orientiert sich die Schweizer Rechtspraxis zunehmend an den EU-Standards. Wir empfehlen, die EU-Anforderungen als Mindeststandard zu behandeln.",
+        },
+        limited: {
+          icon: "ℹ️",
+          title: "Begrenztes Risiko",
+          sub: "Art. 50 EU AI Act — Transparenzpflichten",
+          label: "Begrenzt",
+          meterKey: "limited",
+          explanation: "Dein System unterliegt den Transparenzpflichten nach Art. 50 EU AI Act. Nutzer müssen klar erkennen können, dass sie mit einem KI-System interagieren. Bei KI-generierten Inhalten (Texte, Bilder, Audio, Video) gelten zusätzliche Kennzeichnungspflichten. Die Anforderungen sind überschaubar, müssen aber konsequent umgesetzt werden.",
+          swissNote: "In der Schweiz gelten vergleichbare Transparenzpflichten implizit über das DSG (Informationspflichten bei automatisierten Entscheidungen). Eine freiwillige Umsetzung der EU-Transparenzstandards stärkt das Vertrauen und vereinfacht den späteren EU-Markteintritt.",
+        },
+        minimal: {
+          icon: "✅",
+          title: "Minimales Risiko",
+          sub: "Keine spezifischen Pflichten nach EU AI Act",
+          label: "Minimal",
+          meterKey: "minimal",
+          explanation: "Dein System fällt in die Kategorie mit minimalem Risiko. Der EU AI Act enthält keine spezifischen Pflichten für diese Klasse — du kannst freiwillige Verhaltenskodizes anwenden. Wichtig: Auch wenn dein KI-System selbst kein hohes Risiko birgt, bleiben allgemeine datenschutzrechtliche Pflichten (DSGVO, DSG) sowie branchenspezifische Vorschriften unberührt.",
+          swissNote: "Auch für Systeme mit minimalem KI-Risiko gelten in der Schweiz die allgemeinen Anforderungen des revidierten DSG, insbesondere bei der Verarbeitung von Personendaten.",
+        },
+      };
+
+      /* =================================================================
+         VALIDATION
+         ================================================================= */
+      function validate() {
+        var ok = true;
+        function req(fieldId, val) {
+          var el = document.getElementById(fieldId);
+          if (el) {
+            if (!val) { el.classList.add('error'); ok = false; }
+            else el.classList.remove('error');
+          }
+        }
+        function reqRadio(errId, val) {
+          var el = document.getElementById(errId);
+          if (el) {
+            if (!val) { el.style.display = 'block'; ok = false; }
+            else el.style.display = 'none';
+          }
+        }
+
+        req('f-name', v('sys-name'));
+        req('f-sektor', v('sys-sektor'));
+        req('f-markt', v('sys-markt'));
+
+        reqRadio('e-auto', radio('auto'));
+        reqRadio('e-auswirkung', radio('auswirkung'));
+        reqRadio('e-biometrik', radio('biometrik'));
+        reqRadio('e-chatbot', radio('chatbot'));
+        reqRadio('e-generiert', radio('generiert'));
+        reqRadio('e-aufsicht', radio('aufsicht'));
+        reqRadio('e-scoring', radio('scoring'));
+        reqRadio('e-manipulation', radio('manipulation'));
+        reqRadio('e-emotion', radio('emotion'));
+        reqRadio('e-bio-pub', radio('bio-pub'));
+
+        return ok;
+      }
+
+      /* =================================================================
+         MAIN RUN
+         ================================================================= */
+      var currentTier = null;
+      var currentAnswers = null;
+
+      function runCheck() {
+        var errBanner = document.getElementById('form-error');
+        errBanner.style.display = 'none';
+
+        if (!validate()) {
+          errBanner.style.display = 'block';
+          // Scroll to first error
+          var firstErr = document.querySelector('.field.error, [id^="e-"][style*="block"]');
+          if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+
+        var s = {
+          name: v('sys-name'),
+          sektor: v('sys-sektor'),
+          desc: v('sys-desc'),
+          markt: v('sys-markt'),
+          auto: radio('auto'),
+          auswirkung: radio('auswirkung'),
+          biometrik: radio('biometrik'),
+          bioRt: radio('bio-rt'),
+          chatbot: radio('chatbot'),
+          generiert: radio('generiert'),
+          aufsicht: radio('aufsicht'),
+          scoring: radio('scoring'),
+          manipulation: radio('manipulation'),
+          emotion: radio('emotion'),
+          bioPub: radio('bio-pub'),
+        };
+
+        currentAnswers = s;
+        var tier = classify(s);
+        currentTier = tier;
+        renderResult(tier, s);
+      }
+
+      /* =================================================================
+         RENDER RESULT
+         ================================================================= */
+      function renderResult(tier, s) {
+        var content = TIER_CONTENT[tier];
+
+        // Heading
+        document.getElementById('result-heading').textContent = 'Risikoklassifizierung: ' + content.label;
+        document.getElementById('result-system-name').textContent = s.name || 'Dein KI-System';
+
+        // Meter
+        ['minimal','limited','high','unacceptable'].forEach(function(t) {
+          var seg = document.getElementById('seg-' + t);
+          var lbl = document.getElementById('ml-' + t);
+          if (t === content.meterKey) {
+            seg.classList.add('active');
+            lbl.classList.add('active');
+          } else {
+            seg.classList.remove('active');
+            lbl.classList.remove('active');
+          }
+        });
+
+        // Badge
+        var badge = document.getElementById('tier-badge');
+        badge.className = 'tier-badge ' + tier;
+        document.getElementById('tier-icon').textContent = content.icon;
+        document.getElementById('tier-title').textContent = content.title;
+        document.getElementById('tier-sub').textContent = content.sub;
+
+        // Explanation
+        document.getElementById('tier-explanation').textContent = content.explanation;
+
+        // Checklist
+        var items = CHECKLISTS[tier];
+        var ul = document.getElementById('checklist-items');
+        ul.innerHTML = '';
+        items.forEach(function(item, idx) {
+          var li = document.createElement('li');
+          li.id = 'cli-' + idx;
+          var cbId = 'cb-' + idx;
+          var tagLabel = item.tag === 'mandatory' ? 'Pflicht' : item.tag === 'recommended' ? 'Empfohlen' : 'Best Practice';
+          var tagClass = 'checklist-tag tag-' + item.tag;
+          li.innerHTML =
+            '<input type="checkbox" class="checklist-cb" id="' + cbId + '" onchange="toggleCheck(' + idx + ', this)" />' +
+            '<label class="checklist-text" for="' + cbId + '">' + escapeHTML(item.text) + '</label>' +
+            '<span class="' + tagClass + '">' + tagLabel + '</span>';
+          ul.appendChild(li);
+        });
+        updateProgress(tier);
+
+        // Swiss note
+        var swissNote = document.getElementById('swiss-note');
+        var swissNoteText = document.getElementById('swiss-note-text');
+        if (s.markt && (s.markt === 'schweiz' || s.markt === 'eu-ch')) {
+          swissNote.style.display = 'block';
+          swissNoteText.textContent = content.swissNote;
+        } else {
+          swissNote.style.display = 'none';
+        }
+
+        // Show sections
+        document.getElementById('result-section').classList.add('visible');
+        document.getElementById('download-bar').style.display = 'block';
+
+        // Scroll
+        setTimeout(function() {
+          document.getElementById('result-section').scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+
+      function toggleCheck(idx, cb) {
+        var li = document.getElementById('cli-' + idx);
+        if (cb.checked) { li.classList.add('done'); }
+        else { li.classList.remove('done'); }
+        updateProgress(currentTier);
+      }
+
+      function updateProgress(tier) {
+        var items = document.querySelectorAll('#checklist-items .checklist-cb');
+        var total = items.length;
+        var checked = 0;
+        items.forEach(function(cb) { if (cb.checked) checked++; });
+        document.getElementById('progress-text').textContent = checked + ' von ' + total + ' abgehakt';
+        document.getElementById('progress-bar').style.width = (total > 0 ? Math.round(checked / total * 100) : 0) + '%';
+      }
+
+      function escapeHTML(str) {
+        return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      }
+
+      /* =================================================================
+         PERSIST VALUES (for HTML download/reopen)
+         ================================================================= */
+      function persistValuesToDOM() {
+        // text inputs / selects
+        ['sys-name','sys-sektor','sys-desc','sys-markt'].forEach(function(id) {
+          var el = document.getElementById(id);
+          if (!el) return;
+          if (el.tagName === 'SELECT') {
+            el.setAttribute('data-persist-value', el.value);
+          } else {
+            el.setAttribute('value', el.value);
+            el.textContent = el.value;
+          }
+        });
+        // radios
+        var radios = document.querySelectorAll('input[type="radio"]');
+        radios.forEach(function(r) {
+          if (r.checked) r.setAttribute('checked', 'checked');
+          else r.removeAttribute('checked');
+        });
+        // checkboxes
+        var cbs = document.querySelectorAll('.checklist-cb');
+        cbs.forEach(function(cb) {
+          if (cb.checked) cb.setAttribute('checked', 'checked');
+          else cb.removeAttribute('checked');
+        });
+      }
+
+      function restorePersistedValues() {
+        ['sys-name','sys-desc'].forEach(function(id) {
+          var el = document.getElementById(id);
+          if (el && el.getAttribute('value')) el.value = el.getAttribute('value');
+        });
+        ['sys-sektor','sys-markt'].forEach(function(id) {
+          var el = document.getElementById(id);
+          if (el && el.getAttribute('data-persist-value')) {
+            el.value = el.getAttribute('data-persist-value');
+          }
+        });
+        // Radio visual restore
+        document.querySelectorAll('input[type="radio"][checked]').forEach(function(r) {
+          r.checked = true;
+          r.closest('.radio-option').classList.add('selected');
+          var name = r.getAttribute('name');
+          if (name === 'biometrik' && r.value === 'ja') {
+            toggleConditional('bio-rt-wrap','ja');
+          }
+        });
+      }
+
+      /* =================================================================
+         DOWNLOAD
+         ================================================================= */
+      function downloadReport() {
+        persistValuesToDOM();
+        var html = '<!doctype html>' + document.documentElement.outerHTML;
+        var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        var name = (document.getElementById('sys-name') ? document.getElementById('sys-name').value : '') || 'system';
+        a.download = 'eu-ai-act-check-' + name.toLowerCase().replace(/[^a-z0-9]+/g,'-') + '.html';
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+
+      function resetForm() {
+        if (!confirm('Neue Analyse starten? Deine aktuellen Eingaben gehen verloren.')) return;
+        // Reset all inputs
+        ['sys-name','sys-desc'].forEach(function(id) {
+          var el = document.getElementById(id);
+          if (el) el.value = '';
+        });
+        ['sys-sektor','sys-markt'].forEach(function(id) {
+          var el = document.getElementById(id);
+          if (el) el.value = '';
+        });
+        document.querySelectorAll('input[type="radio"]').forEach(function(r) {
+          r.checked = false;
+          r.removeAttribute('checked');
+          var opt = r.closest('.radio-option');
+          if (opt) opt.classList.remove('selected');
+        });
+        document.querySelectorAll('.field.error').forEach(function(f) { f.classList.remove('error'); });
+        document.querySelectorAll('[id^="e-"]').forEach(function(e) { e.style.display = 'none'; });
+        document.getElementById('bio-rt-wrap').classList.remove('visible');
+        document.getElementById('result-section').classList.remove('visible');
+        document.getElementById('download-bar').style.display = 'none';
+        document.getElementById('form-error').style.display = 'none';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      /* =================================================================
+         INIT
+         ================================================================= */
+      document.addEventListener('DOMContentLoaded', function() {
+        restorePersistedValues();
+
+        // Re-run classification if result was visible in a saved file
+        if (document.getElementById('result-section').classList.contains('visible')) {
+          // Rebuild checklist from DOM state (checkboxes already restored)
+          updateProgress(currentTier);
+        }
+      });
+    </script>
+  </body>
+</html>

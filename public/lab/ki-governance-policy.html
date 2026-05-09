@@ -1,0 +1,2049 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KI-Governance-Richtlinie Generator · Rautaki Lab</title>
+    <link
+      rel="preload"
+      href="/lab/vendor/fonts/dm-sans-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <script src="/lab/vendor/html-docx.js"></script>
+    <style>
+      /* =================================================================
+     FONTS — DM Sans (self-hosted, OFL 1.1)
+     ================================================================= */
+      @font-face {
+        font-family: "DM Sans";
+        font-style: normal;
+        font-weight: 100 1000;
+        font-display: swap;
+        src: url("/lab/vendor/fonts/dm-sans-latin.woff2") format("woff2");
+        unicode-range:
+          U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+          U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+          U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      @font-face {
+        font-family: "DM Sans";
+        font-style: normal;
+        font-weight: 100 1000;
+        font-display: swap;
+        src: url("/lab/vendor/fonts/dm-sans-latin-ext.woff2") format("woff2");
+        unicode-range:
+          U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+          U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF,
+          U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+      }
+
+      /* =================================================================
+     RAUTAKI DESIGN SYSTEM
+     ================================================================= */
+      :root {
+        --gold: #f5a623;
+        --gold-light: #ffd07a;
+        --gold-dim: rgba(245, 166, 35, 0.15);
+        --gold-glow: rgba(245, 166, 35, 0.08);
+        --obsidian: #0a0a0a;
+        --ink: #1c1c1c;
+        --charcoal: #111111;
+        --charcoal-hover: #161616;
+        --cream: #f4f2ee;
+        --white: #fafafa;
+        --warm-grey: #e8e5df;
+        --mid-grey: #9a9590;
+        --error: #c53030;
+
+        --alpha-body-dark: rgba(255, 255, 255, 0.45);
+        --alpha-nav-dark: rgba(255, 255, 255, 0.28);
+        --alpha-footer-dark: rgba(255, 255, 255, 0.2);
+        --alpha-label-dark: rgba(255, 255, 255, 0.18);
+        --alpha-divider-dark: rgba(255, 255, 255, 0.05);
+        --alpha-muted-light: rgba(28, 28, 28, 0.45);
+        --alpha-hair-light: rgba(28, 28, 28, 0.1);
+        --alpha-divider-light: rgba(28, 28, 28, 0.07);
+        --alpha-card-border: rgba(28, 28, 28, 0.06);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family:
+          "DM Sans",
+          -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 1.75;
+        color: var(--ink);
+        background: var(--cream);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      h1, h2, h3, h4 {
+        font-family: Georgia, "Times New Roman", serif;
+        font-weight: 400;
+        color: inherit;
+      }
+      h1 {
+        font-size: clamp(44px, 8vw, 72px);
+        letter-spacing: -0.04em;
+        line-height: 1;
+      }
+      h2 {
+        font-size: 36px;
+        letter-spacing: -0.02em;
+        line-height: 1.15;
+      }
+      h3 {
+        font-size: 26px;
+        letter-spacing: -0.015em;
+        line-height: 1.15;
+      }
+      h4 {
+        font-size: 20px;
+        letter-spacing: -0.01em;
+        line-height: 1.25;
+      }
+
+      .lead {
+        font-family: Georgia, serif;
+        font-size: 18px;
+        line-height: 1.75;
+        font-weight: 400;
+      }
+
+      em.gold {
+        font-style: italic;
+        color: var(--gold);
+      }
+
+      .section-label {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 11px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 40px;
+        color: var(--ink);
+      }
+      .section-label::before {
+        content: "";
+        display: block;
+        width: 28px;
+        height: 1px;
+        background: var(--gold);
+        flex-shrink: 0;
+      }
+      .section-label.on-dark {
+        color: var(--alpha-label-dark);
+      }
+      .section-label.on-dark::before {
+        background: var(--alpha-label-dark);
+      }
+
+      .section {
+        padding: 80px 40px;
+      }
+      .section.large {
+        padding: 100px 40px;
+      }
+      .section.dark {
+        background: var(--obsidian);
+        color: var(--white);
+      }
+      .container {
+        max-width: 1080px;
+        margin: 0 auto;
+      }
+      .reading {
+        max-width: 720px;
+      }
+
+      .gold-rule {
+        height: 3px;
+        background: linear-gradient(to right, var(--gold), transparent);
+        border: none;
+        margin: 0;
+      }
+      .hair-rule {
+        height: 1px;
+        background: var(--alpha-hair-light);
+        border: none;
+        margin: 24px 0;
+      }
+      .hair-rule.on-dark {
+        background: var(--alpha-divider-dark);
+      }
+
+      /* Header */
+      header {
+        background: var(--obsidian);
+        color: var(--white);
+        padding: 32px 40px;
+        border-bottom: 1px solid var(--alpha-divider-dark);
+      }
+      .header-inner {
+        max-width: 1080px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      .logo {
+        font-family: Georgia, serif;
+        font-weight: 400;
+        font-size: 24px;
+        letter-spacing: -0.01em;
+        color: var(--white);
+        text-decoration: none;
+      }
+      a.logo:hover { opacity: 0.85; }
+      .logo .gold-letter { color: var(--gold); }
+      .header-meta {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--alpha-label-dark);
+      }
+
+      /* Hero */
+      .hero {
+        background: var(--obsidian);
+        color: var(--white);
+        padding: 120px 40px 100px;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero::before {
+        content: "";
+        position: absolute;
+        width: 700px;
+        height: 700px;
+        background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
+        top: -150px;
+        left: -100px;
+        pointer-events: none;
+      }
+      .hero-inner {
+        max-width: 1080px;
+        margin: 0 auto;
+        position: relative;
+      }
+      .hero h1 { color: var(--white); margin-bottom: 32px; max-width: 880px; }
+      .hero .lead { color: var(--alpha-body-dark); max-width: 640px; }
+
+      /* Structure overview */
+      .structure-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2px;
+        margin-top: 48px;
+        background: var(--alpha-hair-light);
+      }
+      .structure-item {
+        background: var(--white);
+        padding: 28px 24px;
+        border-left: 3px solid transparent;
+        transition: border-color 200ms;
+      }
+      .structure-item:hover { border-left-color: var(--gold); }
+      .structure-num {
+        font-family: Georgia, serif;
+        font-size: 32px;
+        color: var(--gold);
+        letter-spacing: -0.02em;
+        line-height: 1;
+        margin-bottom: 8px;
+      }
+      .structure-title {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 13px;
+        color: var(--ink);
+        line-height: 1.4;
+      }
+      .structure-sub {
+        font-size: 12px;
+        color: var(--alpha-muted-light);
+        margin-top: 4px;
+        line-height: 1.4;
+      }
+
+      /* Steps list */
+      .steps {
+        list-style: none;
+        counter-reset: step;
+        margin-top: 32px;
+      }
+      .steps li {
+        counter-increment: step;
+        padding: 24px 0 24px 72px;
+        border-bottom: 1px solid var(--alpha-hair-light);
+        position: relative;
+      }
+      .steps li:last-child { border-bottom: none; }
+      .steps li::before {
+        content: counter(step, decimal-leading-zero);
+        position: absolute;
+        left: 0;
+        top: 24px;
+        font-family: Georgia, serif;
+        font-size: 28px;
+        color: var(--gold);
+        letter-spacing: -0.02em;
+        width: 56px;
+      }
+      .steps h4 { margin-bottom: 8px; }
+
+      /* Hints */
+      .hint-block {
+        padding: 32px 40px;
+        background: var(--warm-grey);
+        border-left: 3px solid var(--gold);
+        margin: 24px 0;
+      }
+      .hint-block.dark {
+        background: var(--charcoal);
+        color: var(--white);
+      }
+      .hint-block .label {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 11px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 12px;
+        display: block;
+      }
+      .hint-block p + p { margin-top: 12px; }
+
+      /* Forms */
+      .field-group {
+        display: grid;
+        gap: 24px;
+        margin-top: 32px;
+      }
+      .field-group.two-col {
+        grid-template-columns: 1fr 1fr;
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+      }
+      .field-label {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--ink);
+        margin-bottom: 8px;
+      }
+      .field-help {
+        font-size: 13px;
+        color: var(--alpha-muted-light);
+        margin-bottom: 12px;
+        line-height: 1.6;
+      }
+      .field input,
+      .field select,
+      .field textarea {
+        font-family: "DM Sans", sans-serif;
+        font-size: 15px;
+        line-height: 1.6;
+        color: var(--ink);
+        background: var(--white);
+        border: 1px solid var(--alpha-card-border);
+        padding: 14px 16px;
+        border-radius: 0;
+        width: 100%;
+        transition: border-color 200ms;
+        -webkit-appearance: none;
+        appearance: none;
+      }
+      .field select {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%231C1C1C' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 16px center;
+        padding-right: 40px;
+        cursor: pointer;
+      }
+      .field input:focus,
+      .field select:focus,
+      .field textarea:focus {
+        outline: 2px solid var(--gold);
+        outline-offset: 3px;
+        border-color: var(--gold);
+      }
+      .field textarea {
+        resize: vertical;
+        min-height: 120px;
+        font-family: "DM Sans", sans-serif;
+      }
+
+      /* Policy section (dark, mirrors prompt-section) */
+      .policy-section {
+        background: var(--obsidian);
+        color: var(--white);
+      }
+      .policy-section .field-label { color: var(--alpha-nav-dark); }
+      .policy-section .field-help { color: var(--alpha-body-dark); }
+      .policy-section h2 { color: var(--white); }
+      .policy-section .lead { color: var(--alpha-body-dark); }
+      .policy-section .hint-block {
+        background: var(--charcoal);
+        color: var(--white);
+      }
+
+      .policy-card {
+        background: var(--charcoal);
+        padding: 48px 40px;
+        margin-top: 32px;
+        border-left: 3px solid var(--gold);
+      }
+      .policy-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 16px;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+      .policy-card-title {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 11px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--gold);
+      }
+      .policy-textarea {
+        width: 100%;
+        min-height: 320px;
+        background: var(--obsidian);
+        color: var(--white);
+        border: 1px solid var(--alpha-divider-dark);
+        padding: 20px 24px;
+        font-family:
+          "SF Mono", "Monaco", "Inconsolata", "Fira Mono", "Droid Sans Mono",
+          monospace;
+        font-size: 13px;
+        line-height: 1.7;
+        resize: vertical;
+        border-radius: 0;
+      }
+      .policy-textarea:focus {
+        outline: 2px solid var(--gold);
+        outline-offset: 3px;
+      }
+
+      /* Buttons */
+      .btn {
+        display: inline-block;
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 12px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        padding: 14px 28px;
+        border: 1px solid var(--gold);
+        background: transparent;
+        color: var(--gold);
+        cursor: pointer;
+        transition: background 200ms, color 200ms;
+        border-radius: 0;
+      }
+      .btn:hover { background: var(--gold); color: var(--obsidian); }
+      .btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+      .btn.solid { background: var(--gold); color: rgba(0, 0, 0, 0.65); }
+      .btn.solid:hover { background: var(--gold-light); color: var(--obsidian); }
+      .btn.compact { padding: 10px 18px; font-size: 11px; }
+      .btn.on-light { border-color: var(--ink); color: var(--ink); }
+      .btn.on-light:hover { background: var(--ink); color: var(--cream); }
+
+      .btn-group {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      /* Step badges */
+      .step-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+      .step-badge-num {
+        font-family: Georgia, serif;
+        font-size: 48px;
+        color: var(--gold);
+        line-height: 1;
+        letter-spacing: -0.02em;
+      }
+      .step-badge-label {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 11px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--alpha-nav-dark);
+      }
+
+      /* Context select bar */
+      .context-bar {
+        background: var(--charcoal);
+        padding: 32px 40px;
+        border-left: 3px solid var(--gold);
+        margin-bottom: 48px;
+      }
+      .context-bar .field-label { color: var(--alpha-nav-dark); }
+      .context-bar select {
+        background-color: var(--obsidian);
+        color: var(--white);
+        border-color: var(--alpha-divider-dark);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23FAFAFA' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      }
+
+      /* Download bar */
+      .download-bar {
+        background: var(--gold);
+        color: rgba(0, 0, 0, 0.65);
+        padding: 60px 40px;
+        text-align: center;
+      }
+      .download-bar h3 { color: rgba(0, 0, 0, 0.65); margin-bottom: 16px; }
+      .download-bar p {
+        color: rgba(0, 0, 0, 0.55);
+        margin-bottom: 28px;
+        max-width: 520px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .download-bar .btn {
+        border-color: rgba(0, 0, 0, 0.65);
+        color: rgba(0, 0, 0, 0.65);
+        background: transparent;
+      }
+      .download-bar .btn:hover {
+        background: rgba(0, 0, 0, 0.65);
+        color: var(--gold);
+      }
+
+      /* Footer */
+      footer {
+        background: var(--obsidian);
+        color: var(--alpha-footer-dark);
+        padding: 60px 40px 40px;
+      }
+      footer .footer-inner { max-width: 1080px; margin: 0 auto; }
+      footer .gold-rule { margin-bottom: 32px; }
+      footer .footer-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 24px;
+        flex-wrap: wrap;
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 11px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+
+      /* Copy feedback */
+      .copy-feedback {
+        display: inline-block;
+        margin-left: 12px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--gold);
+        opacity: 0;
+        transition: opacity 200ms;
+      }
+      .copy-feedback.show { opacity: 1; }
+
+      /* Regen all button row */
+      .regen-bar {
+        background: var(--charcoal-hover);
+        padding: 20px 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        border-top: 1px solid var(--alpha-divider-dark);
+      }
+      .regen-bar-text {
+        font-family: "DM Sans", sans-serif;
+        font-size: 13px;
+        color: var(--alpha-body-dark);
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .section { padding: 60px 24px; }
+        .hero { padding: 80px 24px 60px; }
+        .header-inner { flex-direction: column; align-items: flex-start; }
+        .policy-card { padding: 32px 24px; }
+        .context-bar { padding: 24px 20px; }
+        .regen-bar { padding: 20px 24px; }
+        .field-group.two-col { grid-template-columns: 1fr; }
+        .structure-grid { grid-template-columns: 1fr 1fr; }
+        .download-bar { padding: 48px 24px; }
+      }
+      @media (max-width: 480px) {
+        .structure-grid { grid-template-columns: 1fr; }
+      }
+
+      /* Print */
+      @media print {
+        .download-bar, .btn, .regen-bar { display: none !important; }
+        body { background: white; }
+        .section, .hero, header, footer { padding: 24px; }
+      }
+
+      /* Accessibility */
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+
+      .skip-link {
+        position: absolute;
+        top: -100px;
+        left: 0;
+        background: var(--gold);
+        color: var(--obsidian);
+        padding: 12px 24px;
+        text-decoration: none;
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 12px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+      .skip-link:focus { top: 0; }
+    </style>
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Zum Inhalt springen</a>
+
+    <header>
+      <div class="header-inner">
+        <a href="/lab" class="logo" aria-label="Zurück zum Rautaki Lab">
+          Raut<span class="gold-letter">a</span>k<span class="gold-letter">i</span>
+        </a>
+        <div class="header-meta">Rautaki Lab · KI-Governance-Richtlinie</div>
+      </div>
+    </header>
+
+    <main id="main">
+
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-inner">
+          <div class="section-label on-dark">Generator</div>
+          <h1>
+            KI-Governance-Richtlinie <em class="gold">generieren</em>.
+          </h1>
+          <p class="lead" style="margin-top: 32px">
+            Vier Formulare. Zehn Abschnitte. Ein druckfertiges Word-Dokument.
+            Fülle dein Unternehmensprofil aus &mdash; der Generator erstellt eine
+            vollständige, anpassbare KI-Governance-Richtlinie, die du sofort
+            verwenden oder an einen Anwalt zur Prüfung weitergeben kannst.
+          </p>
+        </div>
+      </section>
+
+      <hr class="gold-rule" />
+
+      <!-- STRUKTUR -->
+      <section class="section" style="background: var(--white)">
+        <div class="container">
+          <div class="section-label">Was generiert wird</div>
+          <h2>Eine vollständige Richtlinie in <em class="gold">zehn</em> Abschnitten.</h2>
+          <p class="lead reading" style="margin-top: 24px">
+            Das generierte Dokument deckt alle wesentlichen Governance-Themen ab
+            &mdash; von der Präambel bis zur Unterschrift. Jeder Abschnitt ist
+            im Browser bearbeitbar, bevor du herunterlädst.
+          </p>
+
+          <div class="structure-grid">
+            <div class="structure-item">
+              <div class="structure-num">1</div>
+              <div class="structure-title">Präambel &amp; Zweck</div>
+              <div class="structure-sub">Verpflichtung, Ziele, Rechtsgrundlage</div>
+            </div>
+            <div class="structure-item">
+              <div class="structure-num">2</div>
+              <div class="structure-title">Geltungsbereich</div>
+              <div class="structure-sub">Wen und was die Richtlinie betrifft</div>
+            </div>
+            <div class="structure-item">
+              <div class="structure-num">3</div>
+              <div class="structure-title">Genehmigte Anwendungsfälle</div>
+              <div class="structure-sub">Was erlaubt ist, welche Tools</div>
+            </div>
+            <div class="structure-item">
+              <div class="structure-num">4</div>
+              <div class="structure-title">Verbotene Anwendungsfälle</div>
+              <div class="structure-sub">Klare rote Linien</div>
+            </div>
+            <div class="structure-item">
+              <div class="structure-num">5</div>
+              <div class="structure-title">Menschliche Aufsicht</div>
+              <div class="structure-sub">Verantwortlichkeiten, Rollen</div>
+            </div>
+            <div class="structure-item">
+              <div class="structure-num">6</div>
+              <div class="structure-title">Datenschutz</div>
+              <div class="structure-sub">revDSG / DSGVO, sensible Daten</div>
+            </div>
+            <div class="structure-item">
+              <div class="structure-num">7</div>
+              <div class="structure-title">Qualitätssicherung</div>
+              <div class="structure-sub">Prüfpflichten, Dokumentation</div>
+            </div>
+            <div class="structure-item">
+              <div class="structure-num">8</div>
+              <div class="structure-title">Vorfallsmeldung</div>
+              <div class="structure-sub">Meldeprozess, Eskalation</div>
+            </div>
+            <div class="structure-item">
+              <div class="structure-num">9</div>
+              <div class="structure-title">Schulung</div>
+              <div class="structure-sub">Pflichtschulungen, Sensibilisierung</div>
+            </div>
+            <div class="structure-item">
+              <div class="structure-num">10</div>
+              <div class="structure-title">Überprüfung &amp; Inkrafttreten</div>
+              <div class="structure-sub">Versionierung, Unterschriften</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="gold-rule" />
+
+      <!-- VORGEHEN -->
+      <section class="section" style="background: var(--cream)">
+        <div class="container">
+          <div class="section-label">Vorgehen</div>
+          <h2>In <em class="gold">vier Schritten</em> zur fertigen Richtlinie.</h2>
+          <ol class="steps" style="margin-top: 32px">
+            <li>
+              <h4>Unternehmensprofil ausfüllen</h4>
+              <p>Name, Branche, Grösse, Standort &mdash; damit die Richtlinie von Anfang an auf dein Unternehmen zugeschnitten ist.</p>
+            </li>
+            <li>
+              <h4>KI-Anwendungsfälle definieren</h4>
+              <p>Was ist erlaubt, was ist verboten, welche Tools sind im Einsatz. Das Herzstück jeder Governance-Richtlinie.</p>
+            </li>
+            <li>
+              <h4>Risikoprofil &amp; Datenschutz einschätzen</h4>
+              <p>Risikoappetit, Datenschutzregulierung (revDSG / DSGVO) und sensible Datenkategorien bestimmen, wie streng die Aufsichtsanforderungen formuliert werden.</p>
+            </li>
+            <li>
+              <h4>Governance-Struktur festlegen</h4>
+              <p>KI-Verantwortliche Person, Überprüfungsrhythmus, Inkrafttretungsdatum. Danach wird die vollständige Richtlinie generiert &mdash; abschnittweise bearbeitbar und als Word-Dokument herunterladbar.</p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <hr class="gold-rule" />
+
+      <!-- HINWEISE -->
+      <section class="section" style="background: var(--white)">
+        <div class="container">
+          <div class="section-label">Bevor du startest</div>
+          <h2>Drei wichtige Hinweise.</h2>
+
+          <div class="hint-block" style="margin-top: 32px">
+            <span class="label">Kein Ersatz für Rechtsberatung</span>
+            <p>Dieses Tool generiert eine fundierte Vorlage &mdash; keine rechtsverbindliche Richtlinie. Für kritische Branchen (Gesundheit, Finanzen) oder komplexe Datenschutzfragen empfehlen wir eine anwaltliche Prüfung vor der Einführung.</p>
+          </div>
+
+          <div class="hint-block">
+            <span class="label">Beispiel-Kontexte nutzen</span>
+            <p>Du kannst unten einen Beispiel-Kontext wählen &mdash; das füllt alle Felder mit einem realistischen Unternehmensprofil. Ideal, um das Tool kennenzulernen, bevor du deine eigenen Daten einträgst.</p>
+          </div>
+
+          <div class="hint-block">
+            <span class="label">Alles bleibt lokal</span>
+            <p>Kein Server, kein Account, keine Datenspeicherung. Die Richtlinie wird ausschliesslich in deinem Browser generiert. Der HTML-Download speichert deinen aktuellen Stand &mdash; du kannst die Datei jederzeit wieder öffnen und weiterbearbeiten.</p>
+          </div>
+        </div>
+      </section>
+
+      <hr class="gold-rule" />
+
+      <!-- SCHRITT 01: UNTERNEHMEN -->
+      <section class="section" style="background: var(--cream)" id="schritt-01">
+        <div class="container">
+          <div class="step-badge">
+            <span class="step-badge-num">01</span>
+            <span class="step-badge-label" style="color: var(--ink)">Unternehmensprofil</span>
+          </div>
+          <h2>Über welches <em class="gold">Unternehmen</em> geht es?</h2>
+          <p class="lead reading" style="margin-top: 24px">
+            Wähle optional einen Beispiel-Kontext &mdash; oder fülle die Felder direkt mit deinen eigenen Angaben aus. Alle vier Schritte fliessen in die generierten Abschnitte ein.
+          </p>
+
+          <div class="context-bar" style="margin-top: 40px">
+            <div class="field">
+              <label class="field-label" for="context-select" style="color: var(--alpha-nav-dark)">Beispiel-Kontext laden</label>
+              <select id="context-select" style="background-color: var(--obsidian); color: var(--white); border-color: var(--alpha-divider-dark); background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23FAFAFA' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\")">
+                <option value="">— Eigene Daten eingeben —</option>
+                <option value="kmu">KMU / Beratung &amp; Dienstleistung</option>
+                <option value="gesundheit">Gesundheitswesen / Klinik</option>
+                <option value="finanzen">Finanzdienstleistung</option>
+                <option value="npo">NPO / Sozialwesen</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field-group two-col" style="max-width: 800px">
+            <div class="field">
+              <label class="field-label" for="unternehmen">Unternehmensname</label>
+              <p class="field-help">Offizieller Name oder Abteilungsbezeichnung.</p>
+              <input type="text" id="unternehmen" placeholder="z.B. Muster AG" />
+            </div>
+            <div class="field">
+              <label class="field-label" for="branche">Branche</label>
+              <p class="field-help">Primärer Tätigkeitsbereich.</p>
+              <select id="branche">
+                <option value="">— Branche wählen —</option>
+                <option value="beratung">Beratung / Dienstleistung</option>
+                <option value="gesundheit">Gesundheit / Pflege</option>
+                <option value="finanzen">Finanzdienstleistung</option>
+                <option value="bildung">Bildung / Forschung</option>
+                <option value="npo">NPO / Sozialwesen</option>
+                <option value="produktion">Produktion / Industrie</option>
+                <option value="handel">Handel / Retail</option>
+                <option value="andere">Andere</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="field-label" for="groesse">Unternehmensgrösse</label>
+              <p class="field-help">Anzahl Mitarbeitende (ungefähr).</p>
+              <select id="groesse">
+                <option value="">— Grösse wählen —</option>
+                <option value="1-20">1–20 Mitarbeitende</option>
+                <option value="21-100">21–100 Mitarbeitende</option>
+                <option value="101-500">101–500 Mitarbeitende</option>
+                <option value="500plus">Über 500 Mitarbeitende</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="field-label" for="standort">Standort / Rechtsform</label>
+              <p class="field-help">Hauptsitz und Rechtsform (optional).</p>
+              <input type="text" id="standort" placeholder="z.B. Zürich, Schweiz · AG" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCHRITT 02: KI-ANWENDUNGSFAELLE -->
+      <section class="section" style="background: var(--cream); padding-top: 0" id="schritt-02">
+        <div class="container">
+          <div class="step-badge">
+            <span class="step-badge-num">02</span>
+            <span class="step-badge-label" style="color: var(--ink)">KI-Anwendungsfälle</span>
+          </div>
+          <h2>Was darf KI &mdash; und was <em class="gold">nicht</em>?</h2>
+          <p class="lead reading" style="margin-top: 24px">
+            Diese Angaben bilden das Kernstück der Richtlinie. Je konkreter deine Eingaben, desto präziser die generierten Abschnitte 3 und 4.
+          </p>
+
+          <div class="field-group" style="max-width: 800px; margin-top: 40px">
+            <div class="field">
+              <label class="field-label" for="genehmigt">Genehmigte KI-Anwendungsfälle</label>
+              <p class="field-help">Was ist in deinem Unternehmen erlaubt? Stichworte oder kurze Beschreibungen, je Zeile eine Angabe.</p>
+              <textarea id="genehmigt" rows="6" placeholder="z.B.&#10;- Textentwürfe und E-Mails erstellen&#10;- Recherche und Zusammenfassungen&#10;- Interne Protokolle strukturieren&#10;- Brainstorming und Ideenfindung"></textarea>
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="verboten">Eingeschränkte / verbotene Anwendungsfälle</label>
+              <p class="field-help">Was ist ausdrücklich nicht erlaubt oder nur mit Sondergenehmigung? Eigene rote Linien ergänzen die gesetzlichen Mindestanforderungen.</p>
+              <textarea id="verboten" rows="6" placeholder="z.B.&#10;- Vertrauliche Kundendaten eingeben&#10;- Automatisierte Personalentscheidungen&#10;- Externe Kommunikation ohne menschliche Prüfung&#10;- Rechtliche Entscheidungen ohne Fachprüfung"></textarea>
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="tools">Eingesetzte KI-Tools und -Plattformen</label>
+              <p class="field-help">Welche Tools sind aktuell im Einsatz oder geplant? Kommagetrennt.</p>
+              <input type="text" id="tools" placeholder="z.B. ChatGPT (OpenAI), Claude (Anthropic), Microsoft Copilot" />
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="sensible-daten">Besonders schützenswerte Datenkategorien</label>
+              <p class="field-help">Welche sensiblen Daten gibt es im Unternehmen, die keinesfalls in externe KI-Systeme eingegeben werden dürfen?</p>
+              <input type="text" id="sensible-daten" placeholder="z.B. Kundendaten, Finanzdaten, HR-Daten, Gesundheitsdaten" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCHRITT 03: RISIKOPROFIL -->
+      <section class="section" style="background: var(--cream); padding-top: 0" id="schritt-03">
+        <div class="container">
+          <div class="step-badge">
+            <span class="step-badge-num">03</span>
+            <span class="step-badge-label" style="color: var(--ink)">Risikoprofil &amp; Datenschutz</span>
+          </div>
+          <h2>Wie hoch ist das <em class="gold">Risiko</em>?</h2>
+          <p class="lead reading" style="margin-top: 24px">
+            Diese Einschätzungen bestimmen, wie streng Abschnitte 5 (Aufsicht) und 6 (Datenschutz) formuliert werden.
+          </p>
+
+          <div class="field-group two-col" style="max-width: 800px; margin-top: 40px">
+            <div class="field">
+              <label class="field-label" for="risiko">Risikotoleranz / Risikoprofil</label>
+              <p class="field-help">Wie hoch ist das Risiko eines KI-Fehlers in eurem Kontext?</p>
+              <select id="risiko">
+                <option value="">— Risikoprofil wählen —</option>
+                <option value="niedrig">Niedrig — Fehler haben geringe Konsequenzen</option>
+                <option value="mittel">Mittel — Fehler können Reputation oder Kunden betreffen</option>
+                <option value="hoch">Hoch — Fehler können rechtliche, finanzielle oder gesundheitliche Folgen haben</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="datenschutz">Bestehende Datenschutzrichtlinie</label>
+              <p class="field-help">Gibt es bereits eine Datenschutz- oder Informationssicherheitsrichtlinie?</p>
+              <select id="datenschutz">
+                <option value="">— Status wählen —</option>
+                <option value="ja">Ja, vollständig vorhanden</option>
+                <option value="teilweise">Ja, aber lückenhaft / veraltet</option>
+                <option value="nein">Nein, noch nicht vorhanden</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="regulierung">Anwendbare Datenschutzregulierung</label>
+              <p class="field-help">Welche gesetzlichen Anforderungen gelten für euer Unternehmen?</p>
+              <select id="regulierung">
+                <option value="">— Regulierung wählen —</option>
+                <option value="ch-dsg">Schweiz — revDSG (seit 1.9.2023)</option>
+                <option value="ch-eu">Schweiz + EU — revDSG + DSGVO</option>
+                <option value="keine">Keine spezifische Regulierung bekannt</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="verantwortliche">KI-Verantwortliche:r bestimmt?</label>
+              <p class="field-help">Ist eine Person für KI-Governance intern zuständig?</p>
+              <select id="verantwortliche">
+                <option value="">— Status wählen —</option>
+                <option value="ja">Ja, wird bestimmt</option>
+                <option value="nein">Nein / Nicht vorgesehen</option>
+                <option value="unklar">Noch unklar</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCHRITT 04: GOVERNANCE-STRUKTUR -->
+      <section class="section" style="background: var(--cream); padding-top: 0" id="schritt-04">
+        <div class="container">
+          <div class="step-badge">
+            <span class="step-badge-num">04</span>
+            <span class="step-badge-label" style="color: var(--ink)">Governance-Struktur</span>
+          </div>
+          <h2>Wer ist verantwortlich &mdash; und <em class="gold">ab wann</em>?</h2>
+          <p class="lead reading" style="margin-top: 24px">
+            Diese Angaben erscheinen in den Abschnitten zu Verantwortlichkeiten, Überprüfung und im Unterschriftenblock des Word-Dokuments.
+          </p>
+
+          <div class="field-group two-col" style="max-width: 800px; margin-top: 40px">
+            <div class="field" style="grid-column: 1 / -1">
+              <label class="field-label" for="verantwortliche-name">Name / Funktion der KI-verantwortlichen Person</label>
+              <p class="field-help">Diese Person ist Ansprechpartner:in für KI-Fragen und Meldungen. Funktion reicht, falls kein Name bekannt.</p>
+              <input type="text" id="verantwortliche-name" placeholder="z.B. Geschäftsführer:in / Chief Digital Officer" />
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="turnus">Überprüfungsrhythmus</label>
+              <p class="field-help">Wie oft wird die Richtlinie überprüft?</p>
+              <select id="turnus">
+                <option value="">— Turnus wählen —</option>
+                <option value="jährlich">Jährlich</option>
+                <option value="halbjährlich">Halbjährlich</option>
+                <option value="quartalsweise">Quartalsweise</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="datum">Datum des Inkrafttretens</label>
+              <p class="field-help">Wann tritt die Richtlinie in Kraft?</p>
+              <input type="text" id="datum" placeholder="z.B. 1. Januar 2025" />
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="ort">Ort der Unterzeichnung</label>
+              <p class="field-help">Erscheint im Unterschriftenblock.</p>
+              <input type="text" id="ort" placeholder="z.B. Zürich" />
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="version">Version</label>
+              <p class="field-help">Versionsnummer für die Dokumentation.</p>
+              <input type="text" id="version" placeholder="z.B. 1.0" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="gold-rule" />
+
+      <!-- POLICY SECTIONS — OBSIDIAN -->
+      <div class="policy-section">
+
+        <!-- Regen All Bar -->
+        <div class="regen-bar">
+          <span class="regen-bar-text">Alle sechs Abschnitte aus den Formulardaten neu generieren:</span>
+          <div class="btn-group">
+            <button class="btn compact solid" type="button" id="regen-all-btn">
+              Alle Abschnitte generieren
+            </button>
+            <span class="copy-feedback" id="regen-feedback">Generiert ✓</span>
+          </div>
+        </div>
+
+        <!-- ABSCHNITT 1–2: GRUNDLAGEN -->
+        <section class="section large" id="abschnitt-grundlagen" style="padding-top: 80px">
+          <div class="container">
+            <div class="step-badge">
+              <span class="step-badge-num">05</span>
+              <span class="step-badge-label">Abschnitt 1–2 · Grundlagen</span>
+            </div>
+            <h2>Präambel, Zweck &amp; <em class="gold">Geltungsbereich</em>.</h2>
+            <p class="lead reading" style="margin-top: 24px">
+              Legt fest, warum die Richtlinie existiert, wen sie bindet und welches Recht anwendbar ist. Dieser Abschnitt bildet die juristische Grundlage des Dokuments.
+            </p>
+
+            <div class="policy-card">
+              <div class="policy-card-header">
+                <div class="policy-card-title">Abschnitt 1–2 · Grundlagen</div>
+                <div class="btn-group">
+                  <button class="btn compact" type="button" data-action="regenerate" data-target="policy-grundlagen">Aktualisieren</button>
+                  <button class="btn compact solid" type="button" data-action="copy" data-target="policy-grundlagen">Kopieren</button>
+                  <span class="copy-feedback" data-feedback="policy-grundlagen">Kopiert</span>
+                </div>
+              </div>
+              <textarea id="policy-grundlagen" class="policy-textarea" style="min-height: 420px" spellcheck="false"></textarea>
+            </div>
+          </div>
+        </section>
+
+        <div style="height: 1px; background: var(--alpha-divider-dark)"></div>
+
+        <!-- ABSCHNITT 3–4: ANWENDUNGSFAELLE -->
+        <section class="section large" id="abschnitt-anwendung">
+          <div class="container">
+            <div class="step-badge">
+              <span class="step-badge-num">06</span>
+              <span class="step-badge-label">Abschnitt 3–4 · Anwendungsfälle</span>
+            </div>
+            <h2>Erlaubt, eingeschränkt, <em class="gold">verboten</em>.</h2>
+            <p class="lead reading" style="margin-top: 24px">
+              Die konkreten Regeln für den KI-Einsatz. Dieser Abschnitt wird am häufigsten von Mitarbeitenden gelesen &mdash; Klarheit ist entscheidend.
+            </p>
+
+            <div class="policy-card">
+              <div class="policy-card-header">
+                <div class="policy-card-title">Abschnitt 3–4 · Anwendungsfälle</div>
+                <div class="btn-group">
+                  <button class="btn compact" type="button" data-action="regenerate" data-target="policy-anwendung">Aktualisieren</button>
+                  <button class="btn compact solid" type="button" data-action="copy" data-target="policy-anwendung">Kopieren</button>
+                  <span class="copy-feedback" data-feedback="policy-anwendung">Kopiert</span>
+                </div>
+              </div>
+              <textarea id="policy-anwendung" class="policy-textarea" style="min-height: 480px" spellcheck="false"></textarea>
+            </div>
+          </div>
+        </section>
+
+        <div style="height: 1px; background: var(--alpha-divider-dark)"></div>
+
+        <!-- ABSCHNITT 5: AUFSICHT -->
+        <section class="section large" id="abschnitt-aufsicht">
+          <div class="container">
+            <div class="step-badge">
+              <span class="step-badge-num">07</span>
+              <span class="step-badge-label">Abschnitt 5 · Menschliche Aufsicht</span>
+            </div>
+            <h2>Wer ist <em class="gold">verantwortlich</em>?</h2>
+            <p class="lead reading" style="margin-top: 24px">
+              Klare Verantwortlichkeiten für Mitarbeitende, Führungskräfte und die KI-verantwortliche Person. Angepasst an euer Risikoprofil.
+            </p>
+
+            <div class="policy-card">
+              <div class="policy-card-header">
+                <div class="policy-card-title">Abschnitt 5 · Menschliche Aufsicht</div>
+                <div class="btn-group">
+                  <button class="btn compact" type="button" data-action="regenerate" data-target="policy-aufsicht">Aktualisieren</button>
+                  <button class="btn compact solid" type="button" data-action="copy" data-target="policy-aufsicht">Kopieren</button>
+                  <span class="copy-feedback" data-feedback="policy-aufsicht">Kopiert</span>
+                </div>
+              </div>
+              <textarea id="policy-aufsicht" class="policy-textarea" style="min-height: 380px" spellcheck="false"></textarea>
+            </div>
+          </div>
+        </section>
+
+        <div style="height: 1px; background: var(--alpha-divider-dark)"></div>
+
+        <!-- ABSCHNITT 6: DATENSCHUTZ -->
+        <section class="section large" id="abschnitt-datenschutz">
+          <div class="container">
+            <div class="step-badge">
+              <span class="step-badge-num">08</span>
+              <span class="step-badge-label">Abschnitt 6 · Datenschutz</span>
+            </div>
+            <h2>Datenschutz &amp; <em class="gold">Informationssicherheit</em>.</h2>
+            <p class="lead reading" style="margin-top: 24px">
+              revDSG- und DSGVO-konforme Regelungen für den Umgang mit Personendaten bei der KI-Nutzung. Sensible Datenkategorien werden explizit aufgeführt.
+            </p>
+
+            <div class="policy-card">
+              <div class="policy-card-header">
+                <div class="policy-card-title">Abschnitt 6 · Datenschutz</div>
+                <div class="btn-group">
+                  <button class="btn compact" type="button" data-action="regenerate" data-target="policy-datenschutz">Aktualisieren</button>
+                  <button class="btn compact solid" type="button" data-action="copy" data-target="policy-datenschutz">Kopieren</button>
+                  <span class="copy-feedback" data-feedback="policy-datenschutz">Kopiert</span>
+                </div>
+              </div>
+              <textarea id="policy-datenschutz" class="policy-textarea" style="min-height: 380px" spellcheck="false"></textarea>
+            </div>
+          </div>
+        </section>
+
+        <div style="height: 1px; background: var(--alpha-divider-dark)"></div>
+
+        <!-- ABSCHNITT 7–8: QUALITAET & VORFAELLE -->
+        <section class="section large" id="abschnitt-qualitaet">
+          <div class="container">
+            <div class="step-badge">
+              <span class="step-badge-num">09</span>
+              <span class="step-badge-label">Abschnitt 7–8 · Qualität &amp; Vorfälle</span>
+            </div>
+            <h2>Qualitätssicherung &amp; <em class="gold">Vorfallsmeldung</em>.</h2>
+            <p class="lead reading" style="margin-top: 24px">
+              Prüfpflichten für KI-Outputs und ein klarer Meldeprozess für Vorfälle &mdash; inklusive Eskalationspfad zur KI-verantwortlichen Person.
+            </p>
+
+            <div class="policy-card">
+              <div class="policy-card-header">
+                <div class="policy-card-title">Abschnitt 7–8 · Qualität &amp; Vorfälle</div>
+                <div class="btn-group">
+                  <button class="btn compact" type="button" data-action="regenerate" data-target="policy-qualitaet">Aktualisieren</button>
+                  <button class="btn compact solid" type="button" data-action="copy" data-target="policy-qualitaet">Kopieren</button>
+                  <span class="copy-feedback" data-feedback="policy-qualitaet">Kopiert</span>
+                </div>
+              </div>
+              <textarea id="policy-qualitaet" class="policy-textarea" style="min-height: 400px" spellcheck="false"></textarea>
+            </div>
+          </div>
+        </section>
+
+        <div style="height: 1px; background: var(--alpha-divider-dark)"></div>
+
+        <!-- ABSCHNITT 9–10: SCHULUNG & UEBERPRUEFUNG -->
+        <section class="section large" id="abschnitt-schulung">
+          <div class="container">
+            <div class="step-badge">
+              <span class="step-badge-num">10</span>
+              <span class="step-badge-label">Abschnitt 9–10 · Schulung &amp; Überprüfung</span>
+            </div>
+            <h2>Schulung, Überprüfung &amp; <em class="gold">Inkrafttreten</em>.</h2>
+            <p class="lead reading" style="margin-top: 24px">
+              Pflichtschulungen, Versionierungsprinzip und das Datum des Inkrafttretens. Dieser Abschnitt geht direkt in den Unterschriftenblock über.
+            </p>
+
+            <div class="policy-card">
+              <div class="policy-card-header">
+                <div class="policy-card-title">Abschnitt 9–10 · Schulung &amp; Überprüfung</div>
+                <div class="btn-group">
+                  <button class="btn compact" type="button" data-action="regenerate" data-target="policy-schulung">Aktualisieren</button>
+                  <button class="btn compact solid" type="button" data-action="copy" data-target="policy-schulung">Kopieren</button>
+                  <span class="copy-feedback" data-feedback="policy-schulung">Kopiert</span>
+                </div>
+              </div>
+              <textarea id="policy-schulung" class="policy-textarea" style="min-height: 320px" spellcheck="false"></textarea>
+            </div>
+          </div>
+        </section>
+
+      </div><!-- end policy-section -->
+
+      <hr class="gold-rule" />
+
+      <!-- DOWNLOAD -->
+      <section class="download-bar" id="download">
+        <div class="container">
+          <h3>Richtlinie speichern &amp; herunterladen.</h3>
+          <p>
+            Lade deine Richtlinie mit allen Eingaben herunter &mdash; als interaktives HTML zum Weiterbearbeiten oder als druckfertiges Word-Dokument mit Deckblatt, nummerierten Abschnitten und Unterschriftenblock.
+          </p>
+          <div class="btn-group" style="justify-content: center">
+            <button class="btn" type="button" id="download-btn">
+              Als HTML herunterladen
+            </button>
+            <button class="btn" type="button" id="download-docx-btn">
+              Als Word-Dokument (.docx)
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <hr class="gold-rule" />
+        <div class="footer-row">
+          <div class="logo" style="font-size: 18px">
+            Raut<span class="gold-letter">a</span>k<span class="gold-letter">i</span>
+          </div>
+          <div>Rautaki Lab</div>
+          <div>rautaki.ch</div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      /* =================================================================
+       BEISPIEL-KONTEXTE
+       ================================================================= */
+      const contexts = {
+        kmu: {
+          unternehmen: "Muster AG",
+          branche: "beratung",
+          groesse: "21-100",
+          standort: "Zürich, Schweiz · AG",
+          genehmigt: "- Textentwürfe, E-Mails und Angebotsdokumente erstellen\n- Recherche und Zusammenfassung öffentlich zugänglicher Informationen\n- Interne Protokolle und Sitzungsnotizen strukturieren\n- Brainstorming und Ideenfindung für Projekte\n- Unterstützung bei Übersetzungen und Sprachkorrektur\n- Zusammenfassungen von Berichten und Studien",
+          verboten: "- Eingabe von vertraulichen Kundendaten oder Vertragsdetails in externe KI-Systeme\n- Automatisierte Entscheidungen über Personen (z.B. Einstellungen, Beurteilungen)\n- Externe Kommunikation mit KI-generierten Inhalten ohne menschliche Prüfung und Freigabe\n- Einsatz bei rechtlichen oder steuerlichen Entscheidungen ohne Fachprüfung\n- Erstellung von offiziellen Verträgen oder Rechtsdokumenten ohne anwaltliche Kontrolle",
+          tools: "ChatGPT (OpenAI), Claude (Anthropic), Microsoft Copilot",
+          sensibleDaten: "Kundendaten, Vertragsunterlagen, Finanzdaten, HR-Daten",
+          risiko: "mittel",
+          datenschutz: "teilweise",
+          regulierung: "ch-dsg",
+          verantwortliche: "ja",
+          verantwortlicheName: "Geschäftsführerin / Geschäftsführer",
+          turnus: "jährlich",
+          datum: "1. Januar 2025",
+          ort: "Zürich",
+          version: "1.0",
+        },
+        gesundheit: {
+          unternehmen: "Klinik Muster GmbH",
+          branche: "gesundheit",
+          groesse: "101-500",
+          standort: "Bern, Schweiz · GmbH",
+          genehmigt: "- Verwaltungstexte und interne Dokumente erstellen\n- Recherche zu medizinischen Leitlinien (ausschliesslich als Informationsquelle, kein Diagnoseersatz)\n- Schulungs- und Ausbildungsmaterialien entwickeln\n- Übersetzung von Patienteninformationen (mit ärztlicher Freigabe)\n- Zusammenfassung von Fachliteratur und Studien",
+          verboten: "- Eingabe von Patientendaten (auch pseudonymisiert) in externe KI-Systeme ohne geprüfte Datenschutzgrundlage\n- KI-gestützte Diagnose, Triage oder Therapieempfehlungen ohne ärztliche Aufsicht und Dokumentation\n- Verwendung von KI-Outputs in Patientengesprächen ohne vorherige Fachvalidierung\n- Erstellung von Arztzeugnissen, Gutachten oder Rezepten durch KI\n- Verarbeitung genetischer oder psychologischer Daten in externen Systemen",
+          tools: "Microsoft Copilot (Enterprise), intern zugelassene klinische Systeme",
+          sensibleDaten: "Patientendaten, Gesundheits- und Diagnosedaten, genetische Daten, HR-Daten",
+          risiko: "hoch",
+          datenschutz: "ja",
+          regulierung: "ch-eu",
+          verantwortliche: "ja",
+          verantwortlicheName: "Chief Medical Information Officer (CMIO)",
+          turnus: "halbjährlich",
+          datum: "1. März 2025",
+          ort: "Bern",
+          version: "1.0",
+        },
+        finanzen: {
+          unternehmen: "Finanz Partner AG",
+          branche: "finanzen",
+          groesse: "21-100",
+          standort: "Basel, Schweiz · AG",
+          genehmigt: "- Erstellung interner Berichte und Analysen-Zusammenfassungen\n- Recherche zu Marktentwicklungen und öffentlichen Informationen\n- Entwürfe von Kundenkommunikation (ohne Personen- oder Kontodaten)\n- Ausbildungsunterlagen und interne FAQs erstellen\n- Sitzungsprotokolle und Meeting-Zusammenfassungen",
+          verboten: "- Eingabe von Kundendaten, Kontoinformationen oder Portfoliodetails in externe KI-Systeme\n- KI-gestützte Anlageempfehlungen ohne menschliche FINMA-konforme Prüfung\n- Automatisierte Kredit- oder Risikoentscheidungen ohne Compliance-Freigabe\n- Erstellung von regulatorischen Berichten oder Compliance-Dokumenten ohne Fachprüfung\n- Verarbeitung von AML- oder KYC-Daten in externen Systemen",
+          tools: "Microsoft Copilot (Enterprise), intern zugelassene Systeme",
+          sensibleDaten: "Kundendaten, Kontodaten, Portfoliodetails, AML/KYC-Informationen, Handelsstrategien",
+          risiko: "hoch",
+          datenschutz: "ja",
+          regulierung: "ch-eu",
+          verantwortliche: "ja",
+          verantwortlicheName: "Chief Compliance Officer (CCO)",
+          turnus: "quartalsweise",
+          datum: "1. Februar 2025",
+          ort: "Basel",
+          version: "1.0",
+        },
+        npo: {
+          unternehmen: "Stiftung Muster",
+          branche: "npo",
+          groesse: "1-20",
+          standort: "Luzern, Schweiz · Stiftung",
+          genehmigt: "- Textentwürfe für Kommunikation, Newsletter und Social Media\n- Recherche zu Förderthemen, Studien und Best Practices\n- Interne Protokolle und Berichte strukturieren\n- Übersetzungen und Sprachkorrekturen\n- Fundraising-Texte (mit Freigabe durch Leitung)",
+          verboten: "- Eingabe von Spender:innendaten oder persönlichen Daten von Begünstigten in externe KI-Systeme\n- Automatisierte Entscheidungen über Spendenverwendung oder Begünstigte\n- Offizielle Stellungnahmen zu politischen oder sozialen Themen ohne menschliche Prüfung\n- Verwendung von KI für Entscheidungen, die Begünstigte direkt und wesentlich betreffen",
+          tools: "ChatGPT (OpenAI), Claude (Anthropic)",
+          sensibleDaten: "Spender:innendaten, Daten von Begünstigten, interne Projektberichte",
+          risiko: "niedrig",
+          datenschutz: "nein",
+          regulierung: "ch-dsg",
+          verantwortliche: "ja",
+          verantwortlicheName: "Geschäftsführerin / Geschäftsführer",
+          turnus: "jährlich",
+          datum: "1. April 2025",
+          ort: "Luzern",
+          version: "1.0",
+        },
+      };
+
+      /* =================================================================
+       HELPERS
+       ================================================================= */
+      function v(id) {
+        return (document.getElementById(id) || {}).value || "";
+      }
+
+      function getBrancheLabel(branche) {
+        const labels = {
+          beratung: "Beratung / Dienstleistung",
+          gesundheit: "Gesundheit / Pflege",
+          finanzen: "Finanzdienstleistung",
+          bildung: "Bildung / Forschung",
+          npo: "NPO / Sozialwesen",
+          produktion: "Produktion / Industrie",
+          handel: "Handel / Retail",
+          andere: "Andere",
+        };
+        return labels[branche] || branche || "[BRANCHE]";
+      }
+
+      function getGroesseLabel(groesse) {
+        const labels = {
+          "1-20": "bis zu 20 Mitarbeitenden",
+          "21-100": "21 bis 100 Mitarbeitenden",
+          "101-500": "101 bis 500 Mitarbeitenden",
+          "500plus": "über 500 Mitarbeitenden",
+        };
+        return labels[groesse] || "[GRÖSSE]";
+      }
+
+      function getSetup() {
+        return {
+          unternehmen: v("unternehmen") || "[UNTERNEHMEN]",
+          branche: v("branche"),
+          groesse: v("groesse"),
+          standort: v("standort") || "[STANDORT / RECHTSFORM]",
+          genehmigt: v("genehmigt") || "[GENEHMIGTE ANWENDUNGSFÄLLE EINTRAGEN]",
+          verboten: v("verboten") || "[VERBOTENE ANWENDUNGSFÄLLE EINTRAGEN]",
+          tools: v("tools") || "[KI-TOOLS EINTRAGEN]",
+          sensibleDaten: v("sensible-daten") || "[SENSIBLE DATENKATEGORIEN EINTRAGEN]",
+          risiko: v("risiko") || "mittel",
+          datenschutz: v("datenschutz") || "",
+          regulierung: v("regulierung") || "ch-dsg",
+          verantwortliche: v("verantwortliche") || "",
+          verantwortlicheName: v("verantwortliche-name") || "[KI-VERANTWORTLICHE:R]",
+          turnus: v("turnus") || "jährlich",
+          datum: v("datum") || "[DATUM]",
+          ort: v("ort") || "[ORT]",
+          version: v("version") || "1.0",
+        };
+      }
+
+      function indentLines(text, prefix) {
+        return text.split("\n").map(l => l.trim() ? prefix + l.trim() : "").join("\n");
+      }
+
+      function toolsList(tools) {
+        return tools.split(",").map(t => "     - " + t.trim()).join("\n");
+      }
+
+      function sensibleList(data) {
+        return data.split(",").map(d => "     - " + d.trim()).join("\n");
+      }
+
+      /* =================================================================
+       SECTION BUILDERS
+       ================================================================= */
+      function buildGrundlagen(s) {
+        const regulierungText = {
+          "ch-dsg": "dem revidierten Schweizer Datenschutzgesetz (revDSG, in Kraft seit 1. September 2023)",
+          "ch-eu": "dem revidierten Schweizer Datenschutzgesetz (revDSG) sowie der EU-Datenschutz-Grundverordnung (DSGVO)",
+          "keine": "den jeweils geltenden datenschutzrechtlichen Anforderungen",
+        };
+
+        return `KI-GOVERNANCE-RICHTLINIE
+${s.unternehmen}
+Version ${s.version} · In Kraft ab ${s.datum}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1.  PRÄAMBEL UND ZWECK
+
+1.1  ${s.unternehmen} anerkennt das transformative Potenzial generativer
+     Künstlicher Intelligenz und verpflichtet sich zu deren verantwortungsvollem,
+     ethischen und gesetzeskonformen Einsatz.
+
+1.2  Diese KI-Governance-Richtlinie (nachfolgend "Richtlinie") legt verbindliche
+     Grundsätze, Verhaltensregeln und Verantwortlichkeiten für den Einsatz von
+     KI-Tools und -Systemen fest. Sie gilt für alle Mitarbeitenden, Führungskräfte
+     sowie beauftragte Dritte, die im Namen von ${s.unternehmen} handeln.
+
+1.3  Ziel der Richtlinie ist es:
+     a) Den verantwortungsvollen und effizienten Einsatz von KI-Technologien
+        zu fördern.
+     b) Risiken für Datenschutz, Informationssicherheit, Reputation und
+        Compliance zu minimieren.
+     c) Das Vertrauen von Kund:innen, Partnern und der Öffentlichkeit in
+        ${s.unternehmen} zu wahren.
+     d) Die Einhaltung von ${regulierungText[s.regulierung] || "den geltenden Datenschutzgesetzen"}
+        sicherzustellen.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+2.  GELTUNGSBEREICH
+
+2.1  Diese Richtlinie gilt für ${s.unternehmen}, tätig in der Branche
+     ${getBrancheLabel(s.branche)}, mit ${getGroesseLabel(s.groesse)}.
+
+2.2  Die Richtlinie gilt für sämtliche berufliche Nutzung von KI-Tools,
+     unabhängig davon, ob diese auf unternehmenseigenen oder privaten Geräten
+     stattfindet.
+
+2.3  Standort / Rechtsform: ${s.standort}.
+
+2.4  Diese Richtlinie ergänzt bestehende Unternehmensrichtlinien (z.B. IT-Sicherheit,
+     Datenschutz, Code of Conduct) und ersetzt diese nicht. Bei Widersprüchen gilt
+     die strengere Anforderung.`;
+      }
+
+      function buildAnwendung(s) {
+        const toolsFormatted = toolsList(s.tools);
+        const genehmigtFormatted = indentLines(s.genehmigt, "     ");
+        const verboten1Formatted = indentLines(s.verboten, "     ");
+
+        return `3.  GENEHMIGTE KI-ANWENDUNGSFÄLLE
+
+3.1  Die folgenden Anwendungsfälle sind für ${s.unternehmen} genehmigt:
+
+${genehmigtFormatted}
+
+3.2  Für alle genehmigten Anwendungsfälle gilt ohne Ausnahme:
+     KI-generierte Inhalte müssen von einer qualifizierten Person geprüft,
+     hinterfragt und freigegeben werden, bevor sie extern kommuniziert oder
+     in wesentliche Entscheidungen einbezogen werden.
+
+3.3  Aktuell genehmigte KI-Tools und -Plattformen:
+${toolsFormatted}
+
+     Neue KI-Tools bedürfen vor der Einführung der schriftlichen Genehmigung
+     durch ${s.verantwortlicheName}.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+4.  EINGESCHRÄNKTE UND VERBOTENE ANWENDUNGSFÄLLE
+
+4.1  Die folgenden Anwendungsfälle sind ohne ausdrückliche schriftliche Genehmigung
+     der Unternehmensleitung verboten:
+
+${verboten1Formatted}
+
+4.2  Generell verboten, ohne Ausnahme:
+     - Eingabe von Personendaten besonderer Kategorie (Gesundheit, Religion,
+       politische Ansichten, Biometrie etc.) in externe KI-Systeme.
+     - Nutzung von KI zur Generierung von irreführenden, diskriminierenden
+       oder manipulativen Inhalten jeglicher Art.
+     - Automatisierte Entscheidungen mit erheblichen rechtlichen oder
+       wirtschaftlichen Folgen für Personen, ohne menschliche Aufsicht
+       und Dokumentation.
+     - Ausgabe von KI-generierten Inhalten als eigene menschliche Arbeit
+       ohne Kennzeichnung, wo dies gesetzlich oder vertraglich gefordert ist.
+
+4.3  Bei Unsicherheit, ob ein Anwendungsfall genehmigt ist, gilt:
+     Vor der Nutzung ist Rücksprache mit ${s.verantwortlicheName} zu halten.
+     Im Zweifelsfall ist KI nicht einzusetzen.`;
+      }
+
+      function buildAufsicht(s) {
+        const risikoRegel = {
+          hoch: `     - Jeder KI-generierte Inhalt, der nach aussen kommuniziert wird oder
+       wesentliche Entscheidungen beeinflusst, erfordert eine dokumentierte
+       Vier-Augen-Prüfung durch eine qualifizierte Person.
+     - Ein vierteljährliches KI-Risiko-Review durch die Unternehmensleitung
+       ist durchzuführen und zu protokollieren.
+     - Kritische KI-Outputs sind zu dokumentieren: Was wurde eingegeben?
+       Was war das Ergebnis? Wer hat geprüft und freigegeben?`,
+          mittel: `     - Alle nach aussen kommunizierten KI-generierten Inhalte sind von einer
+       qualifizierten Person zu prüfen und freizugeben.
+     - Für sensible Entscheidungsgrundlagen ist eine Vier-Augen-Prüfung empfohlen.
+     - Stichprobenweise Überprüfung von KI-Outputs durch Führungskräfte
+       (mindestens halbjährlich).`,
+          niedrig: `     - Stichprobenweise Überprüfung von KI-Outputs durch Vorgesetzte
+       (mindestens jährlich).
+     - Externe Kommunikation und Entscheidungsgrundlagen erfordern immer
+       eine menschliche Prüfung, auch bei niedrigem Risikoprofil.`,
+        };
+
+        const verantRegel =
+          s.verantwortliche === "nein"
+            ? "     Die Verantwortung für KI-Governance liegt bei der Unternehmensleitung."
+            : `     ${s.verantwortlicheName} ist die KI-verantwortliche Person.
+     Kontakt: [E-Mail-Adresse eintragen]`;
+
+        return `5.  MENSCHLICHE AUFSICHT UND VERANTWORTLICHKEITEN
+
+5.1  KI-Verantwortliche Person:
+${verantRegel}
+
+     Zuständigkeiten:
+     - Pflege und Aktualisierung dieser Richtlinie.
+     - Beurteilung und Genehmigung neuer KI-Tools.
+     - Entgegennahme und Bearbeitung von Vorfallsmeldungen.
+     - Organisation von Schulungen und Sensibilisierungsmassnahmen.
+     - Eskalation an Unternehmensleitung und Behörden bei Bedarf.
+
+5.2  Verantwortlichkeiten aller Mitarbeitenden:
+     - Kenntnis und Einhaltung dieser Richtlinie.
+     - Kritische Prüfung aller KI-generierten Inhalte vor Verwendung.
+     - Meldung von Vorfällen, Unsicherheiten und Schwachstellen.
+     - Teilnahme an Pflichtschulungen zu KI-Governance.
+
+5.3  Zusätzliche Verantwortlichkeiten für Führungskräfte:
+     - Sicherstellung, dass Mitarbeitende im eigenen Team diese Richtlinie
+       kennen und einhalten.
+     - Vorbildfunktion im verantwortungsvollen Umgang mit KI.
+     - Eskalation von Grundsatzfragen und Vorfällen.
+
+5.4  Risikoprofil-spezifische Anforderungen (Risikoprofil: ${s.risiko || "mittel"}):
+${risikoRegel[s.risiko] || risikoRegel["mittel"]}`;
+      }
+
+      function buildDatenschutz(s) {
+        const regulierungDetail = {
+          "ch-dsg": `Das revidierte Schweizer Datenschutzgesetz (revDSG, in Kraft seit
+     1. September 2023) ist die massgebende Rechtsgrundlage. Betroffene
+     Personen haben Auskunfts-, Berichtigungs- und Löschungsrechte.`,
+          "ch-eu": `Das revidierte Schweizer Datenschutzgesetz (revDSG) und die
+     EU-Datenschutz-Grundverordnung (DSGVO) sind gleichermassen anwendbar.
+     Für personenbezogene Daten von EU-Bürger:innen gelten die strengeren
+     Anforderungen der DSGVO (Art. 5, 6, 13, 17, 25 DSGVO).`,
+          "keine": "Die jeweils geltenden datenschutzrechtlichen Anforderungen sind einzuhalten.",
+        };
+        const dpExists = {
+          ja: "Eine Datenschutzrichtlinie ist vollständig vorhanden und gilt ergänzend.",
+          teilweise: "Eine Datenschutzrichtlinie ist teilweise vorhanden. Lücken, die durch den KI-Einsatz entstehen, sind zu schliessen (Deadline: [DATUM EINTRAGEN]).",
+          nein: "Eine formelle Datenschutzrichtlinie ist noch nicht vorhanden. Es wird dringend empfohlen, diese parallel zu dieser KI-Governance-Richtlinie zu erarbeiten.",
+        };
+
+        return `6.  DATENSCHUTZ UND INFORMATIONSSICHERHEIT
+
+6.1  Grundsatz: Keine Personendaten ohne Rechtsgrundlage.
+     Mitarbeitende dürfen Personendaten nur dann in KI-Systeme eingeben,
+     wenn eine klare Rechtsgrundlage besteht, die betroffene Person
+     informiert wurde und eine Anonymisierung technisch nicht möglich
+     oder unverhältnismässig wäre.
+
+6.2  Regulatorische Grundlage:
+     ${regulierungDetail[s.regulierung] || "Geltende Datenschutzgesetze sind einzuhalten."}
+
+6.3  Bestehende Datenschutzrichtlinie:
+     ${dpExists[s.datenschutz] || "Status ist zu klären."}
+
+6.4  Besonders schützenswerte Datenkategorien bei ${s.unternehmen}:
+     Die folgenden Daten dürfen nicht ohne ausdrückliche Genehmigung in
+     externe KI-Systeme eingegeben werden:
+${sensibleList(s.sensibleDaten)}
+
+6.5  Datensparsamkeit:
+     Es dürfen nur die Daten eingegeben werden, die für die jeweilige
+     Aufgabe tatsächlich notwendig sind. Pseudonymisierung und Anonymisierung
+     sind, wo möglich und verhältnismässig, zu bevorzugen.
+
+6.6  Cloud und Drittanbieter:
+     Mitarbeitende sind sich bewusst, dass Eingaben in externe KI-Systeme
+     möglicherweise zur Modellverbesserung genutzt werden. Wo verfügbar,
+     sind Enterprise-Versionen mit vertraglich gesicherten Datenschutz-
+     garantien zu bevorzugen. Die aktuell genehmigten Tools (vgl. Abs. 3.3)
+     wurden auf ihre Datenschutzkonformität geprüft.`;
+      }
+
+      function buildQualitaet(s) {
+        const highRiskAddOn =
+          s.risiko === "hoch"
+            ? "\n     d) Bei hohem Risikoprofil: Kritische KI-Outputs sind zu dokumentieren\n        (Eingabe, Ausgabe, prüfende Person, Datum, Freigabeentscheid)."
+            : "";
+
+        return `7.  QUALITÄTSSICHERUNG
+
+7.1  Prüfpflicht:
+     a) KI-Outputs sind keine gesicherten Fakten. Halluzinationen, inhaltliche
+        Fehler und veraltete Informationen sind technisch bedingt möglich.
+        Mitarbeitende sind verpflichtet, kritisch zu prüfen.
+     b) Bei fachlichen Aussagen, Zahlen und Quellenangaben ist immer eine
+        Verifizierung aus der Primärquelle erforderlich, bevor die Information
+        weitergegeben oder genutzt wird.
+     c) KI-generierte Texte, die nach aussen kommuniziert werden, sind auf
+        inhaltliche Korrektheit, Ton und Qualität zu prüfen.${highRiskAddOn}
+
+7.2  Kennzeichnungspflicht:
+     KI-generierte Inhalte sind intern als solche zu kennzeichnen
+     (z.B. mit dem Hinweis "KI-generiert, geprüft von [Name]").
+     Externe Kennzeichnung erfolgt nach gesetzlicher oder vertraglicher
+     Pflicht sowie nach Massgabe branchenspezifischer Anforderungen.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+8.  VORFALLSMELDUNG UND REAKTION
+
+8.1  Als meldepflichtige KI-Vorfälle gelten insbesondere:
+     - Versehentliche Eingabe vertraulicher oder personenbezogener Daten
+       in externe KI-Systeme.
+     - Weitergabe von ungeprüften oder falschen KI-Outputs mit Folgeschäden.
+     - Nutzung von KI für verbotene Anwendungsfälle (vgl. Abschnitt 4).
+     - Sicherheits- oder Integritätsprobleme mit eingesetzten KI-Tools.
+     - Unbefugter Einsatz von nicht genehmigten KI-Tools.
+
+8.2  Meldeprozess:
+     Vorfälle sind unverzüglich (spätestens innerhalb von 24 Stunden) zu
+     melden an:
+
+     ${s.verantwortlicheName}
+     Kontakt: [E-Mail / Telefon eintragen]
+
+     Die KI-verantwortliche Person beurteilt den Vorfall, leitet allfällige
+     Sofortmassnahmen ein und entscheidet über eine Eskalation an die
+     Unternehmensleitung sowie ggf. an Datenschutzbehörden
+     (sofern meldepflichtig nach revDSG / DSGVO).
+
+8.3  Dokumentation:
+     Alle gemeldeten Vorfälle werden dokumentiert, einschliesslich der
+     getroffenen Massnahmen und allfälliger Verbesserungsmassnahmen.`;
+      }
+
+      function buildSchulung(s) {
+        const turnusText = {
+          jährlich: "einmal jährlich",
+          halbjährlich: "halbjährlich (alle 6 Monate)",
+          quartalsweise: "quartalsweise (alle 3 Monate)",
+        };
+
+        return `9.  SCHULUNG UND SENSIBILISIERUNG
+
+9.1  Alle Mitarbeitenden erhalten bei Eintritt und nach wesentlichen
+     Richtlinienänderungen eine Einführung in diese KI-Governance-Richtlinie.
+     Die Kenntnisnahme ist zu bestätigen und zu dokumentieren.
+
+9.2  ${s.verantwortlicheName} organisiert mindestens einmal pro Jahr eine
+     Sensibilisierungsveranstaltung oder bereitgestellte Lernmaterialien
+     zu aktuellem KI-Einsatz, neuen Risiken und Best Practices.
+
+9.3  Mitarbeitende in Rollen mit erhöhtem KI-Einsatz oder Risiko können zu
+     vertieften Schulungen verpflichtet werden.
+
+9.4  Schulungsteilnahmen werden dokumentiert und sind auf Anfrage der
+     KI-verantwortlichen Person und der Unternehmensleitung vorzulegen.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+10. ÜBERPRÜFUNG, VERSIONIERUNG UND INKRAFTTRETEN
+
+10.1 Diese Richtlinie tritt am ${s.datum} in Kraft und gilt auf unbestimmte Zeit.
+
+10.2 Die Richtlinie wird ${turnusText[s.turnus] || "jährlich"} durch ${s.verantwortlicheName}
+     überprüft und bei Bedarf aktualisiert. Wesentliche Änderungen im
+     regulatorischen Umfeld (z.B. neue EU-KI-Verordnung) können eine
+     ausserordentliche Überprüfung erfordern.
+
+10.3 Jede Aktualisierung erhält eine neue Versionsnummer. Die aktuelle Version
+     ist intern zugänglich unter [SPEICHERORT / INTRANET-LINK EINTRAGEN].
+
+10.4 Alle Mitarbeitenden werden bei wesentlichen Änderungen aktiv informiert.
+
+10.5 Diese Richtlinie (Version ${s.version}) wurde verabschiedet von der
+     Unternehmensleitung von ${s.unternehmen}
+     am ${s.datum} in ${s.ort}.`;
+      }
+
+      /* =================================================================
+       REGENERATE
+       ================================================================= */
+      function regenerate(target) {
+        const s = getSetup();
+        const map = {
+          "policy-grundlagen": buildGrundlagen,
+          "policy-anwendung": buildAnwendung,
+          "policy-aufsicht": buildAufsicht,
+          "policy-datenschutz": buildDatenschutz,
+          "policy-qualitaet": buildQualitaet,
+          "policy-schulung": buildSchulung,
+        };
+        if (map[target]) {
+          document.getElementById(target).value = map[target](s);
+        }
+      }
+
+      function regenerateAll() {
+        const keys = ["policy-grundlagen","policy-anwendung","policy-aufsicht","policy-datenschutz","policy-qualitaet","policy-schulung"];
+        keys.forEach(k => regenerate(k));
+      }
+
+      /* =================================================================
+       CONTEXT DROPDOWN
+       ================================================================= */
+      document.getElementById("context-select").addEventListener("change", (e) => {
+        const key = e.target.value;
+        if (!key || !contexts[key]) return;
+        const c = contexts[key];
+        document.getElementById("unternehmen").value = c.unternehmen || "";
+        document.getElementById("standort").value = c.standort || "";
+        document.getElementById("genehmigt").value = c.genehmigt || "";
+        document.getElementById("verboten").value = c.verboten || "";
+        document.getElementById("tools").value = c.tools || "";
+        document.getElementById("sensible-daten").value = c.sensibleDaten || "";
+        document.getElementById("verantwortliche-name").value = c.verantwortlicheName || "";
+        document.getElementById("datum").value = c.datum || "";
+        document.getElementById("ort").value = c.ort || "";
+        document.getElementById("version").value = c.version || "";
+
+        const sel = (id, val) => {
+          const el = document.getElementById(id);
+          if (el) el.value = val || "";
+        };
+        sel("branche", c.branche);
+        sel("groesse", c.groesse);
+        sel("risiko", c.risiko);
+        sel("datenschutz", c.datenschutz);
+        sel("regulierung", c.regulierung);
+        sel("verantwortliche", c.verantwortliche);
+        sel("turnus", c.turnus);
+
+        regenerateAll();
+      });
+
+      /* =================================================================
+       BUTTON EVENTS
+       ================================================================= */
+      document.querySelectorAll("button[data-action]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const action = btn.dataset.action;
+          const target = btn.dataset.target;
+          if (action === "regenerate") {
+            regenerate(target);
+          } else if (action === "copy") {
+            const ta = document.getElementById(target);
+            navigator.clipboard.writeText(ta.value).then(() => {
+              const fb = document.querySelector(`[data-feedback="${target}"]`);
+              if (fb) {
+                fb.classList.add("show");
+                setTimeout(() => fb.classList.remove("show"), 1800);
+              }
+            }).catch(() => {
+              ta.select();
+              document.execCommand("copy");
+            });
+          }
+        });
+      });
+
+      document.getElementById("regen-all-btn").addEventListener("click", () => {
+        regenerateAll();
+        const fb = document.getElementById("regen-feedback");
+        if (fb) {
+          fb.classList.add("show");
+          setTimeout(() => fb.classList.remove("show"), 2000);
+        }
+      });
+
+      /* =================================================================
+       PERSIST + HTML DOWNLOAD
+       ================================================================= */
+      function persistValuesToDOM() {
+        document.querySelectorAll('input[type="text"]').forEach((el) => {
+          el.setAttribute("value", el.value);
+        });
+        document.querySelectorAll("textarea").forEach((el) => {
+          el.textContent = el.value;
+        });
+        document.querySelectorAll("select").forEach((el) => {
+          Array.from(el.options).forEach((opt) => {
+            if (opt.value === el.value) opt.setAttribute("selected", "selected");
+            else opt.removeAttribute("selected");
+          });
+        });
+      }
+
+      document.getElementById("download-btn").addEventListener("click", () => {
+        persistValuesToDOM();
+        const html = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+        const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        const date = new Date().toISOString().slice(0, 10);
+        a.href = url;
+        a.download = `ki-governance-richtlinie_${date}.html`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 100);
+      });
+
+      /* =================================================================
+       DOCX EXPORT
+       ================================================================= */
+      function escapeHTML(s) {
+        return String(s || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function sectionToHTML(rawText, style) {
+        return rawText
+          .split("\n")
+          .map(line => {
+            const escaped = escapeHTML(line);
+            if (/^━+$/.test(line.trim())) {
+              return `<hr style="border:none;border-top:1pt solid #E8E5DF;margin:12pt 0;">`;
+            }
+            if (/^\d+\.\s{2,}[A-ZÄÖÜ]/.test(line.trim())) {
+              return `<p style="${style.h2}">${escaped}</p>`;
+            }
+            if (/^\d+\.\d+\s/.test(line.trim())) {
+              return `<p style="${style.clause}">${escaped}</p>`;
+            }
+            if (line.trim() === "") {
+              return `<p style="margin:4pt 0;">&nbsp;</p>`;
+            }
+            return `<p style="${style.body}">${escaped}</p>`;
+          })
+          .join("\n");
+      }
+
+      function buildDocxHTML() {
+        const s = getSetup();
+        const dateStr = new Date().toLocaleDateString("de-CH");
+
+        const sections = [
+          { id: "policy-grundlagen", label: "Grundlagen (Abschnitt 1–2)" },
+          { id: "policy-anwendung", label: "Anwendungsfälle (Abschnitt 3–4)" },
+          { id: "policy-aufsicht", label: "Menschliche Aufsicht (Abschnitt 5)" },
+          { id: "policy-datenschutz", label: "Datenschutz (Abschnitt 6)" },
+          { id: "policy-qualitaet", label: "Qualität & Vorfälle (Abschnitt 7–8)" },
+          { id: "policy-schulung", label: "Schulung & Überprüfung (Abschnitt 9–10)" },
+        ].map(sec => ({
+          label: sec.label,
+          content: document.getElementById(sec.id).value || "",
+        }));
+
+        const coverStyle = "font-family:Georgia,serif;font-size:11pt;color:#1C1C1C;";
+        const h1Style = "font-family:Georgia,serif;font-size:28pt;color:#1C1C1C;letter-spacing:-1pt;margin-bottom:6pt;font-weight:normal;";
+        const h2Style = "font-family:Georgia,serif;font-size:14pt;color:#1C1C1C;margin-top:18pt;margin-bottom:6pt;font-weight:normal;";
+        const clauseStyle = "font-family:Calibri,Arial,sans-serif;font-size:10.5pt;color:#1C1C1C;margin-top:8pt;margin-bottom:2pt;";
+        const bodyStyle = "font-family:Calibri,Arial,sans-serif;font-size:10.5pt;color:#1C1C1C;margin-top:2pt;margin-bottom:2pt;line-height:1.5;";
+        const monoStyle = "font-family:Consolas,'Courier New',monospace;font-size:10pt;color:#1C1C1C;white-space:pre-wrap;background:#F4F2EE;padding:12pt 16pt;border-left:3pt solid #F5A623;margin:12pt 0;";
+        const labelStyle = "font-family:Calibri,Arial,sans-serif;font-size:9pt;color:#9A9590;letter-spacing:2pt;text-transform:uppercase;margin-bottom:2pt;";
+        const goldRuleStyle = "border:none;border-top:3pt solid #F5A623;margin:20pt 0;";
+        const hairRuleStyle = "border:none;border-top:1pt solid #E8E5DF;margin:12pt 0;";
+        const sigTableStyle = "border-collapse:collapse;width:100%;margin-top:24pt;font-family:Calibri,Arial,sans-serif;font-size:10.5pt;";
+        const sigThStyle = "border-bottom:1pt solid #1C1C1C;padding:8pt 6pt;font-weight:500;font-size:9pt;text-transform:uppercase;letter-spacing:1.5pt;color:#9A9590;text-align:left;";
+        const sigTdStyle = "border-bottom:1pt solid #E8E5DF;padding:32pt 6pt 8pt 6pt;vertical-align:bottom;";
+
+        const styleObj = { h2: h2Style, clause: clauseStyle, body: bodyStyle };
+
+        const sectionsHTML = sections.map(sec => {
+          const raw = sec.content;
+          const lines = raw.split("\n");
+
+          // Render each line
+          let html = "";
+          for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            const t = line.trim();
+            if (/^━+$/.test(t)) {
+              html += `<hr style="${hairRuleStyle}">`;
+            } else if (t === "") {
+              html += `<p style="margin:3pt 0;">&nbsp;</p>`;
+            } else if (/^KI-GOVERNANCE-RICHTLINIE/.test(t)) {
+              html += `<p style="${h2Style}font-size:12pt;letter-spacing:1.5pt;text-transform:uppercase;color:#9A9590;">${escapeHTML(t)}</p>`;
+            } else if (/^\d{1,2}\.\s{2,}[A-ZÄÖÜ]/.test(t)) {
+              html += `<p style="${h2Style}">${escapeHTML(t)}</p>`;
+            } else if (/^\d{1,2}\.\d{1,2}\s/.test(t)) {
+              html += `<p style="${clauseStyle}">${escapeHTML(line)}</p>`;
+            } else {
+              html += `<p style="${bodyStyle}">${escapeHTML(line)}</p>`;
+            }
+          }
+          return html;
+        }).join(`<hr style="${goldRuleStyle}">`);
+
+        return `<!DOCTYPE html>
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+<meta charset="UTF-8">
+<title>KI-Governance-Richtlinie · ${escapeHTML(s.unternehmen)}</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; font-size: 11pt; line-height: 1.5; color: #1C1C1C; margin: 2cm 2.5cm; }
+  h1 { font-family: Georgia, serif; font-size: 28pt; font-weight: normal; letter-spacing: -1pt; margin-bottom: 6pt; }
+  h2 { font-family: Georgia, serif; font-size: 14pt; font-weight: normal; margin-top: 18pt; margin-bottom: 6pt; }
+</style>
+</head>
+<body>
+
+<!-- COVER PAGE -->
+<div style="min-height:500pt;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:40pt;">
+
+  <p style="${labelStyle}">Rautaki Lab · KI-Governance · Vertraulich</p>
+  <hr style="${goldRuleStyle}">
+
+  <h1 style="${h1Style}">KI-Governance-Richtlinie</h1>
+  <p style="font-family:Georgia,serif;font-size:18pt;color:#1C1C1C;margin-bottom:32pt;font-weight:normal;">${escapeHTML(s.unternehmen)}</p>
+
+  <table style="border-collapse:collapse;width:100%;font-family:Calibri,Arial,sans-serif;font-size:10.5pt;margin-bottom:16pt;">
+    <tr>
+      <td style="padding:8pt 16pt 8pt 0;border-bottom:1pt solid #E8E5DF;color:#9A9590;font-size:9pt;text-transform:uppercase;letter-spacing:1.5pt;width:140pt;">Version</td>
+      <td style="padding:8pt 0;border-bottom:1pt solid #E8E5DF;">${escapeHTML(s.version)}</td>
+    </tr>
+    <tr>
+      <td style="padding:8pt 16pt 8pt 0;border-bottom:1pt solid #E8E5DF;color:#9A9590;font-size:9pt;text-transform:uppercase;letter-spacing:1.5pt;">In Kraft ab</td>
+      <td style="padding:8pt 0;border-bottom:1pt solid #E8E5DF;">${escapeHTML(s.datum)}</td>
+    </tr>
+    <tr>
+      <td style="padding:8pt 16pt 8pt 0;border-bottom:1pt solid #E8E5DF;color:#9A9590;font-size:9pt;text-transform:uppercase;letter-spacing:1.5pt;">Branche</td>
+      <td style="padding:8pt 0;border-bottom:1pt solid #E8E5DF;">${escapeHTML(getBrancheLabel(s.branche))}</td>
+    </tr>
+    <tr>
+      <td style="padding:8pt 16pt 8pt 0;border-bottom:1pt solid #E8E5DF;color:#9A9590;font-size:9pt;text-transform:uppercase;letter-spacing:1.5pt;">Überprüfungsrhythmus</td>
+      <td style="padding:8pt 0;border-bottom:1pt solid #E8E5DF;">${escapeHTML(s.turnus || "Jährlich")}</td>
+    </tr>
+    <tr>
+      <td style="padding:8pt 16pt 8pt 0;color:#9A9590;font-size:9pt;text-transform:uppercase;letter-spacing:1.5pt;">KI-Verantwortliche:r</td>
+      <td style="padding:8pt 0;">${escapeHTML(s.verantwortlicheName)}</td>
+    </tr>
+  </table>
+
+  <p style="${labelStyle}margin-top:24pt;">Erstellt mit Rautaki Lab · rautaki.ch · ${dateStr}</p>
+</div>
+
+<hr style="${goldRuleStyle}">
+
+<!-- POLICY CONTENT -->
+${sectionsHTML}
+
+<hr style="${goldRuleStyle}">
+
+<!-- SIGNATURE BLOCK -->
+<h2 style="${h2Style}">Genehmigung und Unterzeichnung</h2>
+<p style="${bodyStyle}">Diese KI-Governance-Richtlinie (Version ${escapeHTML(s.version)}) wurde von der Unternehmensleitung von ${escapeHTML(s.unternehmen)} verabschiedet und tritt am ${escapeHTML(s.datum)} in Kraft.</p>
+
+<table style="${sigTableStyle}">
+  <thead>
+    <tr>
+      <th style="${sigThStyle}width:30%;">Funktion</th>
+      <th style="${sigThStyle}width:30%;">Name</th>
+      <th style="${sigThStyle}width:20%;">Datum</th>
+      <th style="${sigThStyle}width:20%;">Unterschrift</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="${sigTdStyle}">KI-Verantwortliche:r</td>
+      <td style="${sigTdStyle}">${escapeHTML(s.verantwortlicheName)}</td>
+      <td style="${sigTdStyle}">&nbsp;</td>
+      <td style="${sigTdStyle}">&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="${sigTdStyle}">Geschäftsleitung</td>
+      <td style="${sigTdStyle}">&nbsp;</td>
+      <td style="${sigTdStyle}">&nbsp;</td>
+      <td style="${sigTdStyle}">&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="${sigTdStyle}">Datenschutzbeauftragte:r</td>
+      <td style="${sigTdStyle}">&nbsp;</td>
+      <td style="${sigTdStyle}">&nbsp;</td>
+      <td style="${sigTdStyle}">&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="${sigTdStyle}">Rechtsberatung (optional)</td>
+      <td style="${sigTdStyle}">&nbsp;</td>
+      <td style="${sigTdStyle}">&nbsp;</td>
+      <td style="${sigTdStyle}">&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+
+<p style="${bodyStyle}margin-top:24pt;">Ort: ${escapeHTML(s.ort)}</p>
+
+<hr style="${goldRuleStyle}">
+<p style="${labelStyle}">Rautaki · Strategy · Advisory · Growth · rautaki.ch</p>
+<p style="${bodyStyle}color:#9A9590;font-size:9pt;">Dieses Dokument wurde mit dem Rautaki KI-Governance-Generator erstellt. Es ersetzt keine professionelle Rechtsberatung. Für branchenspezifische Anforderungen (Gesundheit, Finanzen) empfiehlt Rautaki eine anwaltliche Prüfung vor Inkrafttreten.</p>
+
+</body>
+</html>`;
+      }
+
+      document.getElementById("download-docx-btn").addEventListener("click", () => {
+        if (typeof htmlDocx === "undefined" || !htmlDocx.asBlob) {
+          alert("Die Word-Export-Bibliothek konnte nicht geladen werden. Bitte prüfe deine Verbindung und lade die Seite neu.");
+          return;
+        }
+        try {
+          const html = buildDocxHTML();
+          const blob = htmlDocx.asBlob(html);
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          const date = new Date().toISOString().slice(0, 10);
+          a.href = url;
+          a.download = `ki-governance-richtlinie_${date}.docx`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          setTimeout(() => URL.revokeObjectURL(url), 100);
+        } catch (err) {
+          console.error("DOCX export failed:", err);
+          alert("Beim Erstellen des Word-Dokuments ist ein Fehler aufgetreten. Versuche stattdessen den HTML-Download.");
+        }
+      });
+
+      /* =================================================================
+       INIT — on load, regenerate if fields are empty
+       ================================================================= */
+      window.addEventListener("DOMContentLoaded", () => {
+        const hasContent =
+          document.getElementById("policy-grundlagen").value.trim().length > 0;
+        if (!hasContent) {
+          // Start with placeholder prompts so sections are not blank
+          regenerateAll();
+        }
+      });
+    </script>
+  </body>
+</html>

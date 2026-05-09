@@ -26,6 +26,22 @@ const tools: Tool[] = [
     tag: "Anleitung",
     href: "/lab/multi-assistant-gpt.html",
   },
+  {
+    slug: "ki-governance-policy",
+    title: "KI-Governance-Richtlinie Generator",
+    description:
+      "Vier Formulare. Zehn Abschnitte. Ein druckfertiges Word-Dokument. Fülle dein Unternehmensprofil aus und erhalte eine vollständige, anpassbare KI-Governance-Richtlinie — mit Deckblatt, nummerierten Klauseln und Unterschriftenblock.",
+    tag: "Generator",
+    href: "/lab/ki-governance-policy.html",
+  },
+  {
+    slug: "eu-ai-act-check",
+    title: "EU AI Act Compliance Checker",
+    description:
+      "12 Fragen. Sofortige Risikoklassifizierung. Beantworte einen strukturierten Fragebogen zu deinem KI-System und erhalte eine Einstufung nach EU AI Act — mit einer massgeschneiderten Massnahmenliste zum Abhaken und einem herunterladbaren Bericht.",
+    tag: "Checker",
+    href: "/lab/eu-ai-act-check.html",
+  },
 ];
 
 export default function LabPage() {
@@ -83,9 +99,9 @@ export default function LabPage() {
                 Weitere Werkzeuge in Entwicklung
               </h2>
               <p className="font-ui text-sm font-light leading-body text-mid-grey max-w-reading">
-                Governance-Checklisten, Prompt-Bibliotheken und
-                interaktive KI-Readiness-Assessments. Hast du eine Idee oder
-                einen konkreten Anwendungsfall?{" "}
+                Prompt-Bibliotheken, KI-Readiness-Assessments und
+                weitere Tools. Hast du eine Idee oder einen
+                konkreten Anwendungsfall?{" "}
                 <a
                   href="/booking"
                   className="text-ink underline decoration-gold/40 underline-offset-4 hover:decoration-gold"
