@@ -28,7 +28,7 @@ export default function HeroDark({ onBookingClick }: HeroDarkProps) {
   return (
     <section className="bg-obsidian grain min-h-[94vh] pt-24 pb-12 grid grid-cols-1 lg:grid-cols-hero-dark relative overflow-hidden">
       <div
-        className="absolute w-[700px] h-[700px] pointer-events-none"
+        className="lg:row-start-1 lg:col-start-1 absolute w-[700px] h-[700px] pointer-events-none"
         style={{
           background:
             "radial-gradient(circle, var(--color-gold-glow) 0%, transparent 70%)",
@@ -39,7 +39,7 @@ export default function HeroDark({ onBookingClick }: HeroDarkProps) {
         aria-hidden="true"
       />
 
-      <div className="lg:col-start-1 px-6 sm:px-10 lg:px-20 py-12 lg:py-16 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-white/5">
+      <div className="lg:row-start-1 lg:col-start-1 px-6 sm:px-10 lg:px-20 py-12 lg:py-16 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-white/5">
         <div>
           <Logo size="xl" variant="dark" showTagline />
         </div>
@@ -68,7 +68,7 @@ export default function HeroDark({ onBookingClick }: HeroDarkProps) {
         </div>
       </div>
 
-      <div className="lg:col-start-2 px-6 sm:px-10 lg:px-20 py-12 lg:py-16 flex flex-col justify-end relative">
+      <div className="lg:row-start-1 lg:col-start-2 px-6 sm:px-10 lg:px-20 py-12 lg:py-16 flex flex-col justify-end relative">
         <div
           ref={parallaxRef}
           className="absolute font-serif text-white/[0.025] pointer-events-none select-none hidden lg:block"
