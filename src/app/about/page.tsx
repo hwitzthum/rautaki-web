@@ -177,12 +177,11 @@ export default function AboutPage() {
 
           <ScrollReveal delay={100}>
             <SectionLabel text="Gründung" />
-            {/* TODO: Replace with the founder's real name. */}
             <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
-              Alex Rangi
+              Harry Witzthum
             </h2>
             <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey mb-4">
-              Alex gründete Rautaki, nachdem er gesehen hatte, wie häufig
+              Harry gründete Rautaki, nachdem er gesehen hatte, wie häufig
               Führungsteams KI entweder überhöhen oder zu wenig in die nötigen
               Fähigkeiten für einen verantwortungsvollen Einsatz investieren.
             </p>
