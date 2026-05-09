@@ -86,6 +86,11 @@ Thumbs.db
 # Project-local generated test assets
 /public/images/stock-test/
 
+# Playwright MCP / local debug screenshots
+.playwright-mcp/
+/footer-check.png
+/*-check.png
+
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
