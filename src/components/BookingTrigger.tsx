@@ -1,13 +1,19 @@
 "use client";
 
+import { useState } from "react";
 import HeroDark from "./HeroDark";
-import { useCalModal } from "./CalBooking";
+import CalModal from "./CalModal";
 
 /**
- * Wires the hero "Beratung reservieren" CTA to the Cal.com popup.
- * HeroDark is unchanged — it simply receives openModal as onBookingClick.
+ * Wires the hero "Beratung reservieren" CTA to the branded Cal modal.
  */
 export default function HeroWithBooking() {
-  const { openModal } = useCalModal();
-  return <HeroDark onBookingClick={openModal} />;
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <HeroDark onBookingClick={() => setOpen(true)} />
+      <CalModal isOpen={open} onClose={() => setOpen(false)} />
+    </>
+  );
 }

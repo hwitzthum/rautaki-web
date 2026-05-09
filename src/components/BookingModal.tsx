@@ -99,7 +99,7 @@ function BookingModalContent({ onClose }: { onClose: () => void }) {
           <button
             onClick={onClose}
             className="absolute top-4 right-4 text-mid-grey hover:text-ink transition-colors p-2"
-            aria-label="Close dialog"
+            aria-label="Dialog schliessen"
           >
             <svg
               width="20"
@@ -116,22 +116,22 @@ function BookingModalContent({ onClose }: { onClose: () => void }) {
           {submitted ? (
             <div className="text-center py-8">
               <h2 id="booking-modal-title" className="font-serif text-h3 tracking-tight-h3 text-ink mb-4">
-                Thank you
+                Vielen Dank
               </h2>
               <p className="font-ui text-body text-mid-grey mb-6">
-                We will be in touch shortly to confirm your consultation.
+                Wir melden uns in Kürze zur Bestätigung Ihrer Beratung.
               </p>
               <Button variant="dark" onClick={onClose}>
-                Close
+                Schliessen
               </Button>
             </div>
           ) : (
             <>
               <h2 id="booking-modal-title" className="font-serif text-h3 tracking-tight-h3 text-ink mb-2">
-                Reserve a consultation
+                Beratung reservieren
               </h2>
               <p className="font-ui text-sm text-mid-grey mb-8">
-                Share your context and we will reply within one business day.
+                Schildern Sie uns Ihre Situation — wir antworten innerhalb eines Werktags.
               </p>
 
               <BookingForm

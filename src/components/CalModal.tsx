@@ -1,0 +1,118 @@
+"use client";
+
+import { useEffect, useRef, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
+import { CalInline } from "./CalBooking";
+import Logo from "./Logo";
+
+interface CalModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const subscribe = () => () => {};
+const getSnapshot = () => true;
+const getServerSnapshot = () => false;
+
+export default function CalModal({ isOpen, onClose }: CalModalProps) {
+  const mounted = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [isOpen]);
+
+  if (!mounted || !isOpen) return null;
+
+  return createPortal(<CalModalContent onClose={onClose} />, document.body);
+}
+
+function CalModalContent({ onClose }: { onClose: () => void }) {
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  /* Close on Escape */
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  /* Close on backdrop click */
+  const handleBackdrop = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) onClose();
+  };
+
+  const callFacts = [
+    { label: "Dauer", value: "45 Min." },
+    { label: "Format", value: "Video-Call" },
+    { label: "Kosten", value: "Kostenlos" },
+  ];
+
+  return (
+    <div
+      className="fixed inset-0 z-modal flex items-start justify-center overflow-y-auto py-8 px-4"
+      onClick={handleBackdrop}
+    >
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-obsidian/90 backdrop-blur-sm"
+        style={{ animation: "fade-in 200ms var(--ease-out-expo) both" }}
+        aria-hidden="true"
+      />
+
+      {/* Modal panel */}
+      <div
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Beratung reservieren"
+        className="relative w-full max-w-[900px] shadow-[0_24px_80px_rgba(0,0,0,0.5)]"
+        style={{ animation: "scale-up 300ms var(--ease-spring) both" }}
+      >
+        {/* Gold top accent */}
+        <div className="h-[3px] bg-gold" />
+
+        {/* Charcoal header bar */}
+        <div className="bg-charcoal px-8 py-5 flex items-center justify-between">
+          <div className="flex items-center gap-10">
+            <Logo size="sm" variant="dark" />
+            <div className="hidden sm:flex items-center gap-8 border-l border-white/10 pl-10">
+              {callFacts.map(({ label, value }) => (
+                <div key={label} className="flex flex-col gap-0.5">
+                  <span className="font-ui text-[10px] uppercase tracking-wide-label text-white/35">
+                    {label}
+                  </span>
+                  <span className="font-serif text-[15px] tracking-tight-h4 font-normal text-white leading-tight">
+                    {value}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <button
+            onClick={onClose}
+            aria-label="Dialog schliessen"
+            className="text-white/40 hover:text-white transition-colors p-2 -mr-2"
+          >
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M4 4l12 12M4 16L16 4" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Cal.com inline embed */}
+        <div className="bg-white">
+          <CalInline />
+        </div>
+
+        {/* Footer note */}
+        <div className="bg-white border-t border-ink/[0.07] px-8 py-3">
+          <p className="font-ui text-xs text-mid-grey">
+            Alle Zeiten in Ihrer lokalen Zeitzone. Bestätigung per E-Mail.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}

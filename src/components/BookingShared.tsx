@@ -47,7 +47,7 @@ export function useBookingSubmit(errorMessage?: string) {
       }
       setSubmitted(true);
     } catch {
-      setError(errorMessage ?? "Something went wrong. Please try again or email us directly.");
+      setError(errorMessage ?? "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut oder schreiben Sie uns direkt an hello@rautaki.ch.");
     } finally {
       setSubmitting(false);
     }
