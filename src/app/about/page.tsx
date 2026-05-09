@@ -48,6 +48,36 @@ const milestones = [
   { year: "2025", event: "Ausweitung auf über 40 beratene Organisationen" },
 ];
 
+const workshopClients = [
+  "Hepatitis Schweiz",
+  "Universität Zürich",
+  "Age Stiftung",
+  "Astara Switzerland",
+  "Verbandsmanagement Institut der Universität Fribourg",
+  "Glaux Group",
+  "AT Schweiz – Tabakkontrolle und Prävention",
+  "Schweizerische Plattform der Ausbildungen im Sozialbereich SPAS",
+];
+
+const teachingCourses = [
+  {
+    title: "CAS Chief AI Officer",
+    institution: "Institut für Kommunikation und Führung ikf",
+  },
+  {
+    title: "CAS KI-Transformation",
+    institution: "Institut für Kommunikation und Führung ikf",
+  },
+  {
+    title: "CAS AI Hands-On",
+    institution: "Institut für Kommunikation und Führung",
+  },
+  {
+    title: "Digitale Transformation und KI in NPO",
+    institution: "Verbandsmanagement Institut Universität Fribourg",
+  },
+];
+
 function BrandRautaki() {
   return (
     <strong className="inline-flex items-baseline font-serif font-medium tracking-tight text-obsidian whitespace-nowrap">
@@ -62,90 +92,175 @@ export default function AboutPage() {
     <>
       <HeroLight
         label="Über uns"
-        title={
-          <>
-            <BrandRautaki /> - Strategie für das Zeitalter der Künstlichen
-            Intelligenz
-          </>
-        }
-        descriptionClassName="max-w-[70ch] font-ui text-[1.05rem] md:text-[1.125rem] font-medium leading-[1.88] text-obsidian"
+        title={<BrandRautaki />}
+        descriptionClassName="max-w-[70ch] font-ui text-[1.0625rem] md:text-[1.125rem] font-light leading-[1.75] text-ink"
         description={
-          <div className="space-y-6">
-            <p className="border-l-2 border-gold bg-cream/55 px-5 py-3">
-              Der Name <BrandRautaki /> stammt aus der Sprache der Māori und
-              bedeutet Strategie. Eine gute Strategie schafft Orientierung,
-              verbindet Menschen und macht Zukunft gestaltbar.
-            </p>
-            <p>
-              Genau darum geht es bei <BrandRautaki />.
-            </p>
-            <p>
-              Organisationen stehen heute vor einer der grössten
-              Transformationen unserer Zeit: Künstliche Intelligenz verändert,
-              wie wir arbeiten, entscheiden und Innovation schaffen.
-            </p>
-            <p>Doch Technologie allein ist keine Strategie.</p>
-            <p>
-              <BrandRautaki /> unterstützt Organisationen dabei, KI sinnvoll,
-              verantwortungsvoll und wirkungsvoll einzusetzen - von der ersten
-              Einordnung über strategische Entscheidungen bis zur konkreten
-              Umsetzung in Teams und Prozessen.
-            </p>
-            <p>
-              Der Name trägt dabei eine besondere Symbolik: Im Wort{" "}
-              <BrandRautaki />
-              stecken die Buchstaben A und I - die Initialen von Artificial
-              Intelligence.
-            </p>
-            <p>Strategie und KI gehören zusammen.</p>
-            <div>
-              <p className="mb-3">
-                <BrandRautaki /> verbindet beides:
+          <div className="space-y-12">
+            <div className="space-y-6">
+              <p className="font-serif text-h3 tracking-tight-h3 leading-heading text-ink font-normal">
+                Strategie für das Zeitalter der{" "}
+                <span className="italic text-gold">
+                  Künstlichen Intelligenz
+                </span>
               </p>
-              <ul className="list-none space-y-3 pl-0">
+              <div
+                className="h-[3px] w-32 bg-gradient-to-r from-gold to-transparent"
+                aria-hidden="true"
+              />
+            </div>
+
+            <section className="space-y-4">
+              <h2 className="font-serif text-h3 tracking-tight-h3 leading-heading text-ink font-normal">
+                Ein Wort, das von <em>weit her</em> kommt
+              </h2>
+              <p>
+                <span className="font-serif italic text-ink">Rautaki</span>{" "}
+                stammt aus te reo Māori und bedeutet{" "}
+                <span className="font-serif italic text-ink">Strategie</span>.
+              </p>
+              <p>
+                Es ist ein Wort, das in den Gemeinschaften der Māori in Aotearoa
+                lebt – und das eine Idee von Strategie trägt, die uns vertraut
+                sein sollte, aber im Alltag oft verloren geht: Strategie
+                entsteht nicht am Schreibtisch einer einzelnen Person. Sie
+                wächst im Gespräch zwischen Generationen, zwischen
+                Wissensformen, zwischen unterschiedlichen Stimmen. Sie verbindet
+                das, was war, mit dem, was möglich ist.
+              </p>
+              <p>Genau dieses Verständnis tragen wir in unsere Arbeit.</p>
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="font-serif text-h3 tracking-tight-h3 leading-heading text-ink font-normal">
+                Warum dieser Name?
+              </h2>
+              <p>
+                Künstliche Intelligenz ist eine der grössten Transformationen
+                unserer Zeit. Sie verändert, wie wir arbeiten, wie wir
+                entscheiden, wie wir Wissen schaffen. Doch Technologie allein
+                ist keine Strategie. Wer KI ohne Richtung einführt, landet bei
+                Pilotprojekten, die niemandem dienen – und bei Investitionen,
+                die keine Wirkung entfalten.
+              </p>
+              <p>
+                Der Name{" "}
+                <span className="font-serif italic text-ink">Rautaki</span>{" "}
+                trägt dazu eine stille Pointe: In ihm stecken die Buchstaben{" "}
+                <span className="font-serif font-medium text-gold">a</span> und{" "}
+                <span className="font-serif font-medium text-gold">i</span> –
+                die Initialen von{" "}
+                <span className="font-serif italic text-ink">
+                  Artificial Intelligence
+                </span>
+                . Strategie und KI gehören zusammen. Das eine ohne das andere
+                bleibt unvollständig.
+              </p>
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="font-serif text-h3 tracking-tight-h3 leading-heading text-ink font-normal">
+                Vielfalt der Perspektiven – <em>im Kern</em> unserer Arbeit
+              </h2>
+              <p>
+                Eine gute KI-Strategie entsteht nie aus einem einzigen
+                Blickwinkel.
+              </p>
+              <p>
+                Sie braucht Technik{" "}
+                <span className="font-serif italic text-ink">und</span>{" "}
+                Fachwissen. Führung{" "}
+                <span className="font-serif italic text-ink">und</span>{" "}
+                Mitarbeitende. Ökonomie{" "}
+                <span className="font-serif italic text-ink">und</span> Ethik.
+                Wer KI nur durch die Linse der Technologie betrachtet, übersieht
+                ihren menschlichen Kontext. Wer nur über Risiken spricht,
+                verschenkt ihre Möglichkeiten. Wer nur den Business Case sieht,
+                vergisst die Menschen, die sie tragen müssen.
+              </p>
+              <p>
+                Die besten Strategien entstehen dort, wo verschiedene Stimmen
+                aufeinandertreffen – und wo zugehört wird, bevor entschieden
+                wird. Das ist kein methodischer Zusatz. Das ist der Kern.
+              </p>
+            </section>
+
+            <section className="space-y-5">
+              <h2 className="font-serif text-h3 tracking-tight-h3 leading-heading text-ink font-normal">
+                Was wir tun
+              </h2>
+              <p>
+                Rautaki begleitet Organisationen dabei, KI sinnvoll,
+                verantwortungsvoll und wirkungsvoll einzusetzen – von der ersten
+                Einordnung über strategische Entscheidungen bis zur konkreten
+                Umsetzung in Teams und Prozessen.
+              </p>
+              <ul className="list-none space-y-3 pl-0 pt-1">
                 <li className="flex items-start gap-3">
                   <span
-                    className="mt-3 h-1.5 w-1.5 flex-none rounded-full bg-gold"
-                    aria-hidden="true"
-                  />
-                  <span>Strategische KI-Beratung</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span
-                    className="mt-3 h-1.5 w-1.5 flex-none rounded-full bg-gold"
-                    aria-hidden="true"
-                  />
-                  <span>Transformation von Organisationen</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span
-                    className="mt-3 h-1.5 w-1.5 flex-none rounded-full bg-gold"
+                    className="mt-[0.7em] h-1.5 w-1.5 flex-none rounded-full bg-gold"
                     aria-hidden="true"
                   />
                   <span>
-                    Workshops und Trainings für Führungskräfte und Teams
+                    <span className="font-medium text-ink">
+                      Strategische KI-Beratung
+                    </span>{" "}
+                    — Klarheit schaffen, bevor investiert wird.
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span
-                    className="mt-3 h-1.5 w-1.5 flex-none rounded-full bg-gold"
+                    className="mt-[0.7em] h-1.5 w-1.5 flex-none rounded-full bg-gold"
                     aria-hidden="true"
                   />
-                  <span>Praxisorientierte Umsetzung von KI-Anwendungen</span>
+                  <span>
+                    <span className="font-medium text-ink">
+                      Transformation von Organisationen
+                    </span>{" "}
+                    — KI in Strukturen, Prozessen und Kultur verankern.
+                  </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span
+                    className="mt-[0.7em] h-1.5 w-1.5 flex-none rounded-full bg-gold"
+                    aria-hidden="true"
+                  />
+                  <span>
+                    <span className="font-medium text-ink">
+                      Workshops und Trainings
+                    </span>{" "}
+                    — Führungskräfte und Teams befähigen.
+                  </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span
+                    className="mt-[0.7em] h-1.5 w-1.5 flex-none rounded-full bg-gold"
+                    aria-hidden="true"
+                  />
+                  <span>
+                    <span className="font-medium text-ink">
+                      Praxisorientierte Umsetzung
+                    </span>{" "}
+                    — Anwendungen, die im Alltag tragen.
+                  </span>
                 </li>
               </ul>
-            </div>
-            <p>
-              Unser Ansatz ist klar: Nicht jede Organisation braucht mehr
-              Technologie.
-            </p>
-            <p>
-              Aber jede Organisation braucht eine klare Strategie für den Umgang
-              mit KI.
-            </p>
-            <p>
-              <BrandRautaki /> hilft Ihnen, diese Strategie zu entwickeln.
-            </p>
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="font-serif text-h3 tracking-tight-h3 leading-heading text-ink font-normal">
+                Unser Ansatz
+              </h2>
+              <p>Nicht jede Organisation braucht mehr Technologie.</p>
+              <p>
+                Aber jede Organisation, die KI einsetzen will, braucht eine
+                klare Strategie für deren Einsatz – mit Respekt vor der
+                Komplexität, mit Offenheit für unterschiedliche Stimmen, und mit
+                einem klaren Blick auf das, was wirklich Wert schafft.
+              </p>
+              <p className="font-serif italic text-[1.25rem] leading-[1.5] text-ink pt-2">
+                Dabei helfen wir Ihnen.
+              </p>
+            </section>
           </div>
         }
         rightContent={
@@ -185,12 +300,89 @@ export default function AboutPage() {
               Führungsteams KI entweder überhöhen oder zu wenig in die nötigen
               Fähigkeiten für einen verantwortungsvollen Einsatz investieren.
             </p>
+            <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey mb-4">
+              Er kommt aus einem Feld, das Ausdauer fordert und
+              Umsetzungsstärke verlangt: langjährige Führungsverantwortung in
+              nationalen Nonprofit-Organisationen, Transformationsprozesse
+              unter realen Bedingungen, der Aufbau agiler Strukturen —
+              einschliesslich Holacracy — in Organisationen, die sich
+              grundlegend neu ausrichten mussten. Als Diplomierter Verbands-
+              und NPO-Manager VMI und Doktor der Philosophie verbindet er
+              institutionelles Denken mit dem Anspruch konkreter Wirkung.
+              Digitale Transformation war für ihn nie ein Technologieprojekt —
+              sondern immer eine Frage der Führung.
+            </p>
             <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey">
               Die Firma wurde gebaut, um genau diese Lücke zu schliessen:
               strategische Stringenz auf der einen, Umsetzungsrealität auf der
               anderen Seite.
             </p>
           </ScrollReveal>
+        </div>
+      </section>
+
+      <section className="bg-warm-grey px-6 sm:px-10 lg:px-20 py-24">
+        <div className="mx-auto max-w-content space-y-20">
+          <div>
+            <ScrollReveal>
+              <SectionLabel text="Praxis" />
+              <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-4">
+                Workshops mit Organisationen
+              </h2>
+              <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey max-w-reading mb-10">
+                Eine Auswahl von Organisationen, mit denen Rautaki in Workshops
+                und Trainings zusammengearbeitet hat.
+              </p>
+            </ScrollReveal>
+
+            <ScrollReveal delay={80}>
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-0 list-none pl-0 border-t border-ink/10">
+                {workshopClients.map((client) => (
+                  <li
+                    key={client}
+                    className="flex items-start gap-3 py-4 border-b border-ink/10 font-ui text-body font-light leading-body text-ink"
+                  >
+                    <span
+                      className="mt-[0.65em] h-1.5 w-1.5 flex-none rounded-full bg-gold"
+                      aria-hidden="true"
+                    />
+                    <span className="font-medium">{client}</span>
+                  </li>
+                ))}
+              </ul>
+            </ScrollReveal>
+          </div>
+
+          <div>
+            <ScrollReveal>
+              <SectionLabel text="Lehre" />
+              <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-4">
+                Lehrtätigkeit an Hochschulen und Instituten
+              </h2>
+              <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey max-w-reading mb-10">
+                Harry Witzthum unterrichtet als Dozent in folgenden
+                Weiterbildungsprogrammen.
+              </p>
+            </ScrollReveal>
+
+            <ScrollReveal delay={80}>
+              <ul className="list-none pl-0 max-w-reading border-t border-ink/10">
+                {teachingCourses.map((course) => (
+                  <li
+                    key={course.title}
+                    className="flex flex-col gap-1 py-5 border-b border-ink/10"
+                  >
+                    <span className="font-ui text-body font-medium text-ink leading-snug">
+                      {course.title}
+                    </span>
+                    <span className="font-serif italic text-[0.95rem] text-mid-grey leading-snug">
+                      {course.institution}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </ScrollReveal>
+          </div>
         </div>
       </section>
 

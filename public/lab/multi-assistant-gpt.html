@@ -1,0 +1,2128 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Multi-Assistant-System mit Custom GPTs · Rautaki Lab</title>
+    <link
+      rel="preload"
+      href="/lab/vendor/fonts/dm-sans-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <script src="/lab/vendor/html-docx.js"></script>
+    <style>
+      /* =================================================================
+     FONTS — DM Sans (self-hosted, OFL 1.1)
+     See /lab/vendor/fonts/LICENSE.txt
+     ================================================================= */
+      @font-face {
+        font-family: "DM Sans";
+        font-style: normal;
+        font-weight: 100 1000;
+        font-display: swap;
+        src: url("/lab/vendor/fonts/dm-sans-latin.woff2") format("woff2");
+        unicode-range:
+          U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+          U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+          U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      @font-face {
+        font-family: "DM Sans";
+        font-style: normal;
+        font-weight: 100 1000;
+        font-display: swap;
+        src: url("/lab/vendor/fonts/dm-sans-latin-ext.woff2") format("woff2");
+        unicode-range:
+          U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+          U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+          U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+      }
+
+      /* =================================================================
+     RAUTAKI DESIGN SYSTEM
+     ================================================================= */
+      :root {
+        --gold: #f5a623;
+        --gold-light: #ffd07a;
+        --gold-dim: rgba(245, 166, 35, 0.15);
+        --gold-glow: rgba(245, 166, 35, 0.08);
+        --obsidian: #0a0a0a;
+        --ink: #1c1c1c;
+        --charcoal: #111111;
+        --charcoal-hover: #161616;
+        --cream: #f4f2ee;
+        --white: #fafafa;
+        --warm-grey: #e8e5df;
+        --mid-grey: #9a9590;
+        --error: #c53030;
+
+        --alpha-body-dark: rgba(255, 255, 255, 0.45);
+        --alpha-nav-dark: rgba(255, 255, 255, 0.28);
+        --alpha-footer-dark: rgba(255, 255, 255, 0.2);
+        --alpha-label-dark: rgba(255, 255, 255, 0.18);
+        --alpha-divider-dark: rgba(255, 255, 255, 0.05);
+        --alpha-muted-light: rgba(28, 28, 28, 0.45);
+        --alpha-hair-light: rgba(28, 28, 28, 0.1);
+        --alpha-divider-light: rgba(28, 28, 28, 0.07);
+        --alpha-card-border: rgba(28, 28, 28, 0.06);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family:
+          "DM Sans",
+          -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 1.75;
+        color: var(--ink);
+        background: var(--cream);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* Typography */
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-family: Georgia, "Times New Roman", serif;
+        font-weight: 400;
+        color: inherit;
+      }
+      h1 {
+        font-size: clamp(44px, 8vw, 72px);
+        letter-spacing: -0.04em;
+        line-height: 1;
+      }
+      h2 {
+        font-size: 36px;
+        letter-spacing: -0.02em;
+        line-height: 1.15;
+      }
+      h3 {
+        font-size: 26px;
+        letter-spacing: -0.015em;
+        line-height: 1.15;
+      }
+      h4 {
+        font-size: 20px;
+        letter-spacing: -0.01em;
+        line-height: 1.25;
+      }
+
+      .lead {
+        font-family: Georgia, serif;
+        font-size: 18px;
+        line-height: 1.75;
+        font-weight: 400;
+      }
+
+      em.gold {
+        font-style: italic;
+        color: var(--gold);
+      }
+
+      /* Section labels */
+      .section-label {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 11px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 40px;
+        color: var(--ink);
+      }
+      .section-label::before {
+        content: "";
+        display: block;
+        width: 28px;
+        height: 1px;
+        background: var(--gold);
+      }
+      .section-label.on-dark {
+        color: var(--alpha-label-dark);
+      }
+      .section-label.on-dark::before {
+        background: var(--alpha-label-dark);
+      }
+
+      /* Layout */
+      .section {
+        padding: 80px 40px;
+      }
+      .section.large {
+        padding: 100px 40px;
+      }
+      .section.dark {
+        background: var(--obsidian);
+        color: var(--white);
+      }
+      .section.charcoal {
+        background: var(--charcoal);
+        color: var(--white);
+      }
+      .container {
+        max-width: 1080px;
+        margin: 0 auto;
+      }
+      .reading {
+        max-width: 720px;
+      }
+
+      /* Gold rule */
+      .gold-rule {
+        height: 3px;
+        background: linear-gradient(to right, var(--gold), transparent);
+        border: none;
+        margin: 0;
+      }
+      .hair-rule {
+        height: 1px;
+        background: var(--alpha-hair-light);
+        border: none;
+        margin: 24px 0;
+      }
+      .hair-rule.on-dark {
+        background: var(--alpha-divider-dark);
+      }
+
+      /* Header */
+      header {
+        background: var(--obsidian);
+        color: var(--white);
+        padding: 32px 40px;
+        border-bottom: 1px solid var(--alpha-divider-dark);
+      }
+      .header-inner {
+        max-width: 1080px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      .logo {
+        font-family: Georgia, serif;
+        font-weight: 400;
+        font-size: 24px;
+        letter-spacing: -0.01em;
+        color: var(--white);
+        text-decoration: none;
+      }
+      a.logo:hover {
+        opacity: 0.85;
+      }
+      .logo .gold-letter {
+        color: var(--gold);
+      }
+      .header-meta {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--alpha-label-dark);
+      }
+
+      /* Hero */
+      .hero {
+        background: var(--obsidian);
+        color: var(--white);
+        padding: 120px 40px 100px;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero::before {
+        content: "";
+        position: absolute;
+        width: 700px;
+        height: 700px;
+        background: radial-gradient(
+          circle,
+          var(--gold-glow) 0%,
+          transparent 70%
+        );
+        top: -150px;
+        left: -100px;
+        pointer-events: none;
+      }
+      .hero-inner {
+        max-width: 1080px;
+        margin: 0 auto;
+        position: relative;
+      }
+      .hero h1 {
+        color: var(--white);
+        margin-bottom: 32px;
+        max-width: 880px;
+      }
+      .hero .lead {
+        color: var(--alpha-body-dark);
+        max-width: 640px;
+      }
+      .hero .section-label.on-dark {
+        color: var(--alpha-label-dark);
+      }
+
+      /* Workflow diagram */
+      .workflow {
+        background: var(--white);
+      }
+      .workflow-diagram {
+        margin: 48px 0;
+        padding: 48px 40px;
+        background: var(--cream);
+        border-left: 2px solid var(--gold);
+      }
+      .workflow-svg {
+        width: 100%;
+        height: auto;
+        max-width: 760px;
+        display: block;
+        margin: 0 auto;
+      }
+      .workflow-caption {
+        font-size: 13px;
+        color: var(--alpha-muted-light);
+        text-align: center;
+        margin-top: 24px;
+        font-style: italic;
+        font-family: Georgia, serif;
+      }
+
+      /* Steps list */
+      .steps {
+        list-style: none;
+        counter-reset: step;
+        margin-top: 32px;
+      }
+      .steps li {
+        counter-increment: step;
+        padding: 24px 0 24px 72px;
+        border-bottom: 1px solid var(--alpha-hair-light);
+        position: relative;
+      }
+      .steps li:last-child {
+        border-bottom: none;
+      }
+      .steps li::before {
+        content: counter(step, decimal-leading-zero);
+        position: absolute;
+        left: 0;
+        top: 24px;
+        font-family: Georgia, serif;
+        font-size: 28px;
+        color: var(--gold);
+        letter-spacing: -0.02em;
+        width: 56px;
+      }
+      .steps .step-meta {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--mid-grey);
+        margin-bottom: 8px;
+      }
+      .steps h4 {
+        margin-bottom: 8px;
+      }
+
+      /* Warnings / hints */
+      .hint-block {
+        padding: 32px 40px;
+        background: var(--warm-grey);
+        border-left: 3px solid var(--gold);
+        margin: 24px 0;
+      }
+      .hint-block.dark {
+        background: var(--charcoal);
+        color: var(--white);
+      }
+      .hint-block .label {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 11px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 12px;
+        display: block;
+      }
+      .hint-block p + p {
+        margin-top: 12px;
+      }
+
+      /* Forms */
+      .field-group {
+        display: grid;
+        gap: 24px;
+        margin-top: 32px;
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+      }
+      .field-label {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--ink);
+        margin-bottom: 8px;
+      }
+      .field-help {
+        font-size: 13px;
+        color: var(--alpha-muted-light);
+        margin-bottom: 12px;
+        line-height: 1.6;
+      }
+      .field input,
+      .field select,
+      .field textarea {
+        font-family: "DM Sans", sans-serif;
+        font-size: 15px;
+        line-height: 1.6;
+        color: var(--ink);
+        background: var(--white);
+        border: 1px solid var(--alpha-card-border);
+        padding: 14px 16px;
+        border-radius: 0;
+        width: 100%;
+        transition: border-color 200ms;
+      }
+      .field input:focus,
+      .field select:focus,
+      .field textarea:focus {
+        outline: 2px solid var(--gold);
+        outline-offset: 3px;
+        border-color: var(--gold);
+      }
+      .field textarea {
+        resize: vertical;
+        min-height: 120px;
+        font-family: "DM Sans", sans-serif;
+      }
+
+      /* Prompt block (the heart of the tool) */
+      .prompt-section {
+        background: var(--obsidian);
+        color: var(--white);
+      }
+      .prompt-section .field-label {
+        color: var(--alpha-nav-dark);
+      }
+      .prompt-section .field-help {
+        color: var(--alpha-body-dark);
+      }
+      .prompt-section .field input,
+      .prompt-section .field textarea {
+        background: var(--charcoal);
+        color: var(--white);
+        border: 1px solid var(--alpha-divider-dark);
+      }
+      .prompt-section h2 {
+        color: var(--white);
+      }
+      .prompt-section .lead {
+        color: var(--alpha-body-dark);
+      }
+      .prompt-section .hint-block {
+        background: var(--charcoal);
+        color: var(--white);
+      }
+
+      .prompt-card {
+        background: var(--charcoal);
+        padding: 48px 40px;
+        margin-top: 32px;
+        border-left: 3px solid var(--gold);
+      }
+      .prompt-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 16px;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+      .prompt-card-title {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 11px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--gold);
+      }
+      .prompt-textarea {
+        width: 100%;
+        min-height: 380px;
+        background: var(--obsidian);
+        color: var(--white);
+        border: 1px solid var(--alpha-divider-dark);
+        padding: 20px 24px;
+        font-family:
+          "SF Mono", "Monaco", "Inconsolata", "Fira Mono", "Droid Sans Mono",
+          monospace;
+        font-size: 13px;
+        line-height: 1.7;
+        resize: vertical;
+        border-radius: 0;
+      }
+      .prompt-textarea:focus {
+        outline: 2px solid var(--gold);
+        outline-offset: 3px;
+      }
+
+      /* Link capture box - shown after each specialist prompt */
+      .link-capture {
+        margin-top: 32px;
+        padding: 32px 40px;
+        background: var(--charcoal-hover);
+        border: 1px dashed var(--gold);
+      }
+      .link-capture-step {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 11px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 16px;
+      }
+      .link-capture .field-label {
+        color: var(--white);
+      }
+      .link-capture .field-help {
+        color: var(--alpha-body-dark);
+      }
+      .link-capture input {
+        background: var(--obsidian) !important;
+        color: var(--white) !important;
+      }
+
+      /* Tools table */
+      .tools-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 24px;
+        font-size: 14px;
+      }
+      .tools-table th,
+      .tools-table td {
+        padding: 14px 16px;
+        text-align: left;
+        border-bottom: 1px solid var(--alpha-divider-dark);
+      }
+      .tools-table th {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--alpha-nav-dark);
+      }
+      .tools-table .badge {
+        display: inline-block;
+        padding: 4px 12px;
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 10px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+      .badge-on {
+        background: var(--gold);
+        color: rgba(0, 0, 0, 0.65);
+      }
+      .badge-off {
+        background: transparent;
+        color: var(--alpha-nav-dark);
+        border: 1px solid var(--alpha-divider-dark);
+      }
+
+      /* Buttons */
+      .btn {
+        display: inline-block;
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 12px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        padding: 14px 28px;
+        border: 1px solid var(--gold);
+        background: transparent;
+        color: var(--gold);
+        cursor: pointer;
+        transition:
+          background 200ms,
+          color 200ms;
+        border-radius: 0;
+      }
+      .btn:hover {
+        background: var(--gold);
+        color: var(--obsidian);
+      }
+      .btn:focus-visible {
+        outline: 2px solid var(--gold);
+        outline-offset: 3px;
+      }
+      .btn.solid {
+        background: var(--gold);
+        color: rgba(0, 0, 0, 0.65);
+      }
+      .btn.solid:hover {
+        background: var(--gold-light);
+        color: var(--obsidian);
+      }
+      .btn.compact {
+        padding: 10px 18px;
+        font-size: 11px;
+      }
+      .btn.on-light {
+        border-color: var(--ink);
+        color: var(--ink);
+      }
+      .btn.on-light:hover {
+        background: var(--ink);
+        color: var(--cream);
+      }
+
+      .btn-group {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      /* Step badges */
+      .step-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+      .step-badge-num {
+        font-family: Georgia, serif;
+        font-size: 48px;
+        color: var(--gold);
+        line-height: 1;
+        letter-spacing: -0.02em;
+      }
+      .step-badge-label {
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 11px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--alpha-nav-dark);
+      }
+      .prompt-section .step-badge-label {
+        color: var(--alpha-nav-dark);
+      }
+
+      /* Test scenarios */
+      .test-scenario {
+        padding: 32px 40px;
+        background: var(--white);
+        border-left: 2px solid var(--gold);
+        margin: 24px 0;
+        font-family: Georgia, serif;
+        font-size: 18px;
+        line-height: 1.6;
+        font-style: italic;
+      }
+
+      /* Reflection */
+      .reflection-list {
+        list-style: none;
+        counter-reset: refl;
+        margin-top: 24px;
+      }
+      .reflection-list li {
+        counter-increment: refl;
+        padding: 20px 0 20px 56px;
+        border-bottom: 1px solid var(--alpha-hair-light);
+        position: relative;
+        font-family: Georgia, serif;
+        font-size: 18px;
+        line-height: 1.6;
+      }
+      .reflection-list li:last-child {
+        border-bottom: none;
+      }
+      .reflection-list li::before {
+        content: counter(refl) ".";
+        position: absolute;
+        left: 0;
+        top: 20px;
+        font-family: Georgia, serif;
+        font-size: 18px;
+        color: var(--gold);
+      }
+
+      /* Download bar */
+      .download-bar {
+        background: var(--gold);
+        color: rgba(0, 0, 0, 0.65);
+        padding: 60px 40px;
+        text-align: center;
+      }
+      .download-bar h3 {
+        color: rgba(0, 0, 0, 0.65);
+        margin-bottom: 16px;
+      }
+      .download-bar p {
+        color: rgba(0, 0, 0, 0.55);
+        margin-bottom: 28px;
+        max-width: 480px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .download-bar .btn {
+        border-color: rgba(0, 0, 0, 0.65);
+        color: rgba(0, 0, 0, 0.65);
+        background: transparent;
+      }
+      .download-bar .btn:hover {
+        background: rgba(0, 0, 0, 0.65);
+        color: var(--gold);
+      }
+
+      /* Footer */
+      footer {
+        background: var(--obsidian);
+        color: var(--alpha-footer-dark);
+        padding: 60px 40px 40px;
+      }
+      footer .footer-inner {
+        max-width: 1080px;
+        margin: 0 auto;
+      }
+      footer .gold-rule {
+        margin-bottom: 32px;
+      }
+      footer .footer-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 24px;
+        flex-wrap: wrap;
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 11px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+
+      /* Copy feedback */
+      .copy-feedback {
+        display: inline-block;
+        margin-left: 12px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--gold);
+        opacity: 0;
+        transition: opacity 200ms;
+      }
+      .copy-feedback.show {
+        opacity: 1;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .section {
+          padding: 60px 24px;
+        }
+        .hero {
+          padding: 80px 24px 60px;
+        }
+        .header-inner {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .prompt-card {
+          padding: 32px 24px;
+        }
+        .workflow-diagram {
+          padding: 32px 20px;
+        }
+        .test-scenario {
+          padding: 24px 28px;
+          font-size: 16px;
+        }
+      }
+
+      /* Print */
+      @media print {
+        .download-bar,
+        .btn {
+          display: none !important;
+        }
+        body {
+          background: white;
+        }
+        .section,
+        .hero,
+        header,
+        footer {
+          padding: 24px;
+        }
+      }
+
+      /* Accessibility */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+
+      .skip-link {
+        position: absolute;
+        top: -100px;
+        left: 0;
+        background: var(--gold);
+        color: var(--obsidian);
+        padding: 12px 24px;
+        text-decoration: none;
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 12px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+      .skip-link:focus {
+        top: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Zum Inhalt springen</a>
+
+    <header>
+      <div class="header-inner">
+        <a href="/lab" class="logo" aria-label="Zurück zum Rautaki Lab">
+          Raut<span class="gold-letter">a</span>k<span class="gold-letter"
+            >i</span
+          >
+        </a>
+        <div class="header-meta">Rautaki Lab · Multi-Assistant-System</div>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-inner">
+          <div class="section-label on-dark">Anleitung</div>
+          <h1>
+            Multi-Assistant-System mit Custom GPTs <em class="gold">bauen</em>.
+          </h1>
+          <p class="lead" style="margin-top: 32px">
+            Du baust einen Team-Router und zwei Spezialisten-GPTs. Der Router
+            analysiert eine Anfrage, identifiziert den passenden Spezialisten
+            und übergibt sie mit einem optimierten Prompt. Drei GPTs, ein
+            orchestriertes System &mdash; ohne Code.
+          </p>
+        </div>
+      </section>
+
+      <hr class="gold-rule" />
+
+      <!-- WORKFLOW -->
+      <section class="section workflow">
+        <div class="container">
+          <div class="section-label">Was du baust</div>
+          <h2>Drei GPTs, eine Architektur.</h2>
+          <p class="lead reading" style="margin-top: 24px">
+            Der <em class="gold">Router</em> ist die Eingangstür. Er versteht
+            die Anfrage, wählt den Spezialisten und formuliert einen
+            Übergabe-Prompt, den der User kopiert. Die Spezialisten arbeiten
+            fokussiert auf ihrem Gebiet &mdash; und schicken Anfragen, die nicht
+            zu ihnen passen, zurück.
+          </p>
+
+          <div class="workflow-diagram">
+            <svg
+              class="workflow-svg"
+              viewBox="0 0 760 280"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-label="Workflow-Diagramm"
+            >
+              <defs>
+                <marker
+                  id="arr"
+                  viewBox="0 0 10 10"
+                  refX="9"
+                  refY="5"
+                  markerWidth="8"
+                  markerHeight="8"
+                  orient="auto"
+                >
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#1C1C1C" />
+                </marker>
+                <marker
+                  id="arr-gold"
+                  viewBox="0 0 10 10"
+                  refX="9"
+                  refY="5"
+                  markerWidth="8"
+                  markerHeight="8"
+                  orient="auto"
+                >
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#F5A623" />
+                </marker>
+              </defs>
+
+              <!-- User -->
+              <g>
+                <rect
+                  x="20"
+                  y="110"
+                  width="140"
+                  height="60"
+                  fill="#FAFAFA"
+                  stroke="#1C1C1C"
+                  stroke-width="1"
+                />
+                <text
+                  x="90"
+                  y="138"
+                  text-anchor="middle"
+                  font-family="DM Sans, sans-serif"
+                  font-size="13"
+                  font-weight="500"
+                  fill="#1C1C1C"
+                >
+                  USER
+                </text>
+                <text
+                  x="90"
+                  y="156"
+                  text-anchor="middle"
+                  font-family="Georgia, serif"
+                  font-size="12"
+                  fill="#9A9590"
+                  font-style="italic"
+                >
+                  stellt Anfrage
+                </text>
+              </g>
+
+              <!-- Arrow to Router -->
+              <line
+                x1="160"
+                y1="140"
+                x2="285"
+                y2="140"
+                stroke="#1C1C1C"
+                stroke-width="1.5"
+                marker-end="url(#arr)"
+              />
+
+              <!-- Router -->
+              <g>
+                <rect
+                  x="290"
+                  y="100"
+                  width="180"
+                  height="80"
+                  fill="#0A0A0A"
+                  stroke="#F5A623"
+                  stroke-width="2"
+                />
+                <text
+                  x="380"
+                  y="130"
+                  text-anchor="middle"
+                  font-family="DM Sans, sans-serif"
+                  font-size="13"
+                  font-weight="500"
+                  fill="#F5A623"
+                  letter-spacing="2"
+                >
+                  ROUTER-GPT
+                </text>
+                <text
+                  x="380"
+                  y="148"
+                  text-anchor="middle"
+                  font-family="Georgia, serif"
+                  font-size="12"
+                  fill="#FAFAFA"
+                  font-style="italic"
+                >
+                  analysiert &amp;
+                </text>
+                <text
+                  x="380"
+                  y="164"
+                  text-anchor="middle"
+                  font-family="Georgia, serif"
+                  font-size="12"
+                  fill="#FAFAFA"
+                  font-style="italic"
+                >
+                  leitet weiter
+                </text>
+              </g>
+
+              <!-- Branches to specialists -->
+              <line
+                x1="470"
+                y1="120"
+                x2="600"
+                y2="60"
+                stroke="#F5A623"
+                stroke-width="1.5"
+                marker-end="url(#arr-gold)"
+              />
+              <line
+                x1="470"
+                y1="160"
+                x2="600"
+                y2="220"
+                stroke="#F5A623"
+                stroke-width="1.5"
+                marker-end="url(#arr-gold)"
+              />
+
+              <!-- Specialist 1 -->
+              <g>
+                <rect
+                  x="605"
+                  y="20"
+                  width="140"
+                  height="60"
+                  fill="#FAFAFA"
+                  stroke="#1C1C1C"
+                  stroke-width="1"
+                />
+                <text
+                  x="675"
+                  y="48"
+                  text-anchor="middle"
+                  font-family="DM Sans, sans-serif"
+                  font-size="12"
+                  font-weight="500"
+                  fill="#1C1C1C"
+                >
+                  SPEZIALIST 1
+                </text>
+                <text
+                  x="675"
+                  y="66"
+                  text-anchor="middle"
+                  font-family="Georgia, serif"
+                  font-size="11"
+                  fill="#9A9590"
+                  font-style="italic"
+                >
+                  Recherche
+                </text>
+              </g>
+
+              <!-- Specialist 2 -->
+              <g>
+                <rect
+                  x="605"
+                  y="200"
+                  width="140"
+                  height="60"
+                  fill="#FAFAFA"
+                  stroke="#1C1C1C"
+                  stroke-width="1"
+                />
+                <text
+                  x="675"
+                  y="228"
+                  text-anchor="middle"
+                  font-family="DM Sans, sans-serif"
+                  font-size="12"
+                  font-weight="500"
+                  fill="#1C1C1C"
+                >
+                  SPEZIALIST 2
+                </text>
+                <text
+                  x="675"
+                  y="246"
+                  text-anchor="middle"
+                  font-family="Georgia, serif"
+                  font-size="11"
+                  fill="#9A9590"
+                  font-style="italic"
+                >
+                  Text
+                </text>
+              </g>
+            </svg>
+            <p class="workflow-caption">
+              Der User kopiert den Übergabe-Prompt manuell zum gewählten
+              Spezialisten.
+            </p>
+          </div>
+
+          <p style="margin-top: 32px">
+            Dieser pragmatische Ansatz funktioniert
+            <strong>heute, ohne Programmierung</strong>. Der Nachteil: Der User
+            muss zwischen den GPTs manuell wechseln und den Prompt einfügen. Der
+            Vorteil: Du baust und verstehst die Routing-Logik Schritt für
+            Schritt selbst.
+          </p>
+        </div>
+      </section>
+
+      <hr class="gold-rule" />
+
+      <!-- VORGEHEN -->
+      <section class="section">
+        <div class="container">
+          <div class="section-label">Vorgehen</div>
+          <h2>Reihenfolge ist <em class="gold">entscheidend</em>.</h2>
+
+          <ol class="steps">
+            <li>
+              <h4>Briefing &amp; Kontext-Wahl</h4>
+              <p>
+                Wähle einen Beispiel-Kontext aus dem Dropdown unten. Die Felder
+                und Prompts füllen sich. Passe das Setup auf deine eigene
+                Organisation oder Arbeit an.
+              </p>
+            </li>
+            <li>
+              <h4>Recherche-Spezialist bauen</h4>
+              <p>
+                System-Prompt kopieren, im Custom-GPT-Builder einfügen, Tools
+                setzen, speichern. <strong>Link kopieren</strong> und unten ins
+                Feld einfügen.
+              </p>
+            </li>
+            <li>
+              <h4>Text-Spezialist bauen</h4>
+              <p>Genauso: System-Prompt, Tools, speichern, Link sammeln.</p>
+            </li>
+            <li>
+              <h4>Router-GPT bauen</h4>
+              <p>
+                Erst jetzt &mdash; weil der Router die Links der Spezialisten
+                <em>im Prompt</em> braucht. Wenn die Felder oben gefüllt sind,
+                ist der Router-Prompt automatisch fertig.
+              </p>
+            </li>
+            <li>
+              <h4>Testen &amp; Reflektieren</h4>
+              <p>
+                Sende deine Test-Anfrage an den Router. Beobachte: Routet er
+                korrekt? Wie sieht der Übergabe-Prompt aus? Funktioniert der
+                Wechsel zum Spezialisten?
+              </p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <hr class="gold-rule" />
+
+      <!-- HINWEISE -->
+      <section class="section" style="background: var(--white)">
+        <div class="container">
+          <div class="section-label">Bevor du startest</div>
+          <h2>Drei Stolpersteine.</h2>
+
+          <div class="hint-block" style="margin-top: 32px">
+            <span class="label">Reihenfolge</span>
+            <p>
+              <strong>Spezialisten zuerst, Router zuletzt.</strong> Der
+              Router-Prompt verlinkt auf die Spezialisten &mdash; du brauchst
+              die ChatGPT-URLs, bevor du den Router fertigstellst.
+            </p>
+          </div>
+
+          <div class="hint-block">
+            <span class="label">Sichtbarkeit</span>
+            <p>
+              Stelle die Spezialisten beim Speichern auf
+              <strong>"Anyone with the link"</strong> (oder eine vergleichbare
+              öffentliche Sichtbarkeit). Sonst funktioniert der Routing-Link für
+              andere User nicht.
+            </p>
+          </div>
+
+          <div class="hint-block">
+            <span class="label">Manueller Wechsel</span>
+            <p>
+              Wenn der Router den Spezialisten-Link gibt, öffnet ChatGPT den
+              Spezialisten in einem neuen Chat &mdash;
+              <strong>ohne den Übergabe-Prompt</strong>. Der User muss den
+              Prompt aus dem Router kopieren und beim Spezialisten einfügen. Das
+              ist die didaktische Pointe: Echtes Orchestrating bräuchte
+              API-Calls.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <hr class="gold-rule" />
+
+      <!-- SCHRITT 1: KONTEXT WAEHLEN -->
+      <section class="section" style="background: var(--cream)">
+        <div class="container">
+          <div class="step-badge">
+            <span class="step-badge-num">01</span>
+            <span class="step-badge-label" style="color: var(--ink)"
+              >Kontext wählen</span
+            >
+          </div>
+          <h2>Womit soll dein <em class="gold">Team</em> arbeiten?</h2>
+          <p class="lead reading" style="margin-top: 24px">
+            Wähle einen Beispiel-Kontext. Die Felder und alle drei
+            System-Prompts werden mit passenden Inhalten befüllt. Du kannst
+            danach jedes Feld und jeden Prompt anpassen.
+          </p>
+
+          <div class="field-group" style="max-width: 560px">
+            <div class="field">
+              <label class="field-label" for="context-select"
+                >Beispiel-Kontext</label
+              >
+              <p class="field-help">
+                Wähle den Kontext, der deinem Arbeitsumfeld am nächsten kommt
+                &mdash; oder einfach einen, den du spannend findest.
+              </p>
+              <select id="context-select">
+                <option value="">— Wähle einen Kontext —</option>
+                <option value="npo">NPO / Hilfsorganisation</option>
+                <option value="consulting">
+                  Strategieberatung / KMU-Consulting
+                </option>
+                <option value="education">Hochschule / Weiterbildung</option>
+                <option value="comms">Kommunikation / Marketing intern</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCHRITT 2: SETUP AUSFUELLEN -->
+      <section class="section" style="background: var(--cream); padding-top: 0">
+        <div class="container">
+          <div class="step-badge">
+            <span class="step-badge-num">02</span>
+            <span class="step-badge-label" style="color: var(--ink)"
+              >Mein Setup</span
+            >
+          </div>
+          <h2>
+            Diese Variablen fliessen in <em class="gold">alle drei</em> Prompts.
+          </h2>
+          <p class="lead reading" style="margin-top: 24px">
+            Bearbeite die Felder, bis sie zu deiner Organisation und deinen
+            geplanten Spezialisten passen. Klicke danach bei jedem Prompt auf
+            <em>"Aus Feldern aktualisieren"</em>, um den Prompt mit diesen
+            Werten neu zu generieren.
+          </p>
+          <p
+            class="reading"
+            style="margin-top: 16px; color: var(--alpha-muted-light)"
+          >
+            Hinweis: Die <strong>ChatGPT-Links der Spezialisten</strong> trägst
+            du später direkt im jeweiligen Spezialisten-Abschnitt ein, sobald du
+            den GPT gebaut und gespeichert hast. Erst danach hat der Router die
+            Links, die er für sein Routing braucht.
+          </p>
+
+          <div class="field-group" style="margin-top: 48px">
+            <div class="field">
+              <label class="field-label" for="organisation"
+                >Organisation oder Bereich</label
+              >
+              <p class="field-help">
+                Z.B. eine Abteilung, eine Funktion, dein eigenes Team. So
+                spezifisch wie möglich.
+              </p>
+              <input
+                type="text"
+                id="organisation"
+                placeholder="z.B. Programme-Bereich einer Hilfsorganisation"
+              />
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="recherche-themen"
+                >Recherche-Spezialist · Zuständigkeitsbereich</label
+              >
+              <p class="field-help">
+                Welche Recherche-Themen kommen in deinem Alltag vor? Mehrere
+                Stichworte, getrennt durch Kommas oder Bullets.
+              </p>
+              <textarea
+                id="recherche-themen"
+                rows="4"
+                placeholder="z.B. Förderlandschaft, Studien zu sozialen Themen, Best Practices, Statistiken"
+              ></textarea>
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="text-themen"
+                >Text-Spezialist · Zuständigkeitsbereich</label
+              >
+              <p class="field-help">
+                Welche Texte werden bei dir geschrieben? Auch hier: Stichworte
+                oder Aufgaben.
+              </p>
+              <textarea
+                id="text-themen"
+                rows="4"
+                placeholder="z.B. E-Mails, Förderanträge, Newsletter, interne Kommunikation"
+              ></textarea>
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="test-anfrage">Test-Anfrage</label>
+              <p class="field-help">
+                Eine realistische Anfrage aus deinem Alltag. Damit testest du am
+                Schluss den Router.
+              </p>
+              <textarea
+                id="test-anfrage"
+                rows="3"
+                placeholder="z.B. Ich brauche eine Übersicht über Förderstiftungen für Bildungsprojekte in der Schweiz."
+              ></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="gold-rule" />
+
+      <!-- SCHRITT 3: RECHERCHE-SPEZIALIST -->
+      <section class="section large prompt-section" id="recherche">
+        <div class="container">
+          <div class="step-badge">
+            <span class="step-badge-num">03</span>
+            <span class="step-badge-label"
+              >GPT 1 von 3 · Recherche-Spezialist</span
+            >
+          </div>
+          <h2>Der <em class="gold">Recherche-Spezialist</em>.</h2>
+          <p class="lead reading" style="margin-top: 24px">
+            Findet, prüft und strukturiert Informationen. Arbeitet mit
+            Quellenangaben. Eskaliert zurück zum Router, wenn die Anfrage nicht
+            zur Recherche passt.
+          </p>
+
+          <h4 style="margin-top: 48px; color: var(--white)">
+            Standard-Tools für diesen GPT
+          </h4>
+          <table class="tools-table">
+            <thead>
+              <tr>
+                <th>Tool</th>
+                <th>Empfehlung</th>
+                <th>Begründung</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Web Search</td>
+                <td><span class="badge badge-on">An</span></td>
+                <td>Zentrales Tool für Recherche.</td>
+              </tr>
+              <tr>
+                <td>Canvas</td>
+                <td><span class="badge badge-on">An</span></td>
+                <td>Strukturierte Übersichten gut darstellbar.</td>
+              </tr>
+              <tr>
+                <td>DALL·E</td>
+                <td><span class="badge badge-off">Aus</span></td>
+                <td>Nicht relevant für Recherche.</td>
+              </tr>
+              <tr>
+                <td>Code Interpreter</td>
+                <td><span class="badge badge-off">Aus</span></td>
+                <td>Hält den Spezialisten fokussiert.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header">
+              <div class="prompt-card-title">System-Prompt</div>
+              <div class="btn-group">
+                <button
+                  class="btn compact"
+                  type="button"
+                  data-action="regenerate"
+                  data-target="prompt-recherche"
+                >
+                  Aus Feldern aktualisieren
+                </button>
+                <button
+                  class="btn compact solid"
+                  type="button"
+                  data-action="copy"
+                  data-target="prompt-recherche"
+                >
+                  Kopieren
+                </button>
+                <span class="copy-feedback" data-feedback="prompt-recherche"
+                  >Kopiert</span
+                >
+              </div>
+            </div>
+            <textarea
+              id="prompt-recherche"
+              class="prompt-textarea"
+              spellcheck="false"
+            ></textarea>
+          </div>
+
+          <div class="link-capture">
+            <div class="link-capture-step">Nach dem Bauen · Schritt 4</div>
+            <div class="field">
+              <label class="field-label" for="recherche-link"
+                >Link deines fertigen Recherche-Spezialisten</label
+              >
+              <p class="field-help">
+                Sobald du diesen GPT im Custom-GPT-Builder gespeichert hast,
+                kopiere den "View GPT"-Link aus der Adresszeile (oder den
+                Share-Link) und füge ihn hier ein. Der Router-Prompt nutzt
+                diesen Link, um Anfragen weiterzuleiten.
+              </p>
+              <input
+                type="text"
+                id="recherche-link"
+                placeholder="https://chatgpt.com/g/g-..."
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCHRITT 4: TEXT-SPEZIALIST -->
+      <section
+        class="section large prompt-section"
+        id="text"
+        style="border-top: 1px solid var(--alpha-divider-dark)"
+      >
+        <div class="container">
+          <div class="step-badge">
+            <span class="step-badge-num">04</span>
+            <span class="step-badge-label">GPT 2 von 3 · Text-Spezialist</span>
+          </div>
+          <h2>Der <em class="gold">Text-Spezialist</em>.</h2>
+          <p class="lead reading" style="margin-top: 24px">
+            Schreibt, überarbeitet und strukturiert Texte. Passt Ton an
+            Zielgruppe und Zweck an. Bietet bei Bedarf Varianten.
+          </p>
+
+          <h4 style="margin-top: 48px; color: var(--white)">
+            Standard-Tools für diesen GPT
+          </h4>
+          <table class="tools-table">
+            <thead>
+              <tr>
+                <th>Tool</th>
+                <th>Empfehlung</th>
+                <th>Begründung</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Web Search</td>
+                <td><span class="badge badge-off">Aus</span></td>
+                <td>Lenkt vom Text-Fokus ab.</td>
+              </tr>
+              <tr>
+                <td>Canvas</td>
+                <td><span class="badge badge-on">An</span></td>
+                <td>Iteratives Texten ist mit Canvas deutlich besser.</td>
+              </tr>
+              <tr>
+                <td>DALL·E</td>
+                <td><span class="badge badge-off">Aus</span></td>
+                <td>Nicht relevant für Text.</td>
+              </tr>
+              <tr>
+                <td>Code Interpreter</td>
+                <td><span class="badge badge-off">Aus</span></td>
+                <td>Nicht relevant.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header">
+              <div class="prompt-card-title">System-Prompt</div>
+              <div class="btn-group">
+                <button
+                  class="btn compact"
+                  type="button"
+                  data-action="regenerate"
+                  data-target="prompt-text"
+                >
+                  Aus Feldern aktualisieren
+                </button>
+                <button
+                  class="btn compact solid"
+                  type="button"
+                  data-action="copy"
+                  data-target="prompt-text"
+                >
+                  Kopieren
+                </button>
+                <span class="copy-feedback" data-feedback="prompt-text"
+                  >Kopiert</span
+                >
+              </div>
+            </div>
+            <textarea
+              id="prompt-text"
+              class="prompt-textarea"
+              spellcheck="false"
+            ></textarea>
+          </div>
+
+          <div class="link-capture">
+            <div class="link-capture-step">Nach dem Bauen · Schritt 4</div>
+            <div class="field">
+              <label class="field-label" for="text-link"
+                >Link deines fertigen Text-Spezialisten</label
+              >
+              <p class="field-help">
+                Sobald du diesen GPT gespeichert hast, kopiere den "View
+                GPT"-Link und füge ihn hier ein. Der Router braucht ihn, um auf
+                den Text-Spezialisten zu verweisen.
+              </p>
+              <input
+                type="text"
+                id="text-link"
+                placeholder="https://chatgpt.com/g/g-..."
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCHRITT 5: ROUTER -->
+      <section
+        class="section large prompt-section"
+        id="router"
+        style="border-top: 1px solid var(--alpha-divider-dark)"
+      >
+        <div class="container">
+          <div class="step-badge">
+            <span class="step-badge-num">05</span>
+            <span class="step-badge-label">GPT 3 von 3 · Team-Router</span>
+          </div>
+          <h2>Der <em class="gold">Team-Router</em>.</h2>
+          <p class="lead reading" style="margin-top: 24px">
+            Versteht die Anfrage, wählt den richtigen Spezialisten, formuliert
+            einen Übergabe-Prompt und gibt den Link weiter.
+          </p>
+
+          <div class="hint-block dark" style="margin-top: 32px">
+            <span class="label">Wichtig · Reihenfolge</span>
+            <p>
+              Bevor du den Router-Prompt aktualisierst, müssen die
+              <strong>Spezialisten-Links</strong> in den jeweiligen
+              Spezialisten-Abschnitten oben (jeweils unterhalb des
+              System-Prompts) eingetragen sein. Klicke <em>danach</em> auf "Aus
+              Feldern aktualisieren", damit die Links in den Router-Prompt
+              fliessen. Sonst routet der Router ins Leere.
+            </p>
+          </div>
+
+          <h4 style="margin-top: 48px; color: var(--white)">
+            Standard-Tools für diesen GPT
+          </h4>
+          <table class="tools-table">
+            <thead>
+              <tr>
+                <th>Tool</th>
+                <th>Empfehlung</th>
+                <th>Begründung</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Web Search</td>
+                <td><span class="badge badge-off">Aus</span></td>
+                <td>Der Router arbeitet nicht selbst &mdash; er routet.</td>
+              </tr>
+              <tr>
+                <td>Canvas</td>
+                <td><span class="badge badge-off">Aus</span></td>
+                <td>Nicht relevant für kurze Routing-Antworten.</td>
+              </tr>
+              <tr>
+                <td>DALL·E</td>
+                <td><span class="badge badge-off">Aus</span></td>
+                <td>Nicht relevant.</td>
+              </tr>
+              <tr>
+                <td>Code Interpreter</td>
+                <td><span class="badge badge-off">Aus</span></td>
+                <td>Nicht relevant.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header">
+              <div class="prompt-card-title">System-Prompt</div>
+              <div class="btn-group">
+                <button
+                  class="btn compact"
+                  type="button"
+                  data-action="regenerate"
+                  data-target="prompt-router"
+                >
+                  Aus Feldern aktualisieren
+                </button>
+                <button
+                  class="btn compact solid"
+                  type="button"
+                  data-action="copy"
+                  data-target="prompt-router"
+                >
+                  Kopieren
+                </button>
+                <span class="copy-feedback" data-feedback="prompt-router"
+                  >Kopiert</span
+                >
+              </div>
+            </div>
+            <textarea
+              id="prompt-router"
+              class="prompt-textarea"
+              spellcheck="false"
+            ></textarea>
+          </div>
+        </div>
+      </section>
+
+      <hr class="gold-rule" />
+
+      <!-- TESTEN -->
+      <section class="section">
+        <div class="container">
+          <div class="step-badge">
+            <span class="step-badge-num">06</span>
+            <span class="step-badge-label" style="color: var(--mid-grey)"
+              >Testen</span
+            >
+          </div>
+          <h2>Sende deine <em class="gold">Test-Anfrage</em>.</h2>
+          <p class="lead reading" style="margin-top: 24px">
+            Öffne deinen Router-GPT und schicke ihm deine Test-Anfrage.
+            Beobachte das Verhalten.
+          </p>
+
+          <div class="test-scenario" id="test-display">
+            <span
+              style="
+                color: var(--alpha-muted-light);
+                font-style: normal;
+                font-family: &quot;DM Sans&quot;, sans-serif;
+                font-size: 11px;
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+              "
+              >Deine Test-Anfrage</span
+            ><br />
+            <span id="test-display-content"
+              >— Wird oben im Setup-Feld eingetragen —</span
+            >
+          </div>
+
+          <h4 style="margin-top: 48px">Beobachtungspunkte</h4>
+          <ul class="reflection-list">
+            <li>
+              Wählt der Router den richtigen Spezialisten? Was, wenn du eine
+              mehrdeutige Anfrage stellst?
+            </li>
+            <li>
+              Wie qualitativ ist der formulierte Übergabe-Prompt? Würdest du ihn
+              als User kopieren?
+            </li>
+            <li>
+              Was passiert, wenn du beim Spezialisten direkt eine Anfrage
+              stellst, die zum anderen Spezialisten gehört? Eskaliert er korrekt
+              zurück?
+            </li>
+            <li>
+              Wo merkst du die Limitierungen dieses pragmatischen Ansatzes
+              &mdash; und wo wäre ein echter API-basierter Orchestrator nötig?
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <hr class="gold-rule" />
+
+      <!-- DOWNLOAD -->
+      <section class="download-bar" id="download">
+        <div class="container">
+          <h3>Speichere deinen aktuellen Stand.</h3>
+          <p>
+            Lade deinen Stand mit allen Eingaben herunter &mdash; entweder als
+            interaktives HTML (zum späteren Weiterbearbeiten) oder als
+            Word-Dokument (zum Drucken, Teilen, Archivieren).
+          </p>
+          <div class="btn-group" style="justify-content: center">
+            <button class="btn" type="button" id="download-btn">
+              Als HTML herunterladen
+            </button>
+            <button class="btn" type="button" id="download-docx-btn">
+              Als Word-Dokument (.docx)
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <hr class="gold-rule" />
+        <div class="footer-row">
+          <div class="logo" style="font-size: 18px">
+            Raut<span class="gold-letter">a</span>k<span class="gold-letter"
+              >i</span
+            >
+          </div>
+          <div>Rautaki Lab</div>
+          <div>rautaki.ch</div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      /* =================================================================
+   BEISPIEL-KONTEXTE
+   ================================================================= */
+      const contexts = {
+        npo: {
+          organisation: "Programme-Bereich einer Schweizer Hilfsorganisation",
+          recherche:
+            "- Förderlandschaft Schweiz (Stiftungen, Bundesprogramme, kantonale Töpfe)\n- Studien und Statistiken zu sozialen Themen\n- Best Practices anderer NPOs (national und international)\n- Faktencheck zu politischen Vorlagen im Sozialbereich",
+          text: "- Förderanträge an Stiftungen und Behörden\n- Newsletter an Spender:innen und Freiwillige\n- Interne Kommunikation (Memos, Sitzungsprotokolle, Konzeptpapiere)\n- Fundraising-E-Mails und Spendenbriefe",
+          test: "Ich brauche eine Übersicht über Schweizer Stiftungen, die Bildungsprojekte für geflüchtete Frauen fördern. Welche kommen in Frage und wie sind ihre Eingabefristen?",
+        },
+        consulting: {
+          organisation: "Strategieberatung mit Fokus auf Schweizer KMU",
+          recherche:
+            "- Marktanalysen und Branchenstudien\n- Wettbewerbsbeobachtung (Konkurrenten, Geschäftsmodelle)\n- Trends und Entwicklungen in spezifischen Branchen\n- Faktencheck für Mandantenpräsentationen",
+          text: "- Angebotsdokumente für neue Mandate\n- Kundenpräsentationen und Workshop-Einladungen\n- Strategieberichte und Executive Summaries\n- LinkedIn-Posts zur Positionierung",
+          test: "Was sind die wichtigsten Trends in der Schweizer Bauindustrie für 2025? Ich bereite einen Workshop für ein KMU-Mandat vor.",
+        },
+        education: {
+          organisation: "Weiterbildungsabteilung einer Schweizer Hochschule",
+          recherche:
+            "- Bildungstrends und Studien zu Lernmethoden\n- Marktstudien Weiterbildung (Konkurrenz, Preise, Nachfrage)\n- Akkreditierungsanforderungen und Qualitätssicherung\n- Aktuelle Forschung zu Andragogik und Erwachsenenbildung",
+          text: "- Modulbeschreibungen und Kursdescriptoren\n- Marketingtexte für Weiterbildungsprogramme\n- E-Mails an Studierende (Onboarding, Deadlines, Updates)\n- Dozierenden-Kommunikation und Briefings",
+          test: "Recherchiere mir aktuelle Studien zu hybriden Lernformaten in der Erwachsenenbildung der letzten zwei Jahre.",
+        },
+        comms: {
+          organisation:
+            "Kommunikationsabteilung eines mittelständischen Unternehmens",
+          recherche:
+            "- Trends in Content-Marketing und Corporate Communications\n- Konkurrenzbeobachtung auf relevanten Plattformen\n- Plattform-Best-Practices (LinkedIn, Newsletter, Blog)\n- Zielgruppenstudien und Mediennutzung",
+          text: "- LinkedIn-Posts und Social-Media-Content\n- Newsletter (intern und extern)\n- Pressemitteilungen und Statements\n- Interne Mitteilungen an Mitarbeitende",
+          test: "Was sind aktuelle Best Practices für LinkedIn-Posts im B2B-Bereich? Ich plane unsere Content-Strategie für Q2.",
+        },
+      };
+
+      /* =================================================================
+   PROMPT-TEMPLATES
+   ================================================================= */
+      function buildRecherchePrompt(s) {
+        return `Du bist der Recherche-Spezialist für ${s.organisation || "[ORGANISATION EINTRAGEN]"}.
+
+DEINE EXPERTISE:
+${s.recherche || "[ZUSTÄNDIGKEITEN EINTRAGEN]"}
+
+DEIN ARBEITSSTIL:
+- Immer mit Quellenangaben
+- Strukturiert (Bullets, Überschriften)
+- Unterscheide klar zwischen Fakten, Schätzungen und Meinungen
+- Bei Unsicherheit: Sage es offen statt zu raten
+
+DEIN VORGEHEN:
+1. Verstehe die Recherche-Frage. Falls unklar: Frage einmal gezielt nach.
+2. Falls Web-Suche nötig: Nutze sie und gib URLs an.
+3. Strukturiere die Ergebnisse mit Überschriften und Bullets.
+4. Gib am Ende eine kompakte Zusammenfassung der Kernerkenntnisse.
+
+ESKALATION:
+Wenn die Anfrage NICHT Recherche ist (z.B. Texte schreiben, Daten analysieren), sage:
+"Das ist eher eine Aufgabe für einen anderen Spezialisten in unserem Team. Geh zurück zum Team-Router für die Weiterleitung."
+
+Mache keine Aufgaben ausserhalb deines Gebiets &mdash; auch nicht "schnell nebenbei".
+
+KONTEXT:
+Du bist Teil eines Teams von Spezialisten. Der User wurde meist vom Team-Router zu dir geschickt
+und kommt mit einem vorformulierten Übergabe-Prompt. Arbeite fokussiert auf dein Gebiet.`;
+      }
+
+      function buildTextPrompt(s) {
+        return `Du bist der Text-Spezialist für ${s.organisation || "[ORGANISATION EINTRAGEN]"}.
+
+DEINE EXPERTISE:
+${s.text || "[ZUSTÄNDIGKEITEN EINTRAGEN]"}
+
+DEIN ARBEITSSTIL:
+- Klar, präzise, zielgruppengerecht
+- Ton bewusst anpassen (formell, freundlich, dringlich, etc.)
+- Struktur und Lesbarkeit immer im Blick
+- Vorschläge mit kurzer Begründung versehen, damit der User entscheiden kann
+
+DEIN VORGEHEN:
+1. Kläre Zweck, Zielgruppe und gewünschten Ton. Falls nicht angegeben: Frage gezielt nach.
+2. Erstelle einen ersten Entwurf, strukturiert.
+3. Biete bei wichtigen Texten zwei Varianten mit unterschiedlichem Ton oder Aufbau an.
+4. Lade explizit zur Iteration ein ("Soll ich den Ton anpassen? Variante kürzen?").
+
+ESKALATION:
+Wenn die Anfrage NICHT Text-Arbeit ist (z.B. Recherche, Datenanalyse), sage:
+"Das ist eher eine Aufgabe für einen anderen Spezialisten in unserem Team. Geh zurück zum Team-Router für die Weiterleitung."
+
+KONTEXT:
+Du bist Teil eines Teams von Spezialisten. Der User wurde meist vom Team-Router zu dir geschickt
+und kommt mit einem vorformulierten Übergabe-Prompt. Arbeite fokussiert auf dein Gebiet.`;
+      }
+
+      function buildRouterPrompt(s) {
+        return `Du bist der Team-Router für ${s.organisation || "[ORGANISATION EINTRAGEN]"}.
+
+DEINE AUFGABE:
+1. Verstehe die Anfrage des Users
+2. Identifiziere den passenden Spezialisten
+3. Formuliere einen optimierten Übergabe-Prompt mit Kontext
+4. Leite den User mit Link und Prompt weiter
+
+DU ARBEITEST NICHT SELBST INHALTLICH. Du analysierst und routest.
+
+VERFÜGBARE SPEZIALISTEN:
+
+1. **Recherche-Spezialist**
+   - Zuständig für: ${(s.recherche || "[zu Recherche-Themen ausfüllen]").replace(/\n/g, " ")}
+   - Link: ${s.rechercheLink || "[LINK DES RECHERCHE-SPEZIALISTEN]"}
+   - Stärken: Web-Suche, Quellenangaben, strukturierte Übersichten, Faktencheck
+
+2. **Text-Spezialist**
+   - Zuständig für: ${(s.text || "[zu Text-Themen ausfüllen]").replace(/\n/g, " ")}
+   - Link: ${s.textLink || "[LINK DES TEXT-SPEZIALISTEN]"}
+   - Stärken: Ton anpassen, Struktur, Überarbeitung, Varianten anbieten
+
+DEIN VORGEHEN:
+
+1. Analysiere die Anfrage: Welcher Spezialist passt am besten?
+   - Recherche-Aufgabe (Informationen suchen, prüfen, zusammenfassen)? → Recherche-Spezialist
+   - Text-Aufgabe (schreiben, überarbeiten, formulieren)? → Text-Spezialist
+   - Falls unklar oder beides nötig: Frage einmal gezielt nach, was der User zuerst braucht.
+
+2. Formuliere einen Übergabe-Prompt:
+   - Fasse den Kontext zusammen (was, wofür, für wen)
+   - Formuliere die Aufgabe klar und spezifisch
+   - Schreibe ihn so, dass der User ihn ohne Anpassung kopieren kann
+
+3. Gib die Antwort genau in diesem Format:
+
+---
+Dafür ist der **[Name des Spezialisten]** am besten geeignet.
+
+**Link:** [Link einfügen]
+
+**Kopiere diesen Prompt:**
+\`\`\`
+[Optimierter Übergabe-Prompt mit Kontext]
+\`\`\`
+
+Öffne den Link, füge den Prompt im neuen Chat ein, und der Spezialist übernimmt.
+---
+
+WICHTIG: Halte dich an das Format. Der User kopiert den Prompt mechanisch &mdash; gib nichts dazwischen.`;
+      }
+
+      /* =================================================================
+   STATE & DOM HELPERS
+   ================================================================= */
+      function getSetup() {
+        return {
+          organisation: document.getElementById("organisation").value.trim(),
+          recherche: document.getElementById("recherche-themen").value.trim(),
+          text: document.getElementById("text-themen").value.trim(),
+          rechercheLink: document.getElementById("recherche-link").value.trim(),
+          textLink: document.getElementById("text-link").value.trim(),
+        };
+      }
+
+      function regenerate(target) {
+        const s = getSetup();
+        if (target === "prompt-recherche") {
+          document.getElementById("prompt-recherche").value =
+            buildRecherchePrompt(s);
+        } else if (target === "prompt-text") {
+          document.getElementById("prompt-text").value = buildTextPrompt(s);
+        } else if (target === "prompt-router") {
+          document.getElementById("prompt-router").value = buildRouterPrompt(s);
+        }
+      }
+
+      function regenerateAll() {
+        regenerate("prompt-recherche");
+        regenerate("prompt-text");
+        regenerate("prompt-router");
+      }
+
+      /* =================================================================
+   CONTEXT DROPDOWN
+   ================================================================= */
+      document
+        .getElementById("context-select")
+        .addEventListener("change", (e) => {
+          const key = e.target.value;
+          if (!key || !contexts[key]) return;
+          const c = contexts[key];
+          document.getElementById("organisation").value = c.organisation;
+          document.getElementById("recherche-themen").value = c.recherche;
+          document.getElementById("text-themen").value = c.text;
+          document.getElementById("test-anfrage").value = c.test;
+          // Links bleiben leer &mdash; werden vom User später eingetragen
+          regenerateAll();
+          updateTestDisplay();
+        });
+
+      /* =================================================================
+   COPY & REGENERATE BUTTONS
+   ================================================================= */
+      document.querySelectorAll("button[data-action]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const action = btn.dataset.action;
+          const target = btn.dataset.target;
+          if (action === "regenerate") {
+            regenerate(target);
+          } else if (action === "copy") {
+            const ta = document.getElementById(target);
+            ta.select();
+            navigator.clipboard
+              .writeText(ta.value)
+              .then(() => {
+                const fb = document.querySelector(
+                  `[data-feedback="${target}"]`,
+                );
+                if (fb) {
+                  fb.classList.add("show");
+                  setTimeout(() => fb.classList.remove("show"), 1800);
+                }
+              })
+              .catch(() => {
+                document.execCommand("copy");
+              });
+          }
+        });
+      });
+
+      /* =================================================================
+   TEST DISPLAY
+   ================================================================= */
+      function updateTestDisplay() {
+        const v = document.getElementById("test-anfrage").value.trim();
+        document.getElementById("test-display-content").textContent =
+          v || "— Wird oben im Setup-Feld eingetragen —";
+      }
+      document
+        .getElementById("test-anfrage")
+        .addEventListener("input", updateTestDisplay);
+
+      /* =================================================================
+   PERSIST INPUT VALUES INTO HTML ON DOWNLOAD
+   ================================================================= */
+      function persistValuesToDOM() {
+        document.querySelectorAll('input[type="text"]').forEach((el) => {
+          el.setAttribute("value", el.value);
+        });
+        document.querySelectorAll("textarea").forEach((el) => {
+          el.textContent = el.value;
+        });
+        document.querySelectorAll("select").forEach((el) => {
+          Array.from(el.options).forEach((opt) => {
+            if (opt.value === el.value)
+              opt.setAttribute("selected", "selected");
+            else opt.removeAttribute("selected");
+          });
+        });
+      }
+
+      document.getElementById("download-btn").addEventListener("click", () => {
+        persistValuesToDOM();
+        // Update test display in HTML too
+        const testEl = document.getElementById("test-display-content");
+        testEl.textContent =
+          document.getElementById("test-anfrage").value.trim() ||
+          "— Wird oben im Setup-Feld eingetragen —";
+
+        const html = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+        const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        const date = new Date().toISOString().slice(0, 10);
+        a.href = url;
+        a.download = `multi-assistant-gpts_${date}.html`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 100);
+      });
+
+      /* =================================================================
+   DOCX DOWNLOAD
+   ================================================================= */
+      function escapeHTML(s) {
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      function buildDocxHTML() {
+        const s = getSetup();
+        const dateStr = new Date().toLocaleDateString("de-CH");
+        const test =
+          document.getElementById("test-anfrage").value.trim() || "—";
+        const recherchePrompt =
+          document.getElementById("prompt-recherche").value;
+        const textPrompt = document.getElementById("prompt-text").value;
+        const routerPrompt = document.getElementById("prompt-router").value;
+
+        const promptStyle =
+          "font-family:Consolas,'Courier New',monospace;font-size:10pt;white-space:pre-wrap;background:#F4F2EE;padding:14pt;border-left:3pt solid #F5A623;";
+        const h1Style =
+          "font-family:Georgia,serif;font-size:26pt;color:#1C1C1C;margin-bottom:4pt;";
+        const h2Style =
+          "font-family:Georgia,serif;font-size:18pt;color:#1C1C1C;margin-top:24pt;margin-bottom:8pt;";
+        const labelStyle =
+          "font-family:Calibri,Arial,sans-serif;font-size:9pt;color:#9A9590;letter-spacing:2pt;text-transform:uppercase;";
+
+        return `<!DOCTYPE html>
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+<meta charset="UTF-8">
+<title>Multi-Assistant-System mit Custom GPTs</title>
+</head>
+<body style="font-family:Calibri,Arial,sans-serif;font-size:11pt;line-height:1.5;color:#1C1C1C;">
+
+<h1 style="${h1Style}">Multi-Assistant-System mit Custom GPTs</h1>
+<p style="${labelStyle}">Rautaki Lab · ${dateStr}</p>
+<hr style="border:none;border-top:3pt solid #F5A623;margin:16pt 0;">
+
+<h2 style="${h2Style}">Mein Setup</h2>
+<p><strong>Organisation oder Bereich:</strong><br>${escapeHTML(s.organisation || "—")}</p>
+<p><strong>Recherche-Spezialist · Zuständigkeitsbereich:</strong></p>
+<p style="white-space:pre-wrap;">${escapeHTML(s.recherche || "—")}</p>
+<p><strong>Text-Spezialist · Zuständigkeitsbereich:</strong></p>
+<p style="white-space:pre-wrap;">${escapeHTML(s.text || "—")}</p>
+<p><strong>Recherche-Spezialist · Link:</strong> ${escapeHTML(s.rechercheLink || "—")}</p>
+<p><strong>Text-Spezialist · Link:</strong> ${escapeHTML(s.textLink || "—")}</p>
+
+<h2 style="${h2Style}">Test-Anfrage</h2>
+<p style="font-style:italic;white-space:pre-wrap;">${escapeHTML(test)}</p>
+
+<hr style="border:none;border-top:1pt solid #1C1C1C;margin:24pt 0;">
+
+<h2 style="${h2Style}">System-Prompt 1 von 3 · Recherche-Spezialist</h2>
+<p style="${labelStyle}">Tools: Web Search AN · Canvas AN · DALL·E AUS · Code Interpreter AUS</p>
+<p style="${promptStyle}">${escapeHTML(recherchePrompt)}</p>
+
+<h2 style="${h2Style}">System-Prompt 2 von 3 · Text-Spezialist</h2>
+<p style="${labelStyle}">Tools: Web Search AUS · Canvas AN · DALL·E AUS · Code Interpreter AUS</p>
+<p style="${promptStyle}">${escapeHTML(textPrompt)}</p>
+
+<h2 style="${h2Style}">System-Prompt 3 von 3 · Team-Router</h2>
+<p style="${labelStyle}">Tools: Alle AUS &mdash; der Router routet, er arbeitet nicht selbst</p>
+<p style="${promptStyle}">${escapeHTML(routerPrompt)}</p>
+
+<hr style="border:none;border-top:3pt solid #F5A623;margin:24pt 0;">
+
+<p style="${labelStyle}">Rautaki · Strategy · Advisory · Growth · rautaki.ch</p>
+
+</body>
+</html>`;
+      }
+
+      document
+        .getElementById("download-docx-btn")
+        .addEventListener("click", () => {
+          if (typeof htmlDocx === "undefined" || !htmlDocx.asBlob) {
+            alert(
+              "Die Word-Export-Bibliothek konnte nicht geladen werden. Bitte prüfe deine Internetverbindung und lade die Seite neu.",
+            );
+            return;
+          }
+          try {
+            const html = buildDocxHTML();
+            const blob = htmlDocx.asBlob(html);
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            const date = new Date().toISOString().slice(0, 10);
+            a.href = url;
+            a.download = `multi-assistant-gpts_${date}.docx`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 100);
+          } catch (err) {
+            console.error("DOCX export failed:", err);
+            alert(
+              "Beim Erstellen des Word-Dokuments ist ein Fehler aufgetreten. Versuche stattdessen den HTML-Download.",
+            );
+          }
+        });
+
+      /* =================================================================
+   INITIALISIERUNG
+   ================================================================= */
+      // Beim ersten Laden: Wenn Werte in den Inputs stehen (z.B. nach Wiedereröffnung der heruntergeladenen Datei),
+      // regeneriere die Prompts. Wenn nicht, zeige Templates mit Platzhaltern.
+      window.addEventListener("DOMContentLoaded", () => {
+        // Wenn Prompts schon Inhalt haben (heruntergeladene Datei), nicht überschreiben
+        const hasContent =
+          document.getElementById("prompt-recherche").value.trim().length > 0;
+        if (!hasContent) {
+          regenerateAll();
+        }
+        updateTestDisplay();
+      });
+    </script>
+  </body>
+</html>
