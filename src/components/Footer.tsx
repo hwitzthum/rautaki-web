@@ -61,7 +61,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="https://www.linkedin.com"
+                  href="https://www.linkedin.com/in/harry-witzthum-25b814a/"
                   target="_blank"
                   rel="noreferrer"
                   className="no-underline hover:text-gold transition-colors"
@@ -76,10 +76,16 @@ export default function Footer() {
         <div className="mt-14 pt-6 border-t border-white/10 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between font-ui text-xs uppercase tracking-wide-footer text-white/45">
           <div>© {new Date().getFullYear()} Rautaki. All rights reserved.</div>
           <div className="flex gap-6">
-            <Link href="/privacy" className="no-underline hover:text-gold transition-colors">
+            <Link
+              href="/privacy"
+              className="no-underline hover:text-gold transition-colors"
+            >
               Privacy
             </Link>
-            <Link href="/imprint" className="no-underline hover:text-gold transition-colors">
+            <Link
+              href="/imprint"
+              className="no-underline hover:text-gold transition-colors"
+            >
               Imprint
             </Link>
           </div>

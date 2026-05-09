@@ -35,7 +35,7 @@ const organizationSchema = {
     "Model Governance",
     "AI Risk Management",
   ],
-  sameAs: ["https://www.linkedin.com"],
+  sameAs: ["https://www.linkedin.com/in/harry-witzthum-25b814a/"],
 };
 
 const dmSans = DM_Sans({
