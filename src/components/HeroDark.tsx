@@ -39,7 +39,7 @@ export default function HeroDark({ onBookingClick }: HeroDarkProps) {
         aria-hidden="true"
       />
 
-      <div className="px-6 sm:px-10 lg:px-20 py-12 lg:py-16 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-white/5">
+      <div className="lg:col-start-1 px-6 sm:px-10 lg:px-20 py-12 lg:py-16 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-white/5">
         <div>
           <Logo size="xl" variant="dark" showTagline />
         </div>
@@ -68,7 +68,7 @@ export default function HeroDark({ onBookingClick }: HeroDarkProps) {
         </div>
       </div>
 
-      <div className="px-6 sm:px-10 lg:px-20 py-12 lg:py-16 flex flex-col justify-end relative">
+      <div className="lg:col-start-2 px-6 sm:px-10 lg:px-20 py-12 lg:py-16 flex flex-col justify-end relative">
         <div
           ref={parallaxRef}
           className="absolute font-serif text-white/[0.025] pointer-events-none select-none hidden lg:block"
@@ -96,9 +96,8 @@ export default function HeroDark({ onBookingClick }: HeroDarkProps) {
             Entwickeln Sie eine belastbare KI-Strategie
           </h2>
           <p className="font-ui text-sm text-black/55 mb-6 max-w-[420px]">
-            Reservieren Sie eine Beratung, um Prioritäten,
-            Governance-Entscheide und die Führungskompetenzen für Ihre nächste
-            Phase zu klären.
+            Reservieren Sie eine Beratung, um Prioritäten, Governance-Entscheide
+            und die Führungskompetenzen für Ihre nächste Phase zu klären.
           </p>
           <Button variant="dark" onClick={onBookingClick} showArrow>
             Beratung reservieren
