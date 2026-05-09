@@ -7,7 +7,7 @@ export function RequiredAsterisk() {
 }
 
 export const inputClasses =
-  "border border-ink/10 px-4 py-3 font-ui text-body text-ink bg-cream outline-none focus:border-gold focus:shadow-[0_0_0_3px_var(--color-gold-focus)] transition-all";
+  "border border-ink/10 px-4 py-3 font-ui text-body text-ink bg-cream focus:border-gold focus:ring-2 focus:ring-gold focus:ring-offset-1 focus:shadow-[0_0_0_3px_var(--color-gold-focus)] transition-all";
 
 export function useBookingSubmit(errorMessage?: string) {
   const [submitted, setSubmitted] = useState(false);

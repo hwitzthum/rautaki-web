@@ -21,8 +21,7 @@ export default function StatBlock({ stats }: StatBlockProps) {
         <ScrollReveal key={stat.label} delay={index * 100}>
           <div className="pl-5 border-l-2 border-gold">
             <div
-              className="font-serif text-d1 leading-none text-ink"
-              style={{ letterSpacing: "-0.03em" }}
+              className="font-serif text-d1 leading-none text-ink tracking-tight"
             >
               <AnimatedCounter target={stat.value} suffix={stat.suffix} />
             </div>
@@ -30,7 +29,7 @@ export default function StatBlock({ stats }: StatBlockProps) {
               {stat.label}
             </div>
             {stat.source && (
-              <div className="mt-1 font-ui text-[10px] font-light leading-snug text-ink/30 not-italic">
+              <div className="mt-1 font-ui text-xs font-light leading-snug text-ink/30 not-italic">
                 {stat.source}
               </div>
             )}

@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import ScrollReveal from "@/components/ScrollReveal";
 import SectionLabel from "@/components/SectionLabel";
+import GoldRule from "@/components/GoldRule";
 
 export const metadata: Metadata = {
   title: "Lab",
-  description:
-    "Interaktive Anleitungen und Werkzeuge zum Selber bauen. Direkt im Browser, ohne Account und ohne Server.",
+  description: "Kostenlose KI-Tools und Generatoren für Entscheider — direkt im Browser nutzbar.",
+  alternates: { canonical: "https://www.rautaki.com/lab" },
 };
 
 interface Tool {
@@ -45,6 +46,7 @@ const tools: Tool[] = [
 
 export default function LabPage() {
   return (
+    <>
     <section className="bg-cream border-t-3 border-gold px-6 sm:px-10 lg:px-20 pt-16 pb-24">
       <div className="mx-auto max-w-content">
 
@@ -52,7 +54,7 @@ export default function LabPage() {
         <SectionLabel text="Lab" />
         <h1 className="font-serif text-h2 lg:text-h1 font-normal leading-heading tracking-tight text-ink mb-4">
           Werkzeuge zum{" "}
-          <em className="italic text-gold">Selber bauen</em>.
+          <span className="italic text-gold">Selber bauen</span>.
         </h1>
         <p className="max-w-reading font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey mb-10">
           Interaktive Tools, die direkt im Browser laufen — kein Account, kein Server.
@@ -67,7 +69,7 @@ export default function LabPage() {
                 href={tool.href}
                 className="group block bg-white no-underline"
               >
-                <article className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-8 p-7 lg:p-9 items-center border-l-[3px] border-transparent group-hover:border-gold transition-colors duration-300">
+                <article className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-8 p-7 lg:p-9 items-center border-l-3 border-transparent group-hover:border-gold transition-colors duration-300">
                   <div className="max-w-reading">
                     <div className="font-ui text-xs uppercase tracking-wide-label text-gold mb-2">
                       {tool.tag}
@@ -112,5 +114,25 @@ export default function LabPage() {
 
       </div>
     </section>
+
+    <GoldRule />
+
+    {/* Booking CTA */}
+    <section className="bg-obsidian py-20">
+      <div className="container mx-auto px-6 text-center max-w-narrow">
+        <p className="font-sans text-sm tracking-widest uppercase text-gold mb-4">Strategie-Gespräch</p>
+        <h2 className="font-serif text-h2 text-white mb-6">
+          Maßgeschneidert statt{' '}
+          <span className="italic text-gold">von der Stange</span>
+        </h2>
+        <p className="text-white/45 font-sans text-body mb-10">
+          Die Lab-Tools geben Ihnen einen ersten Einblick. Für eine individuelle Lösung sprechen wir persönlich.
+        </p>
+        <a href="/booking" className="font-sans text-sm tracking-wide text-white hover:text-gold transition-colors duration-200">
+          Gespräch vereinbaren →
+        </a>
+      </div>
+    </section>
+    </>
   );
 }

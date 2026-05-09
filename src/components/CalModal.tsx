@@ -14,8 +14,22 @@ const subscribe = () => () => {};
 const getSnapshot = () => true;
 const getServerSnapshot = () => false;
 
+const FOCUSABLE = 'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
 export default function CalModal({ isOpen, onClose }: CalModalProps) {
   const mounted = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const triggerRef = useRef<Element | null>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      triggerRef.current = document.activeElement;
+    } else {
+      if (triggerRef.current instanceof HTMLElement) {
+        triggerRef.current.focus();
+      }
+      triggerRef.current = null;
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
@@ -30,9 +44,34 @@ export default function CalModal({ isOpen, onClose }: CalModalProps) {
 function CalModalContent({ onClose }: { onClose: () => void }) {
   const panelRef = useRef<HTMLDivElement>(null);
 
-  /* Close on Escape */
+  /* Initial focus */
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    const timer = setTimeout(() => {
+      const focusable = panelRef.current?.querySelector(FOCUSABLE) as HTMLElement | null;
+      focusable?.focus();
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  /* Close on Escape + Tab trapping */
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+      } else if (e.key === "Tab") {
+        const focusable = Array.from(panelRef.current?.querySelectorAll(FOCUSABLE) ?? []) as HTMLElement[];
+        if (!focusable.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, [onClose]);
@@ -65,7 +104,7 @@ function CalModalContent({ onClose }: { onClose: () => void }) {
         ref={panelRef}
         role="dialog"
         aria-modal="true"
-        aria-label="Beratung reservieren"
+        aria-label="Beratungsgespräch buchen"
         className="relative w-full max-w-[900px] shadow-[0_24px_80px_rgba(0,0,0,0.5)]"
         style={{ animation: "scale-up 300ms var(--ease-spring) both" }}
       >
@@ -79,7 +118,7 @@ function CalModalContent({ onClose }: { onClose: () => void }) {
             <div className="hidden sm:flex items-center gap-8 border-l border-white/10 pl-10">
               {callFacts.map(({ label, value }) => (
                 <div key={label} className="flex flex-col gap-0.5">
-                  <span className="font-ui text-[10px] uppercase tracking-wide-label text-white/35">
+                  <span className="font-ui text-xs uppercase tracking-wide-label text-white/35">
                     {label}
                   </span>
                   <span className="font-serif text-[15px] tracking-tight-h4 font-normal text-white leading-tight">
@@ -95,7 +134,7 @@ function CalModalContent({ onClose }: { onClose: () => void }) {
             aria-label="Dialog schliessen"
             className="text-white/40 hover:text-white transition-colors p-2 -mr-2"
           >
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
               <path d="M4 4l12 12M4 16L16 4" />
             </svg>
           </button>

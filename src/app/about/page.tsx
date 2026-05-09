@@ -3,11 +3,13 @@ import Image from "next/image";
 import HeroLight from "@/components/HeroLight";
 import ScrollReveal from "@/components/ScrollReveal";
 import SectionLabel from "@/components/SectionLabel";
+import GoldRule from "@/components/GoldRule";
+import Button from "@/components/Button";
 
 export const metadata: Metadata = {
-  title: "About",
-  description:
-    "Rautaki wurde in Zürich gegründet, um Führungsteams bei der verantwortungsvollen KI-Strategie zu unterstützen. Erfahren Sie mehr über unsere Werte und unseren Ansatz.",
+  title: 'Über uns',
+  description: 'Harry Witzthum, Gründer von Rautaki — KI-Strategie mit echtem Implementierungswissen.',
+  alternates: { canonical: 'https://www.rautaki.com/about' },
 };
 
 const values = [
@@ -61,7 +63,7 @@ const teachingCourses = [
 
 function BrandRautaki() {
   return (
-    <strong className="inline-flex items-baseline font-serif font-medium tracking-tight text-obsidian whitespace-nowrap">
+    <strong className="inline-flex items-baseline font-serif font-normal tracking-tight text-obsidian whitespace-nowrap">
       Raut<span className="text-gold">a</span>k
       <span className="text-gold">i</span>
     </strong>
@@ -74,7 +76,7 @@ export default function AboutPage() {
       <HeroLight
         label="Über uns"
         title={<BrandRautaki />}
-        descriptionClassName="max-w-[70ch] font-ui text-[1.0625rem] md:text-[1.125rem] font-light leading-[1.75] text-ink"
+        descriptionClassName="max-w-[70ch] font-ui text-body font-light leading-body text-ink"
         description={
           <div className="space-y-12">
             <div className="space-y-6">
@@ -92,7 +94,7 @@ export default function AboutPage() {
 
             <section className="space-y-4">
               <h2 className="font-serif text-h3 tracking-tight-h3 leading-heading text-ink font-normal">
-                Ein Wort, das von <em>weit her</em> kommt
+                Ein Wort, das von <span className="italic text-gold">weit her</span> kommt
               </h2>
               <p>
                 <span className="font-serif italic text-ink">Rautaki</span>{" "}
@@ -156,7 +158,7 @@ export default function AboutPage() {
               <p className="font-ui text-xs uppercase tracking-wide-label text-mid-grey">
                 Harry Witzthum
               </p>
-              <p className="font-serif italic text-[0.9rem] text-ink/60 leading-snug mt-0.5">
+              <p className="font-serif italic text-sm text-ink/60 leading-snug mt-0.5">
                 Gründer, Rautaki
               </p>
             </div>
@@ -171,7 +173,7 @@ export default function AboutPage() {
             <SectionLabel text="Perspektive" />
             <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-12">
               Vielfalt der Perspektiven —{" "}
-              <em>im Kern</em> unserer Arbeit
+              <span className="italic text-gold">im Kern</span> unserer Arbeit
             </h2>
           </ScrollReveal>
 
@@ -200,7 +202,7 @@ export default function AboutPage() {
                 aufeinandertreffen — und wo zugehört wird, bevor entschieden
                 wird.
               </p>
-              <p className="font-serif italic text-[1.125rem] leading-[1.6] text-ink border-l-2 border-gold pl-5">
+              <p className="font-serif italic text-body leading-body text-ink border-l-2 border-gold pl-5">
                 Das ist kein methodischer Zusatz. Das ist der Kern.
               </p>
             </ScrollReveal>
@@ -276,13 +278,15 @@ export default function AboutPage() {
             </ScrollReveal>
 
             <ScrollReveal delay={100}>
-              <p className="font-serif italic text-[1.375rem] leading-[1.55] text-ink border-l-2 border-gold pl-6">
+              <p className="font-serif italic text-h3 leading-heading text-ink border-l-2 border-gold pl-6">
                 Dabei helfen wir Ihnen.
               </p>
             </ScrollReveal>
           </div>
         </div>
       </section>
+
+      <GoldRule />
 
       {/* ── Gründung ──────────────────────────────────────── */}
       <section className="bg-cream px-6 sm:px-10 lg:px-20 py-24">
@@ -291,7 +295,7 @@ export default function AboutPage() {
             <div className="relative h-[400px] lg:h-[460px] bg-charcoal overflow-hidden">
               <Image
                 src="/images/about/witzthum_portrait.webp"
-                alt="Founder portrait"
+                alt="Harry Witzthum, Gründer von Rautaki"
                 fill
                 className="object-cover opacity-90"
                 sizes="(max-width: 1024px) 100vw, 50vw"
@@ -352,7 +356,7 @@ export default function AboutPage() {
                     className="flex items-start gap-3 py-4 border-b border-ink/10 font-ui text-body font-light leading-body text-ink"
                   >
                     <span
-                      className="mt-[0.65em] h-1.5 w-1.5 flex-none rounded-full bg-gold"
+                      className="mt-2 h-1.5 w-1.5 flex-none bg-gold"
                       aria-hidden="true"
                     />
                     <span className="font-medium">{client}</span>
@@ -384,7 +388,7 @@ export default function AboutPage() {
                     <span className="font-ui text-body font-medium text-ink leading-snug">
                       {course.title}
                     </span>
-                    <span className="font-serif italic text-[0.95rem] text-mid-grey leading-snug">
+                    <span className="font-serif italic text-sm text-mid-grey leading-snug">
                       {course.institution}
                     </span>
                   </li>
@@ -418,6 +422,27 @@ export default function AboutPage() {
               </ScrollReveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── CTA ───────────────────────────────────────────── */}
+      <section className="bg-cream px-6 sm:px-10 lg:px-20 py-24">
+        <div className="mx-auto max-w-content text-center">
+          <ScrollReveal>
+            <p className="font-sans text-sm tracking-wide-label uppercase text-gold mb-4">
+              Gespräch vereinbaren
+            </p>
+            <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
+              Bereit für den nächsten Schritt?
+            </h2>
+            <p className="font-ui text-body font-light leading-body text-ink/65 max-w-narrow mx-auto mb-10">
+              Erfahren Sie, wie Rautaki Ihr Unternehmen bei der strategischen
+              KI-Einführung begleiten kann.
+            </p>
+            <Button href="/booking" variant="gold" showArrow>
+              Beratung reservieren
+            </Button>
+          </ScrollReveal>
         </div>
       </section>
     </>

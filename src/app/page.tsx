@@ -46,7 +46,7 @@ export default function Home() {
       {/* ── Referenzen-Streifen ─────────────────────────── */}
       <div className="bg-charcoal border-b border-white/5 overflow-hidden py-5">
         <ScrollReveal>
-          <p className="text-center font-ui text-xs uppercase tracking-wide-label text-white/20 mb-4">
+          <p className="text-center font-ui text-xs uppercase tracking-wide-label text-white/45 mb-4">
             Referenzen aus Lehre &amp; Beratung
           </p>
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 px-6 sm:px-10 lg:px-20 max-w-content mx-auto">
@@ -64,13 +64,13 @@ export default function Home() {
 
       <ServiceCards />
 
-      <section className="bg-cream px-6 sm:px-10 lg:px-20 py-25">
+      <section className="bg-cream px-6 sm:px-10 lg:px-20 py-20">
         <div className="mx-auto max-w-content grid grid-cols-1 lg:grid-cols-hero-light gap-20 items-center">
           <ScrollReveal>
             <SectionLabel text="KI-Wirkung" />
             <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
               Das Potenzial ist real. Die Lücke zur{" "}
-              <em className="italic text-gold">Wirkung</em> auch.
+              <span className="italic text-gold">Wirkung</span> auch.
             </h2>
             <p className="font-ui text-body font-light leading-body text-ink/45 md:text-mid-grey max-w-narrow">
               78 Prozent der Unternehmen setzen KI bereits ein — doch nur
@@ -92,7 +92,7 @@ export default function Home() {
             <SectionLabel text="Nächster Schritt" variant="dark" />
           </div>
           <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-white mb-4 mt-10">
-            Ist Ihre Organisation bereit für <em>KI</em>?
+            Ist Ihre Organisation bereit für KI?
           </h2>
           <p className="font-ui text-body font-light leading-body text-white/45 mb-10 max-w-reading mx-auto">
             Wir unterstützen Führungsteams dabei, festzulegen, wo KI führen

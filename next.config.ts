@@ -36,7 +36,7 @@ function buildCsp(): string {
     "default-src 'self'",
     `script-src ${scriptSrc}`,
     "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data: images.unsplash.com",
+    "img-src 'self' data: images.unsplash.com https://*.n8n.cloud",
     "font-src 'self' data:",
     `connect-src ${connectSrc}`,
     "object-src 'none'",
@@ -44,7 +44,7 @@ function buildCsp(): string {
     "frame-src https://cal.com https://app.cal.com",
     "frame-ancestors 'none'",
     "base-uri 'self'",
-    "form-action 'self'",
+    "form-action 'self' https://app.cal.com",
   ].join("; ");
 }
 

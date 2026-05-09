@@ -10,6 +10,10 @@ export default function ServiceCards() {
       <div className="mx-auto max-w-content">
         <SectionLabel text="Leistungen" variant="dark" />
 
+        <h2 className="font-serif text-h2 text-white mb-6">
+          Unsere <span className="italic text-gold">Leistungen</span>
+        </h2>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-[2px]">
           {services.map((service, index) => (
             <ScrollReveal key={service.id} delay={index * 90}>

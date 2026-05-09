@@ -19,6 +19,7 @@ export default function Navigation() {
   const [scrolled, setScrolled] = useState(pathname !== "/");
   const [hidden, setHidden] = useState(false);
   const lastYRef = useRef(0);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const onScroll = () => {
@@ -46,7 +47,10 @@ export default function Navigation() {
   useEffect(() => {
     if (!menuOpen) return;
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMenuOpen(false);
+      if (e.key === "Escape") {
+        setMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
     };
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
@@ -90,6 +94,7 @@ export default function Navigation() {
         </nav>
 
         <button
+          ref={menuButtonRef}
           className="lg:hidden text-white p-2"
           onClick={() => setMenuOpen((prev) => !prev)}
           aria-label={menuOpen ? "Menü schliessen" : "Menü öffnen"}

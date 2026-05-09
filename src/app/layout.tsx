@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
-import { headers } from "next/headers";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -11,9 +10,9 @@ const organizationSchema = {
   "@context": "https://schema.org",
   "@type": ["Organization", "ProfessionalService"],
   name: "Rautaki",
-  url: "https://rautaki.ch",
+  url: "https://www.rautaki.com",
   description:
-    "Rautaki is a Zurich-based AI consultancy helping leadership teams shape AI strategy, manage model risk, and execute transformation with confidence.",
+    "Rautaki begleitet Unternehmen bei der strategischen Einführung von KI — von der Potenzialanalyse bis zur skalierbaren Umsetzung.",
   address: {
     "@type": "PostalAddress",
     streetAddress: "Weinbergstrasse 23",
@@ -24,10 +23,11 @@ const organizationSchema = {
   },
   contactPoint: {
     "@type": "ContactPoint",
-    contactType: "customer service",
+    contactType: "sales",
     email: "hello@rautaki.ch",
   },
-  areaServed: { "@type": "Country", name: "Switzerland" },
+  areaServed: ["DE", "AT", "CH"],
+  availableLanguage: "German",
   knowsAbout: [
     "AI Strategy",
     "Artificial Intelligence",
@@ -45,51 +45,54 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://rautaki.ch"),
+  metadataBase: new URL("https://www.rautaki.com"),
   title: {
-    default: "Rautaki | AI Strategy, Advisory, and Leadership Transformation",
+    default: "Rautaki — KI-Strategie für Entscheider",
     template: "%s | Rautaki",
   },
   description:
-    "Rautaki is a Zurich-based AI consultancy helping leadership teams shape AI strategy, manage model risk, and execute transformation with confidence.",
+    "Rautaki begleitet Unternehmen bei der strategischen Einführung von KI — von der Potenzialanalyse bis zur skalierbaren Umsetzung.",
   openGraph: {
-    title: "Rautaki | AI Strategy, Advisory, and Leadership Transformation",
-    description:
-      "AI strategy and advisory for leadership teams navigating change, risk, and execution.",
-    url: "https://rautaki.ch",
-    siteName: "Rautaki",
-    locale: "en_US",
     type: "website",
+    locale: "de_CH",
+    siteName: "Rautaki",
+    title: "Rautaki — KI-Strategie für Entscheider",
+    description:
+      "Rautaki begleitet Unternehmen bei der strategischen Einführung von KI — von der Potenzialanalyse bis zur skalierbaren Umsetzung.",
+    url: "https://www.rautaki.com",
+    images: [
+      { url: "/og-image.png", width: 1200, height: 630, alt: "Rautaki" },
+    ],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Rautaki — KI-Strategie für Entscheider",
+    description:
+      "Rautaki begleitet Unternehmen bei der strategischen Einführung von KI.",
+    images: ["/og-image.png"],
+  },
+  robots: { index: true, follow: true },
+  alternates: { canonical: "https://www.rautaki.com" },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const headerList = await headers();
-  const isMaintenance = headerList.get("x-maintenance") === "true";
-
   return (
-    <html lang="en">
-      <head>{!isMaintenance && <JsonLd schema={organizationSchema} />}</head>
+    <html lang="de-CH" data-scroll-behavior="smooth">
+      <head>
+        <JsonLd schema={organizationSchema} />
+      </head>
       <body className={`${dmSans.variable} antialiased`}>
-        {!isMaintenance && (
-          <>
-            <a href="#main-content" className="skip-to-content">
-              Skip to content
-            </a>
-            <Navigation />
-          </>
-        )}
+        <a href="#main-content" className="skip-to-content">
+          Skip to content
+        </a>
+        <Navigation />
         <main id="main-content">{children}</main>
-        {!isMaintenance && (
-          <>
-            <Footer />
-            <N8nChatWidget />
-          </>
-        )}
+        <Footer />
+        <N8nChatWidget />
       </body>
     </html>
   );

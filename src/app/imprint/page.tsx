@@ -4,9 +4,10 @@ import SectionLabel from "@/components/SectionLabel";
 import ScrollReveal from "@/components/ScrollReveal";
 
 export const metadata: Metadata = {
-  title: "Imprint",
+  title: "Impressum",
   description:
     "Impressum der Rautaki. Angaben gemäss Schweizer Obligationenrecht.",
+  alternates: { canonical: "https://www.rautaki.com/imprint" },
 };
 
 export default function ImprintPage() {
@@ -25,12 +26,17 @@ export default function ImprintPage() {
             <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
               Angaben zum Unternehmen
             </h2>
-            {/* TODO: Replace with actual company registration details */}
             <div className="font-ui text-body text-ink/65 space-y-1 mb-12">
               <p className="font-medium text-ink">Rautaki</p>
               <p>Weinbergstrasse 23</p>
               <p>8802 Kilchberg / ZH</p>
               <p>Schweiz</p>
+              <p className="font-sans text-body text-ink">
+                <strong>Rechtsform:</strong> Einzelunternehmen
+              </p>
+              <p className="font-sans text-body text-ink">
+                <strong>Handelsregister:</strong> [Eintrag falls vorhanden]
+              </p>
             </div>
           </ScrollReveal>
 
@@ -46,7 +52,6 @@ export default function ImprintPage() {
                   hello@rautaki.ch
                 </a>
               </p>
-              {/* TODO: Add phone number if applicable */}
             </div>
           </ScrollReveal>
 
@@ -55,7 +60,6 @@ export default function ImprintPage() {
             <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
               Vertretungsberechtigte Person
             </h2>
-            {/* TODO: Replace with actual representative details */}
             <div className="font-ui text-body text-ink/65 space-y-1 mb-12">
               <p>Harry Witzthum, Inhaber</p>
             </div>
@@ -66,7 +70,6 @@ export default function ImprintPage() {
             <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
               Haftungsausschluss
             </h2>
-            {/* TODO: Replace with full disclaimer from legal counsel */}
             <div className="font-ui text-body text-ink/65 space-y-4">
               <p>
                 Die Inhalte dieser Website werden mit grösstmöglicher Sorgfalt

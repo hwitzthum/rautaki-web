@@ -1,21 +1,33 @@
-"use client";
+'use client'
 
-import Button from "@/components/Button";
+import { useEffect } from 'react'
 
-export default function Error({ reset }: { reset: () => void }) {
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string }
+  reset: () => void
+}) {
+  useEffect(() => {
+    console.error(error)
+  }, [error])
+
   return (
-    <section className="bg-cream px-6 sm:px-10 lg:px-20 py-32">
-      <div className="mx-auto max-w-content text-center">
-        <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-4">
-          Something went wrong
-        </h2>
-        <p className="font-ui text-body font-light leading-body text-mid-grey mb-10">
-          An unexpected error occurred. Please try again.
+    <main className="min-h-screen bg-obsidian flex items-center justify-center px-6">
+      <div className="text-center max-w-narrow">
+        <p className="text-gold font-sans text-sm tracking-widest uppercase mb-6">Fehler</p>
+        <h1 className="font-serif text-h2 text-white mb-4">Etwas ist schiefgelaufen</h1>
+        <p className="text-white/45 font-sans text-body mb-10">
+          Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut.
         </p>
-        <Button variant="dark" onClick={() => reset()}>
-          Try again
-        </Button>
+        <button
+          onClick={reset}
+          className="text-white font-sans text-sm tracking-wide hover:text-gold transition-colors duration-200"
+        >
+          Erneut versuchen →
+        </button>
       </div>
-    </section>
-  );
+    </main>
+  )
 }

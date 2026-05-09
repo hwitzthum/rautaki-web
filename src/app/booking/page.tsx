@@ -1,20 +1,21 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import HeroLight from "@/components/HeroLight";
 import ScrollReveal from "@/components/ScrollReveal";
 import SectionLabel from "@/components/SectionLabel";
 import { CalInline } from "@/components/CalBooking";
 
 export const metadata: Metadata = {
-  title: "Beratung reservieren",
-  description:
-    "Reservieren Sie ein Strategiegespräch mit Rautaki. Wählen Sie direkt einen passenden Termin — Bestätigung erfolgt automatisch per E-Mail.",
+  title: "Gespräch buchen",
+  description: "Vereinbaren Sie ein kostenloses 45-minütiges Erstgespräch mit Harry Witzthum.",
+  alternates: { canonical: "https://www.rautaki.com/booking" },
 };
 
 function BookingTitle() {
   return (
     <>
       Beratung{" "}
-      <em>reservieren</em>
+      <span className="italic text-gold">reservieren</span>
     </>
   );
 }
@@ -115,8 +116,10 @@ export default function BookingPage() {
         <div className="mx-auto max-w-content">
           <ScrollReveal>
             <SectionLabel text="Termin wählen" />
-            <div className="border-t-[3px] border-gold bg-white shadow-[0_2px_24px_rgba(28,28,28,0.06)]">
-              <CalInline />
+            <div className="border-t-[3px] border-gold bg-white shadow-card">
+              <Suspense fallback={<div className="h-96 bg-charcoal animate-pulse" />}>
+                <CalInline />
+              </Suspense>
             </div>
             <p className="mt-4 font-ui text-xs text-mid-grey">
               Alle Zeiten werden in Ihrer lokalen Zeitzone angezeigt.

@@ -50,7 +50,7 @@ function BookingModalContent({ onClose }: { onClose: () => void }) {
 
       if (event.key === "Tab" && modalRef.current) {
         const focusable = modalRef.current.querySelectorAll<HTMLElement>(
-          'input, select, textarea, button, [tabindex]:not([tabindex="-1"])'
+          'a[href], input, select, textarea, button, [tabindex]:not([tabindex="-1"])'
         );
 
         if (focusable.length === 0) return;
@@ -102,6 +102,7 @@ function BookingModalContent({ onClose }: { onClose: () => void }) {
             aria-label="Dialog schliessen"
           >
             <svg
+              aria-hidden="true"
               width="20"
               height="20"
               viewBox="0 0 20 20"

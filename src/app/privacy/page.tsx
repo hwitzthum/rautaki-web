@@ -4,9 +4,10 @@ import SectionLabel from "@/components/SectionLabel";
 import ScrollReveal from "@/components/ScrollReveal";
 
 export const metadata: Metadata = {
-  title: "Privacy",
+  title: "Datenschutz",
   description:
     "Datenschutzerklärung der Rautaki. Informationen zum Umgang mit Ihren personenbezogenen Daten.",
+  alternates: { canonical: "https://www.rautaki.com/privacy" },
 };
 
 export default function PrivacyPage() {
@@ -29,7 +30,6 @@ export default function PrivacyPage() {
             <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
               Verantwortliche Stelle
             </h2>
-            {/* TODO: Replace with actual legal entity details */}
             <div className="font-ui text-body text-ink/65 space-y-1 mb-12">
               <p>Rautaki</p>
               <p>Weinbergstrasse 23</p>
@@ -48,7 +48,6 @@ export default function PrivacyPage() {
             <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
               Welche Daten wir erheben
             </h2>
-            {/* TODO: Replace with actual privacy policy content from legal counsel */}
             <div className="font-ui text-body text-ink/65 space-y-4 mb-12">
               <p>
                 Wenn Sie unser Buchungsformular nutzen, erheben wir die von Ihnen
@@ -69,7 +68,6 @@ export default function PrivacyPage() {
             <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
               Ihre Rechte
             </h2>
-            {/* TODO: Replace with complete rights section from legal counsel */}
             <div className="font-ui text-body text-ink/65 space-y-4 mb-12">
               <p>
                 Sie haben das Recht auf Auskunft, Berichtigung und Löschung Ihrer
@@ -78,6 +76,20 @@ export default function PrivacyPage() {
                   hello@rautaki.ch
                 </a>.
               </p>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal delay={200}>
+            <SectionLabel text="Dienstleister" />
+            <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
+              Weitere Dienstleister
+            </h2>
+            <div className="font-ui text-body text-ink/65 space-y-4 mb-12">
+              <h3 className="font-serif text-h3 text-ink mb-3">Weitere Dienstleister</h3>
+              <ul className="font-sans text-body text-ink space-y-2 list-none">
+                <li><strong>Cal.com Inc.</strong> — Terminbuchungssystem (USA; Datenübertragung auf Basis von Standardvertragsklauseln)</li>
+                <li><strong>Vercel Inc.</strong> — Webhosting und Deployment (USA; Datenübertragung auf Basis von Standardvertragsklauseln)</li>
+              </ul>
             </div>
           </ScrollReveal>
 

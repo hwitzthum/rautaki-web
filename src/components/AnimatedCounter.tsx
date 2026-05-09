@@ -14,6 +14,7 @@ export default function AnimatedCounter({
   duration = 1200,
 }: AnimatedCounterProps) {
   const [count, setCount] = useState(0);
+  const [isAnimationComplete, setIsAnimationComplete] = useState(false);
   const ref = useRef<HTMLSpanElement>(null);
   const hasAnimatedRef = useRef(false);
   const frameRef = useRef<number | null>(null);
@@ -30,6 +31,7 @@ export default function AnimatedCounter({
       const timeoutId = window.setTimeout(() => {
         hasAnimatedRef.current = true;
         setCount(target);
+        setIsAnimationComplete(true);
       }, 0);
 
       return () => window.clearTimeout(timeoutId);
@@ -51,6 +53,8 @@ export default function AnimatedCounter({
 
           if (progress < 1) {
             frameRef.current = requestAnimationFrame(animate);
+          } else {
+            setIsAnimationComplete(true);
           }
         };
 
@@ -71,8 +75,16 @@ export default function AnimatedCounter({
 
   return (
     <span ref={ref}>
-      {count}
-      {suffix && <span className="text-gold">{suffix}</span>}
+      {/* Visible animated counter — hidden from screen readers during animation */}
+      <span aria-hidden="true">
+        {count}
+        {suffix && <span className="text-gold">{suffix}</span>}
+      </span>
+
+      {/* Screen reader only — announces final value once */}
+      <span className="sr-only" aria-live="polite" aria-atomic="true">
+        {isAnimationComplete ? `${target}${suffix}` : ''}
+      </span>
     </span>
   );
 }
