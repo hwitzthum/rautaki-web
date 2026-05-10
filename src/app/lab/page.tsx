@@ -123,7 +123,7 @@ export default function LabPage() {
       <div className="container mx-auto px-6 text-center max-w-narrow">
         <p className="font-sans text-sm tracking-widest uppercase text-gold mb-4">Strategie-Gespräch</p>
         <h2 className="font-serif text-h2 text-white mb-6">
-          Maßgeschneidert statt{' '}
+          Massgeschneidert statt{' '}
           <span className="italic text-gold">von der Stange</span>
         </h2>
         <p className="text-white/45 font-sans text-body mb-10">

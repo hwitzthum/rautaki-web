@@ -11,7 +11,7 @@ import { services } from "@/data/services";
 
 export const metadata: Metadata = {
   title: 'Leistungen',
-  description: 'KI-Strategie, Implementierung und Führungskräfteentwicklung — maßgeschneidert für Entscheider in DACH.',
+  description: 'KI-Strategie, Implementierung und Führungskräfteentwicklung — massgeschneidert für Entscheider in DACH.',
   alternates: { canonical: 'https://www.rautaki.com/services' },
 };
 
