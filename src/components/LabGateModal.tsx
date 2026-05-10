@@ -79,11 +79,23 @@ export default function LabGate({ children }: LabGateProps) {
     setPendingHref(null);
   }, []);
 
+  const handleSkip = useCallback(() => {
+    const href = pendingHref;
+    setPendingHref(null);
+    if (href) {
+      window.location.href = href;
+    }
+  }, [pendingHref]);
+
   return (
     <LabGateContext.Provider value={{ requestAccess }}>
       {children}
       {pendingHref && !isRegistered && (
-        <LabGatePortal onSuccess={handleSuccess} onClose={handleClose} />
+        <LabGatePortal
+          onSuccess={handleSuccess}
+          onClose={handleClose}
+          onSkip={handleSkip}
+        />
       )}
     </LabGateContext.Provider>
   );
@@ -120,18 +132,19 @@ export function LabToolLink({ href, children, className }: LabToolLinkProps) {
 interface PortalProps {
   onSuccess: () => void;
   onClose: () => void;
+  onSkip: () => void;
 }
 
-function LabGatePortal({ onSuccess, onClose }: PortalProps) {
+function LabGatePortal({ onSuccess, onClose, onSkip }: PortalProps) {
   return createPortal(
-    <LabGateOverlay onSuccess={onSuccess} onClose={onClose} />,
+    <LabGateOverlay onSuccess={onSuccess} onClose={onClose} onSkip={onSkip} />,
     document.body,
   );
 }
 
 // ── Overlay + modal ────────────────────────────────────────────────────────
 
-function LabGateOverlay({ onSuccess, onClose }: PortalProps) {
+function LabGateOverlay({ onSuccess, onClose, onSkip }: PortalProps) {
   const [prefersReduced, setPrefersReduced] = useState(
     () =>
       typeof window !== "undefined" &&
@@ -247,7 +260,7 @@ function LabGateOverlay({ onSuccess, onClose }: PortalProps) {
                 margin: "4px 0 0",
               }}
             >
-              Lab · Freier Zugang
+              Lab · In Kontakt bleiben
             </p>
           </div>
           <button
@@ -274,9 +287,9 @@ function LabGateOverlay({ onSuccess, onClose }: PortalProps) {
             className="font-serif text-h3 tracking-tight-h3 font-normal leading-heading text-ink"
             style={{ marginBottom: "6px" }}
           >
-            Einmal registrieren,
+            Bevor Sie loslegen —
             <br />
-            alle Werkzeuge nutzen.
+            bleiben wir in Kontakt?
           </h2>
           <p
             className="font-serif text-body font-normal leading-body"
@@ -286,7 +299,8 @@ function LabGateOverlay({ onSuccess, onClose }: PortalProps) {
               marginBottom: "24px",
             }}
           >
-            Kostenlos. Kein Passwort. Kein Spam.
+            Notizen zu neuen Werkzeugen und Strategie-Updates. Kein Spam,
+            jederzeit abbestellbar.
           </p>
 
           <div
@@ -297,7 +311,7 @@ function LabGateOverlay({ onSuccess, onClose }: PortalProps) {
             }}
           />
 
-          <LabGateForm onSuccess={onSuccess} />
+          <LabGateForm onSuccess={onSuccess} onSkip={onSkip} />
         </div>
       </div>
     </div>
@@ -311,7 +325,13 @@ const labelClasses =
 const inputClasses =
   "w-full border border-ink/10 px-4 py-3 font-ui text-body text-ink bg-cream focus:border-gold focus:ring-2 focus:ring-gold focus:ring-offset-1 focus:shadow-[0_0_0_3px_var(--color-gold-focus)] transition-all";
 
-function LabGateForm({ onSuccess }: { onSuccess: () => void }) {
+function LabGateForm({
+  onSuccess,
+  onSkip,
+}: {
+  onSuccess: () => void;
+  onSkip: () => void;
+}) {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -431,8 +451,9 @@ function LabGateForm({ onSuccess }: { onSuccess: () => void }) {
           className="font-ui text-sm font-light leading-body"
           style={{ color: "rgba(28,28,28,0.60)" }}
         >
-          Ich stimme zu, dass meine Kontaktdaten zur Kontaktaufnahme durch
-          Rautaki gespeichert werden. Details in der{" "}
+          Ich stimme zu, dass meine Kontaktdaten gespeichert werden, um mir
+          gelegentlich Updates aus dem Rautaki Lab zukommen zu lassen. Details
+          in der{" "}
           <a
             href="/privacy"
             className="text-ink underline underline-offset-4"
@@ -463,15 +484,24 @@ function LabGateForm({ onSuccess }: { onSuccess: () => void }) {
         className="w-full bg-ink text-white font-ui text-xs font-medium uppercase tracking-wide-btn py-4 transition-colors duration-200 hover:bg-charcoal disabled:opacity-60 disabled:cursor-not-allowed"
         style={{ borderRadius: 0, border: "none" }}
       >
-        {submitting ? "Wird gesendet …" : "Werkzeuge freischalten →"}
+        {submitting ? "Wird gesendet …" : "Anmelden und öffnen →"}
       </button>
 
-      <p
-        className="font-ui text-xs font-light leading-body text-mid-grey"
-        style={{ textAlign: "center", marginTop: "14px" }}
-      >
-        Ihre Daten werden nicht weitergegeben.
-      </p>
+      <div style={{ textAlign: "center", marginTop: "14px" }}>
+        <button
+          type="button"
+          onClick={onSkip}
+          className="font-ui text-xs font-light leading-body text-mid-grey hover:text-ink transition-colors underline underline-offset-4 decoration-ink/20 hover:decoration-ink/60"
+          style={{
+            background: "none",
+            border: "none",
+            padding: 0,
+            cursor: "pointer",
+          }}
+        >
+          Direkt öffnen, ohne Anmeldung
+        </button>
+      </div>
     </form>
   );
 }
