@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import ScrollReveal from "@/components/ScrollReveal";
 import SectionLabel from "@/components/SectionLabel";
 import GoldRule from "@/components/GoldRule";
-import LabGate from "@/components/LabGateModal";
+import LabGate, { LabToolLink } from "@/components/LabGateModal";
 
 export const metadata: Metadata = {
   title: "Lab",
@@ -66,7 +66,7 @@ export default function LabPage() {
         <div className="grid grid-cols-1 gap-[2px] bg-ink/10">
           {tools.map((tool, index) => (
             <ScrollReveal key={tool.slug} delay={index * 90}>
-              <a
+              <LabToolLink
                 href={tool.href}
                 className="group block bg-white no-underline"
               >
@@ -86,7 +86,7 @@ export default function LabPage() {
                     Öffnen →
                   </div>
                 </article>
-              </a>
+              </LabToolLink>
             </ScrollReveal>
           ))}
         </div>

@@ -1,68 +1,146 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
 import Logo from "./Logo";
 
+// ── Storage ────────────────────────────────────────────────────────────────
 const STORAGE_KEY = "rautaki_lab_access";
 const FOCUSABLE =
   'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
+// ── Context ────────────────────────────────────────────────────────────────
+interface LabGateContextValue {
+  requestAccess: (href: string) => void;
+}
+
+const LabGateContext = createContext<LabGateContextValue>({
+  requestAccess: (href) => {
+    window.location.href = href;
+  },
+});
+
+export function useLabGate() {
+  return useContext(LabGateContext);
+}
+
 // ── Gate provider ──────────────────────────────────────────────────────────
-// Wrap the Lab page. Children render normally; the modal overlays when needed.
+// Wraps the Lab page. Renders children normally. Shows modal only when
+// an unregistered user clicks a tool — passing the destination href through.
 
 interface LabGateProps {
   children: React.ReactNode;
 }
 
-export default function LabGate({ children }: LabGateProps) {
-  const [mounted, setMounted] = useState(false);
-  const [isRegistered, setIsRegistered] = useState(false);
+function readRegistered(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    return localStorage.getItem(STORAGE_KEY) === "true";
+  } catch {
+    return false;
+  }
+}
 
-  useEffect(() => {
-    setMounted(true);
-    try {
-      setIsRegistered(localStorage.getItem(STORAGE_KEY) === "true");
-    } catch {
-      // localStorage unavailable (private browsing on some browsers) — show gate
-    }
-  }, []);
+export default function LabGate({ children }: LabGateProps) {
+  const [isRegistered, setIsRegistered] = useState(readRegistered);
+  const [pendingHref, setPendingHref] = useState<string | null>(null);
+
+  const requestAccess = useCallback(
+    (href: string) => {
+      if (isRegistered) {
+        window.location.href = href;
+      } else {
+        setPendingHref(href);
+      }
+    },
+    [isRegistered],
+  );
 
   const handleSuccess = useCallback(() => {
     try {
       localStorage.setItem(STORAGE_KEY, "true");
     } catch {
-      // ignore write failure — access still granted for this session
+      // ignore write failure
     }
     setIsRegistered(true);
+    if (pendingHref) {
+      window.location.href = pendingHref;
+    }
+  }, [pendingHref]);
+
+  const handleClose = useCallback(() => {
+    setPendingHref(null);
   }, []);
 
   return (
-    <>
+    <LabGateContext.Provider value={{ requestAccess }}>
       {children}
-      {mounted && !isRegistered && (
-        <LabGatePortal onSuccess={handleSuccess} />
+      {pendingHref && !isRegistered && (
+        <LabGatePortal onSuccess={handleSuccess} onClose={handleClose} />
       )}
-    </>
+    </LabGateContext.Provider>
   );
 }
 
-// ── Portal (rendered into document.body) ──────────────────────────────────
+// ── Tool link — replaces <a> on tool cards ─────────────────────────────────
+// Behaves like a normal link for registered users; triggers the gate for new ones.
 
-function LabGatePortal({ onSuccess }: { onSuccess: () => void }) {
-  return createPortal(<LabGateOverlay onSuccess={onSuccess} />, document.body);
+interface LabToolLinkProps {
+  href: string;
+  children: React.ReactNode;
+  className?: string;
+}
+
+export function LabToolLink({ href, children, className }: LabToolLinkProps) {
+  const { requestAccess } = useLabGate();
+
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // Let cmd/ctrl+click, middle-click, etc. through naturally
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+    e.preventDefault();
+    requestAccess(href);
+  };
+
+  return (
+    <a href={href} onClick={handleClick} className={className}>
+      {children}
+    </a>
+  );
+}
+
+// ── Portal ─────────────────────────────────────────────────────────────────
+
+interface PortalProps {
+  onSuccess: () => void;
+  onClose: () => void;
+}
+
+function LabGatePortal({ onSuccess, onClose }: PortalProps) {
+  return createPortal(
+    <LabGateOverlay onSuccess={onSuccess} onClose={onClose} />,
+    document.body,
+  );
 }
 
 // ── Overlay + modal ────────────────────────────────────────────────────────
 
-function LabGateOverlay({ onSuccess }: { onSuccess: () => void }) {
-  const [prefersReduced, setPrefersReduced] = useState(false);
+function LabGateOverlay({ onSuccess, onClose }: PortalProps) {
+  const [prefersReduced, setPrefersReduced] = useState(
+    () =>
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  );
   const panelRef = useRef<HTMLDivElement>(null);
 
-  // Reduced-motion detection
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPrefersReduced(mq.matches);
     const handler = (e: MediaQueryListEvent) => setPrefersReduced(e.matches);
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
@@ -72,21 +150,29 @@ function LabGateOverlay({ onSuccess }: { onSuccess: () => void }) {
   useEffect(() => {
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = prev; };
+    return () => {
+      document.body.style.overflow = prev;
+    };
   }, []);
 
   // Initial focus
   useEffect(() => {
     const timer = setTimeout(() => {
-      const first = panelRef.current?.querySelector(FOCUSABLE) as HTMLElement | null;
+      const first = panelRef.current?.querySelector(
+        FOCUSABLE,
+      ) as HTMLElement | null;
       first?.focus();
     }, 100);
     return () => clearTimeout(timer);
   }, []);
 
-  // Focus trap — Tab stays inside modal; no Escape (gate is required)
+  // Focus trap + Escape to close
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
       if (e.key !== "Tab") return;
       const focusable = Array.from(
         panelRef.current?.querySelectorAll<HTMLElement>(FOCUSABLE) ?? [],
@@ -108,7 +194,7 @@ function LabGateOverlay({ onSuccess }: { onSuccess: () => void }) {
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, []);
+  }, [onClose]);
 
   return (
     <div
@@ -116,7 +202,7 @@ function LabGateOverlay({ onSuccess }: { onSuccess: () => void }) {
         position: "fixed",
         inset: 0,
         zIndex: 9999,
-        background: "#111111",
+        background: "rgba(10,10,10,0.82)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -126,6 +212,9 @@ function LabGateOverlay({ onSuccess }: { onSuccess: () => void }) {
       aria-modal="true"
       role="dialog"
       aria-labelledby="lab-gate-title"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
     >
       <div
         ref={panelRef}
@@ -136,7 +225,7 @@ function LabGateOverlay({ onSuccess }: { onSuccess: () => void }) {
           borderTop: "3px solid #F5A623",
         }}
       >
-        {/* Modal header */}
+        {/* Header */}
         <div
           style={{
             background: "#0A0A0A",
@@ -161,16 +250,33 @@ function LabGateOverlay({ onSuccess }: { onSuccess: () => void }) {
               Lab · Freier Zugang
             </p>
           </div>
+          <button
+            onClick={onClose}
+            aria-label="Schliessen"
+            style={{
+              background: "none",
+              border: "none",
+              color: "rgba(255,255,255,0.30)",
+              fontSize: "20px",
+              cursor: "pointer",
+              padding: "4px",
+              lineHeight: 1,
+            }}
+          >
+            ✕
+          </button>
         </div>
 
-        {/* Modal body */}
+        {/* Body */}
         <div style={{ background: "#FAFAFA", padding: "32px 32px 28px" }}>
           <h2
             id="lab-gate-title"
             className="font-serif text-h3 tracking-tight-h3 font-normal leading-heading text-ink"
             style={{ marginBottom: "6px" }}
           >
-            Einmal registrieren,<br />alle Werkzeuge nutzen.
+            Einmal registrieren,
+            <br />
+            alle Werkzeuge nutzen.
           </h2>
           <p
             className="font-serif text-body font-normal leading-body"
@@ -247,11 +353,12 @@ function LabGateForm({ onSuccess }: { onSuccess: () => void }) {
 
   return (
     <form onSubmit={handleSubmit} noValidate>
-      {/* Name */}
       <div style={{ marginBottom: "14px" }}>
         <label htmlFor="lg-name" className={labelClasses}>
           Vollständiger Name{" "}
-          <span className="text-error" aria-hidden="true">*</span>
+          <span className="text-error" aria-hidden="true">
+            *
+          </span>
         </label>
         <input
           id="lg-name"
@@ -265,11 +372,12 @@ function LabGateForm({ onSuccess }: { onSuccess: () => void }) {
         />
       </div>
 
-      {/* Company */}
       <div style={{ marginBottom: "14px" }}>
         <label htmlFor="lg-company" className={labelClasses}>
           Unternehmen{" "}
-          <span className="text-error" aria-hidden="true">*</span>
+          <span className="text-error" aria-hidden="true">
+            *
+          </span>
         </label>
         <input
           id="lg-company"
@@ -283,11 +391,12 @@ function LabGateForm({ onSuccess }: { onSuccess: () => void }) {
         />
       </div>
 
-      {/* Email */}
       <div style={{ marginBottom: "20px" }}>
         <label htmlFor="lg-email" className={labelClasses}>
           E-Mail-Adresse{" "}
-          <span className="text-error" aria-hidden="true">*</span>
+          <span className="text-error" aria-hidden="true">
+            *
+          </span>
         </label>
         <input
           id="lg-email"
@@ -301,7 +410,6 @@ function LabGateForm({ onSuccess }: { onSuccess: () => void }) {
         />
       </div>
 
-      {/* DSGVO consent */}
       <div
         style={{
           display: "flex",
@@ -334,11 +442,12 @@ function LabGateForm({ onSuccess }: { onSuccess: () => void }) {
             Datenschutzerklärung
           </a>
           .{" "}
-          <span className="text-error" aria-hidden="true">*</span>
+          <span className="text-error" aria-hidden="true">
+            *
+          </span>
         </label>
       </div>
 
-      {/* Error */}
       {error && (
         <p
           role="alert"
@@ -348,7 +457,6 @@ function LabGateForm({ onSuccess }: { onSuccess: () => void }) {
         </p>
       )}
 
-      {/* Submit */}
       <button
         type="submit"
         disabled={submitting}
