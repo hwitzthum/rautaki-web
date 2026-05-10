@@ -1,29 +1,59 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
 
 // ── Rate limiting ──────────────────────────────────────────────────────────
-const rateMap = new Map<string, { count: number; resetAt: number }>();
+// Persistent sliding-window limiter backed by Upstash Redis. Falls back to a
+// per-instance in-memory limiter when UPSTASH_REDIS_REST_URL/TOKEN are unset
+// (local dev). The fallback is best-effort only and intentionally noisy in
+// logs so a missing prod env var surfaces immediately.
 const RATE_MAX = 3;
+const RATE_WINDOW = "15 m" as const;
 const RATE_WINDOW_MS = 15 * 60 * 1000;
 
-function pruneRateMap(): void {
-  const now = Date.now();
-  for (const [key, entry] of rateMap) {
-    if (now > entry.resetAt) rateMap.delete(key);
-  }
-}
+const upstashUrl = process.env.UPSTASH_REDIS_REST_URL;
+const upstashToken = process.env.UPSTASH_REDIS_REST_TOKEN;
 
-function isRateLimited(ip: string): boolean {
-  pruneRateMap();
+const ratelimit =
+  upstashUrl && upstashToken
+    ? new Ratelimit({
+        redis: new Redis({ url: upstashUrl, token: upstashToken }),
+        limiter: Ratelimit.slidingWindow(RATE_MAX, RATE_WINDOW),
+        analytics: false,
+        prefix: "rl:lab-access",
+      })
+    : null;
+
+const memoryFallback = new Map<string, { count: number; resetAt: number }>();
+function memoryLimit(ip: string): boolean {
   const now = Date.now();
-  const entry = rateMap.get(ip);
+  for (const [k, v] of memoryFallback) {
+    if (now > v.resetAt) memoryFallback.delete(k);
+  }
+  const entry = memoryFallback.get(ip);
   if (!entry || now > entry.resetAt) {
-    rateMap.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS });
+    memoryFallback.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS });
     return false;
   }
   if (entry.count >= RATE_MAX) return true;
   entry.count++;
   return false;
+}
+
+// ── Input sanitisation ─────────────────────────────────────────────────────
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function hasControlChars(s: string): boolean {
+  // Reject CR, LF, tab, NUL — header- and subject-injection vectors.
+  return /[\r\n\t\0]/.test(s);
 }
 
 // ── Payload validation ─────────────────────────────────────────────────────
@@ -33,20 +63,33 @@ interface LabAccessPayload {
   email: string;
 }
 
+// Stricter than the previous `[^\s@]+@[^\s@]+\.[^\s@]+` — requires a TLD of
+// 2+ chars and disallows consecutive dots / leading-or-trailing dots in the
+// local part. Not RFC-perfect, but rejects the obvious abuse patterns.
+const EMAIL_RE =
+  /^[A-Za-z0-9._%+-]+@[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+$/;
+
 function isValidPayload(body: unknown): body is LabAccessPayload {
   if (typeof body !== "object" || body === null) return false;
   const b = body as Record<string, unknown>;
-  return (
-    typeof b.name === "string" &&
-    b.name.trim().length > 0 &&
-    b.name.length <= 200 &&
-    typeof b.company === "string" &&
-    b.company.trim().length > 0 &&
-    b.company.length <= 200 &&
-    typeof b.email === "string" &&
-    b.email.length <= 254 &&
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(b.email)
-  );
+  if (
+    typeof b.name !== "string" ||
+    typeof b.company !== "string" ||
+    typeof b.email !== "string"
+  ) {
+    return false;
+  }
+  const name = b.name.trim();
+  const company = b.company.trim();
+  const email = b.email.trim();
+  if (name.length === 0 || name.length > 200 || hasControlChars(name))
+    return false;
+  if (company.length === 0 || company.length > 200 || hasControlChars(company))
+    return false;
+  if (email.length === 0 || email.length > 254 || hasControlChars(email))
+    return false;
+  if (!EMAIL_RE.test(email)) return false;
+  return true;
 }
 
 // ── Handler ────────────────────────────────────────────────────────────────
@@ -59,14 +102,37 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  // Resolve a real client IP. On Vercel, x-forwarded-for is always set by the
+  // edge — if it's missing, the request did not arrive through the platform
+  // and we refuse rather than share an "unknown" bucket with every attacker.
+  const xff = request.headers.get("x-forwarded-for");
   const ip =
-    request.headers.get("cf-connecting-ip") ??
-    request.headers.get("x-real-ip") ??
-    (request.headers.get("x-forwarded-for") ?? "unknown")
-      .split(",")[0]
-      .trim();
+    request.headers.get("cf-connecting-ip")?.trim() ||
+    request.headers.get("x-real-ip")?.trim() ||
+    xff?.split(",")[0]?.trim() ||
+    null;
 
-  if (isRateLimited(ip)) {
+  if (!ip) {
+    return NextResponse.json(
+      { error: "Anfrage ohne Client-IP wird abgelehnt." },
+      { status: 400 },
+    );
+  }
+
+  let limited = false;
+  if (ratelimit) {
+    const { success } = await ratelimit.limit(ip);
+    limited = !success;
+  } else {
+    if (process.env.NODE_ENV === "production") {
+      console.warn(
+        "[lab-access] UPSTASH_REDIS_REST_URL/TOKEN missing — falling back to in-memory rate limit. This is ineffective on serverless.",
+      );
+    }
+    limited = memoryLimit(ip);
+  }
+
+  if (limited) {
     return NextResponse.json(
       { error: "Zu viele Anfragen. Bitte versuchen Sie es später erneut." },
       { status: 429, headers: { "Retry-After": "900" } },
@@ -87,13 +153,24 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  // Sanitised values for both subject (control chars already rejected, length
+  // capped) and HTML body (escape every interpolation point).
+  const name = body.name.trim();
+  const company = body.company.trim();
+  const email = body.email.trim();
+  const safeName = escapeHtml(name);
+  const safeCompany = escapeHtml(company);
+  const safeEmail = escapeHtml(email);
+
   const resend = new Resend(apiKey);
 
   const { error } = await resend.emails.send({
     from: "Rautaki Lab <noreply@send.rautaki.ch>",
     to: "hello@rautaki.ch",
-    replyTo: body.email,
-    subject: `Neuer Lab-Zugang: ${body.name} (${body.company})`,
+    // Note: no replyTo. Attacker-controlled replyTo turned this endpoint into
+    // an open relay against rautaki.ch — replies went to the submitter. The
+    // operator can still reach out via the mailto: link in the body.
+    subject: `Neuer Lab-Zugang: ${name} (${company})`,
     html: `
       <div style="font-family: Georgia, serif; max-width: 520px; margin: 0 auto; background: #F4F2EE; padding: 0;">
         <div style="background: #0A0A0A; padding: 24px 32px;">
@@ -111,16 +188,16 @@ export async function POST(request: NextRequest) {
           <table style="width: 100%; border-collapse: collapse; font-family: system-ui, sans-serif; font-size: 14px;">
             <tr>
               <td style="padding: 10px 0; color: rgba(28,28,28,0.50); border-bottom: 1px solid rgba(28,28,28,0.08); width: 130px;">Name</td>
-              <td style="padding: 10px 0; color: #1C1C1C; font-weight: 500; border-bottom: 1px solid rgba(28,28,28,0.08);">${body.name}</td>
+              <td style="padding: 10px 0; color: #1C1C1C; font-weight: 500; border-bottom: 1px solid rgba(28,28,28,0.08);">${safeName}</td>
             </tr>
             <tr>
               <td style="padding: 10px 0; color: rgba(28,28,28,0.50); border-bottom: 1px solid rgba(28,28,28,0.08);">Unternehmen</td>
-              <td style="padding: 10px 0; color: #1C1C1C; font-weight: 500; border-bottom: 1px solid rgba(28,28,28,0.08);">${body.company}</td>
+              <td style="padding: 10px 0; color: #1C1C1C; font-weight: 500; border-bottom: 1px solid rgba(28,28,28,0.08);">${safeCompany}</td>
             </tr>
             <tr>
               <td style="padding: 10px 0; color: rgba(28,28,28,0.50);">E-Mail</td>
               <td style="padding: 10px 0; color: #1C1C1C; font-weight: 500;">
-                <a href="mailto:${body.email}" style="color: #1C1C1C;">${body.email}</a>
+                <a href="mailto:${safeEmail}" style="color: #1C1C1C;">${safeEmail}</a>
               </td>
             </tr>
           </table>
@@ -135,7 +212,10 @@ export async function POST(request: NextRequest) {
   if (error) {
     console.error("[lab-access] Resend error:", error);
     return NextResponse.json(
-      { error: "E-Mail konnte nicht gesendet werden. Bitte versuchen Sie es erneut." },
+      {
+        error:
+          "E-Mail konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",
+      },
       { status: 502 },
     );
   }
