@@ -1,5 +1,6 @@
 import { withSentryConfig } from "@sentry/nextjs";
 import type { NextConfig } from "next";
+import webpack from "webpack";
 
 function buildCsp(): string {
   // Derive the n8n chat webhook origin from the public env var so it can be
@@ -81,6 +82,18 @@ const nextConfig: NextConfig = {
         hostname: "images.unsplash.com",
       },
     ],
+  },
+  webpack(config) {
+    // @n8n/chat is built with Vue. Define the three compile-time flags Vue
+    // expects so the browser console stays clean and tree-shaking works correctly.
+    config.plugins.push(
+      new webpack.DefinePlugin({
+        __VUE_OPTIONS_API__: JSON.stringify(true),
+        __VUE_PROD_DEVTOOLS__: JSON.stringify(false),
+        __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: JSON.stringify(false),
+      }),
+    );
+    return config;
   },
 };
 

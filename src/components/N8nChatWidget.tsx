@@ -25,17 +25,17 @@ export default function N8nChatWidget() {
           mode: "window",
           showWelcomeScreen: false,
           initialMessages: [
-            "Welcome to Rautaki.",
-            "Share your challenge and we will help structure the next move.",
+            "Willkommen bei Rautaki.",
+            "Schildern Sie Ihre Frage — wir helfen Ihnen, den nächsten Schritt zu definieren.",
           ],
           i18n: {
             en: {
-              title: "Rautaki Advisory",
-              subtitle: "Strategy · Advisory · Growth",
+              title: "Rautaki",
+              subtitle: "Strategie · Beratung · Umsetzung",
               footer: "",
-              getStarted: "Start Conversation",
-              inputPlaceholder: "Ask about AI strategy, risk, or execution...",
-              closeButtonTooltip: "Close chat",
+              getStarted: "Gespräch starten",
+              inputPlaceholder: "Fragen zu KI-Strategie, Leistungen oder nächsten Schritten...",
+              closeButtonTooltip: "Chat schliessen",
             },
           },
         });
