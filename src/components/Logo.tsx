@@ -21,8 +21,7 @@ export default function Logo({
   variant = "dark",
   showTagline = false,
 }: LogoProps) {
-  const baseColor =
-    variant === "dark" ? "text-white" : "text-ink";
+  const baseColor = variant === "dark" ? "text-white" : "text-ink";
 
   return (
     <Link href="/" aria-label="Rautaki — home" className="inline-block">
@@ -36,7 +35,7 @@ export default function Logo({
       </div>
       {showTagline && (size === "xl" || size === "md") && (
         <div className="mt-2 font-ui text-xs font-normal uppercase tracking-wide-label text-mid-grey">
-          Strategy · Advisory · Growth
+          Strategie · Beratung · Umsetzung
         </div>
       )}
     </Link>

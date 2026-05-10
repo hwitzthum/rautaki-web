@@ -12,14 +12,17 @@ const headlineLines = ["Strategie", "im KI-Zeitalter", "mit Wirkung."];
 
 export default function HeroDark({ onBookingClick }: HeroDarkProps) {
   const parallaxRef = useRef<HTMLDivElement>(null);
-  const [prefersReduced, setPrefersReduced] = useState(false);
+  const [prefersReduced, setPrefersReduced] = useState(
+    () =>
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  );
 
   useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReduced(mq.matches);
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     const handler = (e: MediaQueryListEvent) => setPrefersReduced(e.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
   }, []);
 
   useEffect(() => {
@@ -44,7 +47,9 @@ export default function HeroDark({ onBookingClick }: HeroDarkProps) {
             "radial-gradient(circle, var(--color-gold-glow) 0%, transparent 70%)",
           top: "-200px",
           left: "-140px",
-          animation: prefersReduced ? undefined : "glow-drift 12s ease-in-out infinite",
+          animation: prefersReduced
+            ? undefined
+            : "glow-drift 12s ease-in-out infinite",
         }}
         aria-hidden="true"
       />
@@ -61,12 +66,22 @@ export default function HeroDark({ onBookingClick }: HeroDarkProps) {
                 key={line}
                 className="block opacity-0"
                 style={{
-                  animation: prefersReduced ? undefined : "fade-up 600ms var(--ease-out-expo) forwards",
-                  animationDelay: prefersReduced ? undefined : `${index * 80}ms`,
+                  animation: prefersReduced
+                    ? undefined
+                    : "fade-up 600ms var(--ease-out-expo) forwards",
+                  animationDelay: prefersReduced
+                    ? undefined
+                    : `${index * 80}ms`,
                   opacity: prefersReduced ? 1 : undefined,
                 }}
               >
-                {index === 1 ? <>im <span className="italic text-gold">KI-Zeitalter</span></> : line}
+                {index === 1 ? (
+                  <>
+                    im <span className="italic text-gold">KI-Zeitalter</span>
+                  </>
+                ) : (
+                  line
+                )}
               </span>
             ))}
           </h1>
@@ -100,14 +115,16 @@ export default function HeroDark({ onBookingClick }: HeroDarkProps) {
         <div
           className="bg-gold p-9 md:p-10 mb-8 relative"
           style={{
-            animation: prefersReduced ? undefined : "clip-reveal 600ms var(--ease-out-expo) both",
+            animation: prefersReduced
+              ? undefined
+              : "clip-reveal 600ms var(--ease-out-expo) both",
             animationDelay: prefersReduced ? undefined : "400ms",
           }}
         >
           <h2 className="font-serif text-h3 tracking-tight-h3 text-obsidian mb-3">
             Entwickeln Sie eine belastbare KI-Strategie
           </h2>
-          <p className="font-ui text-sm text-black/55 mb-6 max-w-narrow">
+          <p className="font-ui text-sm text-obsidian/55 mb-6 max-w-narrow">
             Reservieren Sie eine Beratung, um Prioritäten, Governance-Entscheide
             und die Führungskompetenzen für Ihre nächste Phase zu klären.
           </p>
