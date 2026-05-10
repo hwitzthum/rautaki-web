@@ -87,7 +87,7 @@ export default function RootLayout({
       </head>
       <body className={`${dmSans.variable} antialiased`}>
         <a href="#main-content" className="skip-to-content">
-          Skip to content
+          Zum Inhalt springen
         </a>
         <Navigation />
         <main id="main-content">{children}</main>

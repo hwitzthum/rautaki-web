@@ -1,15 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// Maintenance-mode gate.
+// Maintenance-mode gate — Next.js 16 "proxy" convention (formerly middleware).
 //
 // Toggle by setting MAINTENANCE_MODE=true in the Vercel project's
 // Environment Variables (Production / Preview / Development as needed),
 // then redeploy or use "Redeploy" → "Use existing build cache" to roll
 // the change forward without a rebuild.
-//
-// On Vercel, this file runs on the Edge runtime by default and reads
-// `process.env.MAINTENANCE_MODE` directly — no `next.config.ts` env
-// passthrough is required.
 
 const MAINTENANCE_PATH = "/maintenance";
 

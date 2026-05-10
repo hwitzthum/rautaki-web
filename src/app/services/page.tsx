@@ -10,9 +10,10 @@ import ServiceCard from "@/components/ServiceCard";
 import { services } from "@/data/services";
 
 export const metadata: Metadata = {
-  title: 'Leistungen',
-  description: 'KI-Strategie, Implementierung und Führungskräfteentwicklung — massgeschneidert für Entscheider in DACH.',
-  alternates: { canonical: 'https://www.rautaki.com/services' },
+  title: "Leistungen",
+  description:
+    "KI-Strategie, Implementierung und Führungskräfteentwicklung — massgeschneidert für Entscheider in DACH.",
+  alternates: { canonical: "https://www.rautaki.com/services" },
 };
 
 const serviceSchemas = services.map((service) => ({
@@ -20,11 +21,11 @@ const serviceSchemas = services.map((service) => ({
   "@type": "Service",
   name: service.titlePlain,
   description: service.longDesc,
-  url: `https://rautaki.ch/services#${service.slug}`,
+  url: `https://www.rautaki.com/services#${service.slug}`,
   provider: {
     "@type": "Organization",
     name: "Rautaki",
-    url: "https://rautaki.ch",
+    url: "https://www.rautaki.com",
   },
   areaServed: { "@type": "Country", name: "Switzerland" },
   serviceType: "AI Consulting",
@@ -42,7 +43,8 @@ export default function ServicesPage() {
         label="Unsere Leistungen"
         title={
           <>
-            Strategie, Beratung und Umsetzung für das <span className="italic text-gold">KI-Zeitalter</span>
+            Strategie, Beratung und Umsetzung für das{" "}
+            <span className="italic text-gold">KI-Zeitalter</span>
           </>
         }
         description="Drei Leistungsbereiche, die Führungsteams dabei unterstützen, Richtung zu setzen, Risiken zu steuern und KI-Initiativen von der Idee zur organisationalen Fähigkeit zu entwickeln."
@@ -64,8 +66,8 @@ export default function ServicesPage() {
       <section className="bg-obsidian grain px-6 sm:px-10 lg:px-20 py-20">
         <div className="mx-auto max-w-content">
           <SectionLabel text="Was wir tun" variant="dark" />
-          <h2 className="font-serif text-h2 text-ink mb-6">
-            Drei Leistungsbereiche für Ihre{' '}
+          <h2 className="font-serif text-h2 text-white mb-6">
+            Drei Leistungsbereiche für Ihre{" "}
             <span className="italic text-gold">KI-Strategie</span>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-[2px]">
@@ -91,7 +93,6 @@ export default function ServicesPage() {
           className={`${sectionBg[index]} px-6 sm:px-10 lg:px-20 py-20 border-b border-ink/[0.07]`}
         >
           <div className="mx-auto max-w-content">
-
             {/* Header row: text + image */}
             <ScrollReveal>
               <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-12 lg:gap-16 items-start mb-10">
@@ -141,12 +142,16 @@ export default function ServicesPage() {
 
             {/* Mid-page CTA */}
             <div className="mt-10 pt-8 border-t border-ink/10">
-              <p className="font-sans text-sm text-mid-grey mb-3">Interesse an diesem Leistungsbereich?</p>
-              <a href="/booking" className="font-sans text-sm text-ink hover:text-gold transition-colors duration-200 tracking-wide">
+              <p className="font-sans text-sm text-mid-grey mb-3">
+                Interesse an diesem Leistungsbereich?
+              </p>
+              <a
+                href="/booking"
+                className="font-sans text-sm text-ink hover:text-gold transition-colors duration-200 tracking-wide"
+              >
                 Gespräch vereinbaren →
               </a>
             </div>
-
           </div>
         </section>
       ))}

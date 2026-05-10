@@ -34,9 +34,6 @@ export default function ImprintPage() {
               <p className="font-sans text-body text-ink">
                 <strong>Rechtsform:</strong> Einzelunternehmen
               </p>
-              <p className="font-sans text-body text-ink">
-                <strong>Handelsregister:</strong> [Eintrag falls vorhanden]
-              </p>
             </div>
           </ScrollReveal>
 
@@ -48,7 +45,10 @@ export default function ImprintPage() {
             <div className="font-ui text-body text-ink/65 space-y-1 mb-12">
               <p>
                 E-Mail:{" "}
-                <a href="mailto:hello@rautaki.ch" className="text-ink hover:text-gold transition-colors">
+                <a
+                  href="mailto:hello@rautaki.ch"
+                  className="text-ink hover:text-gold transition-colors"
+                >
                   hello@rautaki.ch
                 </a>
               </p>
@@ -73,8 +73,8 @@ export default function ImprintPage() {
             <div className="font-ui text-body text-ink/65 space-y-4">
               <p>
                 Die Inhalte dieser Website werden mit grösstmöglicher Sorgfalt
-                erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der
-                bereitgestellten Inhalte übernehmen wir jedoch keine Gewähr.
+                erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität
+                der bereitgestellten Inhalte übernehmen wir jedoch keine Gewähr.
               </p>
               <p>
                 Für die Inhalte externer Links übernehmen wir keine Haftung. Für
