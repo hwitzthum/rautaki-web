@@ -19,6 +19,8 @@ function buildCsp(): string {
     // Cal.com API calls (availability, booking confirmation)
     "https://cal.com",
     "https://app.cal.com",
+    // Resend — email delivery for lab-access registrations
+    "https://api.resend.com",
     n8nOrigin,
   ]
     .filter(Boolean)

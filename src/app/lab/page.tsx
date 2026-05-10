@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import ScrollReveal from "@/components/ScrollReveal";
 import SectionLabel from "@/components/SectionLabel";
 import GoldRule from "@/components/GoldRule";
+import LabGate from "@/components/LabGateModal";
 
 export const metadata: Metadata = {
   title: "Lab",
@@ -46,7 +47,7 @@ const tools: Tool[] = [
 
 export default function LabPage() {
   return (
-    <>
+    <LabGate>
     <section className="bg-cream border-t-3 border-gold px-6 sm:px-10 lg:px-20 pt-16 pb-24">
       <div className="mx-auto max-w-content">
 
@@ -133,6 +134,6 @@ export default function LabPage() {
         </a>
       </div>
     </section>
-    </>
+    </LabGate>
   );
 }
