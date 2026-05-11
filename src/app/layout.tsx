@@ -10,7 +10,7 @@ const organizationSchema = {
   "@context": "https://schema.org",
   "@type": ["Organization", "ProfessionalService"],
   name: "Rautaki",
-  url: "https://www.rautaki.com",
+  url: "https://www.rautaki.ch",
   description:
     "Rautaki begleitet Unternehmen bei der strategischen Einführung von KI — von der Potenzialanalyse bis zur skalierbaren Umsetzung.",
   address: {
@@ -45,7 +45,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.rautaki.com"),
+  metadataBase: new URL("https://www.rautaki.ch"),
   title: {
     default: "Rautaki — KI-Strategie für Entscheider",
     template: "%s | Rautaki",
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     title: "Rautaki — KI-Strategie für Entscheider",
     description:
       "Rautaki begleitet Unternehmen bei der strategischen Einführung von KI — von der Potenzialanalyse bis zur skalierbaren Umsetzung.",
-    url: "https://www.rautaki.com",
+    url: "https://www.rautaki.ch",
     images: [
       { url: "/og-image.png", width: 1200, height: 630, alt: "Rautaki" },
     ],
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
     images: ["/og-image.png"],
   },
   robots: { index: true, follow: true },
-  alternates: { canonical: "https://www.rautaki.com" },
+  alternates: { canonical: "https://www.rautaki.ch" },
 };
 
 export default function RootLayout({

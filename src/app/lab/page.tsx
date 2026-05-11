@@ -7,7 +7,7 @@ import LabGate, { LabToolLink } from "@/components/LabGateModal";
 export const metadata: Metadata = {
   title: "Lab",
   description: "Kostenlose KI-Tools und Generatoren für Entscheider — direkt im Browser nutzbar.",
-  alternates: { canonical: "https://www.rautaki.com/lab" },
+  alternates: { canonical: "https://www.rautaki.ch/lab" },
 };
 
 interface Tool {

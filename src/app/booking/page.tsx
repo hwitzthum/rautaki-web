@@ -8,7 +8,7 @@ import { CalInline } from "@/components/CalBooking";
 export const metadata: Metadata = {
   title: "Gespräch buchen",
   description: "Vereinbaren Sie ein kostenloses 45-minütiges Erstgespräch mit Harry Witzthum.",
-  alternates: { canonical: "https://www.rautaki.com/booking" },
+  alternates: { canonical: "https://www.rautaki.ch/booking" },
 };
 
 function BookingTitle() {

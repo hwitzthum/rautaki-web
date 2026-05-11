@@ -9,7 +9,7 @@ import Button from "@/components/Button";
 export const metadata: Metadata = {
   title: 'Über uns',
   description: 'Harry Witzthum, Gründer von Rautaki — KI-Strategie mit echtem Implementierungswissen.',
-  alternates: { canonical: 'https://www.rautaki.com/about' },
+  alternates: { canonical: 'https://www.rautaki.ch/about' },
 };
 
 const values = [

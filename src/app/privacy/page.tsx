@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: "Datenschutz",
   description:
     "Datenschutzerklärung der Rautaki. Informationen zum Umgang mit Ihren personenbezogenen Daten.",
-  alternates: { canonical: "https://www.rautaki.com/privacy" },
+  alternates: { canonical: "https://www.rautaki.ch/privacy" },
 };
 
 export default function PrivacyPage() {
