@@ -6,7 +6,8 @@ import LabGate, { LabToolLink } from "@/components/LabGateModal";
 
 export const metadata: Metadata = {
   title: "Lab",
-  description: "Kostenlose KI-Tools und Generatoren für Entscheider — direkt im Browser nutzbar.",
+  description:
+    "Kostenlose KI-Tools und Generatoren für Entscheider — direkt im Browser nutzbar.",
   alternates: { canonical: "https://www.rautaki.ch/lab" },
 };
 
@@ -23,7 +24,7 @@ const tools: Tool[] = [
     slug: "multi-assistant-gpt",
     title: "Multi-Assistant-System mit Custom GPTs",
     description:
-      "Baue einen Team-Router und zwei Spezialisten-GPTs. Ein orchestriertes System aus drei GPTs — ohne Code. Mit Schritt-für-Schritt-Anleitung, Beispiel-Kontexten und lokalem Speichern.",
+      "Baue einen Team-Router und zwei Spezialisten-GPTs. Ein orchestriertes System aus drei GPTs — ohne Code. Mit Schritt-für-Schritt-Anleitung, Beispiel-Kontexten und Word-Export.",
     tag: "Anleitung",
     href: "/lab/multi-assistant-gpt.html",
   },
@@ -48,92 +49,97 @@ const tools: Tool[] = [
 export default function LabPage() {
   return (
     <LabGate>
-    <section className="bg-cream border-t-3 border-gold px-6 sm:px-10 lg:px-20 pt-16 pb-24">
-      <div className="mx-auto max-w-content">
+      <section className="bg-cream border-t-3 border-gold px-6 sm:px-10 lg:px-20 pt-16 pb-24">
+        <div className="mx-auto max-w-content">
+          {/* Page header — compact, flows directly into cards */}
+          <SectionLabel text="Lab" />
+          <h1 className="font-serif text-h2 lg:text-h1 font-normal leading-heading tracking-tight text-ink mb-4">
+            Werkzeuge zum <span className="italic text-gold">Selber bauen</span>
+            .
+          </h1>
+          <p className="max-w-reading font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey mb-10">
+            Interaktive Tools, die direkt im Browser laufen — kein Account, kein
+            Server. Fortschritt als HTML- oder Word-Datei herunterladbar — zum
+            späteren Weiterbearbeiten oder Teilen.
+          </p>
 
-        {/* Page header — compact, flows directly into cards */}
-        <SectionLabel text="Lab" />
-        <h1 className="font-serif text-h2 lg:text-h1 font-normal leading-heading tracking-tight text-ink mb-4">
-          Werkzeuge zum{" "}
-          <span className="italic text-gold">Selber bauen</span>.
-        </h1>
-        <p className="max-w-reading font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey mb-10">
-          Interaktive Tools, die direkt im Browser laufen — kein Account, kein Server.
-          Fortschritt lokal gespeichert, jederzeit als HTML- oder Word-Datei herunterladbar.
-        </p>
-
-        {/* Tool cards */}
-        <div className="grid grid-cols-1 gap-[2px] bg-ink/10">
-          {tools.map((tool, index) => (
-            <ScrollReveal key={tool.slug} delay={index * 90}>
-              <LabToolLink
-                href={tool.href}
-                className="group block bg-white no-underline"
-              >
-                <article className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-8 p-7 lg:p-9 items-center border-l-3 border-transparent group-hover:border-gold transition-colors duration-300">
-                  <div className="max-w-reading">
-                    <div className="font-ui text-xs uppercase tracking-wide-label text-gold mb-2">
-                      {tool.tag}
+          {/* Tool cards */}
+          <div className="grid grid-cols-1 gap-[2px] bg-ink/10">
+            {tools.map((tool, index) => (
+              <ScrollReveal key={tool.slug} delay={index * 90}>
+                <LabToolLink
+                  href={tool.href}
+                  className="group block bg-white no-underline"
+                >
+                  <article className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-8 p-7 lg:p-9 items-center border-l-3 border-transparent group-hover:border-gold transition-colors duration-300">
+                    <div className="max-w-reading">
+                      <div className="font-ui text-xs uppercase tracking-wide-label text-gold mb-2">
+                        {tool.tag}
+                      </div>
+                      <h2 className="font-serif text-h3 tracking-tight-h3 font-normal leading-heading text-ink mb-2">
+                        {tool.title}
+                      </h2>
+                      <p className="font-ui text-sm font-light leading-body text-ink/65 md:text-mid-grey">
+                        {tool.description}
+                      </p>
                     </div>
-                    <h2 className="font-serif text-h3 tracking-tight-h3 font-normal leading-heading text-ink mb-2">
-                      {tool.title}
-                    </h2>
-                    <p className="font-ui text-sm font-light leading-body text-ink/65 md:text-mid-grey">
-                      {tool.description}
-                    </p>
-                  </div>
-                  <div className="font-ui text-xs uppercase tracking-wide-label text-ink/40 group-hover:text-gold transition-colors whitespace-nowrap">
-                    Öffnen →
-                  </div>
-                </article>
-              </LabToolLink>
-            </ScrollReveal>
-          ))}
-        </div>
-
-        {/* Coming soon */}
-        <ScrollReveal delay={tools.length * 90}>
-          <div className="mt-[2px] bg-cream border border-dashed border-ink/15 p-7 lg:p-9">
-            <div className="font-ui text-xs uppercase tracking-wide-label text-mid-grey mb-2">
-              Demnächst
-            </div>
-            <h2 className="font-serif text-h4 tracking-tight-h4 font-normal leading-heading text-ink/35 mb-2">
-              Weitere Werkzeuge in Entwicklung
-            </h2>
-            <p className="font-ui text-sm font-light leading-body text-mid-grey max-w-reading">
-              Prompt-Bibliotheken, KI-Readiness-Assessments und weitere Tools.
-              Hast du eine Idee?{" "}
-              <a
-                href="/booking"
-                className="text-ink underline decoration-gold/40 underline-offset-4 hover:decoration-gold"
-              >
-                Sag uns Bescheid.
-              </a>
-            </p>
+                    <div className="font-ui text-xs uppercase tracking-wide-label text-ink/40 group-hover:text-gold transition-colors whitespace-nowrap">
+                      Öffnen →
+                    </div>
+                  </article>
+                </LabToolLink>
+              </ScrollReveal>
+            ))}
           </div>
-        </ScrollReveal>
 
-      </div>
-    </section>
+          {/* Coming soon */}
+          <ScrollReveal delay={tools.length * 90}>
+            <div className="mt-[2px] bg-cream border border-dashed border-ink/15 p-7 lg:p-9">
+              <div className="font-ui text-xs uppercase tracking-wide-label text-mid-grey mb-2">
+                Demnächst
+              </div>
+              <h2 className="font-serif text-h4 tracking-tight-h4 font-normal leading-heading text-ink/35 mb-2">
+                Weitere Werkzeuge in Entwicklung
+              </h2>
+              <p className="font-ui text-sm font-light leading-body text-mid-grey max-w-reading">
+                Prompt-Bibliotheken, KI-Readiness-Assessments und weitere Tools.
+                Hast du eine Idee?{" "}
+                <a
+                  href="/booking"
+                  className="text-ink underline decoration-gold/40 underline-offset-4 hover:decoration-gold"
+                >
+                  Sag uns Bescheid.
+                </a>
+              </p>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
 
-    <GoldRule />
+      <GoldRule />
 
-    {/* Booking CTA */}
-    <section className="bg-obsidian py-20">
-      <div className="container mx-auto px-6 text-center max-w-narrow">
-        <p className="font-sans text-sm tracking-widest uppercase text-gold mb-4">Strategie-Gespräch</p>
-        <h2 className="font-serif text-h2 text-white mb-6">
-          Massgeschneidert statt{' '}
-          <span className="italic text-gold">von der Stange</span>
-        </h2>
-        <p className="text-white/45 font-sans text-body mb-10">
-          Die Lab-Tools geben Ihnen einen ersten Einblick. Für eine individuelle Lösung sprechen wir persönlich.
-        </p>
-        <a href="/booking" className="font-sans text-sm tracking-wide text-white hover:text-gold transition-colors duration-200">
-          Gespräch vereinbaren →
-        </a>
-      </div>
-    </section>
+      {/* Booking CTA */}
+      <section className="bg-obsidian py-20">
+        <div className="container mx-auto px-6 text-center max-w-narrow">
+          <p className="font-sans text-sm tracking-widest uppercase text-gold mb-4">
+            Strategie-Gespräch
+          </p>
+          <h2 className="font-serif text-h2 text-white mb-6">
+            Massgeschneidert statt{" "}
+            <span className="italic text-gold">von der Stange</span>
+          </h2>
+          <p className="text-white/45 font-sans text-body mb-10">
+            Die Lab-Tools geben Ihnen einen ersten Einblick. Für eine
+            individuelle Lösung sprechen wir persönlich.
+          </p>
+          <a
+            href="/booking"
+            className="font-sans text-sm tracking-wide text-white hover:text-gold transition-colors duration-200"
+          >
+            Gespräch vereinbaren →
+          </a>
+        </div>
+      </section>
     </LabGate>
   );
 }
