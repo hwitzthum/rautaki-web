@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: "Impressum",
   description:
     "Impressum der Rautaki. Angaben gemäss Schweizer Obligationenrecht.",
-  alternates: { canonical: "https://www.rautaki.com/imprint" },
+  alternates: { canonical: "https://www.rautaki.ch/imprint" },
 };
 
 export default function ImprintPage() {

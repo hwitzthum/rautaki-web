@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: "Leistungen",
   description:
     "KI-Strategie, Implementierung und Führungskräfteentwicklung — massgeschneidert für Entscheider in DACH.",
-  alternates: { canonical: "https://www.rautaki.com/services" },
+  alternates: { canonical: "https://www.rautaki.ch/services" },
 };
 
 const serviceSchemas = services.map((service) => ({
@@ -21,11 +21,11 @@ const serviceSchemas = services.map((service) => ({
   "@type": "Service",
   name: service.titlePlain,
   description: service.longDesc,
-  url: `https://www.rautaki.com/services#${service.slug}`,
+  url: `https://www.rautaki.ch/services#${service.slug}`,
   provider: {
     "@type": "Organization",
     name: "Rautaki",
-    url: "https://www.rautaki.com",
+    url: "https://www.rautaki.ch",
   },
   areaServed: { "@type": "Country", name: "Switzerland" },
   serviceType: "AI Consulting",
