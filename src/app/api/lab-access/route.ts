@@ -94,6 +94,22 @@ function isValidPayload(body: unknown): body is LabAccessPayload {
 
 // ── Handler ────────────────────────────────────────────────────────────────
 export async function POST(request: NextRequest) {
+  // CSRF defence: if a browser sends an Origin header it must match the host.
+  // Server-to-server calls without Origin are permitted (no browser involved).
+  const origin = request.headers.get("origin");
+  if (origin) {
+    const host = request.headers.get("host");
+    let originHost: string | null = null;
+    try {
+      originHost = new URL(origin).host;
+    } catch {
+      // unparseable Origin → reject
+    }
+    if (!originHost || originHost !== host) {
+      return NextResponse.json({ error: "Ungültige Anfrage" }, { status: 403 });
+    }
+  }
+
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
     return NextResponse.json(
@@ -135,7 +151,15 @@ export async function POST(request: NextRequest) {
   if (limited) {
     return NextResponse.json(
       { error: "Zu viele Anfragen. Bitte versuchen Sie es später erneut." },
-      { status: 429, headers: { "Retry-After": "900" } },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(RATE_WINDOW_MS / 1000),
+          "RateLimit-Limit": String(RATE_MAX),
+          "RateLimit-Remaining": "0",
+          "RateLimit-Reset": String(Math.ceil((Date.now() + RATE_WINDOW_MS) / 1000)),
+        },
+      },
     );
   }
 
@@ -210,7 +234,7 @@ export async function POST(request: NextRequest) {
   });
 
   if (error) {
-    console.error("[lab-access] Resend error:", error);
+    console.error("[lab-access] Resend error:", (error as { message?: string }).message ?? String(error));
     return NextResponse.json(
       {
         error:

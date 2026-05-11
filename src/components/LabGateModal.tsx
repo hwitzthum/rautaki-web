@@ -13,6 +13,16 @@ import Logo from "./Logo";
 
 // ── Storage ────────────────────────────────────────────────────────────────
 const STORAGE_KEY = "rautaki_lab_access";
+
+// Allow same-origin paths or explicit same-origin absolute URLs only.
+function isSafeHref(href: string): boolean {
+  if (href.startsWith("/") && !href.startsWith("//")) return true;
+  try {
+    return new URL(href).origin === window.location.origin;
+  } catch {
+    return false;
+  }
+}
 const FOCUSABLE =
   'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
@@ -23,7 +33,7 @@ interface LabGateContextValue {
 
 const LabGateContext = createContext<LabGateContextValue>({
   requestAccess: (href) => {
-    window.location.href = href;
+    if (isSafeHref(href)) window.location.href = href;
   },
 });
 
@@ -54,6 +64,7 @@ export default function LabGate({ children }: LabGateProps) {
 
   const requestAccess = useCallback(
     (href: string) => {
+      if (!isSafeHref(href)) return;
       if (isRegistered) {
         window.location.href = href;
       } else {
@@ -70,7 +81,7 @@ export default function LabGate({ children }: LabGateProps) {
       // ignore write failure
     }
     setIsRegistered(true);
-    if (pendingHref) {
+    if (pendingHref && isSafeHref(pendingHref)) {
       window.location.href = pendingHref;
     }
   }, [pendingHref]);
@@ -82,7 +93,7 @@ export default function LabGate({ children }: LabGateProps) {
   const handleSkip = useCallback(() => {
     const href = pendingHref;
     setPendingHref(null);
-    if (href) {
+    if (href && isSafeHref(href)) {
       window.location.href = href;
     }
   }, [pendingHref]);
