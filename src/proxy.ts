@@ -24,6 +24,20 @@ export function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // API routes must return a machine-readable error, not an HTML page.
+  if (pathname.startsWith("/api/")) {
+    return NextResponse.json(
+      { error: "Wartungsarbeiten. Bitte versuchen Sie es später erneut." },
+      {
+        status: 503,
+        headers: {
+          "Retry-After": "3600",
+          "cache-control": "no-store, must-revalidate",
+        },
+      },
+    );
+  }
+
   const url = request.nextUrl.clone();
   url.pathname = MAINTENANCE_PATH;
 

@@ -141,8 +141,14 @@ export async function POST(request: NextRequest) {
     limited = !success;
   } else {
     if (process.env.NODE_ENV === "production") {
-      console.warn(
-        "[lab-access] UPSTASH_REDIS_REST_URL/TOKEN missing — falling back to in-memory rate limit. This is ineffective on serverless.",
+      // Fail closed: in-memory rate limiting is ineffective across serverless
+      // instances. Refuse all requests until Redis env vars are configured.
+      console.error(
+        "[lab-access] UPSTASH_REDIS_REST_URL/TOKEN not set in production — rejecting request to protect endpoint.",
+      );
+      return NextResponse.json(
+        { error: "Service nicht verfügbar" },
+        { status: 503 },
       );
     }
     limited = memoryLimit(ip);
