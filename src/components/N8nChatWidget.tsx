@@ -3,7 +3,17 @@
 import { useEffect } from "react";
 import "@/styles/n8n-chat.css";
 
-const WEBHOOK_URL = process.env.NEXT_PUBLIC_N8N_CHAT_WEBHOOK_URL ?? "";
+const RAW_WEBHOOK_URL = process.env.NEXT_PUBLIC_N8N_CHAT_WEBHOOK_URL ?? "";
+
+function isHttpsUrl(url: string): boolean {
+  try {
+    return new URL(url).protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
+const WEBHOOK_URL = isHttpsUrl(RAW_WEBHOOK_URL) ? RAW_WEBHOOK_URL : "";
 
 declare global {
   interface Window {
