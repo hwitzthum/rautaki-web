@@ -109,12 +109,19 @@ export async function POST(req: NextRequest) {
   if (ratelimit) {
     const { success } = await ratelimit.limit(ip);
     limited = !success;
+  } else if (process.env.NODE_ENV === "production") {
+    // Fail closed in production: a per-instance in-memory limiter is
+    // ineffective across serverless cold starts and trivially bypassable.
+    // Refuse all requests until Upstash env vars are configured. Matches
+    // the lab-access route's behaviour for the same reason.
+    console.error(
+      "[api/chat] UPSTASH_REDIS_REST_URL/TOKEN not set in production — rejecting request to protect endpoint.",
+    );
+    return NextResponse.json(
+      { error: "Service nicht verfügbar" },
+      { status: 503 },
+    );
   } else {
-    if (process.env.NODE_ENV === "production") {
-      console.warn(
-        "[api/chat] UPSTASH_REDIS_REST_URL/TOKEN missing — falling back to in-memory rate limit. This is ineffective on serverless.",
-      );
-    }
     limited = memoryLimit(ip);
   }
   if (limited) {
