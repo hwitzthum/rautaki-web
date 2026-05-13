@@ -3,16 +3,10 @@ import type { NextConfig } from "next";
 import webpack from "webpack";
 
 function buildCsp(): string {
-  // Derive the n8n chat webhook origin from the public env var so it can be
-  // included in connect-src without hard-coding a domain in the policy.
-  let n8nOrigin = "";
-  try {
-    const raw = process.env.NEXT_PUBLIC_N8N_CHAT_WEBHOOK_URL;
-    if (raw) n8nOrigin = new URL(raw).origin;
-  } catch {
-    // malformed URL — omit from CSP
-  }
-
+  // The chatbot now talks to a same-origin proxy at /api/chat which forwards
+  // to the n8n webhook server-side, so the n8n origin no longer needs to be
+  // in connect-src. The change closes a small attack surface (the browser
+  // can never be tricked into a cross-origin call to the bot's host).
   const connectSrc = [
     "'self'",
     "*.ingest.de.sentry.io",
@@ -22,10 +16,7 @@ function buildCsp(): string {
     "https://app.cal.com",
     // Resend — email delivery for lab-access registrations
     "https://api.resend.com",
-    n8nOrigin,
-  ]
-    .filter(Boolean)
-    .join(" ");
+  ].join(" ");
 
   // Next.js App Router requires 'unsafe-inline' for its hydration scripts.
   // 'unsafe-eval' is only needed during local development (HMR).
