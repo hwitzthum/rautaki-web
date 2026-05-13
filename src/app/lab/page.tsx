@@ -24,7 +24,7 @@ const tools: Tool[] = [
     slug: "multi-assistant-gpt",
     title: "Multi-Assistant-System mit Custom GPTs",
     description:
-      "Baue einen Team-Router und zwei Spezialisten-GPTs. Ein orchestriertes System aus drei GPTs — ohne Code. Mit Schritt-für-Schritt-Anleitung, Beispiel-Kontexten und Word-Export.",
+      "Bauen Sie einen Team-Router und zwei Spezialisten-GPTs. Ein orchestriertes System aus drei GPTs — ohne Code. Mit Schritt-für-Schritt-Anleitung, Beispiel-Kontexten und Word-Export.",
     tag: "Anleitung",
     href: "/lab/multi-assistant-gpt.html",
   },
@@ -103,12 +103,12 @@ export default function LabPage() {
               </h2>
               <p className="font-ui text-sm font-light leading-body text-mid-grey max-w-reading">
                 Prompt-Bibliotheken, KI-Readiness-Assessments und weitere Tools.
-                Hast du eine Idee?{" "}
+                Haben Sie eine Idee?{" "}
                 <a
                   href="/booking"
-                  className="text-ink underline decoration-gold/40 underline-offset-4 hover:decoration-gold"
+                  className="text-ink underline decoration-gold/70 underline-offset-4 hover:decoration-gold"
                 >
-                  Sag uns Bescheid.
+                  Schreiben Sie uns.
                 </a>
               </p>
             </div>

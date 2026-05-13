@@ -159,7 +159,7 @@ export default function ServicesPage() {
       <GoldRule />
 
       {/* ── CTA ───────────────────────────────────────────── */}
-      <section className="bg-obsidian grain px-6 sm:px-10 lg:px-20 py-32">
+      <section className="bg-obsidian grain px-6 sm:px-10 lg:px-20 py-24">
         <ScrollReveal className="mx-auto max-w-content text-center">
           <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-white mb-4">
             Bereit, Ihre KI-Strategie aufzubauen?
@@ -169,7 +169,7 @@ export default function ServicesPage() {
             praxisnahen Weg zu messbarem Wert definieren.
           </p>
           <Button href="/booking" variant="gold" showArrow>
-            Beratung reservieren
+            Strategie-Standortbestimmung anfragen
           </Button>
         </ScrollReveal>
       </section>

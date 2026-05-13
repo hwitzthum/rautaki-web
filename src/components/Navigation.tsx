@@ -84,7 +84,7 @@ export default function Navigation() {
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 className={`nav-link-sweep no-underline transition-colors duration-200 ${
-                  active ? "text-gold" : "text-white/60 hover:text-gold"
+                  active ? "text-gold" : "text-white/[0.28] hover:text-gold"
                 }`}
               >
                 {item.label}
@@ -135,7 +135,7 @@ export default function Navigation() {
                 href={item.href}
                 onClick={() => setMenuOpen(false)}
                 className={`no-underline transition-colors duration-200 py-2 ${
-                  active ? "text-gold" : "text-white/60 hover:text-gold"
+                  active ? "text-gold" : "text-white/[0.28] hover:text-gold"
                 }`}
                 aria-current={active ? "page" : undefined}
               >

@@ -30,7 +30,7 @@ export default function HeroDark({ onBookingClick }: HeroDarkProps) {
     const onScroll = () => {
       if (parallaxRef.current) {
         const y = Math.min(window.scrollY * 0.08, 34);
-        parallaxRef.current.style.transform = `translateY(calc(-50% + ${y}px))`;
+        parallaxRef.current.style.setProperty("--parallax-y", `${y}px`);
       }
     };
 
@@ -87,9 +87,9 @@ export default function HeroDark({ onBookingClick }: HeroDarkProps) {
           </h1>
 
           <p className="font-ui text-body font-light leading-body text-white/45 max-w-[470px]">
-            Wir helfen Führungsteams, KI-Ambition in umsetzbare Strategie zu
-            verwandeln und Modellpotenzial, operationelle Risiken sowie
-            organisationsweite Anpassung auszubalancieren.
+            Wir begleiten Geschäftsleitungen und Verwaltungsräte dabei,
+            KI-Initiativen mit messbarer Wirkung umzusetzen — von der
+            Standortbestimmung bis zur produktionsreifen Lösung.
           </p>
         </div>
       </div>
@@ -102,7 +102,7 @@ export default function HeroDark({ onBookingClick }: HeroDarkProps) {
             fontSize: "500px",
             top: "50%",
             right: "-44px",
-            transform: "translateY(-50%)",
+            transform: "translateY(calc(-50% + var(--parallax-y, 0px)))",
             letterSpacing: "-0.05em",
             lineHeight: 1,
           }}
@@ -125,11 +125,11 @@ export default function HeroDark({ onBookingClick }: HeroDarkProps) {
             Entwickeln Sie eine belastbare KI-Strategie
           </h2>
           <p className="font-ui text-sm text-obsidian/55 mb-6 max-w-narrow">
-            Reservieren Sie eine Beratung, um Prioritäten, Governance-Entscheide
-            und die Führungskompetenzen für Ihre nächste Phase zu klären.
+            Im Erstgespräch klären wir Prioritäten, Governance-Entscheide und
+            die Führungskompetenzen für Ihre nächste Phase.
           </p>
           <Button variant="dark" onClick={onBookingClick} showArrow>
-            Beratung reservieren
+            Erstgespräch vereinbaren
           </Button>
         </div>
       </div>

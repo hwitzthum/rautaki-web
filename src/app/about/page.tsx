@@ -7,9 +7,10 @@ import GoldRule from "@/components/GoldRule";
 import Button from "@/components/Button";
 
 export const metadata: Metadata = {
-  title: 'Über uns',
-  description: 'Harry Witzthum, Gründer von Rautaki — KI-Strategie mit echtem Implementierungswissen.',
-  alternates: { canonical: 'https://www.rautaki.ch/about' },
+  title: "Über uns",
+  description:
+    "Harry Witzthum, Gründer von Rautaki — KI-Strategie mit echtem Implementierungswissen.",
+  alternates: { canonical: "https://www.rautaki.ch/about" },
 };
 
 const values = [
@@ -29,7 +30,6 @@ const values = [
       "Strategie zählt erst, wenn sie Verhalten verändert. Wir bleiben nah dran, bis Pläne in Routinen, Governance und Anreizen verankert sind.",
   },
 ];
-
 
 const workshopClients = [
   "Hepatitis Schweiz",
@@ -63,10 +63,10 @@ const teachingCourses = [
 
 function BrandRautaki() {
   return (
-    <strong className="inline-flex items-baseline font-serif font-normal tracking-tight text-obsidian whitespace-nowrap">
+    <span className="inline-flex items-baseline font-serif font-normal text-obsidian whitespace-nowrap">
       Raut<span className="text-gold">a</span>k
       <span className="text-gold">i</span>
-    </strong>
+    </span>
   );
 }
 
@@ -94,7 +94,8 @@ export default function AboutPage() {
 
             <section className="space-y-4">
               <h2 className="font-serif text-h3 tracking-tight-h3 leading-heading text-ink font-normal">
-                Ein Wort, das von <span className="italic text-gold">weit her</span> kommt
+                Ein Wort, das von{" "}
+                <span className="italic text-gold">weit her</span> kommt
               </h2>
               <p>
                 <span className="font-serif italic text-ink">Rautaki</span>{" "}
@@ -139,7 +140,6 @@ export default function AboutPage() {
                 bleibt unvollständig.
               </p>
             </section>
-
           </div>
         }
         rightContent={
@@ -314,16 +314,15 @@ export default function AboutPage() {
               Fähigkeiten für einen verantwortungsvollen Einsatz investieren.
             </p>
             <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey mb-4">
-              Er kommt aus einem Feld, das Ausdauer fordert und
-              Umsetzungsstärke verlangt: langjährige Führungsverantwortung in
-              nationalen Nonprofit-Organisationen, Transformationsprozesse
-              unter realen Bedingungen, der Aufbau agiler Strukturen —
-              einschliesslich Holacracy — in Organisationen, die sich
-              grundlegend neu ausrichten mussten. Als Diplomierter Verbands-
-              und NPO-Manager VMI und Doktor der Philosophie verbindet er
-              institutionelles Denken mit dem Anspruch konkreter Wirkung.
-              Digitale Transformation war für ihn nie ein Technologieprojekt —
-              sondern immer eine Frage der Führung.
+              Er kommt aus einem Feld, das Ausdauer fordert und Umsetzungsstärke
+              verlangt: langjährige Führungsverantwortung in nationalen
+              Nonprofit-Organisationen, Transformationsprozesse unter realen
+              Bedingungen, der Aufbau agiler Strukturen — einschliesslich
+              Holacracy — in Organisationen, die sich grundlegend neu ausrichten
+              mussten. Als Diplomierter Verbands- und NPO-Manager VMI und Doktor
+              der Philosophie verbindet er institutionelles Denken mit dem
+              Anspruch konkreter Wirkung. Digitale Transformation war für ihn
+              nie ein Technologieprojekt — sondern immer eine Frage der Führung.
             </p>
             <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey">
               Die Firma wurde gebaut, um genau diese Lücke zu schliessen:
@@ -440,7 +439,7 @@ export default function AboutPage() {
               KI-Einführung begleiten kann.
             </p>
             <Button href="/booking" variant="gold" showArrow>
-              Beratung reservieren
+              Kennenlernen — unverbindlich
             </Button>
           </ScrollReveal>
         </div>

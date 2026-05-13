@@ -10,12 +10,13 @@ const navLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-obsidian border-t-3 border-gold grain overflow-hidden">
+    <footer className="bg-obsidian grain overflow-hidden">
+      <div className="h-[3px] bg-gold-rule" aria-hidden="true" />
       <div className="mx-auto max-w-content px-6 sm:px-10 lg:px-20 py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
           <div>
             <Logo size="sm" variant="dark" />
-            <p className="mt-4 max-w-[280px] font-ui text-sm text-white/60">
+            <p className="mt-4 max-w-[280px] font-ui text-sm text-white/45">
               Wir helfen Führungsteams, KI-Ambition in messbare Wirkung zu
               verwandeln.
             </p>
@@ -25,7 +26,7 @@ export default function Footer() {
             <h3 className="font-ui text-xs uppercase tracking-wide-label text-white/45 mb-4">
               Navigation
             </h3>
-            <ul className="space-y-3 font-ui text-sm text-white/70">
+            <ul className="space-y-3 font-ui text-sm text-white/45">
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <Link
@@ -43,11 +44,11 @@ export default function Footer() {
             <h3 className="font-ui text-xs uppercase tracking-wide-label text-white/45 mb-4">
               Kontakt
             </h3>
-            <ul className="space-y-3 font-ui text-sm text-white/70">
+            <ul className="space-y-3 font-ui text-sm text-white/45">
               <li>
                 <a
                   href="mailto:hello@rautaki.ch"
-                  className="underline decoration-gold/40 underline-offset-4 hover:text-gold hover:decoration-gold transition-colors"
+                  className="underline decoration-gold/70 underline-offset-4 hover:text-gold hover:decoration-gold transition-colors"
                 >
                   hello@rautaki.ch
                 </a>
@@ -74,7 +75,9 @@ export default function Footer() {
         </div>
 
         <div className="mt-14 pt-6 border-t border-white/10 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between font-ui text-xs uppercase tracking-wide-footer text-white/45">
-          <div>© {new Date().getFullYear()} Rautaki. Alle Rechte vorbehalten.</div>
+          <div>
+            © {new Date().getFullYear()} Rautaki. Alle Rechte vorbehalten.
+          </div>
           <div className="flex gap-6">
             <Link
               href="/privacy"

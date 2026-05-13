@@ -19,7 +19,7 @@ export default function HeroLight({
     <section className="bg-white border-t-3 border-gold pt-24">
       <div className="mx-auto max-w-content px-6 sm:px-10 lg:px-20 py-20 md:py-24 grid grid-cols-1 lg:grid-cols-hero-light gap-16 lg:gap-20 items-end">
         <div>
-          <SectionLabel text={label} />
+          <SectionLabel text={label} variant="bare" />
           <h1 className="font-serif text-h2 lg:text-h1 font-normal leading-heading tracking-tight text-ink mb-6">
             {title}
           </h1>

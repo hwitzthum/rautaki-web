@@ -6,7 +6,7 @@ import { services } from "@/data/services";
 
 export default function ServiceCards() {
   return (
-    <section className="bg-obsidian px-6 sm:px-10 lg:px-20 py-28 grain">
+    <section className="bg-obsidian px-6 sm:px-10 lg:px-20 py-24 grain">
       <div className="mx-auto max-w-content">
         <SectionLabel text="Leistungen" variant="dark" />
 

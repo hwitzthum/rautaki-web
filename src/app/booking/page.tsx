@@ -7,15 +7,15 @@ import { CalInline } from "@/components/CalBooking";
 
 export const metadata: Metadata = {
   title: "Gespräch buchen",
-  description: "Vereinbaren Sie ein kostenloses 45-minütiges Erstgespräch mit Harry Witzthum.",
+  description:
+    "Vereinbaren Sie ein kostenloses 45-minütiges Erstgespräch mit Harry Witzthum.",
   alternates: { canonical: "https://www.rautaki.ch/booking" },
 };
 
 function BookingTitle() {
   return (
     <>
-      Beratung{" "}
-      <span className="italic text-gold">reservieren</span>
+      Strategiegespräch <span className="italic text-gold">vereinbaren</span>
     </>
   );
 }
@@ -117,7 +117,9 @@ export default function BookingPage() {
           <ScrollReveal>
             <SectionLabel text="Termin wählen" />
             <div className="border-t-[3px] border-gold bg-white shadow-card">
-              <Suspense fallback={<div className="h-96 bg-charcoal animate-pulse" />}>
+              <Suspense
+                fallback={<div className="h-96 bg-charcoal animate-pulse" />}
+              >
                 <CalInline />
               </Suspense>
             </div>
