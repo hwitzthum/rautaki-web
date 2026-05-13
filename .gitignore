@@ -97,3 +97,7 @@ next-env.d.ts
 
 # Sentry Config File
 .env.sentry-build-plugin
+
+# Local secrets rotation runbook — contains real secret values mid-rotation,
+# must never enter the repo.
+quarterly_rotation_guide.txt
