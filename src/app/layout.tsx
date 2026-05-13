@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
+import { headers } from "next/headers";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -75,11 +76,18 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://www.rautaki.ch" },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Maintenance gate: the proxy (src/proxy.ts) sets x-maintenance=true on
+  // every non-API request when MAINTENANCE_MODE is on. Don't mount the chat
+  // widget in that state — otherwise the bubble shows on the maintenance
+  // page, visitors who click it hit /api/chat which returns 503, and Sentry
+  // captures a "misconfigured" message on every attempt.
+  const isMaintenance = (await headers()).get("x-maintenance") === "true";
+
   return (
     <html lang="de-CH" data-scroll-behavior="smooth">
       <head>
@@ -92,7 +100,7 @@ export default function RootLayout({
         <Navigation />
         <main id="main-content">{children}</main>
         <Footer />
-        <N8nChatWidget />
+        {!isMaintenance && <N8nChatWidget />}
       </body>
     </html>
   );
