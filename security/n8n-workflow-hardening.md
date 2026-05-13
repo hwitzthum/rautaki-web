@@ -262,10 +262,14 @@ for (const item of items) {
   const json = item.json || {};
   const raw = String(json.output ?? json.text ?? json.message ?? "");
 
-  // Canary leak → unconditional refusal + log
+  // Canary leak → unconditional refusal + flag. The `_canaryLeak: true`
+  // flag is the signal the Next.js proxy looks for to fire a P1 Sentry
+  // alarm (see src/app/api/chat/route.ts → reportCanaryLeak). The proxy
+  // strips the flag before responding to the browser so the visitor only
+  // ever sees the refusal text.
   if (CANARY && raw.includes(CANARY)) {
     console.error("[Sanitise Output] SECURITY: canary leak in chat output");
-    out.push({ json: { output: REFUSAL } });
+    out.push({ json: { output: REFUSAL, _canaryLeak: true } });
     continue;
   }
 
@@ -419,6 +423,14 @@ After `Sanitise Output`, add a **Respond to Webhook** node:
 - **Respond With**: `JSON`
 - **Response Body**: `={{ $json }}` (the Sanitise Output node's output)
 - **Response Code**: 200
+- **Response Headers** (optional but recommended):
+  - `X-Request-ID` = `={{ $('Webhook').first().json.headers['x-request-id'] }}`
+
+The Next.js proxy generates a `X-Request-ID` UUID for every chat turn and
+sends it on the request to n8n. Echoing it back lets the same ID appear in
+n8n's own logs, the proxy's Sentry events, and the response header the
+browser sees — useful when a visitor reports "the bot said something weird"
+and quotes their request ID.
 
 ## §4 — Future: when you add tools (LLM06)
 
@@ -461,7 +473,7 @@ After §3 is applied, direct curl to the n8n webhook (with no HMAC
 header) must return a workflow error / 500. Only requests through
 `/api/chat` succeed.
 
-## §6 — Rotation
+## §6 — Rotation (quick reference)
 
 Quarterly, rotate together:
 
@@ -479,3 +491,191 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 For the canary, pick three random words plus a number — anything
 unguessable, ≤16 chars. The format doesn't matter, only that no real
 visitor would naturally type it.
+
+For the step-by-step procedure see §7 below.
+
+---
+
+## §7 — HMAC + canary rotation procedure (step-by-step)
+
+**Why a procedure?** This codebase supports **one** HMAC secret and **one**
+canary at a time. There's no dual-secret window, so a naïve "update Vercel,
+update n8n" sequence causes ~30 s of HTTP 502s while the two sides
+disagree. The procedure below uses the existing `MAINTENANCE_MODE` flag to
+make the rotation invisible to visitors. Total window: 2–3 minutes.
+
+**When to rotate:**
+
+- on a quarterly cadence (calendar reminder)
+- immediately if either secret has been pasted into a chat, screenshare,
+  ticket, or any system that wasn't the password manager
+- immediately if `console.error` shows `CANARY LEAK DETECTED` in Sentry —
+  rotate the canary at minimum (the model has been seen reciting it)
+
+### Step 0 — Pre-flight (do NOT skip)
+
+```bash
+# 0a. You're on main and up to date
+git checkout main && git pull --ff-only
+
+# 0b. Two terminals open:
+#     T1: project root for `vercel env` commands (or use the dashboard)
+#     T2: Render dashboard tab (https://dashboard.render.com → your n8n service)
+
+# 0c. Verify your password manager has the CURRENT secrets so you can roll
+#     back if the new ones are typo'd. Open the entry and confirm.
+```
+
+### Step 1 — Generate the new values
+
+```bash
+# New HMAC secret (32 random bytes hex)
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+# example output: 7c1f8d2e...  ← copy to clipboard, then password manager
+```
+
+```bash
+# New canary (three words + number, unguessable, ≤16 chars)
+# Example: "indigo-tundra-otter-42"
+```
+
+Save **both** new values in the password manager NOW, before touching any
+env. If something goes wrong mid-rotation, you need them.
+
+### Step 2 — Flip maintenance mode
+
+This hides the chat widget and short-circuits `/api/chat` calls. Visitors
+see the maintenance state; no requests reach n8n.
+
+In Vercel → Project → Settings → Environment Variables:
+
+```
+MAINTENANCE_MODE=true     (Production)
+```
+
+Trigger a redeploy (Vercel does this automatically on env change for
+Production, or click "Redeploy" on the latest deployment). Wait until the
+new deployment is live (~30 s).
+
+Verify: open `https://www.rautaki.co.nz` in an incognito window — the chat
+bubble should be hidden (per commit `3bea8d5`).
+
+### Step 3 — Update n8n's secrets (Render side)
+
+Render dashboard → your n8n service → Environment → edit:
+
+```
+RAUTAKI_SHARED_SECRET   = <new HMAC value from Step 1>
+RAUTAKI_SYSTEM_CANARY   = <new canary value from Step 1>
+```
+
+Save. Render restarts the service (~60 s). Wait for the deployment to
+show "Live".
+
+**⚠️ Sandbox quirk:** if `$env.X` doesn't work on your n8n instance (see
+the warning box near §2.1 of this guide), update the hardcoded `SECRET`
+and `CANARY` string literals in the Code nodes instead — and remember
+to also publish the workflow after editing the Code node.
+
+### Step 4 — Update Vercel's secrets
+
+Vercel → Project → Settings → Environment Variables:
+
+```
+N8N_CHAT_SHARED_SECRET  = <new HMAC value>          (Production)
+N8N_CHAT_SYSTEM_CANARY  = <new canary value>        (Production)
+```
+
+Redeploy (env changes trigger a redeploy automatically).
+
+### Step 5 — Smoke test (still in maintenance mode)
+
+The widget is hidden but the API still works. Test from your machine:
+
+```bash
+# From the project root:
+./security/test-chat-api.sh
+```
+
+Expected: a 200 response with bot output. If you get:
+
+- **502 / "Chat-Antwort fehlgeschlagen"** → HMAC mismatch. Re-check that
+  both sides have the same secret, byte for byte, and that you redeployed
+  Vercel after the env update.
+- **503 / "Chat-Service nicht konfiguriert"** → env var not visible to the
+  function. In Vercel, ensure the variable scope includes "Production".
+
+Don't proceed until smoke test is green.
+
+### Step 6 — Test the canary
+
+Send the four attack probes from `security/test-attack-probes.sh`. The
+prompt-leak probe (#2) must still return the refusal — if the LLM leaks
+the OLD canary value back, your system prompt in n8n still references the
+old string. Open the AI Agent node in n8n, replace `<CANARY>` in the
+system message with the new value, save, and re-probe.
+
+### Step 7 — Flip maintenance mode off
+
+Vercel → env vars:
+
+```
+MAINTENANCE_MODE=false    (Production)
+```
+
+Redeploy. Verify the chat widget is back on the site.
+
+### Step 8 — Record the rotation
+
+Update `security/QUARTERLY_ROTATION_GUIDE.txt` with:
+
+- the date of rotation
+- who did it
+- the last 4 characters of each new secret (NOT the full value — that lives
+  only in the password manager)
+
+```
+2026-08-13 — Harry — HMAC ...a3f7, canary ...er-42
+```
+
+### Rollback (if smoke test fails after Step 5)
+
+If you can't get the smoke test green within 5 minutes:
+
+1. Restore the OLD values in **both** Vercel and Render (paste from your
+   password manager — this is why Step 1 saves them BEFORE editing).
+2. Redeploy Vercel; wait for Render to restart.
+3. Verify the smoke test passes with the old values.
+4. Flip maintenance off.
+5. Open a Sentry issue or note in QUARTERLY_ROTATION_GUIDE.txt; debug
+   later. Never leave the system half-rotated overnight — one side will
+   reject every legitimate request.
+
+---
+
+## §8 — Operational env reference (added 2026-05-13)
+
+The Next.js proxy now exposes additional knobs beyond the original
+`N8N_CHAT_*` set. None require an n8n-side counterpart unless noted.
+
+| Vercel env                     | Default    | Purpose                                                                                 |
+| ------------------------------ | ---------- | --------------------------------------------------------------------------------------- |
+| `CHAT_RATE_MAX`                | `30`       | Per-IP messages per 5-minute window.                                                    |
+| `CHAT_SESSION_RATE_MAX`        | `20`       | Per-sessionId messages per 5-minute window. Catches the one-IP-many-tabs case.          |
+| `CHAT_DAILY_TOKEN_CAP`         | `200000`   | Estimated tokens/day (input + output, chars÷4). When exceeded → 503 until 00:00 UTC.    |
+| `UPSTASH_REDIS_REST_URL/TOKEN` | _required_ | Backing store for both rate limits, the daily counter, and canary-alarm dedupe.         |
+| `MAINTENANCE_MODE`             | `false`    | When `true`, the widget hides and the proxy short-circuits — used for rotation windows. |
+
+The daily token counter is keyed `chat:tokens:YYYY-MM-DD` (UTC), with a
+2-day TTL. The first cap hit per day fires a Sentry **warning**;
+subsequent hits within the same UTC day are breadcrumb-only to avoid
+flooding Sentry during a sustained attack.
+
+The canary-leak alarm is keyed `chat:canary-alert:YYYY-MM-DDTHH` (UTC,
+hour granularity). The first leak detected per hour fires a Sentry
+**fatal** event; subsequent leaks within the hour are breadcrumb-only.
+
+Every request also carries a `X-Request-ID` (UUID v4) from proxy → n8n →
+response header. Sentry events are tagged with `request_id`. If §3.4 is
+applied, n8n echoes the same ID back in its response header so the full
+trace lines up across hops.
