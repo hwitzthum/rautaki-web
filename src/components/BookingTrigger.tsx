@@ -5,7 +5,7 @@ import HeroDark from "./HeroDark";
 import CalModal from "./CalModal";
 
 /**
- * Wires the hero "Beratung reservieren" CTA to the branded Cal modal.
+ * Wires the hero CTA to the branded Cal modal.
  */
 export default function HeroWithBooking() {
   const [open, setOpen] = useState(false);

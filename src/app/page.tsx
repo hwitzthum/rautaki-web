@@ -53,7 +53,7 @@ export default function Home() {
             {credentials.map((name) => (
               <span
                 key={name}
-                className="font-ui text-xs text-white/30 whitespace-nowrap"
+                className="font-ui text-xs text-white/45 whitespace-nowrap"
               >
                 {name}
               </span>
@@ -73,9 +73,9 @@ export default function Home() {
               <span className="italic text-gold">Wirkung</span> auch.
             </h2>
             <p className="font-ui text-body font-light leading-body text-ink/45 md:text-mid-grey max-w-narrow">
-              78 Prozent der Unternehmen setzen KI bereits ein — doch nur
-              6 Prozent erzielen damit messbare Geschäftsergebnisse. Die Lücke
-              zwischen Aktivität und Wirkung ist die zentrale strategische
+              78 Prozent der Unternehmen setzen KI bereits ein — doch 95 Prozent
+              der Pilotprojekte erreichen nie den Produktivbetrieb. Diese Lücke
+              zwischen Aktivität und Wirkung ist die strategische
               Herausforderung unserer Zeit.
             </p>
           </ScrollReveal>
@@ -86,7 +86,7 @@ export default function Home() {
 
       <GoldRule />
 
-      <section className="bg-obsidian grain px-6 sm:px-10 lg:px-20 py-28">
+      <section className="bg-obsidian grain px-6 sm:px-10 lg:px-20 py-24">
         <ScrollReveal className="mx-auto max-w-content text-center">
           <div className="flex justify-center">
             <SectionLabel text="Nächster Schritt" variant="dark" />
@@ -100,7 +100,7 @@ export default function Home() {
             sicherer Umsetzung gelangen.
           </p>
           <Button href="/booking" variant="gold" showArrow>
-            Beratung reservieren
+            Erstgespräch vereinbaren
           </Button>
         </ScrollReveal>
       </section>

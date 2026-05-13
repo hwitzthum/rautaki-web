@@ -34,6 +34,9 @@ export default function ImprintPage() {
               <p className="font-sans text-body text-ink">
                 <strong>Rechtsform:</strong> Einzelunternehmen
               </p>
+              <p className="font-sans text-body text-ink">
+                <strong>UID:</strong> CHE-362.050.451
+              </p>
             </div>
           </ScrollReveal>
 

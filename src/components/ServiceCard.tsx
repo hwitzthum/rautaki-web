@@ -16,7 +16,7 @@ export default function ServiceCard({
   return (
     <Link
       href={href}
-      className="group block bg-charcoal p-12 relative overflow-hidden transition-colors duration-200 hover:-translate-y-[2px] hover:bg-charcoal-hover no-underline"
+      className="group block bg-charcoal p-12 relative overflow-hidden transition-colors duration-200 hover:bg-charcoal-hover no-underline"
     >
       <article>
         <div
