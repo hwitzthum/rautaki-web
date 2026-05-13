@@ -333,8 +333,36 @@ function LabGateOverlay({ onSuccess, onClose, onSkip }: PortalProps) {
 
 const labelClasses =
   "font-ui text-xs font-medium uppercase tracking-wide-tight text-ink/55 block mb-[6px]";
-const inputClasses =
-  "w-full border border-ink/10 px-4 py-3 font-ui text-body text-ink bg-cream focus:border-gold focus:ring-2 focus:ring-gold focus:ring-offset-1 focus:shadow-[0_0_0_3px_var(--color-gold-focus)] transition-all";
+
+const baseInputClasses =
+  "w-full border px-4 py-3 font-ui text-body text-ink bg-cream transition-all";
+const normalInputClasses =
+  "border-ink/10 focus:border-gold focus:ring-2 focus:ring-gold focus:ring-offset-1 focus:shadow-[0_0_0_3px_var(--color-gold-focus)]";
+const errorInputClasses =
+  "border-error focus:border-error focus:ring-2 focus:ring-[rgba(197,48,48,0.22)] focus:ring-offset-1";
+
+function inputClass(hasError: boolean) {
+  return `${baseInputClasses} ${hasError ? errorInputClasses : normalInputClasses}`;
+}
+
+function validateForm(data: {
+  name: string;
+  company: string;
+  email: string;
+  consent: boolean;
+}): Record<string, string> {
+  const errors: Record<string, string> = {};
+  if (!data.name) errors.name = "Bitte geben Sie Ihren Namen ein.";
+  if (!data.company) errors.company = "Bitte geben Sie Ihr Unternehmen ein.";
+  if (!data.email) {
+    errors.email = "Bitte geben Sie Ihre E-Mail-Adresse ein.";
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+    errors.email = "Bitte geben Sie eine gültige E-Mail-Adresse ein.";
+  }
+  if (!data.consent)
+    errors.consent = "Bitte stimmen Sie der Datenschutzerklärung zu.";
+  return errors;
+}
 
 function LabGateForm({
   onSuccess,
@@ -345,24 +373,50 @@ function LabGateForm({
 }) {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+
+  function clearFieldError(field: string) {
+    setFieldErrors((prev) => {
+      if (!prev[field]) return prev;
+      const next = { ...prev };
+      delete next[field];
+      return next;
+    });
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitting(true);
     setError(null);
 
-    const data = new FormData(e.currentTarget);
+    const formData = new FormData(e.currentTarget);
     const payload = {
-      name: (data.get("name") as string).trim(),
-      company: (data.get("company") as string).trim(),
-      email: (data.get("email") as string).trim(),
+      name: (formData.get("name") as string).trim(),
+      company: (formData.get("company") as string).trim(),
+      email: (formData.get("email") as string).trim(),
+      consent: formData.get("consent") === "on",
     };
+
+    const validationErrors = validateForm(payload);
+    if (Object.keys(validationErrors).length > 0) {
+      setFieldErrors(validationErrors);
+      document
+        .getElementById(`lg-${Object.keys(validationErrors)[0]}`)
+        ?.focus();
+      return;
+    }
+
+    setFieldErrors({});
+    setSubmitting(true);
 
     try {
       const res = await fetch("/api/lab-access", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          name: payload.name,
+          company: payload.company,
+          email: payload.email,
+        }),
       });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
@@ -398,9 +452,21 @@ function LabGateForm({
           autoComplete="name"
           required
           placeholder="Maria Muster"
-          className={inputClasses}
+          className={inputClass(!!fieldErrors.name)}
           aria-required="true"
+          aria-invalid={fieldErrors.name ? "true" : undefined}
+          aria-describedby={fieldErrors.name ? "lg-name-error" : undefined}
+          onChange={() => clearFieldError("name")}
         />
+        {fieldErrors.name && (
+          <p
+            id="lg-name-error"
+            role="alert"
+            className="font-ui text-xs text-error mt-1"
+          >
+            {fieldErrors.name}
+          </p>
+        )}
       </div>
 
       <div style={{ marginBottom: "14px" }}>
@@ -417,9 +483,23 @@ function LabGateForm({
           autoComplete="organization"
           required
           placeholder="Muster AG"
-          className={inputClasses}
+          className={inputClass(!!fieldErrors.company)}
           aria-required="true"
+          aria-invalid={fieldErrors.company ? "true" : undefined}
+          aria-describedby={
+            fieldErrors.company ? "lg-company-error" : undefined
+          }
+          onChange={() => clearFieldError("company")}
         />
+        {fieldErrors.company && (
+          <p
+            id="lg-company-error"
+            role="alert"
+            className="font-ui text-xs text-error mt-1"
+          >
+            {fieldErrors.company}
+          </p>
+        )}
       </div>
 
       <div style={{ marginBottom: "20px" }}>
@@ -436,9 +516,21 @@ function LabGateForm({
           autoComplete="email"
           required
           placeholder="maria@musterag.ch"
-          className={inputClasses}
+          className={inputClass(!!fieldErrors.email)}
           aria-required="true"
+          aria-invalid={fieldErrors.email ? "true" : undefined}
+          aria-describedby={fieldErrors.email ? "lg-email-error" : undefined}
+          onChange={() => clearFieldError("email")}
         />
+        {fieldErrors.email && (
+          <p
+            id="lg-email-error"
+            role="alert"
+            className="font-ui text-xs text-error mt-1"
+          >
+            {fieldErrors.email}
+          </p>
+        )}
       </div>
 
       <div
@@ -446,7 +538,7 @@ function LabGateForm({
           display: "flex",
           gap: "12px",
           alignItems: "flex-start",
-          marginBottom: "24px",
+          marginBottom: fieldErrors.consent ? "8px" : "24px",
         }}
       >
         <input
@@ -455,7 +547,12 @@ function LabGateForm({
           type="checkbox"
           required
           aria-required="true"
+          aria-invalid={fieldErrors.consent ? "true" : undefined}
+          aria-describedby={
+            fieldErrors.consent ? "lg-consent-error" : undefined
+          }
           className="mt-[3px] flex-shrink-0 accent-gold w-4 h-4"
+          onChange={() => clearFieldError("consent")}
         />
         <label
           htmlFor="lg-consent"
@@ -479,6 +576,15 @@ function LabGateForm({
           </span>
         </label>
       </div>
+      {fieldErrors.consent && (
+        <p
+          id="lg-consent-error"
+          role="alert"
+          className="font-ui text-xs text-error mb-6"
+        >
+          {fieldErrors.consent}
+        </p>
+      )}
 
       {error && (
         <p
