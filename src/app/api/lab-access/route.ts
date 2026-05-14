@@ -94,6 +94,12 @@ function isValidPayload(body: unknown): body is LabAccessPayload {
 
 // ── Handler ────────────────────────────────────────────────────────────────
 export async function POST(request: NextRequest) {
+  // CSRF defence: Sec-Fetch-Site check — if present and not same-origin/same-site, reject.
+  const secFetchSite = request.headers.get("sec-fetch-site");
+  if (secFetchSite && secFetchSite !== "same-origin" && secFetchSite !== "same-site") {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
   // CSRF defence: if a browser sends an Origin header it must match the host.
   // Server-to-server calls without Origin are permitted (no browser involved).
   const origin = request.headers.get("origin");
@@ -118,15 +124,13 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // Resolve a real client IP. On Vercel, x-forwarded-for is always set by the
-  // edge — if it's missing, the request did not arrive through the platform
-  // and we refuse rather than share an "unknown" bucket with every attacker.
+  // Resolve a real client IP. On Vercel, the rightmost XFF entry is the
+  // verified client IP appended by the edge — all other headers are
+  // user-controlled and must not be trusted for rate limiting.
   const xff = request.headers.get("x-forwarded-for");
-  const ip =
-    request.headers.get("cf-connecting-ip")?.trim() ||
-    request.headers.get("x-real-ip")?.trim() ||
-    xff?.split(",")[0]?.trim() ||
-    null;
+  const ip = xff
+    ? xff.split(",").map((s) => s.trim()).filter(Boolean).at(-1) ?? null
+    : null;
 
   if (!ip) {
     return NextResponse.json(
@@ -196,6 +200,7 @@ export async function POST(request: NextRequest) {
   const safeName = escapeHtml(name);
   const safeCompany = escapeHtml(company);
   const safeEmail = escapeHtml(email);
+  const mailtoHref = `mailto:${encodeURIComponent(email)}`;
 
   const resend = new Resend(apiKey);
 
@@ -232,7 +237,7 @@ export async function POST(request: NextRequest) {
             <tr>
               <td style="padding: 10px 0; color: rgba(28,28,28,0.50);">E-Mail</td>
               <td style="padding: 10px 0; color: #1C1C1C; font-weight: 500;">
-                <a href="mailto:${safeEmail}" style="color: #1C1C1C;">${safeEmail}</a>
+                <a href="${mailtoHref}" style="color: #1C1C1C;">${safeEmail}</a>
               </td>
             </tr>
           </table>
