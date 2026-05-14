@@ -1,4 +1,4 @@
-import { randomUUID } from "node:crypto";
+import { randomUUID, createHmac } from "node:crypto";
 
 import { NextRequest, NextResponse } from "next/server";
 import * as Sentry from "@sentry/nextjs";
@@ -79,19 +79,25 @@ function memoryLimit(ip: string): boolean {
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function clientIp(req: NextRequest): string | null {
+  // On Vercel, the rightmost XFF entry is the verified client IP appended by the edge.
+  // All other headers (cf-connecting-ip, x-real-ip) are user-controlled and must not be trusted.
   const xff = req.headers.get("x-forwarded-for");
-  return (
-    req.headers.get("cf-connecting-ip")?.trim() ||
-    req.headers.get("x-real-ip")?.trim() ||
-    xff?.split(",")[0]?.trim() ||
-    null
-  );
+  if (!xff) return null;
+  const ips = xff.split(",").map((s) => s.trim()).filter(Boolean);
+  return ips[ips.length - 1] || null;
 }
 
 function originBlocked(req: NextRequest): boolean {
   // CSRF defence (mirrors the lab-access route): if a browser sends an
   // Origin header it MUST match the Host. Server-to-server calls without
   // Origin are allowed through to the rate limit + validator.
+
+  // Sec-Fetch-Site check: if present and not same-origin/same-site, reject immediately.
+  const secFetchSite = req.headers.get("sec-fetch-site");
+  if (secFetchSite && secFetchSite !== "same-origin" && secFetchSite !== "same-site") {
+    return true;
+  }
+
   const origin = req.headers.get("origin");
   if (!origin) return false;
   const host = req.headers.get("host");
@@ -422,14 +428,12 @@ function extractBotText(payload: unknown): string {
   return "";
 }
 
+const IP_HASH_SALT = process.env.IP_HASH_SALT ?? "dev-only-change-in-production";
 function hashIp(ip: string): string {
-  // 6 hex chars from a cheap non-crypto hash. Enough to group log lines
-  // from the same source without storing the raw IP in Sentry.
-  let h = 2166136261;
-  for (let i = 0; i < ip.length; i++) {
-    h = Math.imul(h ^ ip.charCodeAt(i), 16777619);
-  }
-  return (h >>> 0).toString(16).padStart(6, "0").slice(-6);
+  return createHmac("sha256", IP_HASH_SALT)
+    .update(ip)
+    .digest("hex")
+    .slice(0, 12);
 }
 
 function jsonWithRequestId(
