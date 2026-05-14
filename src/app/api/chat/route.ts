@@ -92,7 +92,7 @@ function originBlocked(req: NextRequest): boolean {
   // Origin header it MUST match the Host. Server-to-server calls without
   // Origin are allowed through to the rate limit + validator.
 
-  // Check Sec-Fetch-Site first — if present and not same-origin/same-site, reject immediately.
+  // Sec-Fetch-Site check: if present and not same-origin/same-site, reject immediately.
   const secFetchSite = req.headers.get("sec-fetch-site");
   if (secFetchSite && secFetchSite !== "same-origin" && secFetchSite !== "same-site") {
     return true;
