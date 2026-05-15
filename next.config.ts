@@ -62,6 +62,15 @@ const nextConfig: NextConfig = {
             value: "max-age=31536000; includeSubDomains; preload",
           },
           { key: "X-Permitted-Cross-Domain-Policies", value: "none" },
+          // Disable cross-origin DNS prefetching to reduce information leakage
+          // about which third-party resources a page links to.
+          { key: "X-DNS-Prefetch-Control", value: "off" },
+          // Prevent browsers from sending credentials in cross-origin requests
+          // triggered by resource tags (img, script, etc.) that do not opt in.
+          { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
+          // Isolate the browsing context to mitigate Spectre-class side-channel
+          // attacks. Required for SharedArrayBuffer; generally a good practice.
+          { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
         ],
       },
     ];
