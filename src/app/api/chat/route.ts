@@ -23,8 +23,16 @@ export const dynamic = "force-dynamic";
 // Per-session catches the "single office IP, 50 tabs each running a script"
 // case that the IP limit can't see. Both fail closed in production if
 // Upstash isn't reachable; see §rate-limit below.
-const RATE_MAX = Number(process.env.CHAT_RATE_MAX ?? 30);
-const SESSION_RATE_MAX = Number(process.env.CHAT_SESSION_RATE_MAX ?? 20);
+// Parse and validate numeric env vars — reject NaN, zero, and excessively
+// large values to prevent misconfigured env vars from disabling rate limiting.
+function parsePositiveInt(raw: string | undefined, defaultVal: number, max: number): number {
+  if (raw === undefined) return defaultVal;
+  const n = Number(raw);
+  if (!Number.isFinite(n) || n <= 0 || n > max) return defaultVal;
+  return Math.floor(n);
+}
+const RATE_MAX = parsePositiveInt(process.env.CHAT_RATE_MAX, 30, 10_000);
+const SESSION_RATE_MAX = parsePositiveInt(process.env.CHAT_SESSION_RATE_MAX, 20, 10_000);
 const RATE_WINDOW = "5 m" as const;
 const RATE_WINDOW_MS = 5 * 60 * 1000;
 // Hard cap on incoming body size before we even parse. 8 KB is generous
@@ -36,7 +44,7 @@ const MAX_BODY_BYTES = 8 * 1024;
 // graceful maintenance message until midnight UTC. The estimate is rough
 // (varies by language and model tokenizer) — it's wallet protection, not
 // accounting. Default 200_000 ≈ a few thousand short chats.
-const DAILY_TOKEN_CAP = Number(process.env.CHAT_DAILY_TOKEN_CAP ?? 200_000);
+const DAILY_TOKEN_CAP = parsePositiveInt(process.env.CHAT_DAILY_TOKEN_CAP, 200_000, 100_000_000);
 
 const upstashUrl = process.env.UPSTASH_REDIS_REST_URL;
 const upstashToken = process.env.UPSTASH_REDIS_REST_TOKEN;
@@ -120,7 +128,13 @@ export async function POST(req: NextRequest) {
   // request-id: generated here, propagated to n8n, tagged on every Sentry
   // event, and returned as a response header. Lets a user quote one ID in
   // a support ticket and have it line up with logs across every hop.
-  const requestId = req.headers.get("x-request-id") ?? randomUUID();
+  // Accept a caller-supplied ID only when it is a valid v4 UUID to prevent
+  // log/tag injection via arbitrary header values; otherwise generate a fresh one.
+  const suppliedId = req.headers.get("x-request-id");
+  const REQUEST_ID_RE =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  const requestId =
+    suppliedId && REQUEST_ID_RE.test(suppliedId) ? suppliedId : randomUUID();
   Sentry.getCurrentScope().setTag("request_id", requestId);
 
   // 0. Origin / CSRF
@@ -266,6 +280,33 @@ export async function POST(req: NextRequest) {
       requestId,
     );
   }
+  // SSRF guard: the webhook URL must be an HTTPS URL. This prevents an
+  // attacker who can set env vars from redirecting traffic to internal services.
+  let webhookUrl: URL;
+  try {
+    webhookUrl = new URL(webhook);
+  } catch {
+    Sentry.captureMessage(
+      "api/chat misconfigured: N8N_CHAT_WEBHOOK_URL is not a valid URL",
+      "error",
+    );
+    return jsonWithRequestId(
+      { error: "Chat-Service nicht konfiguriert." },
+      { status: 503 },
+      requestId,
+    );
+  }
+  if (webhookUrl.protocol !== "https:") {
+    Sentry.captureMessage(
+      "api/chat misconfigured: N8N_CHAT_WEBHOOK_URL must use https://",
+      "error",
+    );
+    return jsonWithRequestId(
+      { error: "Chat-Service nicht konfiguriert." },
+      { status: 503 },
+      requestId,
+    );
+  }
   const secret = process.env.N8N_CHAT_SHARED_SECRET;
   if (!secret && process.env.NODE_ENV === "production") {
     // Fail closed in production. In dev, we'll forward without a header so
@@ -294,7 +335,7 @@ export async function POST(req: NextRequest) {
   const t0 = Date.now();
   let upstream: Response;
   try {
-    upstream = await fetch(webhook, {
+    upstream = await fetch(webhookUrl.toString(), {
       method: "POST",
       headers: upstreamHeaders,
       body: canonical,
@@ -428,7 +469,19 @@ function extractBotText(payload: unknown): string {
   return "";
 }
 
-const IP_HASH_SALT = process.env.IP_HASH_SALT ?? "dev-only-change-in-production";
+const _rawIpHashSalt = process.env.IP_HASH_SALT;
+if (!_rawIpHashSalt && process.env.NODE_ENV === "production") {
+  // A predictable salt allows an attacker to reverse-map hashed IPs. Warn
+  // loudly and capture a Sentry event so the misconfiguration surfaces.
+  console.error(
+    "[api/chat] IP_HASH_SALT is not set in production — IP pseudonymisation is degraded. Set it to a random 32-byte hex value.",
+  );
+  Sentry.captureMessage(
+    "api/chat misconfigured: IP_HASH_SALT missing in production",
+    "warning",
+  );
+}
+const IP_HASH_SALT = _rawIpHashSalt ?? "dev-only-change-in-production";
 function hashIp(ip: string): string {
   return createHmac("sha256", IP_HASH_SALT)
     .update(ip)
