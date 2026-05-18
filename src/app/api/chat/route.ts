@@ -25,14 +25,22 @@ export const dynamic = "force-dynamic";
 // Upstash isn't reachable; see §rate-limit below.
 // Parse and validate numeric env vars — reject NaN, zero, and excessively
 // large values to prevent misconfigured env vars from disabling rate limiting.
-function parsePositiveInt(raw: string | undefined, defaultVal: number, max: number): number {
+function parsePositiveInt(
+  raw: string | undefined,
+  defaultVal: number,
+  max: number,
+): number {
   if (raw === undefined) return defaultVal;
   const n = Number(raw);
   if (!Number.isFinite(n) || n <= 0 || n > max) return defaultVal;
   return Math.floor(n);
 }
 const RATE_MAX = parsePositiveInt(process.env.CHAT_RATE_MAX, 30, 10_000);
-const SESSION_RATE_MAX = parsePositiveInt(process.env.CHAT_SESSION_RATE_MAX, 20, 10_000);
+const SESSION_RATE_MAX = parsePositiveInt(
+  process.env.CHAT_SESSION_RATE_MAX,
+  20,
+  10_000,
+);
 const RATE_WINDOW = "5 m" as const;
 const RATE_WINDOW_MS = 5 * 60 * 1000;
 // Hard cap on incoming body size before we even parse. 8 KB is generous
@@ -44,7 +52,11 @@ const MAX_BODY_BYTES = 8 * 1024;
 // graceful maintenance message until midnight UTC. The estimate is rough
 // (varies by language and model tokenizer) — it's wallet protection, not
 // accounting. Default 200_000 ≈ a few thousand short chats.
-const DAILY_TOKEN_CAP = parsePositiveInt(process.env.CHAT_DAILY_TOKEN_CAP, 200_000, 100_000_000);
+const DAILY_TOKEN_CAP = parsePositiveInt(
+  process.env.CHAT_DAILY_TOKEN_CAP,
+  200_000,
+  100_000_000,
+);
 
 const upstashUrl = process.env.UPSTASH_REDIS_REST_URL;
 const upstashToken = process.env.UPSTASH_REDIS_REST_TOKEN;
@@ -91,7 +103,10 @@ function clientIp(req: NextRequest): string | null {
   // All other headers (cf-connecting-ip, x-real-ip) are user-controlled and must not be trusted.
   const xff = req.headers.get("x-forwarded-for");
   if (!xff) return null;
-  const ips = xff.split(",").map((s) => s.trim()).filter(Boolean);
+  const ips = xff
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
   return ips[ips.length - 1] || null;
 }
 
@@ -102,7 +117,11 @@ function originBlocked(req: NextRequest): boolean {
 
   // Sec-Fetch-Site check: if present and not same-origin/same-site, reject immediately.
   const secFetchSite = req.headers.get("sec-fetch-site");
-  if (secFetchSite && secFetchSite !== "same-origin" && secFetchSite !== "same-site") {
+  if (
+    secFetchSite &&
+    secFetchSite !== "same-origin" &&
+    secFetchSite !== "same-site"
+  ) {
     return true;
   }
 
@@ -469,24 +488,32 @@ function extractBotText(payload: unknown): string {
   return "";
 }
 
-const _rawIpHashSalt = process.env.IP_HASH_SALT;
-if (!_rawIpHashSalt && process.env.NODE_ENV === "production") {
-  // A predictable salt allows an attacker to reverse-map hashed IPs. Warn
-  // loudly and capture a Sentry event so the misconfiguration surfaces.
-  console.error(
-    "[api/chat] IP_HASH_SALT is not set in production — IP pseudonymisation is degraded. Set it to a random 32-byte hex value.",
-  );
-  Sentry.captureMessage(
-    "api/chat misconfigured: IP_HASH_SALT missing in production",
-    "warning",
-  );
-}
-const IP_HASH_SALT = _rawIpHashSalt ?? "dev-only-change-in-production";
-if (process.env.NODE_ENV === "production" && IP_HASH_SALT === "dev-only-change-in-production") {
-  throw new Error("IP_HASH_SALT must be set to a unique random value in production");
+const DEV_FALLBACK_IP_HASH_SALT = "dev-only-change-in-production";
+let _ipHashSaltWarned = false;
+function resolveIpHashSalt(): string {
+  const raw = process.env.IP_HASH_SALT;
+  if (
+    process.env.NODE_ENV === "production" &&
+    (!raw || raw === DEV_FALLBACK_IP_HASH_SALT)
+  ) {
+    // Fail closed at request time — a predictable salt lets an attacker
+    // reverse-map hashed IPs. Throwing here (rather than at module load)
+    // keeps `next build` working when the secret is absent at build time.
+    if (!_ipHashSaltWarned) {
+      _ipHashSaltWarned = true;
+      Sentry.captureMessage(
+        "api/chat misconfigured: IP_HASH_SALT missing in production",
+        "error",
+      );
+    }
+    throw new Error(
+      "IP_HASH_SALT must be set to a unique random value in production",
+    );
+  }
+  return raw ?? DEV_FALLBACK_IP_HASH_SALT;
 }
 function hashIp(ip: string): string {
-  return createHmac("sha256", IP_HASH_SALT)
+  return createHmac("sha256", resolveIpHashSalt())
     .update(ip)
     .digest("hex")
     .slice(0, 12);
