@@ -250,7 +250,12 @@ export async function POST(request: NextRequest) {
   });
 
   if (error) {
-    console.error("[lab-access] Resend error:", (error as { message?: string }).message ?? String(error));
+    // Log only the error code/name to avoid leaking the submitted email address
+    // or other PII that may appear in the full error message.
+    const safeErrorInfo = (error as { name?: string; statusCode?: number; message?: string }).name
+      ?? (error as { name?: string; statusCode?: number; message?: string }).statusCode
+      ?? "Resend API error";
+    console.error("[lab-access] Resend error:", safeErrorInfo);
     return NextResponse.json(
       {
         error:

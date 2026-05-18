@@ -1,6 +1,6 @@
 # Chatbot Security Review & Hardening Plan
 **Target:** `@n8n/chat` widget on rautaki-web → n8n webhook → LLM + tools
-**Webhook URL:** `https://n8n-service-ayxj.onrender.com/webhook/3c7ae152-893a-4893-a8da-dac3b2c8db05/chat`
+**Webhook URL:** `https://<n8n-host>/webhook/<uuid>/chat`
 **Production site:** `https://www.rautaki.ch` (currently MAINTENANCE_MODE)
 **Local dev:** `http://localhost:3000`
 **Date:** 2026-05-13
@@ -87,8 +87,8 @@ The widget calls `loadPreviousSession` on every chat open. The n8n workflow has 
 `next.config.ts` sets `script-src 'self' 'unsafe-inline' https://app.cal.com` in prod. Next.js App Router needs it for hydration, but it removes XSS containment from CSP. Combine with H4 (Markdown rendered via `innerHTML` with no DOMPurify) and the only XSS defense is markdown-it's `html: false`.
 
 **H3. Webhook URL exposes a hosting provider + workflow UUID. (OWASP A05)**
-`https://n8n-service-ayxj.onrender.com/webhook/<uuid>/chat` discloses:
-- Render.com as the n8n host (lower-tier, freezes on idle → first-message latency, also subject to Render outages),
+The webhook URL discloses:
+- The hosting provider (lower-tier, freezes on idle → first-message latency, also subject to provider outages),
 - the workflow UUID (used as path),
 - n8n version fingerprint via response shape.
 An attacker can spray known n8n CVEs at that origin.
@@ -131,7 +131,7 @@ An attacker can spray known n8n CVEs at that origin.
 Run from your laptop while local dev is up at `localhost:3000`, or against the n8n webhook directly. Each block is a single, self-contained test. **Replace `WEBHOOK` and `SID` with the values shown.**
 
 ```bash
-WEBHOOK='https://n8n-service-ayxj.onrender.com/webhook/3c7ae152-893a-4893-a8da-dac3b2c8db05/chat'
+WEBHOOK='https://<n8n-host>/webhook/<uuid>/chat'
 SID="sec-$(date +%s)"
 ```
 
@@ -370,7 +370,7 @@ createChat({
 
 **HARD-8 — Hide the n8n hosting fingerprint. (closes H3)**
 Either:
-- (a) put n8n behind a Cloudflare DNS record at `chat-api.rautaki.ch` (or similar), CNAME to Render, and configure Render's custom-domain feature; OR
+- (a) put n8n behind a Cloudflare DNS record at `chat-api.rautaki.ch` (or similar), CNAME to the hosting provider, and configure the custom-domain feature; OR
 - (b) once HARD-1 is in place, the webhook URL never reaches the browser at all — preferred.
 
 **HARD-9 — `sessionId` lifecycle: server-issued, short-lived, http-only cookie. (closes H6, M1)**

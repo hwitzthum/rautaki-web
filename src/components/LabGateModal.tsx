@@ -345,6 +345,12 @@ function inputClass(hasError: boolean) {
   return `${baseInputClasses} ${hasError ? errorInputClasses : normalInputClasses}`;
 }
 
+// Matches the server-side EMAIL_RE in src/app/api/lab-access/route.ts.
+// Requires a TLD of 2+ chars and disallows consecutive dots / leading-or-trailing
+// dots in the local part. Keep in sync with the server-side pattern.
+const EMAIL_RE =
+  /^[A-Za-z0-9._%+-]+@[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+$/;
+
 function validateForm(data: {
   name: string;
   company: string;
@@ -356,7 +362,7 @@ function validateForm(data: {
   if (!data.company) errors.company = "Bitte geben Sie Ihr Unternehmen ein.";
   if (!data.email) {
     errors.email = "Bitte geben Sie Ihre E-Mail-Adresse ein.";
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+  } else if (!EMAIL_RE.test(data.email)) {
     errors.email = "Bitte geben Sie eine gültige E-Mail-Adresse ein.";
   }
   if (!data.consent)

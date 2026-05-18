@@ -482,6 +482,9 @@ if (!_rawIpHashSalt && process.env.NODE_ENV === "production") {
   );
 }
 const IP_HASH_SALT = _rawIpHashSalt ?? "dev-only-change-in-production";
+if (process.env.NODE_ENV === "production" && IP_HASH_SALT === "dev-only-change-in-production") {
+  throw new Error("IP_HASH_SALT must be set to a unique random value in production");
+}
 function hashIp(ip: string): string {
   return createHmac("sha256", IP_HASH_SALT)
     .update(ip)
