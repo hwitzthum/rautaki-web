@@ -71,6 +71,9 @@ const nextConfig: NextConfig = {
           // Isolate the browsing context to mitigate Spectre-class side-channel
           // attacks. Required for SharedArrayBuffer; generally a good practice.
           { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+          // Prevent this page from being loaded in a cross-origin context that
+          // could expose it to Spectre-class attacks via shared memory.
+          { key: "Cross-Origin-Embedder-Policy", value: "credentialless" },
         ],
       },
     ];
