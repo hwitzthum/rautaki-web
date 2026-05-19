@@ -3,6 +3,10 @@ import { Resend } from "resend";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 
+// Force dynamic rendering — this route reads runtime headers and must never
+// be statically cached at the edge.
+export const dynamic = "force-dynamic";
+
 // ── Rate limiting ──────────────────────────────────────────────────────────
 // Persistent sliding-window limiter backed by Upstash Redis. Falls back to a
 // per-instance in-memory limiter when UPSTASH_REDIS_REST_URL/TOKEN are unset
@@ -164,6 +168,7 @@ export async function POST(request: NextRequest) {
       {
         status: 429,
         headers: {
+          "Cache-Control": "no-store, no-cache, must-revalidate",
           "Retry-After": String(RATE_WINDOW_MS / 1000),
           "RateLimit-Limit": String(RATE_MAX),
           "RateLimit-Remaining": "0",
@@ -265,5 +270,27 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json(
+    { ok: true },
+    {
+      headers: {
+        "Cache-Control": "no-store, no-cache, must-revalidate",
+        "X-Content-Type-Options": "nosniff",
+      },
+    },
+  );
 }
+
+// ── Method guards ───────────────────────────────────────────────────────────
+// Explicitly reject any non-POST verb so drive-by GETs don't confuse logs.
+function rejectMethod(): NextResponse {
+  return NextResponse.json(
+    { error: "Method not allowed" },
+    { status: 405, headers: { Allow: "POST" } },
+  );
+}
+export const GET = rejectMethod;
+export const PUT = rejectMethod;
+export const DELETE = rejectMethod;
+export const PATCH = rejectMethod;
+export const OPTIONS = rejectMethod;

@@ -26,7 +26,17 @@ const IMAGE_HOST_ALLOWLIST = new Set<string>([
 ]);
 
 function stripHtmlTags(s: string): string {
-  return s.replace(/<\/?[a-z][^>]*>/gi, "");
+  // Strip HTML/XML comments first (<!--...-->), then element tags.
+  // The element regex requires the tag to start immediately after <, with an
+  // optional / for closing tags, followed by a letter — this handles the
+  // common double-bracket bypass (<<tag>text</tag> → <text) by also stripping
+  // any remaining bare "<" that precede an identifier character.
+  let out = s.replace(/<!--[\s\S]*?-->/g, ""); // HTML comments
+  out = out.replace(/<\/?[a-z][^>]*>/gi, "");  // element tags
+  // Collapse any residual bare "<" that is immediately followed by non-space
+  // content that could be misinterpreted as a tag opener in a relaxed parser.
+  out = out.replace(/<(?=[^\s])/g, "&lt;");
+  return out;
 }
 
 function neutraliseDangerousLinks(s: string): string {
