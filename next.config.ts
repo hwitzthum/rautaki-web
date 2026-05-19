@@ -120,7 +120,9 @@ export default withSentryConfig(nextConfig, {
   // Delete local source maps after upload so they are never served to browsers.
   // Without this, .js.map files generated during the build remain in the
   // deployment bundle and are publicly accessible, leaking server-side source.
-  hideSourceMaps: true,
+  sourcemaps: {
+    deleteSourcemapsAfterUpload: true,
+  },
 
   // Uncomment to route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
   // This can increase your server load as well as your hosting bill.
