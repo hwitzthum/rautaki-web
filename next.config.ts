@@ -117,6 +117,11 @@ export default withSentryConfig(nextConfig, {
   // Upload a larger set of source maps for prettier stack traces (increases build time)
   widenClientFileUpload: true,
 
+  // Delete local source maps after upload so they are never served to browsers.
+  // Without this, .js.map files generated during the build remain in the
+  // deployment bundle and are publicly accessible, leaking server-side source.
+  hideSourceMaps: true,
+
   // Uncomment to route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
   // This can increase your server load as well as your hosting bill.
   // Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-

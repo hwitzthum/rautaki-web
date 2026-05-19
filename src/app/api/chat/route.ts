@@ -326,6 +326,21 @@ export async function POST(req: NextRequest) {
       requestId,
     );
   }
+  // SSRF guard — block private/loopback/link-local/reserved IP ranges and
+  // well-known internal hostnames. An https:// URL is not sufficient alone;
+  // an attacker who can control env vars could point it at the cloud metadata
+  // endpoint (169.254.169.254), a Kubernetes service (10.x.x.x), or localhost.
+  if (isSsrfTarget(webhookUrl.hostname)) {
+    Sentry.captureMessage(
+      "api/chat misconfigured: N8N_CHAT_WEBHOOK_URL resolves to a private or reserved address",
+      "error",
+    );
+    return jsonWithRequestId(
+      { error: "Chat-Service nicht konfiguriert." },
+      { status: 503 },
+      requestId,
+    );
+  }
   const secret = process.env.N8N_CHAT_SHARED_SECRET;
   if (!secret && process.env.NODE_ENV === "production") {
     // Fail closed in production. In dev, we'll forward without a header so
@@ -479,6 +494,68 @@ export const PATCH = rejectMethod;
 export const OPTIONS = rejectMethod;
 
 // ── small helpers ────────────────────────────────────────────────────────────
+
+/**
+ * Returns true if the hostname looks like a private/loopback/link-local/reserved
+ * address or a known-internal hostname. Used as a defence-in-depth SSRF guard
+ * on top of the https-only protocol check.
+ *
+ * Note: this is a static check on the configured env var — it does NOT prevent
+ * DNS rebinding (the hostname could legitimately resolve to a private IP at
+ * request time). On Vercel serverless the network egress is sandboxed, so the
+ * residual risk is low, but the guard still catches the most common mistake of
+ * accidentally pointing the webhook at an internal endpoint.
+ */
+function isSsrfTarget(hostname: string): boolean {
+  const h = hostname.toLowerCase().replace(/\.$/, ""); // strip trailing dot
+
+  // Exact-match blocklist for well-known internal hostnames
+  const blockedHostnames = new Set([
+    "localhost",
+    "metadata.google.internal",
+    "169.254.169.254", // AWS / GCP / Azure IMDS
+    "fd00::ec2",        // AWS IPv6 IMDS
+    "::1",              // IPv6 loopback
+    "0.0.0.0",
+    "kubernetes.default",
+    "kubernetes.default.svc",
+    "kubernetes.default.svc.cluster.local",
+  ]);
+  if (blockedHostnames.has(h)) return true;
+
+  // Suffix-match: *.local, *.internal, *.cluster.local
+  if (h.endsWith(".local") || h.endsWith(".internal") || h.endsWith(".cluster.local")) {
+    return true;
+  }
+
+  // Numeric IPv4 — check private/loopback/link-local ranges
+  const ipv4Re = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/;
+  const m = ipv4Re.exec(h);
+  if (m) {
+    const [, a, b, c, d] = m.map(Number);
+    if (
+      a === 10 ||                                   // 10.0.0.0/8
+      (a === 172 && b >= 16 && b <= 31) ||          // 172.16.0.0/12
+      (a === 192 && b === 168) ||                   // 192.168.0.0/16
+      a === 127 ||                                  // 127.0.0.0/8 loopback
+      (a === 169 && b === 254) ||                   // 169.254.0.0/16 link-local (IMDS)
+      (a === 100 && b >= 64 && b <= 127) ||         // 100.64.0.0/10 carrier-grade NAT
+      a === 0 ||                                    // 0.0.0.0/8 "this" network
+      (a === 192 && b === 0 && c === 0) ||          // 192.0.0.0/24 IETF protocol
+      (a === 192 && b === 0 && c === 2) ||          // 192.0.2.0/24 TEST-NET-1
+      (a === 198 && b === 51 && c === 100) ||       // 198.51.100.0/24 TEST-NET-2
+      (a === 203 && b === 0 && c === 113) ||        // 203.0.113.0/24 TEST-NET-3
+      a >= 240                                      // 240.0.0.0/4 reserved + 255.255.255.255
+    ) {
+      return true;
+    }
+    // Validate each octet is in range
+    if ([a, b, c, d].some((o) => o > 255)) return true;
+  }
+
+  return false;
+}
+
 function extractBotText(payload: unknown): string {
   if (typeof payload !== "object" || payload === null) return "";
   const p = payload as Record<string, unknown>;
@@ -528,6 +605,9 @@ function jsonWithRequestId(
   return NextResponse.json(payload, {
     status: init.status,
     headers: {
+      // Never cache API responses — they depend on rate-limit state, session
+      // context, and origin validation which differ per request.
+      "Cache-Control": "no-store, no-cache, must-revalidate",
       "X-Request-ID": requestId,
       ...(extraHeaders ?? {}),
     },
@@ -540,6 +620,9 @@ function rateLimited(limit: number, requestId: string): NextResponse {
     {
       status: 429,
       headers: {
+        // Rate-limit responses must not be cached — each client's remaining
+        // quota differs and Retry-After is request-time-specific.
+        "Cache-Control": "no-store, no-cache, must-revalidate",
         "Retry-After": String(RATE_WINDOW_MS / 1000),
         "RateLimit-Limit": String(limit),
         "RateLimit-Remaining": "0",
