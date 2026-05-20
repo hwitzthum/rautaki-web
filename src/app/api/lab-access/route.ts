@@ -7,7 +7,7 @@ import { Redis } from "@upstash/redis";
 // be statically cached at the edge.
 export const dynamic = "force-dynamic";
 
-// ── Rate limiting ──────────────────────────────────────────────────────────
+// ── Rate limiting ───────────────────────────────────────────────────────
 // Persistent sliding-window limiter backed by Upstash Redis. Falls back to a
 // per-instance in-memory limiter when UPSTASH_REDIS_REST_URL/TOKEN are unset
 // (local dev). The fallback is best-effort only and intentionally noisy in
@@ -60,7 +60,7 @@ function hasControlChars(s: string): boolean {
   return /[\r\n\t\0]/.test(s);
 }
 
-// ── Payload validation ─────────────────────────────────────────────────────
+// ── Payload validation ────────────────────────────────────────────────────────────
 interface LabAccessPayload {
   name: string;
   company: string;
@@ -96,7 +96,7 @@ function isValidPayload(body: unknown): body is LabAccessPayload {
   return true;
 }
 
-// ── Handler ────────────────────────────────────────────────────────────────
+// ── Handler ──────────────────────────────────────────────────────────────────────
 export async function POST(request: NextRequest) {
   // CSRF defence: Sec-Fetch-Site check — if present and not same-origin/same-site, reject.
   const secFetchSite = request.headers.get("sec-fetch-site");
@@ -270,6 +270,56 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  // Confirmation email to the registrant — best-effort: a delivery failure here
+  // does not roll back the operator notification that already succeeded.
+  try {
+    const { error: confirmError } = await resend.emails.send({
+      from: "Rautaki Lab <noreply@send.rautaki.ch>",
+      to: email,
+      subject: "Ihre Rautaki Lab-Anmeldung",
+      html: `
+        <div style="font-family: Georgia, serif; max-width: 520px; margin: 0 auto; background: #F4F2EE; padding: 0;">
+          <div style="background: #0A0A0A; padding: 24px 32px;">
+            <div style="font-size: 22px; color: #FAFAFA; font-weight: 400; letter-spacing: 0;">
+              Raut<span style="color: #F5A623;">a</span>k<span style="color: #F5A623;">i</span>
+            </div>
+            <div style="font-family: system-ui, sans-serif; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.20); margin-top: 4px;">
+              Lab
+            </div>
+          </div>
+          <div style="background: #FAFAFA; padding: 32px;">
+            <p style="font-family: system-ui, sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(28,28,28,0.45); margin: 0 0 20px;">
+              Anmeldung bestätigt
+            </p>
+            <p style="font-family: system-ui, sans-serif; font-size: 15px; color: #1C1C1C; margin: 0 0 16px; line-height: 1.6;">
+              Vielen Dank, ${safeName}.
+            </p>
+            <p style="font-family: system-ui, sans-serif; font-size: 14px; color: rgba(28,28,28,0.65); margin: 0 0 16px; line-height: 1.6;">
+              Ihre Registrierung für das Rautaki Lab wurde gespeichert. Sie erhalten von uns Notizen zu neuen Werkzeugen und Strategie-Updates.
+            </p>
+            <p style="font-family: system-ui, sans-serif; font-size: 14px; color: rgba(28,28,28,0.65); margin: 0; line-height: 1.6;">
+              Bis bald,<br/>Das Rautaki-Team
+            </p>
+          </div>
+          <div style="background: #F4F2EE; padding: 16px 32px; font-family: system-ui, sans-serif; font-size: 11px; color: rgba(28,28,28,0.35); text-align: center;">
+            Rautaki · rautaki.ch
+          </div>
+        </div>
+      `,
+    });
+    if (confirmError) {
+      console.error(
+        "[lab-access] Confirmation email failed:",
+        (confirmError as { name?: string }).name ?? "unknown",
+      );
+    }
+  } catch (confirmErr) {
+    console.error(
+      "[lab-access] Confirmation email exception:",
+      (confirmErr as Error)?.message,
+    );
+  }
+
   return NextResponse.json(
     { ok: true },
     {
@@ -281,7 +331,7 @@ export async function POST(request: NextRequest) {
   );
 }
 
-// ── Method guards ───────────────────────────────────────────────────────────
+// ── Method guards ────────────────────────────────────────────────────────────────────
 // Explicitly reject any non-POST verb so drive-by GETs don't confuse logs.
 function rejectMethod(): NextResponse {
   return NextResponse.json(
