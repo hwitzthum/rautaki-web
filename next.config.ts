@@ -14,8 +14,8 @@ function buildCsp(): string {
     // Cal.com API calls (availability, booking confirmation)
     "https://cal.com",
     "https://app.cal.com",
-    // Resend — email delivery for lab-access registrations
-    "https://api.resend.com",
+    // Resend is called server-side only (/api/lab-access route handler) —
+    // the browser never contacts it directly, so it must not appear here.
   ].join(" ");
 
   // Next.js App Router requires 'unsafe-inline' for its hydration scripts.
