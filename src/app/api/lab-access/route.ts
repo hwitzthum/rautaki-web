@@ -183,9 +183,18 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Ungültige Anfrage" }, { status: 415 });
   }
 
+  // Explicit body-size cap before JSON parsing. The three fields (name ≤200,
+  // company ≤200, email ≤254 chars) plus JSON overhead fit comfortably in 4 KB.
+  // Next.js App Router's default is 4 MB — far too generous for this endpoint.
+  const MAX_BODY_BYTES = 4 * 1024;
+  const raw = await request.text();
+  if (raw.length > MAX_BODY_BYTES) {
+    return NextResponse.json({ error: "Anfrage zu gross." }, { status: 413 });
+  }
+
   let body: unknown;
   try {
-    body = await request.json();
+    body = JSON.parse(raw);
   } catch {
     return NextResponse.json({ error: "Ungültige Anfrage" }, { status: 400 });
   }
