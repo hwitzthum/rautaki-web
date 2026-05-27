@@ -16,6 +16,12 @@ export function proxy(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
 
+  // Keep-alive cron must reach Redis even during maintenance — keeping the
+  // shared store from being archived is precisely its job.
+  if (pathname.startsWith("/api/cron/")) {
+    return NextResponse.next();
+  }
+
   // Never rewrite the maintenance page itself or its assets.
   if (
     pathname === MAINTENANCE_PATH ||
