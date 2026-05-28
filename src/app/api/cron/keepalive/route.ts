@@ -14,10 +14,11 @@ const TTL_SECONDS = 30 * 24 * 60 * 60; // 30 days
 
 export async function GET(request: NextRequest) {
   // Vercel automatically attaches `Authorization: Bearer ${CRON_SECRET}` to
-  // cron invocations when CRON_SECRET is set. Reject anything else so the
-  // endpoint isn't a public write vector.
+  // cron invocations when CRON_SECRET is set. Fail closed: if the secret is
+  // not configured the endpoint must still require auth rather than becoming
+  // publicly accessible. Provision CRON_SECRET in the Vercel project env vars.
   const secret = process.env.CRON_SECRET;
-  if (secret && request.headers.get("authorization") !== `Bearer ${secret}`) {
+  if (!secret || request.headers.get("authorization") !== `Bearer ${secret}`) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
