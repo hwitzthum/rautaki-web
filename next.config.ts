@@ -30,7 +30,7 @@ function buildCsp(): string {
     "default-src 'self'",
     `script-src ${scriptSrc}`,
     "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data: images.unsplash.com https://*.n8n.cloud",
+    "img-src 'self' data: images.unsplash.com",
     "font-src 'self' data:",
     `connect-src ${connectSrc}`,
     "object-src 'none'",

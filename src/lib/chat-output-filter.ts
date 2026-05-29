@@ -21,8 +21,6 @@
 
 const IMAGE_HOST_ALLOWLIST = new Set<string>([
   "images.unsplash.com",
-  // n8n.cloud is allowed in CSP img-src for the same reason — workflow
-  // assets the bot legitimately serves.
 ]);
 
 function stripHtmlTags(s: string): string {
@@ -59,7 +57,7 @@ function stripDisallowedImages(s: string): string {
     try {
       const u = new URL(url);
       if (u.protocol !== "https:" && u.protocol !== "http:") return "";
-      if (!IMAGE_HOST_ALLOWLIST.has(u.host) && !u.host.endsWith(".n8n.cloud")) {
+      if (!IMAGE_HOST_ALLOWLIST.has(u.host)) {
         return "";
       }
       return `![${alt}](${url})`;
