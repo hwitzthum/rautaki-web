@@ -1,3 +1,4 @@
+import { timingSafeEqual } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { Redis } from "@upstash/redis";
 
@@ -18,7 +19,13 @@ export async function GET(request: NextRequest) {
   // not configured the endpoint must still require auth rather than becoming
   // publicly accessible. Provision CRON_SECRET in the Vercel project env vars.
   const secret = process.env.CRON_SECRET;
-  if (!secret || request.headers.get("authorization") !== `Bearer ${secret}`) {
+  const provided = request.headers.get("authorization") ?? "";
+  const expected = `Bearer ${secret ?? ""}`;
+  const authorized =
+    !!secret &&
+    provided.length === expected.length &&
+    timingSafeEqual(Buffer.from(provided), Buffer.from(expected));
+  if (!authorized) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
