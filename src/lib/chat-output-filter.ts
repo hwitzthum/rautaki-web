@@ -79,14 +79,15 @@ export function filterBotText(text: string): string {
 }
 
 /**
- * Filter the n8n webhook's JSON response in place. n8n's response shape from
- * the chat trigger uses one of {output, text, message}; we filter all three
- * if present and pass anything else through unchanged.
+ * Filter the n8n webhook's JSON response. Only the known chat-widget fields
+ * (output, text, message) are forwarded to the browser; any additional fields
+ * n8n includes (workflow metadata, execution IDs, internal state, etc.) are
+ * dropped by construction so they are never visible to clients.
  */
 export function filterChatResponse(payload: unknown): unknown {
   if (typeof payload !== "object" || payload === null) return payload;
   const p = payload as Record<string, unknown>;
-  const result: Record<string, unknown> = { ...p };
+  const result: Record<string, unknown> = {};
   for (const key of ["output", "text", "message"] as const) {
     if (typeof p[key] === "string") {
       result[key] = filterBotText(p[key] as string);
