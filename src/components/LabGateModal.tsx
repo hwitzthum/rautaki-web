@@ -462,6 +462,7 @@ function LabGateForm({
           aria-required="true"
           aria-invalid={fieldErrors.name ? "true" : undefined}
           aria-describedby={fieldErrors.name ? "lg-name-error" : undefined}
+          disabled={submitting}
           onChange={() => clearFieldError("name")}
         />
         {fieldErrors.name && (
@@ -495,6 +496,7 @@ function LabGateForm({
           aria-describedby={
             fieldErrors.company ? "lg-company-error" : undefined
           }
+          disabled={submitting}
           onChange={() => clearFieldError("company")}
         />
         {fieldErrors.company && (
@@ -526,6 +528,7 @@ function LabGateForm({
           aria-required="true"
           aria-invalid={fieldErrors.email ? "true" : undefined}
           aria-describedby={fieldErrors.email ? "lg-email-error" : undefined}
+          disabled={submitting}
           onChange={() => clearFieldError("email")}
         />
         {fieldErrors.email && (
@@ -558,6 +561,7 @@ function LabGateForm({
             fieldErrors.consent ? "lg-consent-error" : undefined
           }
           className="mt-[3px] flex-shrink-0 accent-gold w-4 h-4"
+          disabled={submitting}
           onChange={() => clearFieldError("consent")}
         />
         <label
@@ -614,7 +618,8 @@ function LabGateForm({
         <button
           type="button"
           onClick={onSkip}
-          className="font-ui text-xs font-light leading-body text-mid-grey hover:text-ink transition-colors underline underline-offset-4 decoration-ink/20 hover:decoration-ink/60"
+          disabled={submitting}
+          className="font-ui text-xs font-light leading-body text-mid-grey hover:text-ink transition-colors underline underline-offset-4 decoration-ink/20 hover:decoration-ink/60 disabled:pointer-events-none disabled:opacity-40"
           style={{
             background: "none",
             border: "none",
