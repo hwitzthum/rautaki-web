@@ -242,7 +242,7 @@ export async function POST(req: NextRequest) {
       data: { reason: v.reason, request_id: requestId },
     });
     return jsonWithRequestId(
-      { error: "Ungültige Anfrage.", reason: v.reason },
+      { error: "Ungültige Anfrage." },
       { status: 400 },
       requestId,
     );
