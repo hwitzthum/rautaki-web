@@ -46,18 +46,27 @@ const teachingCourses = [
   {
     title: "CAS Chief AI Officer",
     institution: "Institut für Kommunikation und Führung ikf",
+    url: "https://ikf.ch/de/kurse/cas-chief-ai-officer",
   },
   {
     title: "CAS KI-Transformation",
     institution: "Institut für Kommunikation und Führung ikf",
+    url: "https://www.ikf.ch/de/kurse/cas-ki-transformation",
   },
   {
     title: "CAS AI Hands-On",
-    institution: "Institut für Kommunikation und Führung",
+    institution: "Institut für Kommunikation und Führung ikf",
+    url: "https://ikf.ch/de/kurse/cas-ai-hands-on",
+  },
+  {
+    title: "CAS KI als Teammitglied",
+    institution: "Institut für Kommunikation und Führung ikf",
+    url: "https://www.ikf.ch/de/kurse/cas-ki-als-teammitglied",
   },
   {
     title: "Digitale Transformation und KI in NPO",
     institution: "Verbandsmanagement Institut Universität Fribourg",
+    url: "https://www.vmi.ch/de/npo-wissen-gezielt-vertiefen/digitalisierung-in-npo/",
   },
 ];
 
@@ -384,9 +393,14 @@ export default function AboutPage() {
                     key={course.title}
                     className="flex flex-col gap-1 py-5 border-b border-ink/10"
                   >
-                    <span className="font-ui text-body font-medium text-ink leading-snug">
+                    <a
+                      href={course.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-ui text-body font-medium text-ink leading-snug underline decoration-ink/20 underline-offset-4 transition-colors hover:text-gold hover:decoration-gold"
+                    >
                       {course.title}
-                    </span>
+                    </a>
                     <span className="font-serif italic text-sm text-mid-grey leading-snug">
                       {course.institution}
                     </span>
