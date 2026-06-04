@@ -71,9 +71,13 @@ const nextConfig: NextConfig = {
           // Isolate the browsing context to mitigate Spectre-class side-channel
           // attacks. Required for SharedArrayBuffer; generally a good practice.
           { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
-          // Prevent this page from being loaded in a cross-origin context that
-          // could expose it to Spectre-class attacks via shared memory.
-          { key: "Cross-Origin-Embedder-Policy", value: "credentialless" },
+          // NOTE: Cross-Origin-Embedder-Policy is intentionally NOT set. COEP
+          // (require-corp/credentialless) forces every embedded cross-origin
+          // iframe to send its own COEP header, and Cal.com's booking iframe
+          // (app.cal.com) does not — so COEP blocks it with
+          // ERR_BLOCKED_BY_RESPONSE and the embed spins forever. The site uses
+          // no SharedArrayBuffer / cross-origin-isolation features, so COEP
+          // provides no benefit here while breaking the booking flow.
         ],
       },
     ];
