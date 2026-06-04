@@ -333,6 +333,15 @@ export default function AboutPage() {
               Anspruch konkreter Wirkung. Digitale Transformation war für ihn
               nie ein Technologieprojekt — sondern immer eine Frage der Führung.
             </p>
+            <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey mb-4">
+              Genau das prägt seine Art, KI einzuführen: nicht als isoliertes
+              Tool, sondern entlang von Entscheidungswegen, Rollen und
+              Verantwortlichkeiten. Sein Blick für Strukturen sorgt dafür, dass
+              KI dort ansetzt, wo sie echte Wirkung entfaltet; seine Erfahrung
+              mit realen Transformationen verhindert, dass Projekte im
+              Pilotstadium versanden; und sein Führungsverständnis stellt
+              sicher, dass Menschen befähigt statt überfahren werden.
+            </p>
             <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey">
               Die Firma wurde gebaut, um genau diese Lücke zu schliessen:
               strategische Stringenz auf der einen, Umsetzungsrealität auf der
