@@ -1,4 +1,4 @@
-import { timingSafeEqual } from "node:crypto";
+import { timingSafeEqual, createHmac } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { Redis } from "@upstash/redis";
 
@@ -13,6 +13,15 @@ export const dynamic = "force-dynamic";
 const KEY = "cron:keepalive";
 const TTL_SECONDS = 30 * 24 * 60 * 60; // 30 days
 
+// HMAC both inputs to a fixed-length digest before comparison. A raw string
+// compare with a length pre-check leaks the secret's length via timing —
+// an attacker probing with Authorization headers of different lengths can
+// detect the exact secret length by observing whether the check short-circuits
+// before timingSafeEqual runs. Fixed-length HMAC digests eliminate that oracle.
+function tokenDigest(s: string): Buffer {
+  return createHmac("sha256", "rautaki-cron-auth-v1").update(s).digest();
+}
+
 export async function GET(request: NextRequest) {
   // Vercel automatically attaches `Authorization: Bearer ${CRON_SECRET}` to
   // cron invocations when CRON_SECRET is set. Fail closed: if the secret is
@@ -20,11 +29,9 @@ export async function GET(request: NextRequest) {
   // publicly accessible. Provision CRON_SECRET in the Vercel project env vars.
   const secret = process.env.CRON_SECRET;
   const provided = request.headers.get("authorization") ?? "";
-  const expected = `Bearer ${secret ?? ""}`;
   const authorized =
     !!secret &&
-    provided.length === expected.length &&
-    timingSafeEqual(Buffer.from(provided), Buffer.from(expected));
+    timingSafeEqual(tokenDigest(provided), tokenDigest(`Bearer ${secret}`));
   if (!authorized) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }

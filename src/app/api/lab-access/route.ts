@@ -214,7 +214,10 @@ export async function POST(request: NextRequest) {
   const safeName = escapeHtml(name);
   const safeCompany = escapeHtml(company);
   const safeEmail = escapeHtml(email);
-  const mailtoHref = `mailto:${encodeURIComponent(email)}`;
+  // encodeURIComponent already encodes HTML-special chars (&, <, >, ", '),
+  // but wrapping in escapeHtml is defense-in-depth: if a future edit drops
+  // the URI encoding, the href attribute cannot carry a raw injection.
+  const mailtoHref = escapeHtml(`mailto:${encodeURIComponent(email)}`);
 
   const resend = new Resend(apiKey);
 
