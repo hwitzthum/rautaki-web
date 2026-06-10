@@ -65,6 +65,7 @@ interface LabAccessPayload {
   name: string;
   company: string;
   email: string;
+  consent: true;
 }
 
 // Stricter than the previous `[^\s@]+@[^\s@]+\.[^\s@]+` — requires a TLD of
@@ -83,6 +84,8 @@ function isValidPayload(body: unknown): body is LabAccessPayload {
   ) {
     return false;
   }
+  // GDPR: explicit consent must be true before storing or forwarding PII.
+  if (b.consent !== true) return false;
   const name = b.name.trim();
   const company = b.company.trim();
   const email = b.email.trim();
