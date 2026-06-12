@@ -62,8 +62,11 @@ function stripDisallowedImages(s: string): string {
       }
       return `![${alt}](${url})`;
     } catch {
-      // Relative URLs are fine — they're 'self', covered by CSP img-src.
-      if (url.startsWith("/")) return `![${alt}](${url})`;
+      // Relative URLs (not protocol-relative) are fine — they're 'self',
+      // covered by CSP img-src. Protocol-relative URLs (//host/path) must
+      // go through the allowlist check above, not here, because they resolve
+      // to an external host.
+      if (url.startsWith("/") && !url.startsWith("//")) return `![${alt}](${url})`;
       return "";
     }
   });

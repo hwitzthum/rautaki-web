@@ -422,6 +422,7 @@ function LabGateForm({
           name: payload.name,
           company: payload.company,
           email: payload.email,
+          consent: payload.consent,
         }),
       });
       if (!res.ok) {
