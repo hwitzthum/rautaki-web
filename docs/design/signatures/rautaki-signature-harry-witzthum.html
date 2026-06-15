@@ -1,0 +1,315 @@
+<!doctype html>
+<!--
+  ════════════════════════════════════════════════════════════════════════
+  RAUTAKI · E-MAIL-SIGNATUR  —  Harry Witzthum (Gründer)
+  ════════════════════════════════════════════════════════════════════════
+
+  Brand-konform nach docs/design (style-guide.md, component-specs.md):
+    · Wordmark "Rautaki" in Georgia, Akzentbuchstaben a + i in Gold (#F5A623)
+    · Titel als DM-Sans-Label (uppercase, 0.18em, Mid Grey) — kein Gold
+    · Vertikaler Trenner: 1px Warm Grey (#E8E5DF) Haarlinie — neutral
+    · EIN bewusstes Gold-Element: der "Beratung buchen"-Button (Gold-Regel)
+    · Scharfe Kanten (border-radius: 0), 4px-Raster, alle Stile inline
+
+  ── SO FÜGST DU DIE SIGNATUR EIN ──────────────────────────────────────────
+  1. Diese Datei im Browser öffnen.
+  2. NUR den Signatur-Block markieren (zwischen den Markierungen unten),
+     mit Cmd/Ctrl+C kopieren.
+  3. Gmail:        Einstellungen → Allgemein → Signatur → einfügen.
+     Apple Mail:   Einstellungen → Signaturen → einfügen
+                   (Haken bei „Schriftarten der Standardnachricht…" entfernen).
+     Outlook:      Neue E-Mail → Signatur → Signaturen… → einfügen.
+  4. Hinweis Dark Mode: Signatur ist für helle Hintergründe ausgelegt.
+
+  TIPP: Falls dein Client beim Einfügen Stile entfernt, kopiere stattdessen
+  den HTML-Quelltext des <table>-Blocks direkt in den Signatur-HTML-Editor.
+  ════════════════════════════════════════════════════════════════════════
+-->
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rautaki E-Mail-Signatur · Harry Witzthum</title>
+  </head>
+  <body style="margin: 0; padding: 48px; background: #f4f2ee">
+    <!-- Hinweis (NICHT mitkopieren) -->
+    <p
+      style="
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #9a9590;
+        margin: 0 0 24px 0;
+      "
+    >
+      ↓ Signatur markieren &amp; kopieren ↓
+    </p>
+
+    <!-- ════════════════ SIGNATUR START — ab hier kopieren ════════════════ -->
+    <table
+      role="presentation"
+      cellpadding="0"
+      cellspacing="0"
+      border="0"
+      style="border-collapse: collapse"
+    >
+      <tr>
+        <!-- Marken-Block: Wordmark + Name + Titel -->
+        <td valign="top" style="padding: 0 24px 0 0; vertical-align: top">
+          <!-- Wordmark: R aut [a] k [i] — a + i in Gold -->
+          <div
+            style="
+              font-family: Georgia, &quot;Times New Roman&quot;, Times, serif;
+              font-size: 22px;
+              line-height: 1;
+              letter-spacing: -0.01em;
+              color: #1c1c1c;
+              white-space: nowrap;
+            "
+          >
+            R<span style="color: #1c1c1c">aut</span
+            ><span style="color: #f5a623">a</span
+            ><span style="color: #1c1c1c">k</span
+            ><span style="color: #f5a623">i</span>
+          </div>
+
+          <!-- Name -->
+          <div
+            style="
+              font-family: Georgia, &quot;Times New Roman&quot;, Times, serif;
+              font-size: 16px;
+              line-height: 1.2;
+              letter-spacing: -0.01em;
+              color: #1c1c1c;
+              padding-top: 14px;
+            "
+          >
+            Harry Witzthum
+          </div>
+
+          <!-- Titel (Label-Muster: DM Sans, uppercase, Mid Grey) -->
+          <div
+            style="
+              font-family:
+                &quot;DM Sans&quot;,
+                -apple-system,
+                &quot;Helvetica Neue&quot;,
+                Helvetica,
+                Arial,
+                sans-serif;
+              font-size: 11px;
+              font-weight: 500;
+              line-height: 1.2;
+              letter-spacing: 0.18em;
+              text-transform: uppercase;
+              color: #9a9590;
+              padding-top: 6px;
+            "
+          >
+            Gründer
+          </div>
+        </td>
+
+        <!-- Haarlinie: 1px Warm Grey -->
+        <td
+          style="width: 1px; background: #e8e5df; font-size: 0; line-height: 0"
+        >
+          &nbsp;
+        </td>
+
+        <!-- Kontakt-Block -->
+        <td valign="top" style="padding: 0 0 0 24px; vertical-align: top">
+          <table
+            role="presentation"
+            cellpadding="0"
+            cellspacing="0"
+            border="0"
+            style="border-collapse: collapse"
+          >
+            <tr>
+              <td
+                style="
+                  font-family:
+                    &quot;DM Sans&quot;,
+                    -apple-system,
+                    &quot;Helvetica Neue&quot;,
+                    Helvetica,
+                    Arial,
+                    sans-serif;
+                  font-size: 10px;
+                  font-weight: 500;
+                  letter-spacing: 0.18em;
+                  text-transform: uppercase;
+                  color: #9a9590;
+                  padding: 0 14px 8px 0;
+                  vertical-align: middle;
+                  white-space: nowrap;
+                "
+              >
+                Tel
+              </td>
+              <td
+                style="
+                  font-family:
+                    &quot;DM Sans&quot;,
+                    -apple-system,
+                    &quot;Helvetica Neue&quot;,
+                    Helvetica,
+                    Arial,
+                    sans-serif;
+                  font-size: 13px;
+                  font-weight: 400;
+                  color: #1c1c1c;
+                  padding: 0 0 8px 0;
+                  vertical-align: middle;
+                  white-space: nowrap;
+                "
+              >
+                <a
+                  href="tel:+41787743888"
+                  style="color: #1c1c1c; text-decoration: none"
+                  >+41 78 774 38 88</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td
+                style="
+                  font-family:
+                    &quot;DM Sans&quot;,
+                    -apple-system,
+                    &quot;Helvetica Neue&quot;,
+                    Helvetica,
+                    Arial,
+                    sans-serif;
+                  font-size: 10px;
+                  font-weight: 500;
+                  letter-spacing: 0.18em;
+                  text-transform: uppercase;
+                  color: #9a9590;
+                  padding: 0 14px 8px 0;
+                  vertical-align: middle;
+                  white-space: nowrap;
+                "
+              >
+                Mail
+              </td>
+              <td
+                style="
+                  font-family:
+                    &quot;DM Sans&quot;,
+                    -apple-system,
+                    &quot;Helvetica Neue&quot;,
+                    Helvetica,
+                    Arial,
+                    sans-serif;
+                  font-size: 13px;
+                  font-weight: 400;
+                  color: #1c1c1c;
+                  padding: 0 0 8px 0;
+                  vertical-align: middle;
+                  white-space: nowrap;
+                "
+              >
+                <a
+                  href="mailto:hello@rautaki.ch"
+                  style="color: #1c1c1c; text-decoration: none"
+                  >hello@rautaki.ch</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td
+                style="
+                  font-family:
+                    &quot;DM Sans&quot;,
+                    -apple-system,
+                    &quot;Helvetica Neue&quot;,
+                    Helvetica,
+                    Arial,
+                    sans-serif;
+                  font-size: 10px;
+                  font-weight: 500;
+                  letter-spacing: 0.18em;
+                  text-transform: uppercase;
+                  color: #9a9590;
+                  padding: 0 14px 0 0;
+                  vertical-align: middle;
+                  white-space: nowrap;
+                "
+              >
+                Web
+              </td>
+              <td
+                style="
+                  font-family:
+                    &quot;DM Sans&quot;,
+                    -apple-system,
+                    &quot;Helvetica Neue&quot;,
+                    Helvetica,
+                    Arial,
+                    sans-serif;
+                  font-size: 13px;
+                  font-weight: 400;
+                  color: #1c1c1c;
+                  padding: 0;
+                  vertical-align: middle;
+                  white-space: nowrap;
+                "
+              >
+                <a
+                  href="https://www.rautaki.ch"
+                  style="color: #1c1c1c; text-decoration: none"
+                  >www.rautaki.ch</a
+                >
+              </td>
+            </tr>
+          </table>
+
+          <!-- Abstand über dem CTA -->
+          <div style="height: 18px; line-height: 18px; font-size: 0">
+            &nbsp;
+          </div>
+
+          <!-- Gold-CTA: das EINE bewusste Gold-Element -->
+          <table
+            role="presentation"
+            cellpadding="0"
+            cellspacing="0"
+            border="0"
+            style="border-collapse: collapse"
+          >
+            <tr>
+              <td style="background: #f5a623">
+                <a
+                  href="https://cal.com/harry-witzthum-yc1ldr/beratung"
+                  style="
+                    display: inline-block;
+                    background: #f5a623;
+                    color: #0a0a0a;
+                    font-family:
+                      &quot;DM Sans&quot;,
+                      -apple-system,
+                      &quot;Helvetica Neue&quot;,
+                      Helvetica,
+                      Arial,
+                      sans-serif;
+                    font-size: 11px;
+                    font-weight: 500;
+                    letter-spacing: 0.2em;
+                    text-transform: uppercase;
+                    text-decoration: none;
+                    padding: 14px 28px;
+                  "
+                  >Beratung buchen&nbsp;&rarr;</a
+                >
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    <!-- ════════════════ SIGNATUR ENDE — bis hier kopieren ════════════════ -->
+  </body>
+</html>
