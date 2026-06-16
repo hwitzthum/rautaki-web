@@ -43,6 +43,7 @@ export default function HeroDark({ onBookingClick }: HeroDarkProps) {
       <div
         className="lg:row-start-1 lg:col-start-1 absolute w-[700px] h-[700px] pointer-events-none"
         style={{
+          position: "absolute",
           background:
             "radial-gradient(circle, var(--color-gold-glow) 0%, transparent 70%)",
           top: "-200px",
