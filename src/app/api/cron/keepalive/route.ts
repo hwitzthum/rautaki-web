@@ -13,13 +13,21 @@ export const dynamic = "force-dynamic";
 const KEY = "cron:keepalive";
 const TTL_SECONDS = 30 * 24 * 60 * 60; // 30 days
 
-// HMAC both inputs to a fixed-length digest before comparison. A raw string
-// compare with a length pre-check leaks the secret's length via timing —
-// an attacker probing with Authorization headers of different lengths can
-// detect the exact secret length by observing whether the check short-circuits
-// before timingSafeEqual runs. Fixed-length HMAC digests eliminate that oracle.
-function tokenDigest(s: string): Buffer {
-  return createHmac("sha256", "rautaki-cron-auth-v1").update(s).digest();
+/**
+ * Produce a fixed-length HMAC-SHA256 digest of `value` keyed by `secret`.
+ *
+ * Using `secret` as the HMAC key (rather than a hardcoded constant) ensures
+ * that the digest is a *keyed* MAC: an attacker who reads the source code
+ * cannot precompute the expected digest without knowing CRON_SECRET. A
+ * hardcoded key would make `timingSafeEqual` equivalent to a plain string
+ * compare with a publicly known pepper — defeating its purpose.
+ *
+ * Both sides of the comparison call this function with the same `secret`, so
+ * the outputs are always the same length (32 bytes) regardless of input
+ * length, which is what `timingSafeEqual` requires.
+ */
+function tokenDigest(value: string, secret: string): Buffer {
+  return createHmac("sha256", secret).update(value).digest();
 }
 
 export async function GET(request: NextRequest) {
@@ -29,9 +37,20 @@ export async function GET(request: NextRequest) {
   // publicly accessible. Provision CRON_SECRET in the Vercel project env vars.
   const secret = process.env.CRON_SECRET;
   const provided = request.headers.get("authorization") ?? "";
-  const authorized =
-    !!secret &&
-    timingSafeEqual(tokenDigest(provided), tokenDigest(`Bearer ${secret}`));
+
+  // Fail closed when CRON_SECRET is not provisioned: reject all requests
+  // rather than falling back to an unauthenticated endpoint.
+  if (!secret) {
+    return NextResponse.json(
+      { error: "Unauthorized" },
+      { status: 401 },
+    );
+  }
+
+  const authorized = timingSafeEqual(
+    tokenDigest(provided, secret),
+    tokenDigest(`Bearer ${secret}`, secret),
+  );
   if (!authorized) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
