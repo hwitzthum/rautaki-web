@@ -507,7 +507,12 @@ export const OPTIONS = rejectMethod;
  * accidentally pointing the webhook at an internal endpoint.
  */
 function isSsrfTarget(hostname: string): boolean {
-  const h = hostname.toLowerCase().replace(/\.$/, ""); // strip trailing dot
+  // URL.hostname wraps IPv6 literals in brackets (e.g. "[::1]") — strip them
+  // so all comparisons work against the bare address string.
+  let h = hostname.toLowerCase().replace(/\.$/, "");
+  if (h.startsWith("[") && h.endsWith("]")) {
+    h = h.slice(1, -1);
+  }
 
   // Exact-match blocklist for well-known internal hostnames
   const blockedHostnames = new Set([
@@ -526,6 +531,16 @@ function isSsrfTarget(hostname: string): boolean {
   // Suffix-match: *.local, *.internal, *.cluster.local
   if (h.endsWith(".local") || h.endsWith(".internal") || h.endsWith(".cluster.local")) {
     return true;
+  }
+
+  // IPv6 range checks — the colon guard avoids false positives on DNS names.
+  if (h.includes(":")) {
+    // fe80::/10 link-local (fe80:: – febf::)
+    if (/^fe[89ab]/.test(h)) return true;
+    // fc00::/7 ULA (fc00:: – fdff::)
+    if (/^f[cd]/.test(h)) return true;
+    // IPv4-mapped ::ffff:x.x.x.x — strip prefix and re-check embedded IPv4
+    if (h.startsWith("::ffff:")) return isSsrfTarget(h.slice(7));
   }
 
   // Numeric IPv4 — check private/loopback/link-local ranges
