@@ -331,7 +331,7 @@ export async function POST(request: NextRequest) {
   } catch (confirmErr) {
     console.error(
       "[lab-access] Confirmation email exception:",
-      (confirmErr as Error)?.message,
+      (confirmErr as { name?: string })?.name ?? "unknown",
     );
   }
 
