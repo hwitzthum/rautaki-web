@@ -12,7 +12,13 @@ const MAINTENANCE_PATH = "/maintenance";
 export function proxy(request: NextRequest) {
   const enabled = process.env.MAINTENANCE_MODE === "true";
 
-  if (!enabled) return NextResponse.next();
+  if (!enabled) {
+    // Strip any client-sent x-maintenance header so the layout server component
+    // cannot be tricked into suppressing the chat widget via header injection.
+    const cleaned = new Headers(request.headers);
+    cleaned.delete("x-maintenance");
+    return NextResponse.next({ request: { headers: cleaned } });
+  }
 
   const { pathname } = request.nextUrl;
 

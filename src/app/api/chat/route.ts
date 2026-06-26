@@ -539,8 +539,14 @@ function isSsrfTarget(hostname: string): boolean {
     if (/^fe[89ab]/.test(h)) return true;
     // fc00::/7 ULA (fc00:: – fdff::)
     if (/^f[cd]/.test(h)) return true;
-    // IPv4-mapped ::ffff:x.x.x.x — strip prefix and re-check embedded IPv4
-    if (h.startsWith("::ffff:")) return isSsrfTarget(h.slice(7));
+    // IPv4-mapped ::ffff:x.x.x.x — strip prefix and re-check embedded IPv4.
+    // After stripping, a colon means compressed hex (e.g. "7f00:1") which is
+    // not dotted-decimal and would escape the IPv4 range checks below — block it.
+    if (h.startsWith("::ffff:")) {
+      const embedded = h.slice(7);
+      if (embedded.includes(":")) return true; // compressed hex IPv4-mapped address
+      return isSsrfTarget(embedded);
+    }
   }
 
   // Numeric IPv4 — check private/loopback/link-local ranges
