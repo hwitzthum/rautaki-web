@@ -1,7 +1,7 @@
 # Rautaki-Support — paste-ready hardening guide
 
 This guide is for **the actual `Rautaki-Support` workflow** as it exists today
-(workflow ID `lIPMcSi2yljEbfPJ`, inspected 2026-05-13):
+(workflow ID `<workflow-id>`, inspected 2026-05-13):
 
 ```
 When chat message received   →   AI Agent   →   (returns to webhook)
@@ -327,7 +327,7 @@ In `Rautaki-Support`:
 2. Add a new **Webhook** node (just "Webhook", `n8n-nodes-base.webhook`).
    Wire it into the same position. Settings:
    - **HTTP Method**: POST
-   - **Path**: `3c7ae152-893a-4893-a8da-dac3b2c8db05/chat` (keep the same
+   - **Path**: `<webhook-uuid>/chat` (keep the same
      path so the URL doesn't change and `.env.local` still works)
    - **Authentication**: None (we authenticate via HMAC in the next node)
    - **Respond**: "Using 'Respond to Webhook' Node"
