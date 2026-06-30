@@ -5,6 +5,7 @@ import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import N8nChatWidget from "@/components/N8nChatWidget";
+import ConsentManager from "@/components/ConsentManager";
 import JsonLd from "@/components/JsonLd";
 
 const organizationSchema = {
@@ -101,6 +102,7 @@ export default async function RootLayout({
         <main id="main-content">{children}</main>
         <Footer />
         {!isMaintenance && <N8nChatWidget />}
+        {!isMaintenance && <ConsentManager />}
       </body>
     </html>
   );
