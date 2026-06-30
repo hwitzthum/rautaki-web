@@ -103,7 +103,11 @@ function isValidPayload(body: unknown): body is LabAccessPayload {
 export async function POST(request: NextRequest) {
   // CSRF defence: Sec-Fetch-Site check — if present and not same-origin/same-site, reject.
   const secFetchSite = request.headers.get("sec-fetch-site");
-  if (secFetchSite && secFetchSite !== "same-origin" && secFetchSite !== "same-site") {
+  if (
+    secFetchSite &&
+    secFetchSite !== "same-origin" &&
+    secFetchSite !== "same-site"
+  ) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
@@ -136,7 +140,11 @@ export async function POST(request: NextRequest) {
   // user-controlled and must not be trusted for rate limiting.
   const xff = request.headers.get("x-forwarded-for");
   const ip = xff
-    ? xff.split(",").map((s) => s.trim()).filter(Boolean).at(-1) ?? null
+    ? (xff
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean)
+        .at(-1) ?? null)
     : null;
 
   if (!ip) {
@@ -175,7 +183,9 @@ export async function POST(request: NextRequest) {
           "Retry-After": String(RATE_WINDOW_MS / 1000),
           "RateLimit-Limit": String(RATE_MAX),
           "RateLimit-Remaining": "0",
-          "RateLimit-Reset": String(Math.ceil((Date.now() + RATE_WINDOW_MS) / 1000)),
+          "RateLimit-Reset": String(
+            Math.ceil((Date.now() + RATE_WINDOW_MS) / 1000),
+          ),
         },
       },
     );
@@ -214,6 +224,17 @@ export async function POST(request: NextRequest) {
   const name = body.name.trim();
   const company = body.company.trim();
   const email = body.email.trim();
+  // Optional: which Lab tool triggered the gate (for CRM tagging). Not part of
+  // the strict payload contract; sanitised lightly since it is only forwarded
+  // to the internal CRM webhook, never rendered into email HTML.
+  const toolRaw = (body as unknown as { tool?: unknown }).tool;
+  const tool =
+    typeof toolRaw === "string"
+      ? toolRaw
+          .replace(/[\r\n\t\0]/g, "")
+          .trim()
+          .slice(0, 100)
+      : "";
   const safeName = escapeHtml(name);
   const safeCompany = escapeHtml(company);
   const safeEmail = escapeHtml(email);
@@ -272,9 +293,12 @@ export async function POST(request: NextRequest) {
   if (error) {
     // Log only the error code/name to avoid leaking the submitted email address
     // or other PII that may appear in the full error message.
-    const safeErrorInfo = (error as { name?: string; statusCode?: number; message?: string }).name
-      ?? (error as { name?: string; statusCode?: number; message?: string }).statusCode
-      ?? "Resend API error";
+    const safeErrorInfo =
+      (error as { name?: string; statusCode?: number; message?: string })
+        .name ??
+      (error as { name?: string; statusCode?: number; message?: string })
+        .statusCode ??
+      "Resend API error";
     console.error("[lab-access] Resend error:", safeErrorInfo);
     return NextResponse.json(
       {
@@ -283,6 +307,37 @@ export async function POST(request: NextRequest) {
       },
       { status: 502 },
     );
+  }
+
+  // Best-effort CRM capture: forward the lead to n8n → Salesflare (tagged "Lab").
+  // Strictly non-blocking — a webhook outage or slowness must never break Lab
+  // access or leak PII into logs. Skipped entirely if the URL env var is unset.
+  const labWebhookUrl = process.env.N8N_LAB_WEBHOOK_URL;
+  if (labWebhookUrl) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 4000);
+    try {
+      await fetch(labWebhookUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          company,
+          email,
+          consent: true,
+          tool,
+          source: "lab",
+        }),
+        signal: controller.signal,
+      });
+    } catch (crmErr) {
+      console.error(
+        "[lab-access] CRM webhook failed:",
+        (crmErr as { name?: string })?.name ?? "unknown",
+      );
+    } finally {
+      clearTimeout(timer);
+    }
   }
 
   // Confirmation email to the registrant — best-effort: a delivery failure here
