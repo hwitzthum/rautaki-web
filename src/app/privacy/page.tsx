@@ -15,11 +15,7 @@ export default function PrivacyPage() {
     <>
       <HeroLight
         label="Datenschutz"
-        title={
-          <>
-            Datenschutz&shy;erklärung
-          </>
-        }
+        title={<>Datenschutz&shy;erklärung</>}
         description="Informationen zum Umgang mit Ihren personenbezogenen Daten gemäss dem Schweizer Datenschutzgesetz (nDSG) und der EU-Datenschutz-Grundverordnung (DSGVO)."
       />
 
@@ -36,7 +32,10 @@ export default function PrivacyPage() {
               <p>8802 Kilchberg / ZH</p>
               <p>Schweiz</p>
               <p>
-                <a href="mailto:hello@rautaki.ch" className="text-ink hover:text-gold transition-colors">
+                <a
+                  href="mailto:hello@rautaki.ch"
+                  className="text-ink hover:text-gold transition-colors"
+                >
                   hello@rautaki.ch
                 </a>
               </p>
@@ -50,15 +49,39 @@ export default function PrivacyPage() {
             </h2>
             <div className="font-ui text-body text-ink/65 space-y-4 mb-12">
               <p>
-                Wenn Sie unser Buchungsformular nutzen, erheben wir die von Ihnen
-                eingegebenen Daten (Name, Unternehmen, E-Mail-Adresse, gewünschter
-                Termin und Nachricht), um Ihre Beratungsanfrage bearbeiten zu können.
+                Wenn Sie unser Buchungsformular nutzen, erheben wir die von
+                Ihnen eingegebenen Daten (Name, Unternehmen, E-Mail-Adresse,
+                gewünschter Termin und Nachricht), um Ihre Beratungsanfrage
+                bearbeiten zu können.
               </p>
               <p>
                 Beim Besuch unserer Website werden automatisch technische Daten
-                erfasst (z.&nbsp;B. IP-Adresse, Browser-Typ, Zugriffszeit). Diese
-                Daten werden zur Fehlererkennung und Leistungsüberwachung über
-                Sentry verarbeitet.
+                erfasst (z.&nbsp;B. IP-Adresse, Browser-Typ, Zugriffszeit).
+                Diese Daten werden zur Fehlererkennung und Leistungsüberwachung
+                über Sentry verarbeitet.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal delay={120}>
+            <SectionLabel text="Cookies & Tracking" />
+            <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
+              Cookies & Tracking
+            </h2>
+            <div className="font-ui text-body text-ink/65 space-y-4 mb-12">
+              <p>
+                Wir nutzen den Dienst Salesflare, um nachzuvollziehen, welche
+                Seiten unserer Website von unseren Kontakten besucht werden.
+                Dazu wird ein Tracking-Cookie gesetzt, das Website-Besuche einem
+                Kontakt zuordnet, sofern dieser zuvor auf einen Link in einer
+                unserer E-Mails geklickt hat.
+              </p>
+              <p>
+                Dieses Cookie wird ausschliesslich mit Ihrer ausdrücklichen
+                Einwilligung gesetzt. Beim ersten Besuch fragen wir Ihre
+                Zustimmung über einen Hinweis am unteren Seitenrand ab. Sie
+                können Ihre Einwilligung jederzeit über den Link{" "}
+                <strong>Cookie-Einstellungen</strong> im Seitenfuss widerrufen.
               </p>
             </div>
           </ScrollReveal>
@@ -70,11 +93,16 @@ export default function PrivacyPage() {
             </h2>
             <div className="font-ui text-body text-ink/65 space-y-4 mb-12">
               <p>
-                Sie haben das Recht auf Auskunft, Berichtigung und Löschung Ihrer
-                personenbezogenen Daten. Für Anfragen wenden Sie sich bitte an{" "}
-                <a href="mailto:hello@rautaki.ch" className="text-ink hover:text-gold transition-colors">
+                Sie haben das Recht auf Auskunft, Berichtigung und Löschung
+                Ihrer personenbezogenen Daten. Für Anfragen wenden Sie sich
+                bitte an{" "}
+                <a
+                  href="mailto:hello@rautaki.ch"
+                  className="text-ink hover:text-gold transition-colors"
+                >
                   hello@rautaki.ch
-                </a>.
+                </a>
+                .
               </p>
             </div>
           </ScrollReveal>
@@ -85,10 +113,22 @@ export default function PrivacyPage() {
               Weitere Dienstleister
             </h2>
             <div className="font-ui text-body text-ink/65 space-y-4 mb-12">
-              <h3 className="font-serif text-h3 text-ink mb-3">Weitere Dienstleister</h3>
+              <h3 className="font-serif text-h3 text-ink mb-3">
+                Weitere Dienstleister
+              </h3>
               <ul className="font-sans text-body text-ink space-y-2 list-none">
-                <li><strong>Cal.com Inc.</strong> — Terminbuchungssystem (USA; Datenübertragung auf Basis von Standardvertragsklauseln)</li>
-                <li><strong>Vercel Inc.</strong> — Webhosting und Deployment (USA; Datenübertragung auf Basis von Standardvertragsklauseln)</li>
+                <li>
+                  <strong>Cal.com Inc.</strong> — Terminbuchungssystem (USA;
+                  Datenübertragung auf Basis von Standardvertragsklauseln)
+                </li>
+                <li>
+                  <strong>Vercel Inc.</strong> — Webhosting und Deployment (USA;
+                  Datenübertragung auf Basis von Standardvertragsklauseln)
+                </li>
+                <li>
+                  <strong>Salesflare BV</strong> — CRM sowie Website- und
+                  E-Mail-Tracking (Belgien/EU)
+                </li>
               </ul>
             </div>
           </ScrollReveal>
@@ -101,9 +141,13 @@ export default function PrivacyPage() {
             <div className="font-ui text-body text-ink/65 space-y-4">
               <p>
                 Bei Fragen zum Datenschutz erreichen Sie uns unter{" "}
-                <a href="mailto:hello@rautaki.ch" className="text-ink hover:text-gold transition-colors">
+                <a
+                  href="mailto:hello@rautaki.ch"
+                  className="text-ink hover:text-gold transition-colors"
+                >
                   hello@rautaki.ch
-                </a>.
+                </a>
+                .
               </p>
             </div>
           </ScrollReveal>

@@ -14,17 +14,28 @@ function buildCsp(): string {
     // Cal.com API calls (availability, booking confirmation)
     "https://cal.com",
     "https://app.cal.com",
+    // Salesflare website tracking (actual_flare.js) sends visit beacons here
+    // via XHR/fetch/sendBeacon. Only loaded after cookie consent — see
+    // ConsentManager. (The script itself is allowed via script-src below.)
+    "https://api.salesflare.com",
     // Resend is called server-side only (/api/lab-access route handler) —
     // the browser never contacts it directly, so it must not appear here.
   ].join(" ");
+
+  // Salesflare tracking loads in two hops: track.salesflare.com/flare.js (a
+  // thin loader) then storage.googleapis.com/track.salesflare.com/actual_flare.js.
+  // The GCS source is path-restricted to Salesflare's bucket so we don't allow
+  // scripts from arbitrary Google Cloud Storage buckets.
+  const salesflareScriptSrc =
+    "https://track.salesflare.com https://storage.googleapis.com/track.salesflare.com/";
 
   // Next.js App Router requires 'unsafe-inline' for its hydration scripts.
   // 'unsafe-eval' is only needed during local development (HMR).
   // Cal.com's embed script is loaded from app.cal.com.
   const scriptSrc =
     process.env.NODE_ENV === "development"
-      ? "'self' 'unsafe-inline' 'unsafe-eval' https://app.cal.com"
-      : "'self' 'unsafe-inline' https://app.cal.com";
+      ? `'self' 'unsafe-inline' 'unsafe-eval' https://app.cal.com ${salesflareScriptSrc}`
+      : `'self' 'unsafe-inline' https://app.cal.com ${salesflareScriptSrc}`;
 
   return [
     "default-src 'self'",

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Logo from "./Logo";
+import CookieSettingsLink from "./CookieSettingsLink";
 
 const navLinks = [
   { href: "/services", label: "Leistungen" },
@@ -91,6 +92,7 @@ export default function Footer() {
             >
               Impressum
             </Link>
+            <CookieSettingsLink />
           </div>
         </div>
       </div>
