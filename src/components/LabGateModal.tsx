@@ -106,6 +106,7 @@ export default function LabGate({ children }: LabGateProps) {
           onSuccess={handleSuccess}
           onClose={handleClose}
           onSkip={handleSkip}
+          tool={(pendingHref?.split("/").pop() ?? "").replace(/\.html$/, "")}
         />
       )}
     </LabGateContext.Provider>
@@ -144,18 +145,24 @@ interface PortalProps {
   onSuccess: () => void;
   onClose: () => void;
   onSkip: () => void;
+  tool: string;
 }
 
-function LabGatePortal({ onSuccess, onClose, onSkip }: PortalProps) {
+function LabGatePortal({ onSuccess, onClose, onSkip, tool }: PortalProps) {
   return createPortal(
-    <LabGateOverlay onSuccess={onSuccess} onClose={onClose} onSkip={onSkip} />,
+    <LabGateOverlay
+      onSuccess={onSuccess}
+      onClose={onClose}
+      onSkip={onSkip}
+      tool={tool}
+    />,
     document.body,
   );
 }
 
 // ── Overlay + modal ────────────────────────────────────────────────────────
 
-function LabGateOverlay({ onSuccess, onClose, onSkip }: PortalProps) {
+function LabGateOverlay({ onSuccess, onClose, onSkip, tool }: PortalProps) {
   const [prefersReduced, setPrefersReduced] = useState(
     () =>
       typeof window !== "undefined" &&
@@ -322,7 +329,7 @@ function LabGateOverlay({ onSuccess, onClose, onSkip }: PortalProps) {
             }}
           />
 
-          <LabGateForm onSuccess={onSuccess} onSkip={onSkip} />
+          <LabGateForm onSuccess={onSuccess} onSkip={onSkip} tool={tool} />
         </div>
       </div>
     </div>
@@ -373,9 +380,11 @@ function validateForm(data: {
 function LabGateForm({
   onSuccess,
   onSkip,
+  tool,
 }: {
   onSuccess: () => void;
   onSkip: () => void;
+  tool: string;
 }) {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -423,6 +432,7 @@ function LabGateForm({
           company: payload.company,
           email: payload.email,
           consent: payload.consent,
+          tool,
         }),
       });
       if (!res.ok) {
