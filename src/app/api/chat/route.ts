@@ -8,6 +8,7 @@ import { Redis } from "@upstash/redis";
 import { validateChatBody } from "@/lib/chat-validation";
 import { HMAC_HEADER, signRequest, canonicalize } from "@/lib/hmac";
 import { filterChatResponse } from "@/lib/chat-output-filter";
+import { validateWebhookUrl } from "@/lib/ssrf-guard";
 
 export const runtime = "nodejs";
 // We don't cache anything — every chat turn must hit n8n. Vercel's default
@@ -299,14 +300,15 @@ export async function POST(req: NextRequest) {
       requestId,
     );
   }
-  // SSRF guard: the webhook URL must be an HTTPS URL. This prevents an
-  // attacker who can set env vars from redirecting traffic to internal services.
-  let webhookUrl: URL;
-  try {
-    webhookUrl = new URL(webhook);
-  } catch {
+  // SSRF guard: the webhook URL must be a well-formed HTTPS URL that does not
+  // resolve (by hostname) to a private/loopback/reserved address. This
+  // prevents an attacker who can set env vars from redirecting traffic to
+  // internal services (e.g. the cloud metadata endpoint, a Kubernetes
+  // service, or localhost). See src/lib/ssrf-guard.ts.
+  const webhookCheck = validateWebhookUrl(webhook);
+  if (!webhookCheck.ok) {
     Sentry.captureMessage(
-      "api/chat misconfigured: N8N_CHAT_WEBHOOK_URL is not a valid URL",
+      `api/chat misconfigured: N8N_CHAT_WEBHOOK_URL failed validation (${webhookCheck.reason})`,
       "error",
     );
     return jsonWithRequestId(
@@ -315,32 +317,7 @@ export async function POST(req: NextRequest) {
       requestId,
     );
   }
-  if (webhookUrl.protocol !== "https:") {
-    Sentry.captureMessage(
-      "api/chat misconfigured: N8N_CHAT_WEBHOOK_URL must use https://",
-      "error",
-    );
-    return jsonWithRequestId(
-      { error: "Chat-Service nicht konfiguriert." },
-      { status: 503 },
-      requestId,
-    );
-  }
-  // SSRF guard — block private/loopback/link-local/reserved IP ranges and
-  // well-known internal hostnames. An https:// URL is not sufficient alone;
-  // an attacker who can control env vars could point it at the cloud metadata
-  // endpoint (169.254.169.254), a Kubernetes service (10.x.x.x), or localhost.
-  if (isSsrfTarget(webhookUrl.hostname)) {
-    Sentry.captureMessage(
-      "api/chat misconfigured: N8N_CHAT_WEBHOOK_URL resolves to a private or reserved address",
-      "error",
-    );
-    return jsonWithRequestId(
-      { error: "Chat-Service nicht konfiguriert." },
-      { status: 503 },
-      requestId,
-    );
-  }
+  const webhookUrl = webhookCheck.url;
   const secret = process.env.N8N_CHAT_SHARED_SECRET;
   if (!secret && process.env.NODE_ENV === "production") {
     // Fail closed in production. In dev, we'll forward without a header so
@@ -494,88 +471,6 @@ export const PATCH = rejectMethod;
 export const OPTIONS = rejectMethod;
 
 // ── small helpers ────────────────────────────────────────────────────────────
-
-/**
- * Returns true if the hostname looks like a private/loopback/link-local/reserved
- * address or a known-internal hostname. Used as a defence-in-depth SSRF guard
- * on top of the https-only protocol check.
- *
- * Note: this is a static check on the configured env var — it does NOT prevent
- * DNS rebinding (the hostname could legitimately resolve to a private IP at
- * request time). On Vercel serverless the network egress is sandboxed, so the
- * residual risk is low, but the guard still catches the most common mistake of
- * accidentally pointing the webhook at an internal endpoint.
- */
-function isSsrfTarget(hostname: string): boolean {
-  // URL.hostname wraps IPv6 literals in brackets (e.g. "[::1]") — strip them
-  // so all comparisons work against the bare address string.
-  let h = hostname.toLowerCase().replace(/\.$/, "");
-  if (h.startsWith("[") && h.endsWith("]")) {
-    h = h.slice(1, -1);
-  }
-
-  // Exact-match blocklist for well-known internal hostnames
-  const blockedHostnames = new Set([
-    "localhost",
-    "metadata.google.internal",
-    "169.254.169.254", // AWS / GCP / Azure IMDS
-    "fd00::ec2",        // AWS IPv6 IMDS
-    "::1",              // IPv6 loopback
-    "0.0.0.0",
-    "kubernetes.default",
-    "kubernetes.default.svc",
-    "kubernetes.default.svc.cluster.local",
-  ]);
-  if (blockedHostnames.has(h)) return true;
-
-  // Suffix-match: *.local, *.internal, *.cluster.local
-  if (h.endsWith(".local") || h.endsWith(".internal") || h.endsWith(".cluster.local")) {
-    return true;
-  }
-
-  // IPv6 range checks — the colon guard avoids false positives on DNS names.
-  if (h.includes(":")) {
-    // fe80::/10 link-local (fe80:: – febf::)
-    if (/^fe[89ab]/.test(h)) return true;
-    // fc00::/7 ULA (fc00:: – fdff::)
-    if (/^f[cd]/.test(h)) return true;
-    // IPv4-mapped ::ffff:x.x.x.x — strip prefix and re-check embedded IPv4.
-    // After stripping, a colon means compressed hex (e.g. "7f00:1") which is
-    // not dotted-decimal and would escape the IPv4 range checks below — block it.
-    if (h.startsWith("::ffff:")) {
-      const embedded = h.slice(7);
-      if (embedded.includes(":")) return true; // compressed hex IPv4-mapped address
-      return isSsrfTarget(embedded);
-    }
-  }
-
-  // Numeric IPv4 — check private/loopback/link-local ranges
-  const ipv4Re = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/;
-  const m = ipv4Re.exec(h);
-  if (m) {
-    const [, a, b, c, d] = m.map(Number);
-    if (
-      a === 10 ||                                   // 10.0.0.0/8
-      (a === 172 && b >= 16 && b <= 31) ||          // 172.16.0.0/12
-      (a === 192 && b === 168) ||                   // 192.168.0.0/16
-      a === 127 ||                                  // 127.0.0.0/8 loopback
-      (a === 169 && b === 254) ||                   // 169.254.0.0/16 link-local (IMDS)
-      (a === 100 && b >= 64 && b <= 127) ||         // 100.64.0.0/10 carrier-grade NAT
-      a === 0 ||                                    // 0.0.0.0/8 "this" network
-      (a === 192 && b === 0 && c === 0) ||          // 192.0.0.0/24 IETF protocol
-      (a === 192 && b === 0 && c === 2) ||          // 192.0.2.0/24 TEST-NET-1
-      (a === 198 && b === 51 && c === 100) ||       // 198.51.100.0/24 TEST-NET-2
-      (a === 203 && b === 0 && c === 113) ||        // 203.0.113.0/24 TEST-NET-3
-      a >= 240                                      // 240.0.0.0/4 reserved + 255.255.255.255
-    ) {
-      return true;
-    }
-    // Validate each octet is in range
-    if ([a, b, c, d].some((o) => o > 255)) return true;
-  }
-
-  return false;
-}
 
 function extractBotText(payload: unknown): string {
   if (typeof payload !== "object" || payload === null) return "";

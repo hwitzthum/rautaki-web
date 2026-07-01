@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
+import { validateWebhookUrl } from "@/lib/ssrf-guard";
 
 // Force dynamic rendering — this route reads runtime headers and must never
 // be statically cached at the edge.
@@ -312,31 +313,44 @@ export async function POST(request: NextRequest) {
   // Best-effort CRM capture: forward the lead to n8n → Salesflare (tagged "Lab").
   // Strictly non-blocking — a webhook outage or slowness must never break Lab
   // access or leak PII into logs. Skipped entirely if the URL env var is unset.
+  //
+  // SSRF guard: same defence-in-depth as N8N_CHAT_WEBHOOK_URL in
+  // src/app/api/chat/route.ts. The URL is operator-configured, not user
+  // input, but a misconfigured or compromised env var must not be able to
+  // turn this into a POST against internal infrastructure (e.g. the cloud
+  // metadata endpoint). See src/lib/ssrf-guard.ts.
   const labWebhookUrl = process.env.N8N_LAB_WEBHOOK_URL;
   if (labWebhookUrl) {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 4000);
-    try {
-      await fetch(labWebhookUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          company,
-          email,
-          consent: true,
-          tool,
-          source: "lab",
-        }),
-        signal: controller.signal,
-      });
-    } catch (crmErr) {
+    const webhookCheck = validateWebhookUrl(labWebhookUrl);
+    if (!webhookCheck.ok) {
       console.error(
-        "[lab-access] CRM webhook failed:",
-        (crmErr as { name?: string })?.name ?? "unknown",
+        `[lab-access] N8N_LAB_WEBHOOK_URL failed validation (${webhookCheck.reason}) — skipping CRM webhook.`,
       );
-    } finally {
-      clearTimeout(timer);
+    } else {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 4000);
+      try {
+        await fetch(webhookCheck.url.toString(), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            company,
+            email,
+            consent: true,
+            tool,
+            source: "lab",
+          }),
+          signal: controller.signal,
+        });
+      } catch (crmErr) {
+        console.error(
+          "[lab-access] CRM webhook failed:",
+          (crmErr as { name?: string })?.name ?? "unknown",
+        );
+      } finally {
+        clearTimeout(timer);
+      }
     }
   }
 
