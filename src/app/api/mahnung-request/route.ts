@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { Resend } from "resend";
+import { Redis } from "@upstash/redis";
 import { renderApproval } from "@/lib/mahnung-templates";
 import { signMahnung } from "@/lib/mahnung-sign";
 
@@ -10,6 +11,18 @@ export const dynamic = "force-dynamic";
 
 const APPROVER = "hello@rautaki.ch";
 const FROM = "Rautaki · System <harry@send.rautaki.ch>";
+const ASKED_SET = "mahnung:asked";
+
+// The n8n workflow POSTs every overdue invoice daily; dedup the ASK here so Harry
+// is emailed at most once per (invoice, level). (Manual invoices have no
+// Salesflare account to tag, so state lives here.)
+const redis =
+  process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
+    ? new Redis({
+        url: process.env.UPSTASH_REDIS_REST_URL,
+        token: process.env.UPSTASH_REDIS_REST_TOKEN,
+      })
+    : null;
 
 function timingSafeEqual(a: string, b: string): boolean {
   const ab = Buffer.from(a);
@@ -58,6 +71,24 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "invalid payload" }, { status: 400 });
   }
 
+  // Dedup: one approval email per (invoice, level).
+  if (redis) {
+    try {
+      const added = await redis.sadd(ASKED_SET, `${i}:${l}`);
+      if (added === 0) {
+        return NextResponse.json(
+          { ok: true, skipped: "already-asked" },
+          { headers: { "Cache-Control": "no-store" } },
+        );
+      }
+    } catch (err) {
+      console.error(
+        "[mahnung-request] asked-dedup failed:",
+        (err as { name?: string })?.name ?? "unknown",
+      );
+    }
+  }
+
   const mk = (a: "send" | "skip") => {
     const t = signMahnung({ e, v, n, b, f, i, l, a });
     const q = new URLSearchParams({ e, v, n, b, f, i, l, a, t });
@@ -84,6 +115,14 @@ export async function POST(request: NextRequest) {
   });
 
   if (error) {
+    // roll back the asked marker so this invoice/level can be retried tomorrow
+    if (redis) {
+      try {
+        await redis.srem(ASKED_SET, `${i}:${l}`);
+      } catch {
+        /* best effort */
+      }
+    }
     console.error(
       "[mahnung-request] Resend error:",
       (error as { name?: string })?.name ?? "unknown",
