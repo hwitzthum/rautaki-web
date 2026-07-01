@@ -1,7 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { Resend } from "resend";
+import { Redis } from "@upstash/redis";
 import { NURTURE_TEMPLATES } from "@/lib/nurture-templates";
+
+const SUPPRESSION_SET = "nurture:unsub";
+const redis =
+  process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
+    ? new Redis({
+        url: process.env.UPSTASH_REDIS_REST_URL,
+        token: process.env.UPSTASH_REDIS_REST_TOKEN,
+      })
+    : null;
 
 // Renders + sends a nurture email; called only by the n8n nurture workflow
 // (and by internal tests). Reads runtime data — never statically cached.
@@ -73,6 +83,25 @@ export async function POST(request: NextRequest) {
 
   if (!template || !to || !unsubEmail) {
     return NextResponse.json({ error: "invalid payload" }, { status: 400 });
+  }
+
+  // GDPR: never send to an address that has opted out. Fail open only if Redis
+  // is unreachable (better to send than to silently drop legitimate mail).
+  if (redis) {
+    try {
+      const suppressed = await redis.sismember(SUPPRESSION_SET, unsubEmail);
+      if (suppressed) {
+        return NextResponse.json(
+          { ok: true, skipped: "unsubscribed" },
+          { headers: { "Cache-Control": "no-store" } },
+        );
+      }
+    } catch (err) {
+      console.error(
+        "[nurture-send] suppression check failed:",
+        (err as { name?: string })?.name ?? "unknown",
+      );
+    }
   }
 
   const unsub = unsubscribeUrl(unsubEmail);
