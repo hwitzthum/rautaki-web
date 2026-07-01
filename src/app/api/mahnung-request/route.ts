@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { Resend } from "resend";
 import { Redis } from "@upstash/redis";
-import { renderApproval } from "@/lib/mahnung-templates";
+import { renderApproval, renderHeadsUp } from "@/lib/mahnung-templates";
 import { signMahnung } from "@/lib/mahnung-sign";
 
 // Called by the n8n #9 workflow for each overdue invoice. Emails Harry an
@@ -67,17 +67,22 @@ export async function POST(request: NextRequest) {
   const i = str("invoiceId");
   const l = str("level", "1");
 
-  if (!e || e.indexOf("@") === -1 || !n) {
+  if (!n) {
     return NextResponse.json({ error: "invalid payload" }, { status: 400 });
   }
+  const level = Number(l) || 1;
+  // With a valid client email → approval email (a real reminder can be sent).
+  // Without one → heads-up to Harry to follow up manually.
+  const hasEmail = !!e && e.indexOf("@") !== -1;
+  const mode = hasEmail ? "email" : "manual";
 
-  // Dedup: one approval email per (invoice, level).
+  // Dedup: one message per (invoice, level).
   if (redis) {
     try {
       const added = await redis.sadd(ASKED_SET, `${i}:${l}`);
       if (added === 0) {
         return NextResponse.json(
-          { ok: true, skipped: "already-asked" },
+          { ok: true, skipped: true },
           { headers: { "Cache-Control": "no-store" } },
         );
       }
@@ -95,15 +100,17 @@ export async function POST(request: NextRequest) {
     return `https://www.rautaki.ch/api/mahnung-action?${q.toString()}`;
   };
 
-  const { subject, html } = renderApproval({
-    company,
-    clientEmail: e,
-    nr: n,
-    betrag: b,
-    level: Number(l) || 1,
-    sendUrl: mk("send"),
-    skipUrl: mk("skip"),
-  });
+  const { subject, html } = hasEmail
+    ? renderApproval({
+        company,
+        clientEmail: e,
+        nr: n,
+        betrag: b,
+        level,
+        sendUrl: mk("send"),
+        skipUrl: mk("skip"),
+      })
+    : renderHeadsUp({ company, nr: n, betrag: b, faellig: f, level });
 
   const resend = new Resend(resendKey);
   const { error } = await resend.emails.send({
@@ -131,7 +138,7 @@ export async function POST(request: NextRequest) {
   }
 
   return NextResponse.json(
-    { ok: true },
+    { ok: true, skipped: false, mode },
     { headers: { "Cache-Control": "no-store" } },
   );
 }
