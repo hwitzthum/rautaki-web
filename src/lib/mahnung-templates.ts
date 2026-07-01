@@ -145,3 +145,32 @@ export function renderApproval(d: ApprovalData): {
     html: shell(`System · Freigabe`, body),
   };
 }
+
+export interface HeadsUpData {
+  company: string;
+  nr: string;
+  betrag: string;
+  faellig: string;
+  level: number;
+}
+
+// No client email on file → notify Harry to follow up manually (no action links).
+export function renderHeadsUp(d: HeadsUpData): { subject: string; html: string } {
+  const stufe =
+    d.level >= 3 ? "2. Mahnung" : d.level === 2 ? "1. Mahnung" : "Zahlungserinnerung";
+  const body =
+    `<div style="font-family:${SANS};font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:#9A9590;margin:0 0 14px;">Überfällig · ${esc(stufe)}</div>` +
+    h1("Bitte manuell nachfassen") +
+    p(
+      `<strong>${esc(d.company)}</strong> — Rechnung <strong>${esc(d.nr)}</strong> über <strong>${esc(d.betrag)}</strong> (fällig am <strong>${esc(d.faellig)}</strong>) ist überfällig (<strong>${esc(stufe)}</strong>).`,
+      14,
+    ) +
+    p(
+      `Für diesen Kunden ist keine E-Mail hinterlegt — bitte per Post/Telefon nachfassen oder die E-Mail in CashCtrl ergänzen.`,
+      0,
+    );
+  return {
+    subject: `Überfällig (manuell): ${d.company} — ${d.nr} (${stufe})`,
+    html: shell(`System · Überfällig`, body),
+  };
+}
