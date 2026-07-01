@@ -29,7 +29,24 @@ function esc(s: string): string {
   return String(s ?? "")
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+// Only linkify values we've validated, so nothing untrusted lands in an href.
+function isValidEmail(s: string): boolean {
+  return /^[^\s@"'<>]+@[^\s@"'<>]+\.[^\s@"'<>]+$/.test(s);
+}
+function safeSalesflareUrl(s: string): string | null {
+  try {
+    const u = new URL(s);
+    return u.protocol === "https:" && u.hostname === "app.salesflare.com"
+      ? u.toString()
+      : null;
+  } catch {
+    return null;
+  }
 }
 
 function timingSafeEqual(a: string, b: string): boolean {
@@ -58,7 +75,9 @@ function render(d: BriefingPayload): { subject: string; html: string } {
     (d.email
       ? line(
           "E-Mail",
-          `<a href="mailto:${esc(d.email)}" style="color:#1C1C1C;">${esc(d.email)}</a>`,
+          isValidEmail(d.email.trim())
+            ? `<a href="mailto:${esc(d.email.trim())}" style="color:#1C1C1C;">${esc(d.email.trim())}</a>`
+            : esc(d.email),
         )
       : "") +
     (d.phone ? line("Telefon", esc(d.phone)) : "") +
@@ -82,8 +101,9 @@ function render(d: BriefingPayload): { subject: string; html: string } {
         .join("")
     : "";
 
-  const cta = d.salesflareUrl
-    ? `<tr><td style="padding:8px 32px 4px;"><a href="${esc(d.salesflareUrl)}" style="font-family:${SANS};font-size:12px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:#0A0A0A;text-decoration:none;background:#F5A623;display:inline-block;padding:13px 26px;">Volle Historie in Salesflare &rarr;</a></td></tr>`
+  const sfUrl = d.salesflareUrl ? safeSalesflareUrl(d.salesflareUrl) : null;
+  const cta = sfUrl
+    ? `<tr><td style="padding:8px 32px 4px;"><a href="${esc(sfUrl)}" style="font-family:${SANS};font-size:12px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:#0A0A0A;text-decoration:none;background:#F5A623;display:inline-block;padding:13px 26px;">Volle Historie in Salesflare &rarr;</a></td></tr>`
     : "";
 
   const html = `<!DOCTYPE html>
