@@ -65,10 +65,23 @@ export async function GET(request: NextRequest) {
   const token = (searchParams.get("t") ?? "").trim();
   if (!isValid(email, token)) return html(400, "Ungültig", invalidBody);
 
+  // Escape for both the text-node context (h1/p/strong below) and the
+  // hidden-input `value="..."` attribute context (the form action) —
+  // the attribute context additionally requires quotes/apostrophes to be
+  // encoded, otherwise a crafted `e` value could break out of the
+  // double-quoted `value` attribute and inject additional attributes on
+  // the <input> tag. `email` reaches here already HMAC-verified against
+  // UNSUBSCRIBE_SECRET (see isValid above), but the same secret signs
+  // whatever string an upstream caller (referral-action, nurture-send)
+  // chose to pass in — those callers do not restrict the string to a
+  // strict email shape — so this endpoint must not assume the value is
+  // attribute-safe on its own.
   const safeEmail = email
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
   const body = `<h1 style="font-family:Georgia,serif;font-size:24px;font-weight:400;letter-spacing:-0.01em;margin:0 0 14px;">Von den Lab-Notizen abmelden?</h1>
 <p style="font-size:15px;line-height:1.7;color:rgba(28,28,28,0.65);margin:0 0 24px;">Sie erhalten dann keine weiteren Notizen zu neuen Werkzeugen und Strategie-Updates an <strong>${safeEmail}</strong>.</p>
 <form method="POST" action="/api/unsubscribe">
