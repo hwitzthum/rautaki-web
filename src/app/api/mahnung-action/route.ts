@@ -3,6 +3,7 @@ import { Resend } from "resend";
 import { Redis } from "@upstash/redis";
 import { renderReminder } from "@/lib/mahnung-templates";
 import { verifyMahnung, type MahnungParams } from "@/lib/mahnung-sign";
+import { validateWebhookUrl } from "@/lib/ssrf-guard";
 
 // Harry's Approve/Skip click target for payment reminders. GET shows a
 // confirmation (prefetch-safe); POST sends the reminder to the client.
@@ -168,6 +169,42 @@ export async function POST(request: NextRequest) {
       (error as { name?: string })?.name ?? "unknown",
     );
     return page("Fehler", invalid, 502);
+  }
+
+  // Write-back Mahnwesen Phase 2a: after a reminder actually went out, record
+  // the reached level in CashCtrl (Erinnert 1/2) via n8n, which holds the
+  // CashCtrl credential. Keeps CashCtrl statusId the single source of truth
+  // for #9 (6vmoSTKvHYwha9Z7), so the next run escalates instead of repeating.
+  // Strictly best-effort and non-blocking — the reminder is already sent, and
+  // n8n itself refuses downgrades / closed invoices. Level 3 (Betreibung) has
+  // no CashCtrl status; n8n treats it as a no-op. Same SSRF defence-in-depth
+  // as N8N_LAB_WEBHOOK_URL in src/app/api/lab-access/route.ts.
+  const statusWebhookUrl = process.env.N8N_MAHNUNG_STATUS_WEBHOOK_URL;
+  if (statusWebhookUrl) {
+    const webhookCheck = validateWebhookUrl(statusWebhookUrl);
+    if (!webhookCheck.ok) {
+      console.error(
+        `[mahnung-action] N8N_MAHNUNG_STATUS_WEBHOOK_URL failed validation (${webhookCheck.reason}) — skipping status write-back.`,
+      );
+    } else {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 4000);
+      try {
+        await fetch(webhookCheck.url.toString(), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ invoiceId: Number(p.i), level }),
+          signal: controller.signal,
+        });
+      } catch (hookErr) {
+        console.error(
+          "[mahnung-action] status write-back webhook failed:",
+          (hookErr as { name?: string })?.name ?? "unknown",
+        );
+      } finally {
+        clearTimeout(timer);
+      }
+    }
   }
 
   const stufe =
