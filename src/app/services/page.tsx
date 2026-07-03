@@ -33,6 +33,27 @@ const serviceSchemas = services.map((service) => ({
 
 const sectionBg = ["bg-white", "bg-cream", "bg-warm-grey"] as const;
 
+const pricing = [
+  {
+    format: "Beratungstag",
+    price: "ab CHF 3'500",
+    description:
+      "Ganztägige Zusammenarbeit vor Ort oder remote — inklusive Vor- und Nachbereitung, Unterlagen und dokumentierten Ergebnissen.",
+  },
+  {
+    format: "Halbtag",
+    price: "ab CHF 1'800",
+    description:
+      "Kompaktes Format für fokussierte Fragestellungen — inklusive Vorbereitung und Ergebnissicherung.",
+  },
+  {
+    format: "Stundenansatz",
+    price: "CHF 280",
+    description:
+      "Punktuelles Sparring und kurzfristige Einordnung — ohne Vor- und Nachbereitung.",
+  },
+];
+
 export default function ServicesPage() {
   return (
     <>
@@ -47,7 +68,7 @@ export default function ServicesPage() {
             <span className="italic text-gold">KI-Zeitalter</span>
           </>
         }
-        description="Drei Leistungsbereiche, die Führungsteams dabei unterstützen, Richtung zu setzen, Risiken zu steuern und KI-Initiativen von der Idee zur organisationalen Fähigkeit zu entwickeln."
+        description="Drei Leistungsbereiche, die Führungsteams dabei unterstützen, Richtung zu setzen, Risiken zu steuern und KI-Initiativen von der Idee zur organisationalen Fähigkeit zu entwickeln — mit transparenten Tarifen und der Option, Beratung mit akkreditierter Weiterbildung zu verbinden."
         rightContent={
           <div className="hidden lg:block space-y-2">
             {services.map((service) => (
@@ -155,6 +176,51 @@ export default function ServicesPage() {
           </div>
         </section>
       ))}
+
+      {/* ── Preise ────────────────────────────────────────── */}
+      <section id="preise" className="bg-white scroll-mt-24 px-6 sm:px-10 lg:px-20 py-20">
+        <div className="mx-auto max-w-content">
+          <ScrollReveal>
+            <SectionLabel text="Preise" />
+            <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
+              Klare Leistung,{" "}
+              <span className="italic text-gold">klare Preise</span>
+            </h2>
+            <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey mb-12 max-w-reading">
+              Die meisten Beratungsangebote nennen Preise erst auf Anfrage. Wir
+              legen unsere Tarife offen — damit Sie planen können, bevor Sie
+              mit uns sprechen.
+            </p>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-10 gap-y-8">
+            {pricing.map((item, index) => (
+              <ScrollReveal key={item.format} delay={index * 80}>
+                <div className="border-t border-ink/10 pt-6">
+                  <div className="font-ui text-xs font-medium uppercase tracking-wide-label text-mid-grey mb-3">
+                    {item.format}
+                  </div>
+                  <div className="font-serif text-h3 tracking-tight-h3 text-ink mb-3">
+                    {item.price}
+                  </div>
+                  <p className="font-ui text-sm font-light leading-body text-mid-grey">
+                    {item.description}
+                  </p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+
+          <ScrollReveal>
+            <p className="font-ui text-sm font-light leading-body text-mid-grey mt-12 pt-8 border-t border-ink/10 max-w-reading">
+              Mehrwöchige Programme und Mandate — etwa eine
+              KI-Strategie-Entwicklung oder eine Mentoring-Begleitung —
+              vereinbaren wir individuell mit Ihnen, transparent kalkuliert auf
+              Basis dieser Tarife. Alle Preise exkl. MwSt.
+            </p>
+          </ScrollReveal>
+        </div>
+      </section>
 
       <GoldRule />
 

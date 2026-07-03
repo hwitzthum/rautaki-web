@@ -88,9 +88,10 @@ export default function HeroDark({ onBookingClick }: HeroDarkProps) {
           </h1>
 
           <p className="font-ui text-body font-light leading-body text-white/45 max-w-[470px]">
-            Wir begleiten Geschäftsleitungen und Verwaltungsräte dabei,
-            KI-Initiativen mit messbarer Wirkung umzusetzen — von der
-            Standortbestimmung bis zur produktionsreifen Lösung.
+            Wir verbinden strategische Beratung für Geschäftsleitungen und
+            Verwaltungsräte mit akkreditierter Weiterbildung — von der
+            Standortbestimmung bis zur produktionsreifen Lösung. Mit besonderer
+            Erfahrung im NPO-, Sozial- und öffentlichen Sektor.
           </p>
         </div>
       </div>

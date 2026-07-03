@@ -28,14 +28,29 @@ const stats = [
 ];
 
 const credentials = [
+  "Age Stiftung",
+  "Hepatitis Schweiz",
   "Universität Zürich",
   "Institut für Kommunikation und Führung ikf",
-  "Hepatitis Schweiz",
-  "Age Stiftung",
-  "Astara Switzerland",
   "VMI Universität Fribourg",
-  "Glaux Group",
   "SPAS",
+  "Astara Switzerland",
+  "Glaux Group",
+];
+
+const differentiators = [
+  {
+    title: "Vom Sparring bis zum Zertifikat",
+    body: "Wir beraten Führungsgremien individuell — und lehren dasselbe Wissen in akkreditierten CAS-Programmen am Institut für Kommunikation und Führung ikf. Diese Kombination bietet in der Schweiz kaum ein anderer Anbieter.",
+  },
+  {
+    title: "Akademisch fundiert, hands-on bis Produktivbetrieb",
+    body: "Evidenz statt Bauchgefühl — und Begleitung, die nicht beim Konzept endet, sondern erst beim messbaren Ergebnis.",
+  },
+  {
+    title: "Zuhause, wo Wirkung zählt",
+    body: "NPO, Verbände, Sozial- und öffentlicher Sektor: Wir kennen Organisationen, in denen jeder Franken doppelt begründet sein muss — und KI trotzdem wirken soll.",
+  },
 ];
 
 export default function Home() {
@@ -47,7 +62,8 @@ export default function Home() {
       <div className="bg-charcoal border-b border-white/5 overflow-hidden py-5">
         <ScrollReveal>
           <p className="text-center font-ui text-xs uppercase tracking-wide-label text-white/45 mb-4">
-            Referenzen aus Lehre &amp; Beratung
+            Vertraut von Organisationen im NPO-, Sozial- und öffentlichen
+            Sektor — und darüber hinaus
           </p>
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 px-6 sm:px-10 lg:px-20 max-w-content mx-auto">
             {credentials.map((name) => (
@@ -63,6 +79,34 @@ export default function Home() {
       </div>
 
       <ServiceCards />
+
+      {/* ── Warum Rautaki ───────────────────────────────── */}
+      <section className="bg-white px-6 sm:px-10 lg:px-20 py-20">
+        <div className="mx-auto max-w-content">
+          <ScrollReveal>
+            <SectionLabel text="Warum Rautaki" />
+            <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-12">
+              Beratung und Weiterbildung — in{" "}
+              <span className="italic text-gold">einer Hand</span>
+            </h2>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-10 gap-y-8">
+            {differentiators.map((item, index) => (
+              <ScrollReveal key={item.title} delay={index * 80}>
+                <div className="border-l-2 border-gold pl-5">
+                  <h3 className="font-serif text-h4 text-ink font-normal mb-2 leading-snug">
+                    {item.title}
+                  </h3>
+                  <p className="font-ui text-sm font-light leading-body text-mid-grey">
+                    {item.body}
+                  </p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <section className="bg-cream px-6 sm:px-10 lg:px-20 py-20">
         <div className="mx-auto max-w-content grid grid-cols-1 lg:grid-cols-hero-light gap-20 items-center">
@@ -102,6 +146,16 @@ export default function Home() {
           <Button href="/booking" variant="gold" showArrow>
             Erstgespräch vereinbaren
           </Button>
+          <p className="font-ui text-sm font-light text-white/45 mt-8">
+            Transparente Tarife: Beratungstag ab CHF 3&apos;500 —{" "}
+            <a
+              href="/services#preise"
+              className="text-white/45 underline decoration-white/20 underline-offset-4 transition-colors duration-200 hover:text-gold hover:decoration-gold"
+            >
+              alle Preise unter Leistungen
+            </a>
+            .
+          </p>
         </ScrollReveal>
       </section>
     </>

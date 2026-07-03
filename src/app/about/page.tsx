@@ -241,7 +241,7 @@ export default function AboutPage() {
               },
               {
                 title: "Workshops und Trainings",
-                body: "Führungskräfte und Teams befähigen, KI verantwortungsvoll und wirkungsvoll einzusetzen.",
+                body: "Führungskräfte und Teams befähigen, KI verantwortungsvoll und wirkungsvoll einzusetzen — bis hin zu akkreditierten CAS-Programmen.",
               },
               {
                 title: "Praxisorientierte Umsetzung",
@@ -360,8 +360,9 @@ export default function AboutPage() {
                 Workshops mit Organisationen
               </h2>
               <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey max-w-reading mb-10">
-                Eine Auswahl von Organisationen, mit denen Rautaki in Workshops
-                und Trainings zusammengearbeitet hat.
+                Ein Grossteil unserer Arbeit entsteht mit NPO, Verbänden und
+                Organisationen des Sozial- und öffentlichen Sektors — dort, wo
+                jeder Einsatz von Mitteln Wirkung zeigen muss. Eine Auswahl.
               </p>
             </ScrollReveal>
 
@@ -390,8 +391,11 @@ export default function AboutPage() {
                 Lehrtätigkeit an Hochschulen und Instituten
               </h2>
               <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey max-w-reading mb-10">
-                Harry Witzthum unterrichtet als Dozent in folgenden
-                Weiterbildungsprogrammen.
+                Was wir beraten, lehren wir auch: Harry Witzthum unterrichtet
+                als Dozent in akkreditierten CAS-Programmen — vom Chief AI
+                Officer bis zur KI-Transformation. Diese Verbindung von
+                individueller Beratung und akkreditierter Weiterbildung macht
+                Rautaki im Schweizer Markt selten.
               </p>
             </ScrollReveal>
 
