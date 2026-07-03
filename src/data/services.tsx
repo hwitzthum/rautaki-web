@@ -112,11 +112,11 @@ export const services: ServiceData[] = [
       },
       {
         title: "Produktionsreife",
-        body: "Von der funktionierenden Idee zur robusten KI-Lösung: Wir unterstützen Teams dabei, Anforderungen zu klären, Risiken zu managen und Lösungen sicher in den Produktiveinsatz zu überführen.",
+        body: "Von der funktionierenden Idee zur robusten KI-Lösung: Wir unterstützen Teams dabei, Anforderungen zu klären, Risiken zu managen und Lösungen sicher in den Produktivbetrieb zu überführen.",
       },
     ],
     forWhom:
-      "Für Teams mit dem Mandat, KI umzusetzen — und dem Bedarf an erfahrener Begleitung durch Methodik, Technologie und die Hürden des Produktiveinsatzes.",
+      "Für Teams mit dem Mandat, KI umzusetzen — und dem Bedarf an erfahrener Begleitung durch Methodik, Technologie und die Hürden des Produktivbetriebs.",
     image: "/images/services/growth-activation.webp",
   },
 ];

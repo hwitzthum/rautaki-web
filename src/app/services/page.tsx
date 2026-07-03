@@ -12,7 +12,7 @@ import { services } from "@/data/services";
 export const metadata: Metadata = {
   title: "Leistungen",
   description:
-    "KI-Strategie, Implementierung und Führungskräfteentwicklung — massgeschneidert für Entscheider in DACH.",
+    "KI-Strategie, Implementierung und Führungskräfteentwicklung — massgeschneidert für Entscheider in der Schweiz.",
   alternates: { canonical: "https://www.rautaki.ch/services" },
 };
 
@@ -68,7 +68,7 @@ export default function ServicesPage() {
             <span className="italic text-gold">KI-Zeitalter</span>
           </>
         }
-        description="Drei Leistungsbereiche, die Führungsteams dabei unterstützen, Richtung zu setzen, Risiken zu steuern und KI-Initiativen von der Idee zur organisationalen Fähigkeit zu entwickeln — mit transparenten Tarifen und der Option, Beratung mit akkreditierter Weiterbildung zu verbinden."
+        description="Drei Leistungsbereiche, die Führungsteams dabei unterstützen, Richtung zu setzen, Risiken zu steuern und KI-Initiativen von der Idee zur organisationalen Fähigkeit zu entwickeln. Mit transparenten Tarifen, der Option auf akkreditierte Weiterbildung — und besonderer Erfahrung im NPO-, Sozial- und öffentlichen Sektor."
         rightContent={
           <div className="hidden lg:block space-y-2">
             {services.map((service) => (
@@ -216,8 +216,36 @@ export default function ServicesPage() {
               Mehrwöchige Programme und Mandate — etwa eine
               KI-Strategie-Entwicklung oder eine Mentoring-Begleitung —
               vereinbaren wir individuell mit Ihnen, transparent kalkuliert auf
-              Basis dieser Tarife. Alle Preise exkl. MwSt.
+              Basis dieser Tarife. Das Erstgespräch ist kostenlos und
+              unverbindlich. Alle Preise exkl. MwSt.
             </p>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* ── Akkreditierte Weiterbildung ────────────────────── */}
+      <section className="bg-cream px-6 sm:px-10 lg:px-20 py-20">
+        <div className="mx-auto max-w-content">
+          <ScrollReveal>
+            <SectionLabel text="Weiterbildung" />
+            <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
+              Vom Sparring zum{" "}
+              <span className="italic text-gold">Zertifikat</span>
+            </h2>
+            <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey mb-8 max-w-reading">
+              Was wir beraten, lehren wir auch: Harry Witzthum unterrichtet als
+              Dozent in akkreditierten CAS-Programmen am Institut für
+              Kommunikation und Führung ikf — vom Chief AI Officer bis zur
+              KI-Transformation. Wenn Ihr Team über die Beratung hinaus
+              KI-Kompetenz mit Zertifikat aufbauen will, ist der Weg dahin
+              kurz.
+            </p>
+            <a
+              href="/about"
+              className="font-sans text-sm text-ink hover:text-gold transition-colors duration-200 tracking-wide"
+            >
+              Zur Lehrtätigkeit →
+            </a>
           </ScrollReveal>
         </div>
       </section>
@@ -235,7 +263,7 @@ export default function ServicesPage() {
             praxisnahen Weg zu messbarem Wert definieren.
           </p>
           <Button href="/booking" variant="gold" showArrow>
-            Strategie-Standortbestimmung anfragen
+            Erstgespräch vereinbaren
           </Button>
         </ScrollReveal>
       </section>

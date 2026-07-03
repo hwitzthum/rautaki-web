@@ -223,9 +223,9 @@ export default function AboutPage() {
       <section className="bg-obsidian grain px-6 sm:px-10 lg:px-20 py-24">
         <div className="mx-auto max-w-content">
           <ScrollReveal>
-            <SectionLabel text="Leistungen" variant="dark" />
+            <SectionLabel text="Arbeitsweise" variant="dark" />
             <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-white mb-12">
-              Was wir tun
+              Wie wir arbeiten
             </h2>
           </ScrollReveal>
 
@@ -466,7 +466,7 @@ export default function AboutPage() {
               KI-Einführung begleiten kann.
             </p>
             <Button href="/booking" variant="gold" showArrow>
-              Kennenlernen — unverbindlich
+              Erstgespräch vereinbaren
             </Button>
           </ScrollReveal>
         </div>

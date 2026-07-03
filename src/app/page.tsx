@@ -78,6 +78,27 @@ export default function Home() {
         </ScrollReveal>
       </div>
 
+      {/* ── KI-Wirkung (Problem) ────────────────────────── */}
+      <section className="bg-cream px-6 sm:px-10 lg:px-20 py-20">
+        <div className="mx-auto max-w-content grid grid-cols-1 lg:grid-cols-hero-light gap-20 items-center">
+          <ScrollReveal>
+            <SectionLabel text="KI-Wirkung" />
+            <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
+              Das Potenzial ist real. Die Lücke zur{" "}
+              <span className="italic text-gold">Wirkung</span> auch.
+            </h2>
+            <p className="font-ui text-body font-light leading-body text-ink/45 md:text-mid-grey max-w-narrow">
+              78 Prozent der Unternehmen setzen KI bereits ein — doch 95 Prozent
+              der Pilotprojekte erreichen nie den Produktivbetrieb. Diese Lücke
+              zwischen Aktivität und Wirkung ist die strategische
+              Herausforderung unserer Zeit.
+            </p>
+          </ScrollReveal>
+
+          <StatBlock stats={stats} />
+        </div>
+      </section>
+
       <ServiceCards />
 
       {/* ── Warum Rautaki ───────────────────────────────── */}
@@ -105,26 +126,6 @@ export default function Home() {
               </ScrollReveal>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className="bg-cream px-6 sm:px-10 lg:px-20 py-20">
-        <div className="mx-auto max-w-content grid grid-cols-1 lg:grid-cols-hero-light gap-20 items-center">
-          <ScrollReveal>
-            <SectionLabel text="KI-Wirkung" />
-            <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
-              Das Potenzial ist real. Die Lücke zur{" "}
-              <span className="italic text-gold">Wirkung</span> auch.
-            </h2>
-            <p className="font-ui text-body font-light leading-body text-ink/45 md:text-mid-grey max-w-narrow">
-              78 Prozent der Unternehmen setzen KI bereits ein — doch 95 Prozent
-              der Pilotprojekte erreichen nie den Produktivbetrieb. Diese Lücke
-              zwischen Aktivität und Wirkung ist die strategische
-              Herausforderung unserer Zeit.
-            </p>
-          </ScrollReveal>
-
-          <StatBlock stats={stats} />
         </div>
       </section>
 

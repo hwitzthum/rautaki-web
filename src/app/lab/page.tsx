@@ -54,7 +54,7 @@ export default function LabPage() {
           {/* Page header — compact, flows directly into cards */}
           <SectionLabel text="Lab" />
           <h1 className="font-serif text-h2 lg:text-h1 font-normal leading-heading tracking-tight text-ink mb-4">
-            Werkzeuge zum <span className="italic text-gold">Selber bauen</span>
+            Werkzeuge zum <span className="italic text-gold">Selberbauen</span>
             .
           </h1>
           <p className="max-w-reading font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey mb-10">
@@ -105,7 +105,7 @@ export default function LabPage() {
                 Prompt-Bibliotheken, KI-Readiness-Assessments und weitere Tools.
                 Haben Sie eine Idee?{" "}
                 <a
-                  href="/booking"
+                  href="mailto:hello@rautaki.ch"
                   className="text-ink underline decoration-gold/70 underline-offset-4 hover:decoration-gold"
                 >
                   Schreiben Sie uns.
