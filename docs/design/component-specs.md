@@ -145,10 +145,10 @@ A small uppercase label that introduces a section. Always has a short gold horiz
 
 /* Dark variant */
 .section-label--dark {
-  color: rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.20);
 }
 .section-label--dark::before {
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.20);
 }
 ```
 
@@ -280,7 +280,7 @@ Primary calls to action. Two variants: gold (primary) and dark (secondary).
 | Hover | Gold-light bg (`#FFD07A`) | Charcoal bg (`#111`) |
 | Focus | Gold 2px outline | Gold 2px outline |
 | Active | Gold bg, 90% opacity | Obsidian bg, 90% opacity |
-| Disabled | 40% opacity, `cursor: not-allowed` | 40% opacity, `cursor: not-allowed` |
+| Disabled | 50% opacity, `pointer-events: none` | 50% opacity, `pointer-events: none` |
 
 ### Usage rules
 - Use `btn-gold` for the single primary action per section
@@ -407,8 +407,8 @@ Full-viewport dark hero for the home page. Left panel: logo + headline + body. R
   height: var(--hero-glow-size);
   border-radius: 50%;
   background: radial-gradient(circle, var(--hero-glow-color) 0%, transparent 70%);
-  top: var(--hero-glow-top);      /* -150px */
-  left: var(--hero-glow-left);    /* -100px */
+  top: var(--hero-glow-top);      /* -200px */
+  left: var(--hero-glow-left);    /* -140px */
   pointer-events: none;
 }
 
@@ -469,7 +469,7 @@ Full-viewport dark hero for the home page. Left panel: logo + headline + body. R
   font-weight: var(--fw-light);       /* 300 */
   line-height: var(--lh-body);        /* 1.75 */
   color: var(--color-text-on-dark-body); /* rgba(255,255,255,0.45) */
-  max-width: 400px;
+  max-width: 470px;
 }
 
 /* CTA block (gold fill panel in right column) */
@@ -546,7 +546,7 @@ A lighter hero for inner pages or as an alternative home page treatment. Left pa
   grid-template-columns: var(--grid-hero-light);  /* 1.3fr 0.7fr */
   gap: var(--space-section);            /* 80px */
   align-items: center;
-  border-top: var(--border-gold-rule);  /* 4px solid gold */
+  border-top: var(--border-gold-rule);  /* 3px solid gold */
 }
 
 .hero-light h1 {
