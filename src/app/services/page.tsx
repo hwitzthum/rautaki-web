@@ -24,12 +24,61 @@ const serviceSchemas = services.map((service) => ({
   url: `https://www.rautaki.ch/services#${service.slug}`,
   provider: {
     "@type": "Organization",
+    "@id": "https://www.rautaki.ch/#organization",
     name: "Rautaki",
     url: "https://www.rautaki.ch",
   },
   areaServed: { "@type": "Country", name: "Switzerland" },
   serviceType: "AI Consulting",
 }));
+
+// Structured pricing — mirrors the published pricing table below so AI
+// systems can cite concrete figures (SEAKT K-dimension: quotable facts).
+const offerCatalogSchema = {
+  "@context": "https://schema.org",
+  "@type": "OfferCatalog",
+  "@id": "https://www.rautaki.ch/services#preise",
+  name: "Zusammenarbeitsformate",
+  itemListElement: [
+    {
+      "@type": "Offer",
+      name: "Beratungstag",
+      description:
+        "Ganztägige Zusammenarbeit vor Ort oder remote — inklusive Vor- und Nachbereitung, Unterlagen und dokumentierten Ergebnissen.",
+      priceSpecification: {
+        "@type": "PriceSpecification",
+        minPrice: 3500,
+        priceCurrency: "CHF",
+      },
+      offeredBy: { "@id": "https://www.rautaki.ch/#organization" },
+    },
+    {
+      "@type": "Offer",
+      name: "Halbtag",
+      description:
+        "Kompaktes Format für fokussierte Fragestellungen — inklusive Vorbereitung und Ergebnissicherung.",
+      priceSpecification: {
+        "@type": "PriceSpecification",
+        minPrice: 1800,
+        priceCurrency: "CHF",
+      },
+      offeredBy: { "@id": "https://www.rautaki.ch/#organization" },
+    },
+    {
+      "@type": "Offer",
+      name: "Stundenansatz",
+      description:
+        "Punktuelles Sparring und kurzfristige Einordnung — ohne Vor- und Nachbereitung.",
+      priceSpecification: {
+        "@type": "PriceSpecification",
+        price: 280,
+        priceCurrency: "CHF",
+        unitText: "Stunde",
+      },
+      offeredBy: { "@id": "https://www.rautaki.ch/#organization" },
+    },
+  ],
+};
 
 const sectionBg = ["bg-white", "bg-cream", "bg-warm-grey"] as const;
 
@@ -57,7 +106,7 @@ const pricing = [
 export default function ServicesPage() {
   return (
     <>
-      <JsonLd schema={serviceSchemas} />
+      <JsonLd schema={[...serviceSchemas, offerCatalogSchema]} />
 
       {/* ── Hero ──────────────────────────────────────────── */}
       <HeroLight

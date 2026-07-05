@@ -5,12 +5,27 @@ import ScrollReveal from "@/components/ScrollReveal";
 import SectionLabel from "@/components/SectionLabel";
 import GoldRule from "@/components/GoldRule";
 import Button from "@/components/Button";
+import JsonLd from "@/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "Über uns",
   description:
     "Harry Witzthum, Gründer von Rautaki — KI-Strategie mit echtem Implementierungswissen.",
   alternates: { canonical: "https://www.rautaki.ch/about" },
+};
+
+// Marks /about as the canonical profile page for the founder entity defined
+// in the site-wide @graph (layout.tsx) — strengthens E-A-T signals for AI.
+const profilePageSchema = {
+  "@context": "https://schema.org",
+  "@type": ["AboutPage", "ProfilePage"],
+  "@id": "https://www.rautaki.ch/about#page",
+  url: "https://www.rautaki.ch/about",
+  name: "Über uns — Rautaki",
+  inLanguage: "de-CH",
+  isPartOf: { "@id": "https://www.rautaki.ch/#website" },
+  about: { "@id": "https://www.rautaki.ch/#organization" },
+  mainEntity: { "@id": "https://www.rautaki.ch/#harry-witzthum" },
 };
 
 const values = [
@@ -82,6 +97,7 @@ function BrandRautaki() {
 export default function AboutPage() {
   return (
     <>
+      <JsonLd schema={profilePageSchema} />
       <HeroLight
         label="Über uns"
         title={<BrandRautaki />}
