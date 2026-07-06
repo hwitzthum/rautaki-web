@@ -91,6 +91,16 @@ const nextConfig: NextConfig = {
           // provides no benefit here while breaking the booking flow.
         ],
       },
+      {
+        // The OpenGraph image exists to be embedded cross-origin (LinkedIn,
+        // WhatsApp, Slack previews). The global CORP: same-origin above makes
+        // browsers refuse exactly that — override for this one asset. Listed
+        // after the global rule so it wins for this path.
+        source: "/og-image.png",
+        headers: [
+          { key: "Cross-Origin-Resource-Policy", value: "cross-origin" },
+        ],
+      },
     ];
   },
   images: {
