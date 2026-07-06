@@ -3,7 +3,7 @@ import crypto from "crypto";
 import { Resend } from "resend";
 import { Redis } from "@upstash/redis";
 import { renderApproval, renderHeadsUp } from "@/lib/mahnung-templates";
-import { signMahnung } from "@/lib/mahnung-sign";
+import { linkExpiry, signMahnung } from "@/lib/mahnung-sign";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 // Called by the n8n #9 workflow for each overdue invoice. Emails Harry an
@@ -110,9 +110,10 @@ export async function POST(request: NextRequest) {
     }
   }
 
+  const x = linkExpiry();
   const mk = (a: "send" | "skip") => {
-    const t = signMahnung({ e, v, n, b, f, i, l, a });
-    const q = new URLSearchParams({ e, v, n, b, f, i, l, a, t });
+    const t = signMahnung({ e, v, n, b, f, i, l, a, x });
+    const q = new URLSearchParams({ e, v, n, b, f, i, l, a, x, t });
     return `https://www.rautaki.ch/api/mahnung-action?${q.toString()}`;
   };
 

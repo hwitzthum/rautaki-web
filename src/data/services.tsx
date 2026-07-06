@@ -1,8 +1,3 @@
-export interface ServiceStep {
-  title: string;
-  body: string;
-}
-
 export interface ServiceData {
   id: string;
   number: string;
@@ -12,11 +7,15 @@ export interface ServiceData {
   shortDesc: string;
   longDesc: string;
   detailHeading: string;
-  steps: ServiceStep[];
   forWhom: string;
   image: string;
 }
 
+// The three services describe WHAT we offer (the entry formats). The single
+// "Der Weg zu wirksamer KI" timeline on /services owns HOW a mandate runs.
+// Copy here deliberately mirrors the booklet vocabulary (Reifegrad, Leitplanken,
+// Gate, Use-Cases, Wirkungsnachweis, Skalierung) so both read as one system —
+// and each service maps to the part of the journey it primarily serves.
 export const services: ServiceData[] = [
   {
     id: "strategic-vision",
@@ -29,26 +28,13 @@ export const services: ServiceData[] = [
     ),
     titlePlain: "Strategische Vision",
     shortDesc:
-      "Wir richten Ihre Organisation auf eine KI-informierte strategische Ausrichtung aus, die Entscheidungen von oben bis unten prägt.",
+      "Reifegrad, Vision und Leitplanken — die board-taugliche Grundlage, bevor in KI investiert wird.",
     longDesc:
-      "Wir arbeiten mit Führungsteams zusammen, um eine klare strategische Vision zu definieren, die das transformative Potenzial von KI berücksichtigt. Durch strukturierte Workshops, Stakeholder-Interviews und eine fundierte Analyse, wo KI Ihre Abläufe verändern kann und soll, entwickeln wir einen klaren Nordstern für Investitionsentscheide, Talentprioritäten und operative Fokussierung. Das Resultat ist eine Organisation, die mit Zielklarheit handelt statt nur Aktivität zu erzeugen.",
-    detailHeading: "Definieren Sie, wo KI Wettbewerbsvorteile schafft",
-    steps: [
-      {
-        title: "KI-Landschaft kartieren",
-        body: "Wir analysieren, wo KI Ihre Branche verändert, welche Wettbewerber voranschreiten und wo Ihre Organisation heute steht — damit Entscheide auf Fakten beruhen, nicht auf Annahmen.",
-      },
-      {
-        title: "Strategische Workshops",
-        body: "In gezielten Führungsworkshops erarbeiten wir gemeinsam die strategische Richtung — evidenzbasiert, herausfordernd und entscheidungsreif.",
-      },
-      {
-        title: "Klarer Nordstern",
-        body: "Das Resultat ist eine dokumentierte KI-Strategie, die Investitionsentscheide, Talentprioritäten und operative Fokussierung dauerhaft prägt.",
-      },
-    ],
+      "Wir bestimmen Ihren KI-Reifegrad, schärfen Vision und Fokus auf wenige richtige Prioritäten und setzen klare Leitplanken für Datenschutz und Verantwortlichkeiten. So entsteht eine board-taugliche KI-Strategie — und ein gemeinsamer Go/No-Go-Entscheid mit voller Kostenkontrolle, bevor in die Umsetzung investiert wird.",
+    detailHeading:
+      "Klarheit über Standort, Fokus und Leitplanken — vor dem ersten Investment",
     forWhom:
-      "Für Führungsteams, die strategische Klarheit brauchen, bevor sie in KI investieren — und sicherstellen wollen, dass Technologieentscheide auf gesicherter Grundlage stehen.",
+      "Für Führungsteams, die strategische Klarheit brauchen, bevor sie in KI investieren.",
     image: "/images/services/strategic-vision.webp",
   },
   {
@@ -62,27 +48,13 @@ export const services: ServiceData[] = [
     ),
     titlePlain: "Beratung & Sparring",
     shortDesc:
-      "Verlässliche Begleitung für Führungsteams, die KI-Einführung, organisationalen Wandel und Entscheide mit hoher Tragweite steuern.",
+      "Unabhängiges Sparring für C-Level und Verwaltungsrat — bei Risiken, Buy-/Build-Entscheiden und den Go/No-Go-Punkten.",
     longDesc:
-      "Unsere Beratungspraxis bietet C-Level-Führungskräften und Verwaltungsräten kontinuierliches strategisches Sparring bei der KI-Integration. Ob Modellrisiken bewertet, Build-vs-Buy-Entscheide für KI-Fähigkeiten getroffen oder Teams für eine KI-unterstützte Zukunft neu ausgerichtet werden: Wir bringen eine externe Perspektive mit fundierter Branchenerfahrung ein. Wir hinterfragen Annahmen, prüfen Pläne auf Belastbarkeit und helfen Führungskräften, Entscheide zu treffen, die Bestand haben.",
+      "C-Level und Verwaltungsrat erhalten kontinuierliches, unabhängiges Sparring: Wir bewerten Modell- und Umsetzungsrisiken, begleiten Buy-, Build- und Partner-Entscheide und sichern die Entscheidungspunkte des Wegs ab. Eine externe Perspektive mit fundierter Branchenerfahrung, die Annahmen hinterfragt und Entscheide belastbar macht.",
     detailHeading:
-      "Treffen Sie KI-Entscheide mit hoher Tragweite auf gesicherter Grundlage",
-    steps: [
-      {
-        title: "Risikobeurteilung",
-        body: "Wir prüfen KI-Modelle, Implementierungspläne und Governance-Strukturen auf Belastbarkeit — bevor folgenreiche Entscheide getroffen werden.",
-      },
-      {
-        title: "C-Level-Sparring",
-        body: "Regelmässige Sparring-Sessions mit Geschäftsführung und Verwaltungsrat: externe Perspektive, fundierter Widerspruch, strategische Klarheit unter Druck.",
-      },
-      {
-        title: "Entscheidungsbegleitung",
-        body: "Ob Vendor-Auswahl, Build-vs-Buy oder Neuausrichtung von Teams — wir begleiten Führungskräfte dabei, KI-Entscheide zu treffen, die Bestand haben.",
-      },
-    ],
+      "KI-Entscheide mit hoher Tragweite — auf gesicherter Grundlage",
     forWhom:
-      "Für C-Level-Führungskräfte und Verwaltungsräte, die KI-Integration steuern und Entscheide mit hoher Tragweite auf gesicherter Grundlage treffen wollen.",
+      "Für C-Level-Führungskräfte und Verwaltungsräte, die KI-Integration steuern und tragweite Entscheide absichern wollen.",
     image: "/images/services/advisory-counsel.webp",
   },
   {
@@ -96,27 +68,13 @@ export const services: ServiceData[] = [
     ),
     titlePlain: "KI-Mentoring",
     shortDesc:
-      "Wir begleiten Teams bei der Identifikation echter KI-Anwendungsfälle, der Entwicklung von Prototypen und der Überführung in produktionsreife Lösungen.",
+      "Hands-on-Umsetzung mit Ihren Teams — von priorisierten Use-Cases über den belegten Piloten bis zur Skalierung.",
     longDesc:
-      "KI-Potenziale zu erkennen ist eine Sache — sie in echten Geschäftsprozessen zu verwirklichen, eine andere. Im KI-Mentoring begleiten wir Ihre Teams Schritt für Schritt: von der Identifikation sinnvoller Anwendungsfälle über die Prototyp-Phase bis hin zur produktionsreifen Lösung. Wir bringen die methodische Klarheit, damit Teams nicht in Pilotprojekten stecken bleiben, sondern KI nachhaltig in den Alltag ihrer Organisation integrieren.",
+      "Wir priorisieren gemeinsam die aussichtsreichsten Use-Cases, setzen einen Piloten mit echtem Wirkungsnachweis auf und befähigen Ihr Team, KI selbstständig und sicher zu nutzen. Statt in Pilotprojekten steckenzubleiben, verankern wir KI als wiederholbare Fähigkeit — Schritt für Schritt entlang des Wegs zu wirksamer KI.",
     detailHeading:
-      "Von der Idee zur produktionsreifen KI-Lösung — begleitet durch jeden Schritt",
-    steps: [
-      {
-        title: "Use-Case-Findung",
-        body: "Wir helfen Teams, KI-Anwendungsfälle zu identifizieren, die echten Mehrwert schaffen — nicht theoretisch, sondern eingebettet in konkrete Geschäftsprozesse.",
-      },
-      {
-        title: "Prototyp-Begleitung",
-        body: "Wir strukturieren die Entwicklung von Prototypen und begleiten methodisch durch die Testphase — damit Ergebnisse entstehen, die als Grundlage für skalierbare Lösungen dienen.",
-      },
-      {
-        title: "Produktionsreife",
-        body: "Von der funktionierenden Idee zur robusten KI-Lösung: Wir unterstützen Teams dabei, Anforderungen zu klären, Risiken zu managen und Lösungen sicher in den Produktivbetrieb zu überführen.",
-      },
-    ],
+      "Hands-on von der Priorisierung bis in den sicheren Betrieb — mit Ihrem Team",
     forWhom:
-      "Für Teams mit dem Mandat, KI umzusetzen — und dem Bedarf an erfahrener Begleitung durch Methodik, Technologie und die Hürden des Produktivbetriebs.",
+      "Für Teams mit dem Mandat, KI umzusetzen — und dem Bedarf an erfahrener, methodischer Begleitung bis in den Produktivbetrieb.",
     image: "/images/services/growth-activation.webp",
   },
 ];

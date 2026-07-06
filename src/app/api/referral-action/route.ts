@@ -57,6 +57,7 @@ function readParams(sp: URLSearchParams): { p: ReferralParams; t: string } {
       c: (sp.get("c") ?? "").trim(),
       o: (sp.get("o") ?? "").trim(),
       a: (sp.get("a") ?? "").trim(),
+      x: (sp.get("x") ?? "").trim(),
     },
     t: (sp.get("t") ?? "").trim(),
   };
@@ -85,7 +86,15 @@ export async function GET(request: NextRequest) {
   }
 
   // send → confirm page with a POST button (prefetch-safe)
-  const q = new URLSearchParams({ e: p.e, v: p.v, c: p.c, o: p.o, a: p.a, t });
+  const q = new URLSearchParams({
+    e: p.e,
+    v: p.v,
+    c: p.c,
+    o: p.o,
+    a: p.a,
+    x: p.x,
+    t,
+  });
   return page(
     "Bestätigen",
     `<h1 style="font-family:Georgia,serif;font-size:24px;font-weight:400;letter-spacing:-0.01em;margin:0 0 14px;">Referral senden?</h1>
@@ -104,6 +113,15 @@ export async function POST(request: NextRequest) {
   }
   const resendKey = process.env.RESEND_API_KEY;
   if (!resendKey) return page("Fehler", invalidBody, 503);
+
+  // Replay protection needs the shared dedup set — without Redis in production
+  // every re-POST of the same link would send another referral email. Fail closed.
+  if (!redis && process.env.NODE_ENV === "production") {
+    console.error(
+      "[referral-action] UPSTASH_REDIS_REST_URL/TOKEN not set in production — refusing send (no replay protection).",
+    );
+    return page("Fehler", invalidBody, 503);
+  }
 
   const key = p.o || p.e.toLowerCase();
   if (redis) {

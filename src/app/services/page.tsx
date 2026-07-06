@@ -7,6 +7,7 @@ import JsonLd from "@/components/JsonLd";
 import ScrollReveal from "@/components/ScrollReveal";
 import SectionLabel from "@/components/SectionLabel";
 import ServiceCard from "@/components/ServiceCard";
+import { journey } from "@/data/journey";
 import { services } from "@/data/services";
 
 export const metadata: Metadata = {
@@ -80,6 +81,24 @@ const offerCatalogSchema = {
   ],
 };
 
+// HowTo schema for the "Der Weg zu wirksamer KI" timeline — makes the
+// nine-step consulting process quotable for AI systems (SEAKT K-dimension).
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "Der Weg zu wirksamer KI — das Rautaki KI-Beratungspaket",
+  description:
+    "Ein strukturiertes Beratungsprogramm in drei Phasen und neun Schritten — von der Standortbestimmung bis zum sicheren Produktivbetrieb.",
+  step: journey
+    .filter((item) => item.kind === "step")
+    .map((item) => ({
+      "@type": "HowToStep",
+      position: Number(item.no),
+      name: item.title,
+      text: item.outcome,
+    })),
+};
+
 const sectionBg = ["bg-white", "bg-cream", "bg-warm-grey"] as const;
 
 const pricing = [
@@ -106,7 +125,7 @@ const pricing = [
 export default function ServicesPage() {
   return (
     <>
-      <JsonLd schema={[...serviceSchemas, offerCatalogSchema]} />
+      <JsonLd schema={[...serviceSchemas, offerCatalogSchema, howToSchema]} />
 
       {/* ── Hero ──────────────────────────────────────────── */}
       <HeroLight
@@ -160,7 +179,7 @@ export default function ServicesPage() {
         <section
           key={service.id}
           id={service.slug}
-          className={`${sectionBg[index]} px-6 sm:px-10 lg:px-20 py-20 border-b border-ink/[0.07]`}
+          className={`${sectionBg[index]} scroll-mt-24 px-6 sm:px-10 lg:px-20 py-20 border-b border-ink/[0.07]`}
         >
           <div className="mx-auto max-w-content">
             {/* Header row: text + image */}
@@ -191,43 +210,151 @@ export default function ServicesPage() {
               </div>
             </ScrollReveal>
 
-            {/* Process steps */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-x-10 gap-y-8 pt-10 border-t border-ink/10">
-              {service.steps.map((step, i) => (
-                <ScrollReveal key={step.title} delay={i * 80}>
-                  <div className="border-l-2 border-gold pl-5">
-                    <div className="font-ui text-xs font-medium uppercase tracking-wide-label text-mid-grey mb-3">
-                      {String(i + 1).padStart(2, "0")}
-                    </div>
-                    <h3 className="font-serif text-h4 text-ink font-normal mb-2 leading-snug">
-                      {step.title}
-                    </h3>
-                    <p className="font-ui text-sm font-light leading-body text-mid-grey">
-                      {step.body}
-                    </p>
-                  </div>
-                </ScrollReveal>
-              ))}
-            </div>
-
-            {/* Mid-page CTA */}
-            <div className="mt-10 pt-8 border-t border-ink/10">
-              <p className="font-sans text-sm text-mid-grey mb-3">
-                Interesse an diesem Leistungsbereich?
+            {/* Bridge into the shared process — the single "how" */}
+            <div className="pt-8 border-t border-ink/10">
+              <p className="font-ui text-sm font-light text-mid-grey mb-3">
+                Teil eines strukturierten Wegs — von der Standortbestimmung bis
+                zum sicheren Betrieb.
               </p>
               <a
-                href="/booking"
+                href="#vorgehen"
                 className="font-sans text-sm text-ink hover:text-gold transition-colors duration-200 tracking-wide"
               >
-                Gespräch vereinbaren →
+                Der Weg zu wirksamer KI →
               </a>
             </div>
           </div>
         </section>
       ))}
 
+      {/* ── Der Weg zu wirksamer KI (Vorgehen) ─────────────── */}
+      <section
+        id="vorgehen"
+        className="bg-obsidian grain scroll-mt-24 px-6 sm:px-10 lg:px-20 py-24"
+      >
+        <div className="mx-auto max-w-content">
+          <ScrollReveal>
+            <SectionLabel text="Unser Vorgehen" variant="dark" />
+            <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-white mb-6">
+              Der Weg zu <span className="italic text-gold">wirksamer KI</span>
+            </h2>
+            <p className="font-ui text-body font-light leading-body text-white/55 mb-16 max-w-reading">
+              Ob strategische Standortbestimmung, laufendes Sparring oder
+              Hands-on-Umsetzung — die Zusammenarbeit folgt einem klaren Weg von
+              der ersten Standortbestimmung bis zum sicheren Produktivbetrieb.
+              Drei Phasen, neun Schritte, zwei Entscheidungspunkte, an denen Sie
+              mit voller Kostenkontrolle über das Weitergehen entscheiden.
+            </p>
+          </ScrollReveal>
+
+          {/* Timeline rail */}
+          <div className="relative">
+            {/* Continuous vertical connector behind the markers */}
+            <span
+              className="absolute left-5 top-2 bottom-2 w-px bg-white/12"
+              aria-hidden="true"
+            />
+
+            <ol>
+              {journey.map((item, index) => {
+                if (item.kind === "phase") {
+                  return (
+                    <li
+                      key={`phase-${item.label}`}
+                      className="relative pl-16 pt-12 pb-6 first:pt-0"
+                    >
+                      <ScrollReveal>
+                        <div className="font-ui text-xs font-medium uppercase tracking-wide-label text-gold">
+                          {item.label}
+                        </div>
+                      </ScrollReveal>
+                    </li>
+                  );
+                }
+
+                if (item.kind === "gate") {
+                  return (
+                    <li
+                      key={`gate-${item.label}`}
+                      className="relative pl-16 py-4"
+                    >
+                      <span
+                        className="absolute left-2.5 top-1 flex h-4 w-4 rotate-45 items-center justify-center border border-gold bg-obsidian"
+                        aria-hidden="true"
+                      />
+                      <ScrollReveal>
+                        <div className="border border-gold/25 bg-white/[0.02] px-6 py-5">
+                          <div className="font-ui text-xs font-medium uppercase tracking-wide-label text-gold mb-2">
+                            {item.label}
+                          </div>
+                          <p className="font-ui text-sm font-light leading-body text-white/55 max-w-reading">
+                            {item.note}
+                          </p>
+                        </div>
+                      </ScrollReveal>
+                    </li>
+                  );
+                }
+
+                return (
+                  <li key={`step-${item.no}`} className="relative pl-16 pb-9">
+                    <span className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-full border border-white/25 bg-obsidian">
+                      <span className="font-ui text-xs font-medium tracking-wide-label text-white/70">
+                        {item.no}
+                      </span>
+                    </span>
+                    <ScrollReveal delay={(index % 4) * 60}>
+                      <h3 className="font-serif text-h4 font-normal leading-snug text-white pt-1 mb-3">
+                        {item.title}
+                      </h3>
+                      <div className="font-ui text-[0.7rem] uppercase tracking-wide-label text-white/30 mb-1">
+                        Ihr Ergebnis
+                      </div>
+                      <p className="font-serif text-body leading-body text-white/75 max-w-reading">
+                        {item.outcome}
+                      </p>
+                    </ScrollReveal>
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+
+          {/* Booklet download — the board leave-behind */}
+          <ScrollReveal>
+            <div className="mt-14 pt-8 border-t border-white/10 flex flex-wrap items-center gap-x-6 gap-y-4">
+              <a
+                href="/downloads/rautaki-ki-beratung-booklet.pdf"
+                download
+                className="group inline-flex items-center gap-2 border border-white/35 text-white px-8 py-4 font-ui text-xs font-medium uppercase tracking-wide-btn no-underline hover:border-gold hover:text-gold transition-colors duration-200"
+              >
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 14 14"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  aria-hidden="true"
+                  className="transition-transform duration-200 group-hover:translate-y-0.5"
+                >
+                  <path d="M7 1v9M3 6l4 4 4-4M2 13h10" />
+                </svg>
+                Das vollständige Booklet als PDF
+              </a>
+              <span className="font-ui text-sm font-light text-white/40">
+                Für Geschäftsleitungen &amp; Verwaltungsräte
+              </span>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
       {/* ── Preise ────────────────────────────────────────── */}
-      <section id="preise" className="bg-white scroll-mt-24 px-6 sm:px-10 lg:px-20 py-20">
+      <section
+        id="preise"
+        className="bg-white scroll-mt-24 px-6 sm:px-10 lg:px-20 py-20"
+      >
         <div className="mx-auto max-w-content">
           <ScrollReveal>
             <SectionLabel text="Preise" />
@@ -237,8 +364,8 @@ export default function ServicesPage() {
             </h2>
             <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey mb-12 max-w-reading">
               Die meisten Beratungsangebote nennen Preise erst auf Anfrage. Wir
-              legen unsere Tarife offen — damit Sie planen können, bevor Sie
-              mit uns sprechen.
+              legen unsere Tarife offen — damit Sie planen können, bevor Sie mit
+              uns sprechen.
             </p>
           </ScrollReveal>
 
@@ -286,8 +413,7 @@ export default function ServicesPage() {
               Dozent in akkreditierten CAS-Programmen am Institut für
               Kommunikation und Führung ikf — vom Chief AI Officer bis zur
               KI-Transformation. Wenn Ihr Team über die Beratung hinaus
-              KI-Kompetenz mit Zertifikat aufbauen will, ist der Weg dahin
-              kurz.
+              KI-Kompetenz mit Zertifikat aufbauen will, ist der Weg dahin kurz.
             </p>
             <a
               href="/about"
