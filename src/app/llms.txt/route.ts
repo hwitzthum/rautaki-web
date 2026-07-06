@@ -22,7 +22,7 @@ akkreditierten CAS-Programmen zu KI-Strategie und KI-Transformation.
 
 ## Vorgehen
 
-- [Der Weg zu wirksamer KI](https://www.rautaki.ch/services#vorgehen): Strukturiertes Beratungsprogramm in drei Phasen und neun Schritten — Standortbestimmung & Fundament, Fokussierung & Validierung, Verankerung & Skalierung — mit zwei Go/No-Go-Entscheidungspunkten (Gates) und voller Kostenkontrolle
+- [Der Weg zu wirksamer KI](https://www.rautaki.ch/vorgehen): Strukturiertes Beratungsprogramm in drei Phasen und neun Schritten — Standortbestimmung & Fundament, Fokussierung & Validierung, Verankerung & Skalierung — mit zwei Go/No-Go-Entscheidungspunkten (Gates) und voller Kostenkontrolle. Volltext aller neun Schritte auf der Seite
 - [KI-Beratungspaket als Booklet (PDF)](https://www.rautaki.ch/downloads/rautaki-ki-beratung-booklet.pdf): Der komplette Ablauf für Geschäftsleitungen und Verwaltungsräte
 
 ## Preise
@@ -31,10 +31,18 @@ akkreditierten CAS-Programmen zu KI-Strategie und KI-Transformation.
 - Halbtag: ab CHF 1'800 (inkl. Vorbereitung und Ergebnissicherung)
 - Stundenansatz: CHF 280 (punktuelles Sparring, ohne Vor- und Nachbereitung)
 
+## Lab — kostenlose KI-Tools
+
+- [EU AI Act Compliance Checker](https://www.rautaki.ch/lab/eu-ai-act-check.html): 12 Fragen, sofortige Risikoklassifizierung nach EU AI Act — mit Massnahmenliste und herunterladbarem Bericht
+- [KI-Governance-Richtlinie Generator](https://www.rautaki.ch/lab/ki-governance-policy.html): Vier Formulare, zehn Abschnitte, ein druckfertiges Word-Dokument mit Deckblatt und Unterschriftenblock
+- [Multi-Assistant-System mit Custom GPTs](https://www.rautaki.ch/lab/multi-assistant-gpt.html): Schritt-für-Schritt-Anleitung zu einem orchestrierten System aus drei GPTs — ohne Code
+
 ## Seiten
 
 - [Startseite](https://www.rautaki.ch)
 - [Leistungen](https://www.rautaki.ch/services)
+- [FAQ](https://www.rautaki.ch/services#faq): Häufige Fragen zu Angebot, Preisen, Ablauf und Zielgruppen
+- [Vorgehen](https://www.rautaki.ch/vorgehen): Das KI-Beratungspaket im Volltext — alle neun Schritte, Gates, Governance und Zusammenarbeitsmodell
 - [Über uns](https://www.rautaki.ch/about): Gründungsgeschichte, Profil Harry Witzthum, Arbeitsweise
 - [Lab](https://www.rautaki.ch/lab): Kostenlose KI-Tools und Experimente
 - [Erstgespräch buchen](https://www.rautaki.ch/booking)
@@ -48,6 +56,7 @@ akkreditierten CAS-Programmen zu KI-Strategie und KI-Transformation.
 
 ## Optional
 
+- [Volltext-Version (llms-full.txt)](https://www.rautaki.ch/llms-full.txt): Alle Kerninhalte der Website als Markdown-Volltext
 - [Impressum](https://www.rautaki.ch/imprint)
 - [Datenschutz](https://www.rautaki.ch/privacy)
 `;

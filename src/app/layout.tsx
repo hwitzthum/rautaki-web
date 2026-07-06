@@ -98,36 +98,6 @@ const siteSchema = {
       inLanguage: "de-CH",
       publisher: { "@id": "https://www.rautaki.ch/#organization" },
     },
-    {
-      "@type": "BreadcrumbList",
-      "@id": "https://www.rautaki.ch/#breadcrumb",
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Start",
-          item: "https://www.rautaki.ch",
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "Leistungen",
-          item: "https://www.rautaki.ch/services",
-        },
-        {
-          "@type": "ListItem",
-          position: 3,
-          name: "Lab",
-          item: "https://www.rautaki.ch/lab",
-        },
-        {
-          "@type": "ListItem",
-          position: 4,
-          name: "Über uns",
-          item: "https://www.rautaki.ch/about",
-        },
-      ],
-    },
   ],
 };
 
