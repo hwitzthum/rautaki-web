@@ -3,6 +3,7 @@ import crypto from "crypto";
 import { Resend } from "resend";
 import { APPROVAL_EMAIL } from "@/lib/referral-templates";
 import { linkExpiry, signReferral } from "@/lib/referral-sign";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 // Called by the n8n #10 workflow when a client pays. Emails Harry an
 // Approve/Skip message with signed action links. Never statically cached.
@@ -43,6 +44,21 @@ export async function POST(request: NextRequest) {
   const resendKey = process.env.RESEND_API_KEY;
   if (!sendToken || !resendKey || !process.env.REFERRAL_SECRET) {
     return NextResponse.json({ error: "not configured" }, { status: 503 });
+  }
+
+  const ip = getClientIp(request);
+  if (!ip) {
+    return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  }
+  const rl = await checkRateLimit("referral-request", ip, 60, 300);
+  if (rl === "limited") {
+    return NextResponse.json(
+      { error: "rate limited" },
+      { status: 429, headers: { "Retry-After": "300" } },
+    );
+  }
+  if (rl === "unavailable") {
+    return NextResponse.json({ error: "service unavailable" }, { status: 503 });
   }
 
   let body: Record<string, unknown>;

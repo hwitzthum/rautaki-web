@@ -4,6 +4,7 @@ import { Resend } from "resend";
 import { Redis } from "@upstash/redis";
 import { renderApproval, renderHeadsUp } from "@/lib/mahnung-templates";
 import { linkExpiry, signMahnung } from "@/lib/mahnung-sign";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 // Called by the n8n #9 workflow for each overdue invoice. Emails Harry an
 // Approve/Skip message with signed action links. Never statically cached.
@@ -35,6 +36,21 @@ export async function POST(request: NextRequest) {
   const resendKey = process.env.RESEND_API_KEY;
   if (!sendToken || !resendKey || !process.env.MAHNUNG_SECRET) {
     return NextResponse.json({ error: "not configured" }, { status: 503 });
+  }
+
+  const ip = getClientIp(request);
+  if (!ip) {
+    return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  }
+  const rl = await checkRateLimit("mahnung-request", ip, 60, 300);
+  if (rl === "limited") {
+    return NextResponse.json(
+      { error: "rate limited" },
+      { status: 429, headers: { "Retry-After": "300" } },
+    );
+  }
+  if (rl === "unavailable") {
+    return NextResponse.json({ error: "service unavailable" }, { status: 503 });
   }
 
   let body: Record<string, unknown>;
