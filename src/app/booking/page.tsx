@@ -4,12 +4,21 @@ import HeroLight from "@/components/HeroLight";
 import ScrollReveal from "@/components/ScrollReveal";
 import SectionLabel from "@/components/SectionLabel";
 import { CalInline } from "@/components/CalBooking";
+import { pageShareMeta } from "@/lib/og";
+
+const pageTitle = "Gespräch buchen";
+const pageDescription =
+  "Vereinbaren Sie ein kostenloses 45-minütiges Erstgespräch mit Harry Witzthum.";
 
 export const metadata: Metadata = {
-  title: "Gespräch buchen",
-  description:
-    "Vereinbaren Sie ein kostenloses 45-minütiges Erstgespräch mit Harry Witzthum.",
+  title: pageTitle,
+  description: pageDescription,
   alternates: { canonical: "https://www.rautaki.ch/booking" },
+  ...pageShareMeta({
+    title: pageTitle,
+    description: pageDescription,
+    path: "/booking",
+  }),
 };
 
 function BookingTitle() {

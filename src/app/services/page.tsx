@@ -7,14 +7,23 @@ import JsonLd from "@/components/JsonLd";
 import ScrollReveal from "@/components/ScrollReveal";
 import SectionLabel from "@/components/SectionLabel";
 import ServiceCard from "@/components/ServiceCard";
+import { pageShareMeta } from "@/lib/og";
 import { journey } from "@/data/journey";
 import { services } from "@/data/services";
 
+const pageTitle = "Leistungen";
+const pageDescription =
+  "KI-Strategie, Implementierung und Führungskräfteentwicklung — massgeschneidert für Entscheider in der Schweiz.";
+
 export const metadata: Metadata = {
-  title: "Leistungen",
-  description:
-    "KI-Strategie, Implementierung und Führungskräfteentwicklung — massgeschneidert für Entscheider in der Schweiz.",
+  title: pageTitle,
+  description: pageDescription,
   alternates: { canonical: "https://www.rautaki.ch/services" },
+  ...pageShareMeta({
+    title: pageTitle,
+    description: pageDescription,
+    path: "/services",
+  }),
 };
 
 const serviceSchemas = services.map((service) => ({
