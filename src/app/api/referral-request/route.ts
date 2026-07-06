@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { Resend } from "resend";
 import { APPROVAL_EMAIL } from "@/lib/referral-templates";
-import { signReferral } from "@/lib/referral-sign";
+import { linkExpiry, signReferral } from "@/lib/referral-sign";
 
 // Called by the n8n #10 workflow when a client pays. Emails Harry an
 // Approve/Skip message with signed action links. Never statically cached.
@@ -32,8 +32,9 @@ function actionUrl(
   o: string,
   a: "send" | "skip",
 ): string {
-  const t = signReferral({ e, v, c, o, a });
-  const q = new URLSearchParams({ e, v, c, o, a, t });
+  const x = linkExpiry();
+  const t = signReferral({ e, v, c, o, a, x });
+  const q = new URLSearchParams({ e, v, c, o, a, x, t });
   return `https://www.rautaki.ch/api/referral-action?${q.toString()}`;
 }
 

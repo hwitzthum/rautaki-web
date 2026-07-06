@@ -20,28 +20,53 @@ const RATE_WINDOW_MS = 15 * 60 * 1000;
 const upstashUrl = process.env.UPSTASH_REDIS_REST_URL;
 const upstashToken = process.env.UPSTASH_REDIS_REST_TOKEN;
 
-const ratelimit =
+const redis =
   upstashUrl && upstashToken
-    ? new Ratelimit({
-        redis: new Redis({ url: upstashUrl, token: upstashToken }),
-        limiter: Ratelimit.slidingWindow(RATE_MAX, RATE_WINDOW),
-        analytics: false,
-        prefix: "rl:lab-access",
-      })
+    ? new Redis({ url: upstashUrl, token: upstashToken })
     : null;
 
+const ratelimit = redis
+  ? new Ratelimit({
+      redis,
+      limiter: Ratelimit.slidingWindow(RATE_MAX, RATE_WINDOW),
+      analytics: false,
+      prefix: "rl:lab-access",
+    })
+  : null;
+
+// Second dimension: per-recipient daily cap. The confirmation email goes to a
+// caller-supplied address, so the per-IP limit alone does not stop an attacker
+// rotating IPs from using this endpoint to spam an arbitrary third party from
+// send.rautaki.ch — the recipient address is the abused resource, limit on it.
+const EMAIL_RATE_MAX = 2;
+const EMAIL_RATE_WINDOW = "24 h" as const;
+const EMAIL_RATE_WINDOW_MS = 24 * 60 * 60 * 1000;
+
+const emailRatelimit = redis
+  ? new Ratelimit({
+      redis,
+      limiter: Ratelimit.slidingWindow(EMAIL_RATE_MAX, EMAIL_RATE_WINDOW),
+      analytics: false,
+      prefix: "rl:lab-access:email",
+    })
+  : null;
+
 const memoryFallback = new Map<string, { count: number; resetAt: number }>();
-function memoryLimit(ip: string): boolean {
+function memoryLimit(
+  key: string,
+  max = RATE_MAX,
+  windowMs = RATE_WINDOW_MS,
+): boolean {
   const now = Date.now();
   for (const [k, v] of memoryFallback) {
     if (now > v.resetAt) memoryFallback.delete(k);
   }
-  const entry = memoryFallback.get(ip);
+  const entry = memoryFallback.get(key);
   if (!entry || now > entry.resetAt) {
-    memoryFallback.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS });
+    memoryFallback.set(key, { count: 1, resetAt: now + windowMs });
     return false;
   }
-  if (entry.count >= RATE_MAX) return true;
+  if (entry.count >= max) return true;
   entry.count++;
   return false;
 }
@@ -202,7 +227,7 @@ export async function POST(request: NextRequest) {
   // Next.js App Router's default is 4 MB — far too generous for this endpoint.
   const MAX_BODY_BYTES = 4 * 1024;
   const raw = await request.text();
-  if (raw.length > MAX_BODY_BYTES) {
+  if (Buffer.byteLength(raw, "utf8") > MAX_BODY_BYTES) {
     return NextResponse.json({ error: "Anfrage zu gross." }, { status: 413 });
   }
 
@@ -243,6 +268,36 @@ export async function POST(request: NextRequest) {
   // but wrapping in escapeHtml is defense-in-depth: if a future edit drops
   // the URI encoding, the href attribute cannot carry a raw injection.
   const mailtoHref = escapeHtml(`mailto:${encodeURIComponent(email)}`);
+
+  // Per-recipient cap (see emailRatelimit above). In production without Redis
+  // the request was already rejected by the fail-closed branch of the IP limit.
+  const emailKey = email.toLowerCase();
+  let emailLimited = false;
+  if (emailRatelimit) {
+    const { success } = await emailRatelimit.limit(emailKey);
+    emailLimited = !success;
+  } else if (process.env.NODE_ENV !== "production") {
+    emailLimited = memoryLimit(
+      `email:${emailKey}`,
+      EMAIL_RATE_MAX,
+      EMAIL_RATE_WINDOW_MS,
+    );
+  }
+  if (emailLimited) {
+    return NextResponse.json(
+      {
+        error:
+          "Für diese E-Mail-Adresse wurde bereits eine Anmeldung registriert. Bitte versuchen Sie es später erneut.",
+      },
+      {
+        status: 429,
+        headers: {
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+          "Retry-After": String(EMAIL_RATE_WINDOW_MS / 1000),
+        },
+      },
+    );
+  }
 
   const resend = new Resend(apiKey);
 

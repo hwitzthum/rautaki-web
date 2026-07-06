@@ -213,9 +213,10 @@ export async function POST(req: NextRequest) {
     return rateLimited(RATE_MAX, requestId);
   }
 
-  // 3. Read body with byte cap
+  // 3. Read body with byte cap (byteLength, not UTF-16 code units — a
+  //    multibyte payload is up to 2× its .length in bytes)
   const raw = await req.text();
-  if (raw.length > MAX_BODY_BYTES) {
+  if (Buffer.byteLength(raw, "utf8") > MAX_BODY_BYTES) {
     return jsonWithRequestId(
       { error: "Anfrage zu gross." },
       { status: 413 },

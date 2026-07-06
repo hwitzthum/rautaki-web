@@ -63,6 +63,7 @@ function readParams(sp: URLSearchParams): { p: MahnungParams; t: string } {
       i: (sp.get("i") ?? "").trim(),
       l: (sp.get("l") ?? "").trim(),
       a: (sp.get("a") ?? "").trim(),
+      x: (sp.get("x") ?? "").trim(),
     },
     t: (sp.get("t") ?? "").trim(),
   };
@@ -100,6 +101,7 @@ export async function GET(request: NextRequest) {
     i: p.i,
     l: p.l,
     a: p.a,
+    x: p.x,
     t,
   });
   return page(
@@ -119,6 +121,15 @@ export async function POST(request: NextRequest) {
 
   const resendKey = process.env.RESEND_API_KEY;
   if (!resendKey) return page("Fehler", invalid, 503);
+
+  // Replay protection needs the shared dedup set — without Redis in production
+  // every re-POST of the same link would send another reminder. Fail closed.
+  if (!redis && process.env.NODE_ENV === "production") {
+    console.error(
+      "[mahnung-action] UPSTASH_REDIS_REST_URL/TOKEN not set in production — refusing send (no replay protection).",
+    );
+    return page("Fehler", invalid, 503);
+  }
 
   const key = `${p.i}:${p.l}`;
   if (redis) {
