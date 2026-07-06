@@ -8,6 +8,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import SectionLabel from "@/components/SectionLabel";
 import ServiceCard from "@/components/ServiceCard";
 import { pageShareMeta } from "@/lib/og";
+import { faq } from "@/data/faq";
 import { journey } from "@/data/journey";
 import { services } from "@/data/services";
 
@@ -92,9 +93,12 @@ const offerCatalogSchema = {
 
 // HowTo schema for the "Der Weg zu wirksamer KI" timeline — makes the
 // nine-step consulting process quotable for AI systems (SEAKT K-dimension).
+// Shares its @id with the full-text version on /vorgehen so both pages
+// resolve to one HowTo entity.
 const howToSchema = {
   "@context": "https://schema.org",
   "@type": "HowTo",
+  "@id": "https://www.rautaki.ch/vorgehen#programm",
   name: "Der Weg zu wirksamer KI — das Rautaki KI-Beratungspaket",
   description:
     "Ein strukturiertes Beratungsprogramm in drei Phasen und neun Schritten — von der Standortbestimmung bis zum sicheren Produktivbetrieb.",
@@ -106,6 +110,19 @@ const howToSchema = {
       name: item.title,
       text: item.outcome,
     })),
+};
+
+// FAQ rendered below and mirrored as FAQPage schema — Q&A format is what
+// AI answer engines cite most readily (GEO).
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://www.rautaki.ch/services#faq",
+  mainEntity: faq.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
 };
 
 const sectionBg = ["bg-white", "bg-cream", "bg-warm-grey"] as const;
@@ -134,7 +151,9 @@ const pricing = [
 export default function ServicesPage() {
   return (
     <>
-      <JsonLd schema={[...serviceSchemas, offerCatalogSchema, howToSchema]} />
+      <JsonLd
+        schema={[...serviceSchemas, offerCatalogSchema, howToSchema, faqSchema]}
+      />
 
       {/* ── Hero ──────────────────────────────────────────── */}
       <HeroLight
@@ -333,9 +352,15 @@ export default function ServicesPage() {
           <ScrollReveal>
             <div className="mt-14 pt-8 border-t border-white/10 flex flex-wrap items-center gap-x-6 gap-y-4">
               <a
+                href="/vorgehen"
+                className="group inline-flex items-center gap-2 border border-white/35 text-white px-8 py-4 font-ui text-xs font-medium uppercase tracking-wide-btn no-underline hover:border-gold hover:text-gold transition-colors duration-200"
+              >
+                Der komplette Ablauf im Detail →
+              </a>
+              <a
                 href="/downloads/rautaki-ki-beratung-booklet.pdf"
                 download
-                className="group inline-flex items-center gap-2 border border-white/35 text-white px-8 py-4 font-ui text-xs font-medium uppercase tracking-wide-btn no-underline hover:border-gold hover:text-gold transition-colors duration-200"
+                className="group inline-flex items-center gap-2 text-white/70 font-ui text-xs font-medium uppercase tracking-wide-btn no-underline hover:text-gold transition-colors duration-200"
               >
                 <svg
                   width="14"
@@ -431,6 +456,47 @@ export default function ServicesPage() {
               Zur Lehrtätigkeit →
             </a>
           </ScrollReveal>
+        </div>
+      </section>
+
+      {/* ── FAQ ───────────────────────────────────────────── */}
+      <section
+        id="faq"
+        className="bg-white scroll-mt-24 px-6 sm:px-10 lg:px-20 py-20 border-t border-ink/[0.07]"
+      >
+        <div className="mx-auto max-w-content">
+          <ScrollReveal>
+            <SectionLabel text="FAQ" />
+            <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-12">
+              Häufige Fragen —{" "}
+              <span className="italic text-gold">kurz beantwortet</span>
+            </h2>
+          </ScrollReveal>
+
+          <dl className="border-t border-ink/10">
+            {faq.map((item, index) => (
+              <ScrollReveal key={item.question} delay={(index % 4) * 60}>
+                <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-x-16 gap-y-3 py-8 border-b border-ink/10">
+                  <dt className="font-serif text-h4 tracking-tight-h4 font-normal leading-heading text-ink">
+                    {item.question}
+                  </dt>
+                  <dd className="m-0">
+                    <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey max-w-reading">
+                      {item.answer}
+                    </p>
+                    {item.link && (
+                      <a
+                        href={item.link.href}
+                        className="mt-3 inline-block font-sans text-sm text-ink hover:text-gold transition-colors duration-200 tracking-wide"
+                      >
+                        {item.link.label} →
+                      </a>
+                    )}
+                  </dd>
+                </div>
+              </ScrollReveal>
+            ))}
+          </dl>
         </div>
       </section>
 

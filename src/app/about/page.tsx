@@ -7,6 +7,7 @@ import GoldRule from "@/components/GoldRule";
 import Button from "@/components/Button";
 import JsonLd from "@/components/JsonLd";
 import { pageShareMeta } from "@/lib/og";
+import { workshopClients, teachingCourses } from "@/data/about";
 
 const pageTitle = "Über uns";
 const pageDescription =
@@ -52,45 +53,6 @@ const values = [
     title: "Umsetzung statt nur Analyse",
     description:
       "Strategie zählt erst, wenn sie Verhalten verändert. Wir bleiben nah dran, bis Pläne in Routinen, Governance und Anreizen verankert sind.",
-  },
-];
-
-const workshopClients = [
-  "Hepatitis Schweiz",
-  "Universität Zürich",
-  "Age Stiftung",
-  "Astara Switzerland",
-  "Verbandsmanagement Institut der Universität Fribourg",
-  "Glaux Group",
-  "AT Schweiz – Tabakkontrolle und Prävention",
-  "Schweizerische Plattform der Ausbildungen im Sozialbereich SPAS",
-];
-
-const teachingCourses = [
-  {
-    title: "CAS Chief AI Officer",
-    institution: "Institut für Kommunikation und Führung ikf",
-    url: "https://ikf.ch/de/kurse/cas-chief-ai-officer",
-  },
-  {
-    title: "CAS KI-Transformation",
-    institution: "Institut für Kommunikation und Führung ikf",
-    url: "https://www.ikf.ch/de/kurse/cas-ki-transformation",
-  },
-  {
-    title: "CAS AI Hands-On",
-    institution: "Institut für Kommunikation und Führung ikf",
-    url: "https://ikf.ch/de/kurse/cas-ai-hands-on",
-  },
-  {
-    title: "CAS KI als Teammitglied",
-    institution: "Institut für Kommunikation und Führung ikf",
-    url: "https://www.ikf.ch/de/kurse/cas-ki-als-teammitglied",
-  },
-  {
-    title: "Digitale Transformation und KI in NPO",
-    institution: "Verbandsmanagement Institut Universität Fribourg",
-    url: "https://www.vmi.ch/de/npo-wissen-gezielt-vertiefen/digitalisierung-in-npo/",
   },
 ];
 

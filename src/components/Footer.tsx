@@ -4,6 +4,7 @@ import CookieSettingsLink from "./CookieSettingsLink";
 
 const navLinks = [
   { href: "/services", label: "Leistungen" },
+  { href: "/vorgehen", label: "Vorgehen" },
   { href: "/lab", label: "Lab" },
   { href: "/about", label: "Über uns" },
   { href: "/booking", label: "Buchung" },
