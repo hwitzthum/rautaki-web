@@ -3,6 +3,7 @@ import crypto from "crypto";
 import { Resend } from "resend";
 import { Redis } from "@upstash/redis";
 import { NURTURE_TEMPLATES } from "@/lib/nurture-templates";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 const SUPPRESSION_SET = "nurture:unsub";
 const redis =
@@ -51,6 +52,21 @@ export async function POST(request: NextRequest) {
   const resendKey = process.env.RESEND_API_KEY;
   if (!sendToken || !resendKey || !process.env.UNSUBSCRIBE_SECRET) {
     return NextResponse.json({ error: "not configured" }, { status: 503 });
+  }
+
+  const ip = getClientIp(request);
+  if (!ip) {
+    return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  }
+  const rl = await checkRateLimit("nurture-send", ip, 60, 300);
+  if (rl === "limited") {
+    return NextResponse.json(
+      { error: "rate limited" },
+      { status: 429, headers: { "Retry-After": "300" } },
+    );
+  }
+  if (rl === "unavailable") {
+    return NextResponse.json({ error: "service unavailable" }, { status: 503 });
   }
 
   let body: Record<string, unknown>;

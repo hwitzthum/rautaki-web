@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { Resend } from "resend";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 // Weekly business digest. n8n aggregates Salesflare + CashCtrl and POSTs the
 // numbers here; this renders the branded email and sends it to hello@.
@@ -140,6 +141,21 @@ export async function POST(request: NextRequest) {
   const resendKey = process.env.RESEND_API_KEY;
   if (!sendToken || !resendKey) {
     return NextResponse.json({ error: "not configured" }, { status: 503 });
+  }
+
+  const ip = getClientIp(request);
+  if (!ip) {
+    return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  }
+  const rl = await checkRateLimit("digest-send", ip, 60, 300);
+  if (rl === "limited") {
+    return NextResponse.json(
+      { error: "rate limited" },
+      { status: 429, headers: { "Retry-After": "300" } },
+    );
+  }
+  if (rl === "unavailable") {
+    return NextResponse.json({ error: "service unavailable" }, { status: 503 });
   }
 
   let body: DigestPayload & { token?: string };
