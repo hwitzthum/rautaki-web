@@ -153,7 +153,9 @@ export const metadata: Metadata = {
       "Rautaki begleitet Unternehmen bei der strategischen Einführung von KI — von der Potenzialanalyse bis zur skalierbaren Umsetzung.",
     url: "https://www.rautaki.ch",
     images: [
-      { url: "/og-image.png", width: 1200, height: 630, alt: "Rautaki" },
+      // ?v=2 busts LinkedIn's per-URL image cache — it negatively cached the
+      // 404 from before the image existed and re-scrapes don't refetch.
+      { url: "/og-image.png?v=2", width: 1200, height: 630, alt: "Rautaki" },
     ],
   },
   twitter: {
@@ -161,7 +163,7 @@ export const metadata: Metadata = {
     title: "Rautaki — KI-Strategie für Entscheider",
     description:
       "Rautaki begleitet Unternehmen bei der strategischen Einführung von KI.",
-    images: ["/og-image.png"],
+    images: ["/og-image.png?v=2"],
   },
   robots: { index: true, follow: true },
   alternates: { canonical: "https://www.rautaki.ch" },
