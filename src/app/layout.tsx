@@ -26,7 +26,7 @@ const siteSchema = {
         value: "CHE-362.050.451",
       },
       description:
-        "Rautaki begleitet Unternehmen bei der strategischen Einführung von KI — von der Potenzialanalyse bis zur skalierbaren Umsetzung.",
+        "Rautaki begleitet Unternehmen bei der strategischen KI-Einführung — von der Potenzialanalyse bis zur skalierbaren Umsetzung.",
       address: {
         "@type": "PostalAddress",
         streetAddress: "Weinbergstrasse 23",
@@ -144,14 +144,14 @@ export const metadata: Metadata = {
     template: "%s | Rautaki",
   },
   description:
-    "Rautaki begleitet Unternehmen bei der strategischen Einführung von KI — von der Potenzialanalyse bis zur skalierbaren Umsetzung.",
+    "Rautaki begleitet Unternehmen bei der strategischen KI-Einführung — von der Potenzialanalyse bis zur skalierbaren Umsetzung.",
   openGraph: {
     type: "website",
     locale: "de_CH",
     siteName: "Rautaki",
     title: "Rautaki — KI-Strategie für Entscheider",
     description:
-      "Rautaki begleitet Unternehmen bei der strategischen Einführung von KI — von der Potenzialanalyse bis zur skalierbaren Umsetzung.",
+      "Rautaki begleitet Unternehmen bei der strategischen KI-Einführung — von der Potenzialanalyse bis zur skalierbaren Umsetzung.",
     url: "https://www.rautaki.ch",
     images: [OG_IMAGE],
   },

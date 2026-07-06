@@ -10,7 +10,7 @@ import { pageShareMeta } from "@/lib/og";
 
 const pageTitle = "Über uns";
 const pageDescription =
-  "Harry Witzthum, Gründer von Rautaki — KI-Strategie mit echtem Implementierungswissen.";
+  "Harry Witzthum, Gründer von Rautaki — KI-Strategie mit echtem Implementierungswissen und Lehre in CAS-Programmen.";
 
 export const metadata: Metadata = {
   title: pageTitle,

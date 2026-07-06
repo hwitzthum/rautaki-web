@@ -6,7 +6,7 @@ import { pageShareMeta } from "@/lib/og";
 
 const pageTitle = "Datenschutz";
 const pageDescription =
-  "Datenschutzerklärung der Rautaki. Informationen zum Umgang mit Ihren personenbezogenen Daten.";
+  "Datenschutzerklärung der Rautaki — Umgang mit personenbezogenen Daten, Cookies, Einwilligungen und Ihren Rechten nach revDSG.";
 
 export const metadata: Metadata = {
   title: pageTitle,

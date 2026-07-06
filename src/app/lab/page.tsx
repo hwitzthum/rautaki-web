@@ -7,7 +7,7 @@ import { pageShareMeta } from "@/lib/og";
 
 const pageTitle = "Lab";
 const pageDescription =
-  "Kostenlose KI-Tools und Generatoren für Entscheider — direkt im Browser nutzbar.";
+  "Kostenlose KI-Tools für Entscheider — EU-AI-Act-Check, KI-Governance-Policy und mehr, direkt im Browser nutzbar.";
 
 export const metadata: Metadata = {
   title: pageTitle,

@@ -8,7 +8,7 @@ import { pageShareMeta } from "@/lib/og";
 
 const pageTitle = "Gespräch buchen";
 const pageDescription =
-  "Vereinbaren Sie ein kostenloses 45-minütiges Erstgespräch mit Harry Witzthum.";
+  "Kostenloses 45-minütiges Erstgespräch mit Harry Witzthum — Prioritäten klären und den nächsten Schritt definieren.";
 
 export const metadata: Metadata = {
   title: pageTitle,
