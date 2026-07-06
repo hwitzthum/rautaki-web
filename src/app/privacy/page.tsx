@@ -2,12 +2,21 @@ import type { Metadata } from "next";
 import HeroLight from "@/components/HeroLight";
 import SectionLabel from "@/components/SectionLabel";
 import ScrollReveal from "@/components/ScrollReveal";
+import { pageShareMeta } from "@/lib/og";
+
+const pageTitle = "Datenschutz";
+const pageDescription =
+  "Datenschutzerklärung der Rautaki. Informationen zum Umgang mit Ihren personenbezogenen Daten.";
 
 export const metadata: Metadata = {
-  title: "Datenschutz",
-  description:
-    "Datenschutzerklärung der Rautaki. Informationen zum Umgang mit Ihren personenbezogenen Daten.",
+  title: pageTitle,
+  description: pageDescription,
   alternates: { canonical: "https://www.rautaki.ch/privacy" },
+  ...pageShareMeta({
+    title: pageTitle,
+    description: pageDescription,
+    path: "/privacy",
+  }),
 };
 
 export default function PrivacyPage() {

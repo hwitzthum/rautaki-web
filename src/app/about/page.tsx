@@ -6,12 +6,21 @@ import SectionLabel from "@/components/SectionLabel";
 import GoldRule from "@/components/GoldRule";
 import Button from "@/components/Button";
 import JsonLd from "@/components/JsonLd";
+import { pageShareMeta } from "@/lib/og";
+
+const pageTitle = "Über uns";
+const pageDescription =
+  "Harry Witzthum, Gründer von Rautaki — KI-Strategie mit echtem Implementierungswissen.";
 
 export const metadata: Metadata = {
-  title: "Über uns",
-  description:
-    "Harry Witzthum, Gründer von Rautaki — KI-Strategie mit echtem Implementierungswissen.",
+  title: pageTitle,
+  description: pageDescription,
   alternates: { canonical: "https://www.rautaki.ch/about" },
+  ...pageShareMeta({
+    title: pageTitle,
+    description: pageDescription,
+    path: "/about",
+  }),
 };
 
 // Marks /about as the canonical profile page for the founder entity defined

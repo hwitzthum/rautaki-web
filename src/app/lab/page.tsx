@@ -3,12 +3,21 @@ import ScrollReveal from "@/components/ScrollReveal";
 import SectionLabel from "@/components/SectionLabel";
 import GoldRule from "@/components/GoldRule";
 import LabGate, { LabToolLink } from "@/components/LabGateModal";
+import { pageShareMeta } from "@/lib/og";
+
+const pageTitle = "Lab";
+const pageDescription =
+  "Kostenlose KI-Tools und Generatoren für Entscheider — direkt im Browser nutzbar.";
 
 export const metadata: Metadata = {
-  title: "Lab",
-  description:
-    "Kostenlose KI-Tools und Generatoren für Entscheider — direkt im Browser nutzbar.",
+  title: pageTitle,
+  description: pageDescription,
   alternates: { canonical: "https://www.rautaki.ch/lab" },
+  ...pageShareMeta({
+    title: pageTitle,
+    description: pageDescription,
+    path: "/lab",
+  }),
 };
 
 interface Tool {
@@ -54,8 +63,7 @@ export default function LabPage() {
           {/* Page header — compact, flows directly into cards */}
           <SectionLabel text="Lab" />
           <h1 className="font-serif text-h2 lg:text-h1 font-normal leading-heading tracking-tight text-ink mb-4">
-            Werkzeuge zum <span className="italic text-gold">Selberbauen</span>
-            .
+            Werkzeuge zum <span className="italic text-gold">Selberbauen</span>.
           </h1>
           <p className="max-w-reading font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey mb-10">
             Interaktive Tools, die direkt im Browser laufen — kein Account, kein

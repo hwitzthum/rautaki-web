@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import N8nChatWidget from "@/components/N8nChatWidget";
 import ConsentManager from "@/components/ConsentManager";
 import JsonLd from "@/components/JsonLd";
+import { OG_IMAGE } from "@/lib/og";
 
 // Unified entity graph: Organization + founder Person, cross-referenced via
 // @id so AI systems can resolve Rautaki and Harry Witzthum as one entity graph.
@@ -152,18 +153,14 @@ export const metadata: Metadata = {
     description:
       "Rautaki begleitet Unternehmen bei der strategischen Einführung von KI — von der Potenzialanalyse bis zur skalierbaren Umsetzung.",
     url: "https://www.rautaki.ch",
-    images: [
-      // ?v=2 busts LinkedIn's per-URL image cache — it negatively cached the
-      // 404 from before the image existed and re-scrapes don't refetch.
-      { url: "/og-image.png?v=2", width: 1200, height: 630, alt: "Rautaki" },
-    ],
+    images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: "Rautaki — KI-Strategie für Entscheider",
     description:
       "Rautaki begleitet Unternehmen bei der strategischen Einführung von KI.",
-    images: ["/og-image.png?v=2"],
+    images: [OG_IMAGE.url],
   },
   robots: { index: true, follow: true },
   alternates: { canonical: "https://www.rautaki.ch" },
