@@ -18,6 +18,10 @@ declare global {
 export default function N8nChatWidget() {
   useEffect(() => {
     if (window.__n8nChatInitialized) return;
+    // Claim the slot before the async import — otherwise a second mount
+    // (React StrictMode in dev) passes the guard while the first import is
+    // still in flight and createChat runs twice into the same target.
+    window.__n8nChatInitialized = true;
 
     const initializeChat = async () => {
       try {
@@ -50,10 +54,10 @@ export default function N8nChatWidget() {
             },
           },
         });
-
-        window.__n8nChatInitialized = true;
       } catch {
         // Chat widget may fail to import during local SSR — non-critical.
+        // Release the slot so a later mount can retry.
+        window.__n8nChatInitialized = false;
       }
     };
 

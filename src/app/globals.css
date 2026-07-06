@@ -458,3 +458,20 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     display: none;
   }
 }
+
+/* ==========================================================================
+   HERO GLOW
+   ========================================================================== */
+
+/* Infinite drift for the hero's gold radial glow. Must be fully disabled
+   (not just shortened) under reduced motion — the global 0.01ms override
+   would otherwise turn an infinite animation into a rapid flicker loop. */
+.hero-glow {
+  animation: glow-drift 12s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-glow {
+    animation: none !important;
+  }
+}

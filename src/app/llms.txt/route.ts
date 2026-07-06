@@ -20,6 +20,11 @@ akkreditierten CAS-Programmen zu KI-Strategie und KI-Transformation.
 - [Beratung & Sparring](https://www.rautaki.ch/services#advisory-counsel): Begleitung von Führungsteams bei KI-Einführung und organisationalem Wandel
 - [KI-Mentoring](https://www.rautaki.ch/services#ki-mentoring): Von der Identifikation von KI-Anwendungsfällen bis zum Produktivbetrieb
 
+## Vorgehen
+
+- [Der Weg zu wirksamer KI](https://www.rautaki.ch/services#vorgehen): Strukturiertes Beratungsprogramm in drei Phasen und neun Schritten — Standortbestimmung & Fundament, Fokussierung & Validierung, Verankerung & Skalierung — mit zwei Go/No-Go-Entscheidungspunkten (Gates) und voller Kostenkontrolle
+- [KI-Beratungspaket als Booklet (PDF)](https://www.rautaki.ch/downloads/rautaki-ki-beratung-booklet.pdf): Der komplette Ablauf für Geschäftsleitungen und Verwaltungsräte
+
 ## Preise
 
 - Beratungstag: ab CHF 3'500 (inkl. Vor- und Nachbereitung, Unterlagen, dokumentierte Ergebnisse)

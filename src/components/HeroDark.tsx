@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import Logo from "./Logo";
 import Button from "./Button";
 
@@ -10,47 +10,44 @@ interface HeroDarkProps {
 
 const headlineLines = ["Strategie", "im KI-Zeitalter", "mit Wirkung."];
 
+// Reduced-motion handling lives entirely in CSS (globals.css neutralises the
+// entrance animations; .hero-glow is disabled there explicitly). Reading
+// matchMedia during render caused a hydration mismatch for reduced-motion
+// users — the server has no window and always rendered the animated styles.
 export default function HeroDark({ onBookingClick }: HeroDarkProps) {
   const parallaxRef = useRef<HTMLDivElement>(null);
-  const [prefersReduced, setPrefersReduced] = useState(
-    () =>
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches,
-  );
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const handler = (e: MediaQueryListEvent) => setPrefersReduced(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
-
-  useEffect(() => {
-    if (prefersReduced) return;
     const onScroll = () => {
       if (parallaxRef.current) {
         const y = Math.min(window.scrollY * 0.08, 34);
         parallaxRef.current.style.setProperty("--parallax-y", `${y}px`);
       }
     };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [prefersReduced]);
+    const sync = () => {
+      window.removeEventListener("scroll", onScroll);
+      if (!mq.matches)
+        window.addEventListener("scroll", onScroll, { passive: true });
+    };
+    sync();
+    mq.addEventListener("change", sync);
+    return () => {
+      mq.removeEventListener("change", sync);
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
 
   return (
     <section className="bg-obsidian grain min-h-[94vh] pt-24 pb-12 grid grid-cols-1 lg:grid-cols-hero-dark relative overflow-hidden">
       <div
-        className="lg:row-start-1 lg:col-start-1 absolute w-[700px] h-[700px] pointer-events-none"
+        className="hero-glow lg:row-start-1 lg:col-start-1 absolute w-[700px] h-[700px] pointer-events-none"
         style={{
           position: "absolute",
           background:
             "radial-gradient(circle, var(--color-gold-glow) 0%, transparent 70%)",
           top: "-200px",
           left: "-140px",
-          animation: prefersReduced
-            ? undefined
-            : "glow-drift 12s ease-in-out infinite",
         }}
         aria-hidden="true"
       />
@@ -67,13 +64,10 @@ export default function HeroDark({ onBookingClick }: HeroDarkProps) {
                 key={line}
                 className="block opacity-0"
                 style={{
-                  animation: prefersReduced
-                    ? undefined
-                    : "fade-up 600ms var(--ease-out-expo) forwards",
-                  animationDelay: prefersReduced
-                    ? undefined
-                    : `${index * 80}ms`,
-                  opacity: prefersReduced ? 1 : undefined,
+                  // Under prefers-reduced-motion the global CSS collapses this
+                  // to 0.01ms — "forwards" then fills opacity:1 instantly.
+                  animation: "fade-up 600ms var(--ease-out-expo) forwards",
+                  animationDelay: `${index * 80}ms`,
                 }}
               >
                 {index === 1 ? (
@@ -117,10 +111,8 @@ export default function HeroDark({ onBookingClick }: HeroDarkProps) {
         <div
           className="bg-gold p-9 md:p-10 mb-8 relative"
           style={{
-            animation: prefersReduced
-              ? undefined
-              : "clip-reveal 600ms var(--ease-out-expo) both",
-            animationDelay: prefersReduced ? undefined : "400ms",
+            animation: "clip-reveal 600ms var(--ease-out-expo) both",
+            animationDelay: "400ms",
           }}
         >
           <h2 className="font-serif text-h3 tracking-tight-h3 text-obsidian mb-3">

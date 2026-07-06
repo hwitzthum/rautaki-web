@@ -40,8 +40,10 @@ const siteSchema = {
         email: "hello@rautaki.ch",
         availableLanguage: ["German", "English"],
       },
-      areaServed: ["DE", "AT", "CH"],
-      availableLanguage: "German",
+      // CH only — every visible surface (llms.txt, /services Service schema,
+      // all copy) claims Switzerland; the schema must not assert more.
+      areaServed: "CH",
+      availableLanguage: ["German", "English"],
       knowsAbout: [
         "AI Strategy",
         "Artificial Intelligence",

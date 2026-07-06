@@ -64,6 +64,16 @@ export default function ConsentManager() {
     }
     setReopened(false);
     window.dispatchEvent(new Event(CONSENT_CHANGE_EVENT));
+    // Withdrawal must actually take effect, not just on the next visit:
+    // unmounting the <Script> below does not stop an already-running tracker.
+    // If flare.js has loaded in this session, reload — with consent now
+    // "denied" the script is never rendered again.
+    if (
+      choice === "denied" &&
+      (window as unknown as { Flare?: unknown }).Flare
+    ) {
+      window.location.reload();
+    }
   }, []);
 
   const initSalesflare = useCallback(() => {

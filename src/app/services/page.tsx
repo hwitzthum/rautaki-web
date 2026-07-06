@@ -227,7 +227,7 @@ export default function ServicesPage() {
         </section>
       ))}
 
-      {/* ── Preise ────────────────────────────────────────── */}
+      {/* ── Der Weg zu wirksamer KI (Vorgehen) ─────────────── */}
       <section
         id="vorgehen"
         className="bg-obsidian grain scroll-mt-24 px-6 sm:px-10 lg:px-20 py-24"
