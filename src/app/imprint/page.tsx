@@ -6,7 +6,7 @@ import { pageShareMeta } from "@/lib/og";
 
 const pageTitle = "Impressum";
 const pageDescription =
-  "Impressum der Rautaki. Angaben gemäss Schweizer Obligationenrecht.";
+  "Impressum der Rautaki, Kilchberg ZH — Angaben gemäss Schweizer Obligationenrecht, Kontakt und Unternehmens-Identifikation.";
 
 export const metadata: Metadata = {
   title: pageTitle,
