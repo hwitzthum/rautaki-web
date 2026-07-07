@@ -57,6 +57,7 @@ const siteSchema = {
       sameAs: [
         "https://www.linkedin.com/in/harry-witzthum-25b814a/",
         "https://www.uid.admin.ch/Detail.aspx?uid_id=CHE-362.050.451",
+        "https://www.wikidata.org/wiki/Q140457396",
       ],
     },
     {
