@@ -6,6 +6,7 @@ import JsonLd from "@/components/JsonLd";
 import ScrollReveal from "@/components/ScrollReveal";
 import SectionLabel from "@/components/SectionLabel";
 import { pageShareMeta } from "@/lib/og";
+import { breadcrumbSchema } from "@/lib/breadcrumb";
 import { journey } from "@/data/journey";
 import {
   vorgehenIntro,
@@ -78,7 +79,12 @@ const phaseBg = ["bg-white", "bg-cream", "bg-white"] as const;
 export default function VorgehenPage() {
   return (
     <>
-      <JsonLd schema={howToSchema} />
+      <JsonLd
+        schema={[
+          howToSchema,
+          breadcrumbSchema([{ name: "Vorgehen", path: "/vorgehen" }]),
+        ]}
+      />
 
       {/* ── Hero ──────────────────────────────────────────── */}
       <HeroLight

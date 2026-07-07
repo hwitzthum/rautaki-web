@@ -7,6 +7,7 @@ import GoldRule from "@/components/GoldRule";
 import Button from "@/components/Button";
 import JsonLd from "@/components/JsonLd";
 import { pageShareMeta } from "@/lib/og";
+import { breadcrumbSchema } from "@/lib/breadcrumb";
 import { workshopClients, teachingCourses } from "@/data/about";
 
 const pageTitle = "Über uns";
@@ -68,7 +69,12 @@ function BrandRautaki() {
 export default function AboutPage() {
   return (
     <>
-      <JsonLd schema={profilePageSchema} />
+      <JsonLd
+        schema={[
+          profilePageSchema,
+          breadcrumbSchema([{ name: "Über uns", path: "/about" }]),
+        ]}
+      />
       <HeroLight
         label="Über uns"
         title={<BrandRautaki />}

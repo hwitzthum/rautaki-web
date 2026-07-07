@@ -4,7 +4,9 @@ import HeroLight from "@/components/HeroLight";
 import ScrollReveal from "@/components/ScrollReveal";
 import SectionLabel from "@/components/SectionLabel";
 import { CalInline } from "@/components/CalBooking";
+import JsonLd from "@/components/JsonLd";
 import { pageShareMeta } from "@/lib/og";
+import { breadcrumbSchema } from "@/lib/breadcrumb";
 
 const pageTitle = "Gespräch buchen";
 const pageDescription =
@@ -57,6 +59,10 @@ const expectations = [
 export default function BookingPage() {
   return (
     <>
+      <JsonLd
+        schema={breadcrumbSchema([{ name: "Buchung", path: "/booking" }])}
+      />
+
       {/* ── Hero ──────────────────────────────────────────── */}
       <HeroLight
         label="Buchung"

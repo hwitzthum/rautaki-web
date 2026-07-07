@@ -88,7 +88,12 @@ const siteSchema = {
         "Executive Leadership",
         "AI Governance",
       ],
-      sameAs: ["https://www.linkedin.com/in/harry-witzthum-25b814a/"],
+      // Only profiles verified to be this person. ResearchGate adds an
+      // academic authority signal alongside the professional LinkedIn one.
+      sameAs: [
+        "https://www.linkedin.com/in/harry-witzthum-25b814a/",
+        "https://www.researchgate.net/profile/Harry-Witzthum",
+      ],
     },
     {
       "@type": "WebSite",

@@ -8,6 +8,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import SectionLabel from "@/components/SectionLabel";
 import ServiceCard from "@/components/ServiceCard";
 import { pageShareMeta } from "@/lib/og";
+import { breadcrumbSchema } from "@/lib/breadcrumb";
 import { faq } from "@/data/faq";
 import { journey } from "@/data/journey";
 import { services } from "@/data/services";
@@ -152,7 +153,13 @@ export default function ServicesPage() {
   return (
     <>
       <JsonLd
-        schema={[...serviceSchemas, offerCatalogSchema, howToSchema, faqSchema]}
+        schema={[
+          ...serviceSchemas,
+          offerCatalogSchema,
+          howToSchema,
+          faqSchema,
+          breadcrumbSchema([{ name: "Leistungen", path: "/services" }]),
+        ]}
       />
 
       {/* ── Hero ──────────────────────────────────────────── */}
