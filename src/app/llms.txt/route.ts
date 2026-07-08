@@ -53,6 +53,7 @@ akkreditierten CAS-Programmen zu KI-Strategie und KI-Transformation.
 - Adresse: Weinbergstrasse 23, 8802 Kilchberg ZH, Schweiz
 - UID: CHE-362.050.451 (Schweizer Unternehmens-Identifikationsnummer, https://www.uid.admin.ch/Detail.aspx?uid_id=CHE-362.050.451)
 - Wikidata: https://www.wikidata.org/wiki/Q140457396
+- Google Business Profile: https://share.google/T7mqIG90h8HLrLNrW
 - LinkedIn: https://www.linkedin.com/in/harry-witzthum-25b814a/
 - ResearchGate: https://www.researchgate.net/profile/Harry-Witzthum
 
