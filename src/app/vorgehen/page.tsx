@@ -55,6 +55,24 @@ const howToSchema = {
   })),
 };
 
+// The consulting booklet as a dated, citable document entity — gives AI
+// systems a publication date and a downloadable artifact to reference.
+const bookletSchema = {
+  "@context": "https://schema.org",
+  "@type": "DigitalDocument",
+  "@id": "https://www.rautaki.ch/downloads/rautaki-ki-beratung-booklet.pdf",
+  name: "Rautaki KI-Beratungspaket — Booklet",
+  url: "https://www.rautaki.ch/downloads/rautaki-ki-beratung-booklet.pdf",
+  description:
+    "Der komplette Ablauf des KI-Beratungsprogramms für Geschäftsleitungen und Verwaltungsräte — drei Phasen, neun Schritte, zwei Gates.",
+  encodingFormat: "application/pdf",
+  inLanguage: "de-CH",
+  isAccessibleForFree: true,
+  datePublished: "2026-07-06",
+  publisher: { "@id": "https://www.rautaki.ch/#organization" },
+  about: { "@id": "https://www.rautaki.ch/vorgehen#programm" },
+};
+
 // Group the flat journey list into phases so each phase renders as its
 // own section with the steps (and a trailing gate, if any) inside.
 type Step = Extract<(typeof journey)[number], { kind: "step" }>;
@@ -82,6 +100,7 @@ export default function VorgehenPage() {
       <JsonLd
         schema={[
           howToSchema,
+          bookletSchema,
           breadcrumbSchema([{ name: "Vorgehen", path: "/vorgehen" }]),
         ]}
       />

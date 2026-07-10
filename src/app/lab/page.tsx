@@ -60,7 +60,8 @@ const tools: Tool[] = [
 // Each lab tool as a WebApplication entity — makes the free tools directly
 // referencable/citable for AI systems (SEAKT S-dimension: more entity types;
 // K-dimension: concrete, linkable assets). Published by the site-wide
-// Organization entity from layout.tsx.
+// Organization entity from layout.tsx. Mirrored inline in the standalone
+// public/lab/*.html pages (same @id) — keep both emissions in sync.
 const labToolSchemas = tools.map((tool) => ({
   "@context": "https://schema.org",
   "@type": "WebApplication",
