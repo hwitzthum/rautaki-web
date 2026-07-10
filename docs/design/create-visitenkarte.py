@@ -207,19 +207,19 @@ def draw_back(c, bg_color, text_color, qr_img):
     name_y = logo_y - 10 * mm
     c.setFillColor(text_color)
     c.setFont(SERIF, 9)
-    c.drawString(SAFE_X, name_y, "Vorname Nachname")
+    c.drawString(SAFE_X, name_y, "Harry Witzthum")
 
     c.setFont(SERIF, 6.5)
     c.setFillColor(GOLD)
     title_y = name_y - 4 * mm
-    c.drawString(SAFE_X, title_y, "Titel / Position")
+    c.drawString(SAFE_X, title_y, "Gründer")
 
     # Contact lines
     c.setFont(SERIF, 6)
     c.setFillColor(secondary_color)
     details = [
-        "+41 XX XXX XX XX",
-        "vorname@rautaki.ch",
+        "+41 78 774 38 88",
+        "hello@rautaki.ch",
         "www.rautaki.ch",
     ]
     line_y = title_y - 6.5 * mm
@@ -230,9 +230,9 @@ def draw_back(c, bg_color, text_color, qr_img):
     # Address block
     line_y -= 1 * mm
     address_lines = [
-        "Rautaki GmbH",
-        "Musterstrasse 1",
-        "8000 Zürich",
+        "Rautaki",
+        "Weinbergstrasse 23",
+        "8802 Kilchberg ZH",
     ]
     for addr_line in address_lines:
         c.drawString(SAFE_X, line_y, addr_line)
