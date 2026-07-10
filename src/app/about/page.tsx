@@ -39,6 +39,25 @@ const profilePageSchema = {
   mainEntity: { "@id": "https://www.rautaki.ch/#harry-witzthum" },
 };
 
+// The CAS teaching engagements as Course entities with the founder as
+// instructor — turns the strongest credential signal from prose into
+// machine-readable authority (third-party institutions, linkable URLs).
+const teachingSchemas = teachingCourses.map((course) => ({
+  "@context": "https://schema.org",
+  "@type": "Course",
+  name: course.title,
+  url: course.url,
+  inLanguage: "de-CH",
+  provider: {
+    "@type": "EducationalOrganization",
+    name: course.institution,
+  },
+  hasCourseInstance: {
+    "@type": "CourseInstance",
+    instructor: { "@id": "https://www.rautaki.ch/#harry-witzthum" },
+  },
+}));
+
 const values = [
   {
     title: "Evidenz vor Intuition",
@@ -72,6 +91,7 @@ export default function AboutPage() {
       <JsonLd
         schema={[
           profilePageSchema,
+          ...teachingSchemas,
           breadcrumbSchema([{ name: "Über uns", path: "/about" }]),
         ]}
       />

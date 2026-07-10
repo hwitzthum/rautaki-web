@@ -8,6 +8,7 @@ import N8nChatWidget from "@/components/N8nChatWidget";
 import ConsentManager from "@/components/ConsentManager";
 import JsonLd from "@/components/JsonLd";
 import { OG_IMAGE } from "@/lib/og";
+import { orgSameAs, personSameAs } from "@/lib/authority";
 
 // Unified entity graph: Organization + founder Person, cross-referenced via
 // @id so AI systems can resolve Rautaki and Harry Witzthum as one entity graph.
@@ -54,12 +55,7 @@ const siteSchema = {
       ],
       priceRange: "CHF 280 – CHF 3'500",
       founder: { "@id": "https://www.rautaki.ch/#harry-witzthum" },
-      sameAs: [
-        "https://www.linkedin.com/in/harry-witzthum-25b814a/",
-        "https://www.uid.admin.ch/Detail.aspx?uid_id=CHE-362.050.451",
-        "https://www.wikidata.org/wiki/Q140457396",
-        "https://share.google/T7mqIG90h8HLrLNrW",
-      ],
+      sameAs: orgSameAs,
     },
     {
       "@type": "Person",
@@ -92,10 +88,7 @@ const siteSchema = {
       ],
       // Only profiles verified to be this person. ResearchGate adds an
       // academic authority signal alongside the professional LinkedIn one.
-      sameAs: [
-        "https://www.linkedin.com/in/harry-witzthum-25b814a/",
-        "https://www.researchgate.net/profile/Harry-Witzthum",
-      ],
+      sameAs: personSameAs,
     },
     {
       "@type": "WebSite",

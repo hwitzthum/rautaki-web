@@ -3,6 +3,7 @@
 // readable version cannot drift from the visible content. Static like
 // robots/sitemap/llms.txt.
 
+import { orgProfiles, personProfiles } from "@/lib/authority";
 import { faq } from "@/data/faq";
 import { journey } from "@/data/journey";
 import { services } from "@/data/services";
@@ -141,8 +142,11 @@ Interaktive Tools, die direkt im Browser laufen — kein Account, kein Server.
 
 - E-Mail: hello@rautaki.ch
 - Adresse: Weinbergstrasse 23, 8802 Kilchberg ZH, Schweiz
-- UID: CHE-362.050.451 (Schweizer Unternehmens-Identifikationsnummer)
-- LinkedIn: https://www.linkedin.com/in/harry-witzthum-25b814a/
+- UID: CHE-362.050.451 (Schweizer Unternehmens-Identifikationsnummer, ${orgProfiles.uidRegister})
+- Wikidata: ${orgProfiles.wikidata}
+- Google Business Profile: ${orgProfiles.googleBusiness}
+- LinkedIn: ${orgProfiles.linkedIn}
+- ResearchGate: ${personProfiles.researchGate}
 - Erstgespräch buchen: https://www.rautaki.ch/booking
 `;
 
