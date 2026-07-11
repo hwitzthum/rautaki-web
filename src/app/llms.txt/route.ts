@@ -9,7 +9,7 @@ export const dynamic = "force-static";
 
 const content = `# Rautaki
 
-> Rautaki begleitet Unternehmen und Organisationen bei der strategischen Einführung von KI — von der Potenzialanalyse bis zur skalierbaren Umsetzung. Sitz in Kilchberg ZH, Schweiz. Fokus: Führungsteams in NPO, Sozialwesen, öffentlichem Sektor und KMU.
+> Rautaki begleitet Unternehmen und Organisationen bei der strategischen Einführung von KI — von der Potenzialanalyse bis zur skalierbaren Umsetzung. Sitz in Kilchberg ZH, Schweiz. Fokus: Führungsteams in NPO, Sozialwesen, öffentlichem Sektor und KMU. Website auf Deutsch (primär) und Englisch (https://www.rautaki.ch/en, siehe «English» unten).
 
 Rautaki (te reo Māori für «Strategie») wurde von Harry Witzthum gegründet —
 Doktor der Philosophie, Diplomierter Verbands- und NPO-Manager VMI, langjährige
@@ -59,9 +59,21 @@ akkreditierten CAS-Programmen zu KI-Strategie und KI-Transformation.
 - LinkedIn: ${orgProfiles.linkedIn}
 - ResearchGate: ${personProfiles.researchGate}
 
+## English
+
+Rautaki is a Swiss AI-strategy consultancy for leadership teams — strategic vision, ongoing sparring for executive management and boards, and hands-on AI mentoring from use-case prioritisation to production. Based in Kilchberg ZH, Switzerland; German- and English-speaking.
+
+- [Home](https://www.rautaki.ch/en): AI strategy for decision-makers
+- [Services](https://www.rautaki.ch/en/services): Strategic Vision, Consultancy & Sparring, AI Mentoring — with transparent rates (consulting day from CHF 3,500)
+- [FAQ](https://www.rautaki.ch/en/services#faq): Frequently asked questions on services, prices, process and audience
+- [The path to effective AI](https://www.rautaki.ch/en/vorgehen): The consulting programme in full — three phases, nine steps, two go/no-go gates
+- [About us](https://www.rautaki.ch/en/about): Founding story, profile of Harry Witzthum, how we work
+- [Lab](https://www.rautaki.ch/en/lab): Free AI tools (the tools themselves are German-only)
+- [Book an initial consultation](https://www.rautaki.ch/en/booking): Free, 45 minutes, via video call
+
 ## Optional
 
-- [Volltext-Version (llms-full.txt)](https://www.rautaki.ch/llms-full.txt): Alle Kerninhalte der Website als Markdown-Volltext
+- [Volltext-Version (llms-full.txt)](https://www.rautaki.ch/llms-full.txt): Alle Kerninhalte der Website als Markdown-Volltext, deutsch und englisch
 - [Impressum](https://www.rautaki.ch/imprint)
 - [Datenschutz](https://www.rautaki.ch/privacy)
 `;
