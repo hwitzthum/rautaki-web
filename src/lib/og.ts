@@ -1,4 +1,10 @@
 import type { Metadata } from "next";
+import type { Locale } from "@/content/types";
+
+const OG_LOCALE: Record<Locale, string> = {
+  de: "de_CH",
+  en: "en_GB",
+};
 
 // Single source for the OpenGraph image reference. The ?v=2 busts LinkedIn's
 // per-URL image cache (it negatively cached the 404 from before the image
@@ -19,12 +25,14 @@ export function pageShareMeta(opts: {
   title: string;
   description: string;
   path: string;
+  locale?: Locale;
 }): Pick<Metadata, "openGraph" | "twitter"> {
   const title = `${opts.title} | Rautaki`;
+  const locale = opts.locale ?? "de";
   return {
     openGraph: {
       type: "website",
-      locale: "de_CH",
+      locale: OG_LOCALE[locale],
       siteName: "Rautaki",
       title,
       description: opts.description,

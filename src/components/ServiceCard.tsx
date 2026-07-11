@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { common } from "@/content/de/common";
 
 interface ServiceCardProps {
   number: string;
@@ -41,7 +42,7 @@ export default function ServiceCard({
         </p>
 
         <div className="mt-6 font-ui text-xs uppercase tracking-wide-label text-gold">
-          Mehr erfahren
+          {common.serviceCard.moreLabel}
         </div>
       </article>
     </Link>

@@ -4,29 +4,23 @@
 // robots/sitemap/llms.txt.
 
 import { orgProfiles, personProfiles } from "@/lib/authority";
-import { faq } from "@/data/faq";
-import { journey } from "@/data/journey";
-import { services } from "@/data/services";
-import { workshopClients, teachingCourses } from "@/data/about";
-import {
-  vorgehenIntro,
-  vorgehenOutcomes,
-  vorgehenComplianceIntro,
-  vorgehenCompliance,
-  vorgehenCollaboration,
-  vorgehenCollaborationNote,
-} from "@/data/vorgehen";
+import { stripMarkers } from "@/components/Highlight";
+import { faq } from "@/content/de/faq";
+import { journey } from "@/content/de/journey";
+import { services } from "@/content/de/services";
+import { about } from "@/content/de/about";
+import { vorgehen } from "@/content/de/vorgehen";
 
 export const dynamic = "force-static";
 
-const servicesSection = services
+const servicesSection = services.items
   .map(
     (service) =>
-      `### ${service.titlePlain}\n\n${service.longDesc}\n\n${service.forWhom}`,
+      `### ${stripMarkers(service.title)}\n\n${service.longDesc}\n\n${service.forWhom}`,
   )
   .join("\n\n");
 
-const journeySection = journey
+const journeySection = journey.items
   .map((item) => {
     switch (item.kind) {
       case "phase":
@@ -39,27 +33,27 @@ const journeySection = journey
   })
   .join("\n\n");
 
-const outcomesSection = vorgehenOutcomes
+const outcomesSection = vorgehen.outcomes
   .map((outcome) => `- **${outcome.title}**: ${outcome.description}`)
   .join("\n");
 
-const complianceSection = vorgehenCompliance
+const complianceSection = vorgehen.compliance
   .map((item) => `- **${item.label}**: ${item.description}`)
   .join("\n");
 
-const collaborationSection = vorgehenCollaboration
+const collaborationSection = vorgehen.collaboration
   .map((item) => `- **${item.label} — ${item.title}**: ${item.description}`)
   .join("\n");
 
-const faqSection = faq
+const faqSection = faq.items
   .map((item) => `### ${item.question}\n\n${item.answer}`)
   .join("\n\n");
 
-const clientsSection = workshopClients
+const clientsSection = about.workshopClients
   .map((client) => `- ${client}`)
   .join("\n");
 
-const teachingSection = teachingCourses
+const teachingSection = about.teachingCourses
   .map((course) => `- [${course.title}](${course.url}) — ${course.institution}`)
   .join("\n");
 
@@ -80,7 +74,7 @@ ${servicesSection}
 
 ## Der Weg zu wirksamer KI (https://www.rautaki.ch/vorgehen)
 
-${vorgehenIntro}
+${vorgehen.intro}
 
 ${journeySection}
 
@@ -90,7 +84,7 @@ ${outcomesSection}
 
 ### Compliance begleitet jeden Schritt
 
-${vorgehenComplianceIntro}
+${vorgehen.complianceIntro}
 
 ${complianceSection}
 
@@ -98,7 +92,7 @@ ${complianceSection}
 
 ${collaborationSection}
 
-${vorgehenCollaborationNote}
+${vorgehen.collaborationNote}
 
 ## Preise (https://www.rautaki.ch/services#preise)
 

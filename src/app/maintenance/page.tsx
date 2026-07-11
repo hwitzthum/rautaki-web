@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Logo from "@/components/Logo";
 import GoldRule from "@/components/GoldRule";
+import { common } from "@/content/de/common";
 
 export const metadata: Metadata = {
-  title: "Bald wieder online",
-  description: "Rautaki ist kurzzeitig offline für Wartungsarbeiten.",
+  title: common.maintenance.metaTitle,
+  description: common.maintenance.metaDescription,
   robots: { index: false, follow: false },
 };
 
@@ -21,21 +22,20 @@ export default function MaintenancePage() {
         </div>
 
         <h1 className="font-serif text-h1 tracking-tight-h2 font-normal leading-heading mb-6">
-          Bald wieder online.
+          {common.maintenance.title}
         </h1>
 
         <p className="font-ui text-lead font-light leading-body text-mid-grey mb-10">
-          Wir verfeinern gerade einige Details. Die Seite ist in Kürze wieder
-          erreichbar — vielen Dank für Ihre Geduld.
+          {common.maintenance.body}
         </p>
 
         <p className="font-ui text-body font-light leading-body text-mid-grey">
-          Für dringende Anfragen:{" "}
+          {common.maintenance.urgentPrefix}
           <a
-            href="mailto:hello@rautaki.ch"
+            href={`mailto:${common.maintenance.email}`}
             className="text-gold hover:text-gold-light transition-colors"
           >
-            hello@rautaki.ch
+            {common.maintenance.email}
           </a>
         </p>
       </div>

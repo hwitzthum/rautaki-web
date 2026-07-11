@@ -1,14 +1,9 @@
 import Link from "next/link";
 import Logo from "./Logo";
 import CookieSettingsLink from "./CookieSettingsLink";
+import { common } from "@/content/de/common";
 
-const navLinks = [
-  { href: "/services", label: "Leistungen" },
-  { href: "/vorgehen", label: "Vorgehen" },
-  { href: "/lab", label: "Lab" },
-  { href: "/about", label: "Über uns" },
-  { href: "/booking", label: "Buchung" },
-];
+const navLinks = common.footer.navLinks;
 
 export default function Footer() {
   return (
@@ -19,14 +14,13 @@ export default function Footer() {
           <div>
             <Logo size="sm" variant="dark" />
             <p className="mt-4 max-w-[280px] font-ui text-sm text-white/45">
-              Wir helfen Führungsteams, KI-Ambition in messbare Wirkung zu
-              verwandeln.
+              {common.footer.tagline}
             </p>
           </div>
 
           <div>
             <h3 className="font-ui text-xs uppercase tracking-wide-label text-white/45 mb-4">
-              Navigation
+              {common.footer.navHeading}
             </h3>
             <ul className="space-y-3 font-ui text-sm text-white/45">
               {navLinks.map((link) => (
@@ -44,23 +38,23 @@ export default function Footer() {
 
           <div>
             <h3 className="font-ui text-xs uppercase tracking-wide-label text-white/45 mb-4">
-              Kontakt
+              {common.footer.contactHeading}
             </h3>
             <ul className="space-y-3 font-ui text-sm text-white/45">
               <li>
                 <a
-                  href="mailto:hello@rautaki.ch"
+                  href={`mailto:${common.footer.email}`}
                   className="underline decoration-gold/70 underline-offset-4 hover:text-gold hover:decoration-gold transition-colors"
                 >
-                  hello@rautaki.ch
+                  {common.footer.email}
                 </a>
               </li>
               <li className="leading-relaxed">
-                Rautaki
+                {common.footer.addressLines[0]}
                 <br />
-                Weinbergstrasse 23
+                {common.footer.addressLines[1]}
                 <br />
-                8802 Kilchberg / ZH
+                {common.footer.addressLines[2]}
               </li>
               <li>
                 <a
@@ -69,7 +63,7 @@ export default function Footer() {
                   rel="noreferrer"
                   className="no-underline hover:text-gold transition-colors"
                 >
-                  LinkedIn
+                  {common.footer.linkedInLabel}
                 </a>
               </li>
             </ul>
@@ -78,20 +72,20 @@ export default function Footer() {
 
         <div className="mt-14 pt-6 border-t border-white/10 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between font-ui text-xs uppercase tracking-wide-footer text-white/45">
           <div>
-            © {new Date().getFullYear()} Rautaki. Alle Rechte vorbehalten.
+            © {new Date().getFullYear()} {common.footer.copyright}
           </div>
           <div className="flex gap-6">
             <Link
               href="/privacy"
               className="no-underline hover:text-gold transition-colors"
             >
-              Datenschutz
+              {common.footer.privacyLabel}
             </Link>
             <Link
               href="/imprint"
               className="no-underline hover:text-gold transition-colors"
             >
-              Impressum
+              {common.footer.imprintLabel}
             </Link>
             <CookieSettingsLink />
           </div>

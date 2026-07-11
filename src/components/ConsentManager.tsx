@@ -11,6 +11,7 @@ import {
   SALESFLARE_TOKEN,
   type Consent,
 } from "@/lib/consent";
+import { common } from "@/content/de/common";
 
 // flare.js attaches a global `Flare` constructor once loaded.
 type FlareConstructor = new () => { track: (token: string) => void };
@@ -97,28 +98,26 @@ export default function ConsentManager() {
       {bannerOpen && (
         <div
           role="dialog"
-          aria-label="Cookie-Einstellungen"
+          aria-label={common.consent.dialogAria}
           className="fixed inset-x-0 bottom-0 z-50 bg-obsidian border-t border-gold/30"
         >
           <div className="mx-auto flex max-w-content flex-col gap-5 px-6 py-6 sm:px-10 md:flex-row md:items-center md:justify-between lg:px-20">
             <p className="max-w-[640px] font-ui text-sm leading-body text-white/60">
-              Wir setzen ein Tracking-Cookie von Salesflare, um Website-Besuche
-              unseren Kontakten zuzuordnen — ausschliesslich mit Ihrer
-              Einwilligung. Details in unserer{" "}
+              {common.consent.textBeforeLink}
               <Link
                 href="/privacy"
                 className="text-gold underline underline-offset-4 hover:text-gold-light transition-colors"
               >
-                Datenschutzerklärung
+                {common.consent.privacyLinkLabel}
               </Link>
-              .
+              {common.consent.textAfterLink}
             </p>
             <div className="flex shrink-0 gap-3">
               <Button variant="ghost" onClick={() => decide("denied")}>
-                Ablehnen
+                {common.consent.deny}
               </Button>
               <Button variant="gold" onClick={() => decide("granted")}>
-                Akzeptieren
+                {common.consent.accept}
               </Button>
             </div>
           </div>

@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import "@/styles/n8n-chat.css";
+import { common } from "@/content/de/common";
 
 // The widget always talks to our same-origin proxy at /api/chat. The proxy
 // is responsible for: origin gating, rate limiting, HMAC-signing the upstream
@@ -38,19 +39,15 @@ export default function N8nChatWidget() {
           // the widget never fires the "loadPreviousSession" action, so a
           // stolen sessionId can't pull conversation history.
           loadPreviousSession: false,
-          initialMessages: [
-            "Willkommen bei Rautaki.",
-            "Schildern Sie Ihre Frage — wir helfen Ihnen, den nächsten Schritt zu definieren.",
-          ],
+          initialMessages: common.chat.initialMessages,
           i18n: {
             en: {
-              title: "Rautaki",
-              subtitle: "Strategie · Beratung · Umsetzung",
+              title: common.chat.title,
+              subtitle: common.chat.subtitle,
               footer: "",
-              getStarted: "Gespräch starten",
-              inputPlaceholder:
-                "Fragen zu KI-Strategie, Leistungen oder nächsten Schritten...",
-              closeButtonTooltip: "Chat schliessen",
+              getStarted: common.chat.getStarted,
+              inputPlaceholder: common.chat.inputPlaceholder,
+              closeButtonTooltip: common.chat.closeButtonTooltip,
             },
           },
         });
