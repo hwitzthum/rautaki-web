@@ -45,16 +45,18 @@ Retrieval-Engines finden nur, was Dritte erwähnen. Jede unabhängige Seite «Ra
 
 ## P4 — Wikidata-Anreicherung (Q140457396)
 
-- [ ] Plain-`en`-Label + -Beschreibung ergänzen (aktuell nur `de` und `en-GB`)
-- [ ] P112 (Gründer) — ggf. Item für Harry Witzthum anlegen
-- [ ] P571 (Gründungsdatum)
-- [ ] P1454 (Rechtsform: Einzelunternehmen)
-- [ ] Belege/Referenzen an bestehende Claims (UID-Register-URL)
+**Abgeschlossen 2026-07-11.**
+
+- [x] Default-Label (`mul`, gilt für alle Sprachen) + `en`-Beschreibung ergänzt
+- [x] P112 (Gründer) — Item für Harry Witzthum angelegt: **Q140500710** (human, management consultant + lecturer, ResearchGate-/LinkedIn-ID)
+- [x] P571 (Gründungsdatum): Februar 2026
+- [x] P1454 (Rechtsform): Einzelunternehmen (Schweiz)
+- [x] Referenzen an allen Claims (UID-Register-URL; Industry via Impressum)
 - Notiz: Google Knowledge Graph kgmid `/g/11zcsjwpcl`
 
 ## P5 — Google-Business-Profile-URL
 
-- [ ] `share.google/…`-Shortlink in `src/lib/authority.ts` durch kanonische Maps-Place-URL ersetzen (URL aus GBP-Dashboard holen — Nutzer-Aktion, dann Ein-Zeilen-Änderung)
+**Geschlossen 2026-07-11 mit Befund:** Das GBP ist ein Service-Area-Profil mit verborgener Adresse — Google stellt dafür **keine öffentliche Maps-Place-Seite** bereit (`maps.google.com/?cid=824068227341883080` rendert leer). Der bestehende `share.google`-Link (→ Knowledge Panel) ist die beste stabile URL und bleibt in `src/lib/authority.ts`. Einzige Alternative wäre, die Adresse im GBP öffentlich zu machen (nicht empfohlen für eine Privatadresse).
 
 ## P6 — Aufgeschoben aus P1
 
