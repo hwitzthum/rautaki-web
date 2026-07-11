@@ -9,7 +9,11 @@ import type { Locale } from "@/content/types";
 // is responsible for: origin gating, rate limiting, HMAC-signing the upstream
 // request to n8n, validating input, and filtering bot output. See
 // src/app/api/chat/route.ts and security/chatbot-hardening-plan.md.
-const WEBHOOK_URL = "/api/chat";
+// The page locale travels as a query param (not in the @n8n/chat body, whose
+// shape is library-controlled); the proxy whitelists it and forwards it in
+// the signed payload so the bot can localise fallback language and links.
+const webhookUrlFor = (locale: Locale) =>
+  locale === "en" ? "/api/chat?locale=en" : "/api/chat";
 
 declare global {
   interface Window {
@@ -20,8 +24,9 @@ declare global {
 export default function N8nChatWidget({ locale }: { locale: Locale }) {
   useEffect(() => {
     const common = getContent(locale).common;
-    // English visitors are invited to write in English; the bot's reply
-    // language is configured n8n-side (tracked in the GEO roadmap, P6).
+    // English visitors are invited to write in English; the bot follows the
+    // visitor's language and uses the page locale (sent via the proxy URL)
+    // as fallback for ambiguous input.
     const initialMessages =
       locale === "en"
         ? [...common.chat.initialMessages, "Feel free to write in English."]
@@ -38,7 +43,7 @@ export default function N8nChatWidget({ locale }: { locale: Locale }) {
         const { createChat } = await import("@n8n/chat");
 
         createChat({
-          webhookUrl: WEBHOOK_URL,
+          webhookUrl: webhookUrlFor(locale),
           target: "#n8n-chat",
           mode: "window",
           showWelcomeScreen: false,
