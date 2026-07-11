@@ -3,12 +3,14 @@
 import React, { useEffect, useRef } from "react";
 import Logo from "./Logo";
 import Button from "./Button";
+import Highlight from "./Highlight";
+import { home } from "@/content/de/home";
 
 interface HeroDarkProps {
   onBookingClick: () => void;
 }
 
-const headlineLines = ["Strategie", "im KI-Zeitalter", "mit Wirkung."];
+const { headlineLines, intro, ctaTitle, ctaBody, ctaButton } = home.heroDark;
 
 // Reduced-motion handling lives entirely in CSS (globals.css neutralises the
 // entrance animations; .hero-glow is disabled there explicitly). Reading
@@ -70,22 +72,13 @@ export default function HeroDark({ onBookingClick }: HeroDarkProps) {
                   animationDelay: `${index * 80}ms`,
                 }}
               >
-                {index === 1 ? (
-                  <>
-                    im <span className="italic text-gold">KI-Zeitalter</span>
-                  </>
-                ) : (
-                  line
-                )}
+                {index === 1 ? <Highlight text={line} /> : line}
               </span>
             ))}
           </h1>
 
           <p className="font-ui text-body font-light leading-body text-white/45 max-w-[470px]">
-            Wir verbinden strategische Beratung für Geschäftsleitungen und
-            Verwaltungsräte mit akkreditierter Weiterbildung — von der
-            Standortbestimmung bis zur produktionsreifen Lösung. Mit besonderer
-            Erfahrung im NPO-, Sozial- und öffentlichen Sektor.
+            {intro}
           </p>
         </div>
       </div>
@@ -116,14 +109,13 @@ export default function HeroDark({ onBookingClick }: HeroDarkProps) {
           }}
         >
           <h2 className="font-serif text-h3 tracking-tight-h3 text-obsidian mb-3">
-            Entwickeln Sie eine belastbare KI-Strategie
+            {ctaTitle}
           </h2>
           <p className="font-ui text-sm text-obsidian/55 mb-6 max-w-narrow">
-            Im Erstgespräch klären wir Prioritäten, Governance-Entscheide und
-            die Führungskompetenzen für Ihre nächste Phase.
+            {ctaBody}
           </p>
           <Button variant="dark" onClick={onBookingClick} showArrow>
-            Erstgespräch vereinbaren
+            {ctaButton}
           </Button>
         </div>
       </div>

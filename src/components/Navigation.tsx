@@ -4,14 +4,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import Logo from "./Logo";
+import { common } from "@/content/de/common";
 
-const navItems = [
-  { href: "/", label: "Start" },
-  { href: "/services", label: "Leistungen" },
-  { href: "/lab", label: "Lab" },
-  { href: "/about", label: "Über uns" },
-  { href: "/booking", label: "Buchung" },
-];
+const navItems = common.nav.items;
 
 export default function Navigation() {
   const pathname = usePathname();
@@ -73,7 +68,7 @@ export default function Navigation() {
         </div>
 
         <nav
-          aria-label="Hauptnavigation"
+          aria-label={common.nav.aria}
           className="hidden lg:flex items-center gap-9 font-ui text-xs uppercase tracking-wide-nav"
         >
           {navItems.map((item) => {
@@ -97,7 +92,9 @@ export default function Navigation() {
           ref={menuButtonRef}
           className="lg:hidden text-white p-2"
           onClick={() => setMenuOpen((prev) => !prev)}
-          aria-label={menuOpen ? "Menü schliessen" : "Menü öffnen"}
+          aria-label={
+            menuOpen ? common.mobileNav.closeLabel : common.mobileNav.openLabel
+          }
           aria-expanded={menuOpen}
           aria-controls="mobile-nav"
         >
@@ -120,7 +117,7 @@ export default function Navigation() {
 
       <nav
         id="mobile-nav"
-        aria-label="Mobile Navigation"
+        aria-label={common.mobileNav.aria}
         aria-hidden={!menuOpen}
         className={`lg:hidden overflow-hidden border-t border-white/10 transition-[max-height,visibility] duration-300 ${
           menuOpen ? "max-h-80 visible" : "max-h-0 invisible"

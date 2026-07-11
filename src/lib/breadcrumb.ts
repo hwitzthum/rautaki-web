@@ -3,7 +3,14 @@
 // homepage and uses the real canonical routes (/services, /about, …).
 // The @id anchors the list to its page so re-renders resolve to one entity.
 
+import type { Locale } from "@/content/types";
+
 const BASE = "https://www.rautaki.ch";
+
+const HOME_CRUMB: Record<Locale, string> = {
+  de: "Start",
+  en: "Home",
+};
 
 export interface Crumb {
   name: string;
@@ -11,8 +18,8 @@ export interface Crumb {
   path: string;
 }
 
-export function breadcrumbSchema(crumbs: Crumb[]) {
-  const trail: Crumb[] = [{ name: "Start", path: "" }, ...crumbs];
+export function breadcrumbSchema(crumbs: Crumb[], locale: Locale = "de") {
+  const trail: Crumb[] = [{ name: HOME_CRUMB[locale], path: "" }, ...crumbs];
   const last = trail[trail.length - 1];
   return {
     "@context": "https://schema.org",

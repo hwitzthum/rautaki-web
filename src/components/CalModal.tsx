@@ -4,6 +4,7 @@ import { useEffect, useRef, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { CalInline } from "./CalBooking";
 import Logo from "./Logo";
+import { common } from "@/content/de/common";
 
 interface CalModalProps {
   isOpen: boolean;
@@ -14,10 +15,15 @@ const subscribe = () => () => {};
 const getSnapshot = () => true;
 const getServerSnapshot = () => false;
 
-const FOCUSABLE = 'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
+const FOCUSABLE =
+  'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
 export default function CalModal({ isOpen, onClose }: CalModalProps) {
-  const mounted = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const mounted = useSyncExternalStore(
+    subscribe,
+    getSnapshot,
+    getServerSnapshot,
+  );
   const triggerRef = useRef<Element | null>(null);
 
   useEffect(() => {
@@ -33,7 +39,9 @@ export default function CalModal({ isOpen, onClose }: CalModalProps) {
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [isOpen]);
 
   if (!mounted || !isOpen) return null;
@@ -47,7 +55,9 @@ function CalModalContent({ onClose }: { onClose: () => void }) {
   /* Initial focus */
   useEffect(() => {
     const timer = setTimeout(() => {
-      const focusable = panelRef.current?.querySelector(FOCUSABLE) as HTMLElement | null;
+      const focusable = panelRef.current?.querySelector(
+        FOCUSABLE,
+      ) as HTMLElement | null;
       focusable?.focus();
     }, 100);
     return () => clearTimeout(timer);
@@ -59,7 +69,9 @@ function CalModalContent({ onClose }: { onClose: () => void }) {
       if (e.key === "Escape") {
         onClose();
       } else if (e.key === "Tab") {
-        const focusable = Array.from(panelRef.current?.querySelectorAll(FOCUSABLE) ?? []) as HTMLElement[];
+        const focusable = Array.from(
+          panelRef.current?.querySelectorAll(FOCUSABLE) ?? [],
+        ) as HTMLElement[];
         if (!focusable.length) return;
         const first = focusable[0];
         const last = focusable[focusable.length - 1];
@@ -81,11 +93,7 @@ function CalModalContent({ onClose }: { onClose: () => void }) {
     if (e.target === e.currentTarget) onClose();
   };
 
-  const callFacts = [
-    { label: "Dauer", value: "45 Min." },
-    { label: "Format", value: "Video-Call" },
-    { label: "Kosten", value: "Kostenlos" },
-  ];
+  const callFacts = common.calModal.callFacts;
 
   return (
     <div
@@ -104,7 +112,7 @@ function CalModalContent({ onClose }: { onClose: () => void }) {
         ref={panelRef}
         role="dialog"
         aria-modal="true"
-        aria-label="Beratungsgespräch buchen"
+        aria-label={common.calModal.dialogAria}
         className="relative w-full max-w-[900px] shadow-[0_24px_80px_rgba(0,0,0,0.5)]"
         style={{ animation: "scale-up 300ms var(--ease-spring) both" }}
       >
@@ -131,10 +139,18 @@ function CalModalContent({ onClose }: { onClose: () => void }) {
 
           <button
             onClick={onClose}
-            aria-label="Dialog schliessen"
+            aria-label={common.calModal.closeAria}
             className="text-white/40 hover:text-white transition-colors p-2 -mr-2"
           >
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              aria-hidden="true"
+            >
               <path d="M4 4l12 12M4 16L16 4" />
             </svg>
           </button>
@@ -148,7 +164,7 @@ function CalModalContent({ onClose }: { onClose: () => void }) {
         {/* Footer note */}
         <div className="bg-white border-t border-ink/[0.07] px-8 py-3">
           <p className="font-ui text-xs text-mid-grey">
-            Alle Zeiten in Ihrer lokalen Zeitzone. Bestätigung per E-Mail.
+            {common.calModal.footerNote}
           </p>
         </div>
       </div>

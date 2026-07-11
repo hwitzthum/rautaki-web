@@ -9,6 +9,7 @@ import ConsentManager from "@/components/ConsentManager";
 import JsonLd from "@/components/JsonLd";
 import { OG_IMAGE } from "@/lib/og";
 import { orgSameAs, personSameAs } from "@/lib/authority";
+import { common } from "@/content/de/common";
 
 // Unified entity graph: Organization + founder Person, cross-referenced via
 // @id so AI systems can resolve Rautaki and Harry Witzthum as one entity graph.
@@ -26,8 +27,7 @@ const siteSchema = {
         propertyID: "CH-UID",
         value: "CHE-362.050.451",
       },
-      description:
-        "Rautaki begleitet Unternehmen bei der strategischen KI-Einführung — von der Potenzialanalyse bis zur skalierbaren Umsetzung.",
+      description: common.graph.orgDescription,
       address: {
         "@type": "PostalAddress",
         streetAddress: "Weinbergstrasse 23",
@@ -61,24 +61,16 @@ const siteSchema = {
       "@type": "Person",
       "@id": "https://www.rautaki.ch/#harry-witzthum",
       name: "Harry Witzthum",
-      jobTitle: "Gründer & Berater für KI-Strategie",
+      jobTitle: common.graph.personJobTitle,
       url: "https://www.rautaki.ch/about",
       image: "https://www.rautaki.ch/images/about/witzthum_portrait.webp",
       worksFor: { "@id": "https://www.rautaki.ch/#organization" },
-      description:
-        "Gründer von Rautaki. Doktor der Philosophie und Diplomierter Verbands- und NPO-Manager VMI. Langjährige Führungserfahrung in nationalen Nonprofit-Organisationen; Dozent in akkreditierten CAS-Programmen zu KI-Strategie und KI-Transformation.",
-      hasCredential: [
-        {
-          "@type": "EducationalOccupationalCredential",
-          credentialCategory: "Doktorat",
-          name: "Doktor der Philosophie (PhD)",
-        },
-        {
-          "@type": "EducationalOccupationalCredential",
-          credentialCategory: "Diplom",
-          name: "Diplomierter Verbands- und NPO-Manager VMI",
-        },
-      ],
+      description: common.graph.personDescription,
+      hasCredential: common.graph.credentials.map((credential) => ({
+        "@type": "EducationalOccupationalCredential",
+        credentialCategory: credential.category,
+        name: credential.name,
+      })),
       knowsAbout: [
         "AI Strategy",
         "Organizational Transformation",
@@ -95,7 +87,7 @@ const siteSchema = {
       "@id": "https://www.rautaki.ch/#website",
       name: "Rautaki",
       url: "https://www.rautaki.ch",
-      inLanguage: "de-CH",
+      inLanguage: common.graph.websiteInLanguage,
       publisher: { "@id": "https://www.rautaki.ch/#organization" },
     },
   ],
@@ -155,7 +147,7 @@ export default async function RootLayout({
       </head>
       <body className={`${dmSans.variable} antialiased`}>
         <a href="#main-content" className="skip-to-content">
-          Zum Inhalt springen
+          {common.skipLink}
         </a>
         <Navigation />
         <main id="main-content">{children}</main>
