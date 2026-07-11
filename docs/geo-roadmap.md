@@ -65,9 +65,12 @@ Retrieval-Engines finden nur, was Dritte erwähnen. Jede unabhängige Seite «Ra
 
 ## P7 — GEO-Messung
 
-- [ ] AI-Referrer-Tracking (chatgpt.com, perplexity.ai, …) in Analytics/Vercel
-- [ ] Search Console: AI-Overview-Impressionen beobachten
-- [ ] Monatliche Prompt-Probes: Top-10-Käuferfragen an ChatGPT/Perplexity/Claude, Zitate loggen (Skript oder n8n-Workflow)
+**Implementiert 2026-07-11.**
+
+- [x] AI-Referrer- und AI-Crawler-Tracking: monatliche Aggregat-Counter in Upstash, geschrieben im Proxy (`src/lib/geo-track.ts`), Read-back via `/api/geo-stats` (PR #74; kein PII, kein Cookie)
+- [x] Monatliche Prompt-Probes: n8n-Workflow «Rautaki GEO-Probe (monatlich)» (ID `9VGsWbFuKGQYU4uV`) — 10 Fragen (5 DE/5 EN) an OpenAI, Perplexity, Gemini und Claude mit Web-Suche; Auswertung Erwähnung/Zitierung; Historie in Data Table `geo_probes`; Digest-Mail an hello@rautaki.ch inkl. Website-Signalen. Testlauf 2026-07-11 erfolgreich (Baseline: OpenAI 2/10 erwähnt+zitiert, Perplexity 0/10, Claude 0/10)
+- [x] Search Console AI-Overview-Impressionen: als manuelle Prüf-Zeile im monatlichen Digest verankert
+- [ ] Nutzer-Aktionen: Gemini-API-Key in n8n-Credential «Google Gemini(PaLM) Api account» erneuern (400 API_KEY_INVALID); Workflow aktivieren
 
 ---
 
