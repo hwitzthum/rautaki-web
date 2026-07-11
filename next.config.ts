@@ -55,6 +55,16 @@ function buildCsp(): string {
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // The Wissen pages read article Markdown from src/content/articles/**/*.md at
+  // request time (the root layout's headers() call makes every route dynamic).
+  // Next's file tracing can't follow the computed fs paths in src/lib/articles.ts,
+  // so include the files explicitly — otherwise the Vercel function throws ENOENT.
+  outputFileTracingIncludes: {
+    "/wissen": ["./src/content/articles/**/*.md"],
+    "/wissen/[slug]": ["./src/content/articles/**/*.md"],
+    "/en/wissen": ["./src/content/articles/**/*.md"],
+    "/en/wissen/[slug]": ["./src/content/articles/**/*.md"],
+  },
   async headers() {
     return [
       {

@@ -39,6 +39,14 @@ akkreditierten CAS-Programmen zu KI-Strategie und KI-Transformation.
 - [KI-Governance-Richtlinie Generator](https://www.rautaki.ch/lab/ki-governance-policy.html): Vier Formulare, zehn Abschnitte, ein druckfertiges Word-Dokument mit Deckblatt und Unterschriftenblock
 - [Multi-Assistant-System mit Custom GPTs](https://www.rautaki.ch/lab/multi-assistant-gpt.html): Schritt-für-Schritt-Anleitung zu einem orchestrierten System aus drei GPTs — ohne Code
 
+## Wissen
+
+<!-- HAND-MAINTAINED: eine Zeile pro Artikel. Beim Hinzufügen eines neuen
+     Wissen-Beitrags hier ergänzen (llms-full.txt und Sitemap generieren sich
+     dagegen automatisch aus dem Loader). -->
+
+- [EU AI Act: Was gilt für Schweizer NPOs?](https://www.rautaki.ch/wissen/eu-ai-act-schweizer-npos): Ob und wie der EU AI Act Schweizer Nonprofit-Organisationen betrifft — Marktortprinzip, Risikoklassen und die nächsten Schritte
+
 ## Seiten
 
 - [Startseite](https://www.rautaki.ch)
@@ -47,6 +55,7 @@ akkreditierten CAS-Programmen zu KI-Strategie und KI-Transformation.
 - [Vorgehen](https://www.rautaki.ch/vorgehen): Das KI-Beratungspaket im Volltext — alle neun Schritte, Gates, Governance und Zusammenarbeitsmodell
 - [Über uns](https://www.rautaki.ch/about): Gründungsgeschichte, Profil Harry Witzthum, Arbeitsweise
 - [Lab](https://www.rautaki.ch/lab): Kostenlose KI-Tools und Experimente
+- [Wissen](https://www.rautaki.ch/wissen): Fundierte Analysen zu KI-Strategie, Governance und Regulierung
 - [Erstgespräch buchen](https://www.rautaki.ch/booking)
 
 ## Kontakt
@@ -69,11 +78,13 @@ Rautaki is a Swiss AI-strategy consultancy for leadership teams — strategic vi
 - [The path to effective AI](https://www.rautaki.ch/en/vorgehen): The consulting programme in full — three phases, nine steps, two go/no-go gates
 - [About us](https://www.rautaki.ch/en/about): Founding story, profile of Harry Witzthum, how we work
 - [Lab](https://www.rautaki.ch/en/lab): Free AI tools (the tools themselves are German-only)
+- [Insights](https://www.rautaki.ch/en/wissen): Grounded analysis on AI strategy, governance and regulation
 - [Book an initial consultation](https://www.rautaki.ch/en/booking): Free, 45 minutes, via video call
 
 ## Optional
 
 - [Volltext-Version (llms-full.txt)](https://www.rautaki.ch/llms-full.txt): Alle Kerninhalte der Website als Markdown-Volltext, deutsch und englisch
+- [RSS-Feed (Wissen)](https://www.rautaki.ch/feed.xml): Neue Wissen-Beiträge als RSS 2.0
 - [Impressum](https://www.rautaki.ch/imprint)
 - [Datenschutz](https://www.rautaki.ch/privacy)
 `;

@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
 import { localePath } from "@/lib/i18n";
+import { getArticles } from "@/lib/articles";
 
 // Real per-page content dates instead of build time — a sitemap that claims
 // every page changed on every deploy teaches crawlers to ignore the signal.
@@ -21,6 +22,32 @@ const lastModified = {
 };
 
 const base = "https://www.rautaki.ch";
+
+// ── Wissen articles ──────────────────────────────────────────────────────────
+// Article URLs and their dates are derived from the Markdown frontmatter via
+// the loader — never hand-maintained, consistent with this sitemap's rule that
+// dates track real content changes. German is the source language; an English
+// entry (and en hreflang alternate) is emitted only when a translated file
+// exists, so the sitemap never advertises a page that would 404. Declared
+// before localizedPages because /wissen's index dates derive from it.
+const wissenDe = getArticles("de");
+const wissenEn = new Map(
+  getArticles("en").map((article) => [article.slug, article]),
+);
+
+const newestDate = (dates: string[]): Date =>
+  new Date(
+    dates.length ? dates.reduce((a, b) => (a > b ? a : b)) : "2026-07-11",
+  );
+
+function wissenIndexDates(): { de: Date; en: Date } {
+  return {
+    de: newestDate(wissenDe.map((a) => a.dateModified ?? a.datePublished)),
+    en: newestDate(
+      [...wissenEn.values()].map((a) => a.dateModified ?? a.datePublished),
+    ),
+  };
+}
 
 interface LocalizedPage {
   path: string;
@@ -69,6 +96,14 @@ const localizedPages: LocalizedPage[] = [
     priority: 0.7,
   },
   {
+    path: "/wissen",
+    // Content-driven: the index's freshness is the newest article per locale,
+    // not a hand-maintained date (see wissenIndexDates below).
+    dates: wissenIndexDates(),
+    changeFrequency: "weekly",
+    priority: 0.8,
+  },
+  {
     path: "/imprint",
     dates: lastModified.imprint,
     changeFrequency: "yearly",
@@ -105,6 +140,37 @@ const singleLocalePages: MetadataRoute.Sitemap = [
   },
 ];
 
+// Per-article sitemap entries, generated from the loader data declared above.
+const articlePages: MetadataRoute.Sitemap = wissenDe.flatMap((article) => {
+  const path = `/wissen/${article.slug}`;
+  const de = `${base}${localePath("de", path)}`;
+  const en = `${base}${localePath("en", path)}`;
+  const enArticle = wissenEn.get(article.slug);
+  const languages = enArticle
+    ? { "de-CH": de, en, "x-default": de }
+    : { "de-CH": de, "x-default": de };
+
+  const entries: MetadataRoute.Sitemap = [
+    {
+      url: de,
+      lastModified: new Date(article.dateModified ?? article.datePublished),
+      changeFrequency: "monthly",
+      priority: 0.7,
+      alternates: { languages },
+    },
+  ];
+  if (enArticle) {
+    entries.push({
+      url: en,
+      lastModified: new Date(enArticle.dateModified ?? enArticle.datePublished),
+      changeFrequency: "monthly",
+      priority: 0.6,
+      alternates: { languages },
+    });
+  }
+  return entries;
+});
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const localized = localizedPages.flatMap<MetadataRoute.Sitemap[number]>(
     ({ path, dates, changeFrequency, priority }) => {
@@ -130,5 +196,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   );
 
-  return [...localized, ...singleLocalePages];
+  return [...localized, ...articlePages, ...singleLocalePages];
 }

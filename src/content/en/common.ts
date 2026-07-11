@@ -40,6 +40,10 @@ export const common = {
         label: "Lab",
       },
       {
+        href: "/wissen",
+        label: "Insights",
+      },
+      {
         href: "/about",
         label: "About us",
       },
@@ -70,6 +74,10 @@ export const common = {
       {
         href: "/lab",
         label: "Lab",
+      },
+      {
+        href: "/wissen",
+        label: "Insights",
       },
       {
         href: "/about",

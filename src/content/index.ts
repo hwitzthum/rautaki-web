@@ -14,6 +14,7 @@ import { about } from "./de/about";
 import { booking } from "./de/booking";
 import { imprint } from "./de/imprint";
 import { privacy } from "./de/privacy";
+import { wissen } from "./de/wissen";
 
 import { common as commonEn } from "./en/common";
 import { home as homeEn } from "./en/home";
@@ -25,6 +26,7 @@ import { about as aboutEn } from "./en/about";
 import { booking as bookingEn } from "./en/booking";
 import { imprint as imprintEn } from "./en/imprint";
 import { privacy as privacyEn } from "./en/privacy";
+import { wissen as wissenEn } from "./en/wissen";
 
 const de: SiteContent = {
   common,
@@ -37,6 +39,7 @@ const de: SiteContent = {
   booking,
   imprint,
   privacy,
+  wissen,
 };
 
 const en: SiteContent = {
@@ -50,6 +53,7 @@ const en: SiteContent = {
   booking: bookingEn,
   imprint: imprintEn,
   privacy: privacyEn,
+  wissen: wissenEn,
 };
 
 const registry: Record<Locale, SiteContent> = { de, en };
