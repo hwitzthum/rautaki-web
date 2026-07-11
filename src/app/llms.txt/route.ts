@@ -47,6 +47,8 @@ akkreditierten CAS-Programmen zu KI-Strategie und KI-Transformation.
 
 - [EU AI Act: Was gilt für Schweizer NPOs?](https://www.rautaki.ch/wissen/eu-ai-act-schweizer-npos): Ob und wie der EU AI Act Schweizer Nonprofit-Organisationen betrifft — Marktortprinzip, Risikoklassen und die nächsten Schritte
 - [KI-Strategie im Verwaltungsrat: die entscheidenden Fragen](https://www.rautaki.ch/wissen/ki-strategie-verwaltungsrat): Warum KI zur Oberleitung gehört (Art. 716a OR) und die sieben Fragen, die ein Verwaltungs- oder Stiftungsrat der Geschäftsleitung stellen sollte
+- [Der Weg zu wirksamer KI: die Methode hinter dem Rautaki-Beratungsprogramm](https://www.rautaki.ch/wissen/der-weg-zu-wirksamer-ki): Die fünf Designprinzipien hinter dem Programm mit drei Phasen, neun Schritten und zwei Kostenkontroll-Gates
+- [KI-Reifegrad in Schweizer NPOs: Was die Studien zeigen — und was nicht](https://www.rautaki.ch/wissen/ki-reifegrad-schweizer-npos): Synthese der verfügbaren Studien — hohe individuelle Nutzung, strategisches Vakuum, und warum es keine Schweizer NPO-Zahl gibt
 
 ## Seiten
 
