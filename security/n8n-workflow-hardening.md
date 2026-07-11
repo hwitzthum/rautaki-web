@@ -368,12 +368,22 @@ if (Math.abs(Math.floor(Date.now() / 1000) - t) > HMAC_SKEW_SECONDS) {
 }
 
 const body = incoming.body || {};
-// Key order must match src/lib/hmac.ts canonicalize()
-const canonical = JSON.stringify({
-  action: body.action,
-  sessionId: body.sessionId,
-  chatInput: body.chatInput,
-});
+// Key order must match src/lib/hmac.ts canonicalize(). `locale` is included
+// only when present in the body, so pre-locale clients (cached pages that
+// still send {action, sessionId, chatInput}) keep validating.
+const canonical =
+  body.locale !== undefined
+    ? JSON.stringify({
+        action: body.action,
+        sessionId: body.sessionId,
+        chatInput: body.chatInput,
+        locale: body.locale,
+      })
+    : JSON.stringify({
+        action: body.action,
+        sessionId: body.sessionId,
+        chatInput: body.chatInput,
+      });
 
 const expected = crypto
   .createHmac("sha256", SECRET)

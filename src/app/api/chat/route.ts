@@ -249,7 +249,13 @@ export async function POST(req: NextRequest) {
       requestId,
     );
   }
-  const body = v.body;
+  // Page locale from the widget's proxy URL (?locale=en) — strictly
+  // whitelisted, defaults to "de". Forwarded inside the HMAC-signed payload
+  // so the n8n agent can fall back to the page language on ambiguous input
+  // and use /en links in English replies.
+  const locale: "de" | "en" =
+    req.nextUrl.searchParams.get("locale") === "en" ? "en" : "de";
+  const body = { ...v.body, locale };
 
   // 5. Per-session rate limit (tighter; catches single-IP-many-tabs abuse
   //    that the IP limit can't see). Skipped silently when Upstash isn't

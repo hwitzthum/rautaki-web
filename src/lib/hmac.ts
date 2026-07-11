@@ -35,6 +35,13 @@ export interface SignedBody {
   action: "sendMessage";
   sessionId: string;
   chatInput: string;
+  /**
+   * Page locale of the visitor ("de" | "en"). Optional so that the n8n
+   * verifier stays compatible with pre-locale clients: the key is included
+   * in the canonical string only when present — the verifier mirrors this
+   * (see security/n8n-workflow-hardening.md).
+   */
+  locale?: "de" | "en";
 }
 
 /**
@@ -42,11 +49,18 @@ export interface SignedBody {
  * fixed here to avoid serializer drift between Node versions.
  */
 export function canonicalize(body: SignedBody): string {
-  return JSON.stringify({
-    action: body.action,
-    sessionId: body.sessionId,
-    chatInput: body.chatInput,
-  });
+  return body.locale !== undefined
+    ? JSON.stringify({
+        action: body.action,
+        sessionId: body.sessionId,
+        chatInput: body.chatInput,
+        locale: body.locale,
+      })
+    : JSON.stringify({
+        action: body.action,
+        sessionId: body.sessionId,
+        chatInput: body.chatInput,
+      });
 }
 
 /**
@@ -63,8 +77,7 @@ export function signRequest(body: SignedBody, secret: string): string {
 }
 
 export type VerifyResult =
-  | { ok: true }
-  | { ok: false; reason: "bad-format" | "stale" | "bad-mac" };
+  { ok: true } | { ok: false; reason: "bad-format" | "stale" | "bad-mac" };
 
 /**
  * Verify an X-Rautaki-Signature header. Used by tests; the n8n side has its
@@ -98,5 +111,7 @@ export function verifySignature(
   const a = Buffer.from(expected, "hex");
   const b = Buffer.from(v1, "hex");
   if (a.length !== b.length) return { ok: false, reason: "bad-mac" };
-  return timingSafeEqual(a, b) ? { ok: true } : { ok: false, reason: "bad-mac" };
+  return timingSafeEqual(a, b)
+    ? { ok: true }
+    : { ok: false, reason: "bad-mac" };
 }
