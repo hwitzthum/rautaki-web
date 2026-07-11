@@ -25,12 +25,13 @@ Status: in Arbeit (Start 2026-07-11). `/en`-Prefix, hreflang, DeepL-einmalig →
 
 Wichtigster inhaltlicher Hebel: AI-Engines bevorzugen datierbare, attribuierbare Quellen. Article-Schema mit `datePublished`/`dateModified`, `author` → Person-Node.
 
-- [ ] Sektion `/insights` (oder `/wissen`) mit Article-Schema aufsetzen
-- [ ] Artikel 1 — Original-Daten: z.B. «KI-Reifegrad in Schweizer NPOs» (eigene Erhebung/Benchmark — stärkster Zitiergrund)
-- [ ] Artikel 2 — Methodologie-Seite: das 9-Schritte/2-Gates-Programm als benannte Methode (eigene Entität für Attribution)
-- [ ] Artikel 3 — Praxis-Guide: «EU AI Act: Was gilt für Schweizer NPOs?»
-- [ ] Artikel 4 — Praxis-Guide: «KI-Strategie im Verwaltungsrat: die entscheidenden Fragen»
-- [ ] RSS/Atom-Feed, sobald Artikel existieren
+- [x] Sektion `/wissen` (+ `/en/wissen`) mit BlogPosting-Schema, Markdown-Loader, Navigation (PR #78, 2026-07-11)
+- [x] RSS-Feed `/feed.xml` mit Site-weiter Autodiscovery (PR #78)
+- [x] Artikel «EU AI Act: Was gilt für Schweizer NPOs?» de+en live, Indexierung angefragt (PR #78, 2026-07-11; Zeitplan auf Stand Digital Omnibus)
+- [ ] Artikel «KI-Strategie im Verwaltungsrat: die entscheidenden Fragen»
+- [ ] Artikel Methodologie-Seite: das 9-Schritte/2-Gates-Programm als benannte Methode (eigene Entität für Attribution)
+- [ ] Artikel «KI-Reifegrad in Schweizer NPOs» — Desk-Research-Synthese (Quellenreport liegt vor: `docs/research/ki-reifegrad-quellen.md`; Kernbefund: keine publizierte CH-NPO-Studie → Forschungslücken-Framing); später ablösbar durch eigene Erhebung
+- Pflege-Hinweis: llms.txt «## Wissen» ist handgepflegt — bei jedem neuen Artikel ergänzen (llms-full/Sitemap/Feed generieren sich automatisch)
 
 ## P3 — Externe Erwähnungen (Off-Site-Autorität)
 
