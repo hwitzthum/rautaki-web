@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "translate": "node --env-file=.env.local --no-warnings scripts/translate-content.ts",
     "test:libs": "node --experimental-strip-types --no-warnings security/test-libs.mjs",
     "test:api": "bash security/test-chat-api.sh"
   },

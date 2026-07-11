@@ -448,6 +448,7 @@ export interface PrivacyContent {
     para2a: string;
     cookieSettingsLabel: string;
     para2b: string;
+    paraLocale: string;
   };
   rights: {
     label: string;
