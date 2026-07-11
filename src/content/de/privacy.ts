@@ -37,6 +37,8 @@ export const privacy = {
       "Dieses Cookie wird ausschliesslich mit Ihrer ausdrücklichen Einwilligung gesetzt. Beim ersten Besuch fragen wir Ihre Zustimmung über einen Hinweis am unteren Seitenrand ab. Sie können Ihre Einwilligung jederzeit über den Link ",
     cookieSettingsLabel: "Cookie-Einstellungen",
     para2b: " im Seitenfuss widerrufen.",
+    paraLocale:
+      "Zusätzlich setzen wir ein technisch notwendiges Cookie (NEXT_LOCALE), das Ihre Sprachwahl (Deutsch oder Englisch) für ein Jahr speichert. Es enthält keine personenbezogenen Daten, dient ausschliesslich der Funktionalität der Website und erfordert keine Einwilligung.",
   },
   rights: {
     label: "Ihre Rechte",

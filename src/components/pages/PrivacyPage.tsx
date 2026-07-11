@@ -78,6 +78,7 @@ export default function PrivacyPage({ locale }: { locale: Locale }) {
                 <strong>{c.cookies.cookieSettingsLabel}</strong>
                 {c.cookies.para2b}
               </p>
+              <p>{c.cookies.paraLocale}</p>
             </div>
           </ScrollReveal>
 
