@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextFetchEvent, NextRequest, NextResponse } from "next/server";
+import { classifyGeoSignal, trackGeoSignal } from "@/lib/geo-track";
 
 // Maintenance-mode gate — Next.js 16 "proxy" convention (formerly middleware).
 //
@@ -16,10 +17,22 @@ function localeFromPathname(pathname: string): "de" | "en" {
   return pathname === "/en" || pathname.startsWith("/en/") ? "en" : "de";
 }
 
-export function proxy(request: NextRequest) {
+export function proxy(request: NextRequest, event: NextFetchEvent) {
   const enabled = process.env.MAINTENANCE_MODE === "true";
   const { pathname } = request.nextUrl;
   const locale = localeFromPathname(pathname);
+
+  // GEO measurement (roadmap P7): count AI-referred visits and AI-crawler
+  // page hits as monthly aggregates. Fire-and-forget — never blocks the
+  // response, no-ops for normal traffic. API routes are excluded (bot hits
+  // there are noise, and the chat endpoint has its own telemetry).
+  if (request.method === "GET" && !pathname.startsWith("/api/")) {
+    const signal = classifyGeoSignal(
+      request.headers.get("referer"),
+      request.headers.get("user-agent"),
+    );
+    if (signal) event.waitUntil(trackGeoSignal(signal));
+  }
 
   if (!enabled) {
     // A returning English visitor who lands on the bare "/" is sent to "/en".
