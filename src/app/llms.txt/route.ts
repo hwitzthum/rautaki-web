@@ -2,6 +2,10 @@
 // ClaudeBot, PerplexityBot). Follows the llms.txt convention:
 // https://llmstxt.org — Markdown, H1 title, blockquote summary, link lists.
 // Static content, so it is served cached (force-static) like robots/sitemap.
+//
+// HAND-MAINTAINED: the «## Wissen» section needs one line per article —
+// extend it when a new Wissen article ships (llms-full.txt and the sitemap
+// generate themselves from the article loader; this file does not).
 
 import { orgProfiles, personProfiles } from "@/lib/authority";
 
@@ -40,10 +44,6 @@ akkreditierten CAS-Programmen zu KI-Strategie und KI-Transformation.
 - [Multi-Assistant-System mit Custom GPTs](https://www.rautaki.ch/lab/multi-assistant-gpt.html): Schritt-für-Schritt-Anleitung zu einem orchestrierten System aus drei GPTs — ohne Code
 
 ## Wissen
-
-<!-- HAND-MAINTAINED: eine Zeile pro Artikel. Beim Hinzufügen eines neuen
-     Wissen-Beitrags hier ergänzen (llms-full.txt und Sitemap generieren sich
-     dagegen automatisch aus dem Loader). -->
 
 - [EU AI Act: Was gilt für Schweizer NPOs?](https://www.rautaki.ch/wissen/eu-ai-act-schweizer-npos): Ob und wie der EU AI Act Schweizer Nonprofit-Organisationen betrifft — Marktortprinzip, Risikoklassen und die nächsten Schritte
 
