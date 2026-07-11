@@ -28,7 +28,7 @@ Wichtigster inhaltlicher Hebel: AI-Engines bevorzugen datierbare, attribuierbare
 - [x] Sektion `/wissen` (+ `/en/wissen`) mit BlogPosting-Schema, Markdown-Loader, Navigation (PR #78, 2026-07-11)
 - [x] RSS-Feed `/feed.xml` mit Site-weiter Autodiscovery (PR #78)
 - [x] Artikel «EU AI Act: Was gilt für Schweizer NPOs?» de+en live, Indexierung angefragt (PR #78, 2026-07-11; Zeitplan auf Stand Digital Omnibus)
-- [ ] Artikel «KI-Strategie im Verwaltungsrat: die entscheidenden Fragen»
+- [x] Artikel «KI-Strategie im Verwaltungsrat: die entscheidenden Fragen» de+en live, Indexierung angefragt (PR #81, 2026-07-11; Art. 716a OR, sieben Fragen, swissVR II/2024)
 - [ ] Artikel Methodologie-Seite: das 9-Schritte/2-Gates-Programm als benannte Methode (eigene Entität für Attribution)
 - [ ] Artikel «KI-Reifegrad in Schweizer NPOs» — Desk-Research-Synthese (Quellenreport liegt vor: `docs/research/ki-reifegrad-quellen.md`; Kernbefund: keine publizierte CH-NPO-Studie → Forschungslücken-Framing); später ablösbar durch eigene Erhebung
 - Pflege-Hinweis: llms.txt «## Wissen» ist handgepflegt — bei jedem neuen Artikel ergänzen (llms-full/Sitemap/Feed generieren sich automatisch)
