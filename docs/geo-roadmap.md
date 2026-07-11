@@ -64,7 +64,7 @@ Retrieval-Engines finden nur, was Dritte erwähnen. Jede unabhängige Seite «Ra
 ## P6 — Aufgeschoben aus P1
 
 - [ ] Lab-Tools (3 statische HTML-Apps) auf Englisch — inkl. generierter Word/PDF-Dokumente
-- [ ] n8n-Chatbot: englische Antworten (System-Prompt im n8n-Workflow, ausserhalb dieses Repos)
+- [x] n8n-Chatbot: englische Antworten (2026-07-11) — Bot folgte bereits der Nutzersprache; ergänzt: Seiten-Locale-Fallback bei mehrdeutiger Eingabe (?locale via Proxy-URL, HMAC-kompatibel in beide Richtungen), /en-Links in englischen Antworten, englische Refusals, Wissen-Artikel im Prompt (Workflow-Update + PR #85; live E2E-verifiziert)
 
 ## P7 — GEO-Messung
 
