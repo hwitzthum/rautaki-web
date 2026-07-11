@@ -13,11 +13,13 @@ Konventionen: Checkbox abhaken im selben PR, der das Item abschliesst; Status-Ze
 
 Status: in Arbeit (Start 2026-07-11). `/en`-Prefix, hreflang, DeepL-einmalig → committete Dateien, Toggle im Header. Architektur: siehe Plan.
 
-- [x] Roadmap-Datei angelegt (dieser PR)
-- [ ] PR 1 — String-Extraktion: alle Inhalte nach `src/content/{de}/*`, Seiten → gemeinsame Komponenten mit `locale`-Param, deutsches HTML byte-identisch
-- [ ] PR 2 — DeepL-Skript (`npm run translate`) + generierte `src/content/en/*` (menschliches Review = Qualitäts-Gate; inkl. NEXT_LOCALE-Hinweis für Datenschutzseite)
-- [ ] PR 3 — `/en`-Routen, LocaleSwitch (Header + Mobile), Cookie, hreflang/og:locale, lokalisierte Schemas
-- [ ] PR 4 — Sitemap-Alternates, llms.txt «## English»-Sektion, llms-full.txt zweisprachig
+- [x] Roadmap-Datei angelegt (PR #65, 2026-07-11)
+- [x] PR 1 — String-Extraktion: alle Inhalte nach `src/content/{de}/*`, Seiten → gemeinsame Komponenten mit `locale`-Param, deutsches HTML byte-identisch (PR #66, 2026-07-11)
+- [x] PR 2 — DeepL-Skript (`npm run translate`) + generierte `src/content/en/*` (menschliches Review = Qualitäts-Gate; inkl. NEXT_LOCALE-Hinweis für Datenschutzseite) (PR #70, 2026-07-11)
+- [x] PR 3 — `/en`-Routen, LocaleSwitch (Header + Mobile), Cookie, hreflang/og:locale, lokalisierte Schemas (PR #68, 2026-07-11)
+- [x] PR 4 — Sitemap-Alternates, llms.txt «## English»-Sektion, llms-full.txt zweisprachig (PR #69, 2026-07-11)
+
+**P1 abgeschlossen am 2026-07-11.** Offen geblieben (→ P6): Lab-Tools EN, n8n-Bot englische Antworten.
 
 ## P2 — Insights/Wissen-Sektion (zitierbarer, datierter Content)
 
