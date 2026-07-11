@@ -71,7 +71,9 @@ Retrieval-Engines finden nur, was Dritte erwähnen. Jede unabhängige Seite «Ra
 - [x] Monatliche Prompt-Probes: n8n-Workflow «Rautaki GEO-Probe (monatlich)» (ID `9VGsWbFuKGQYU4uV`) — 10 Fragen (5 DE/5 EN) an OpenAI, Perplexity, Gemini und Claude mit Web-Suche; Auswertung Erwähnung/Zitierung; Historie in Data Table `geo_probes`; Digest-Mail an hello@rautaki.ch inkl. Website-Signalen. Testlauf 2026-07-11 erfolgreich (Baseline: OpenAI 2/10 erwähnt+zitiert, Perplexity 0/10, Claude 0/10)
 - [x] Search Console AI-Overview-Impressionen: als manuelle Prüf-Zeile im monatlichen Digest verankert
 - [x] Gemini-API-Key in n8n-Credential «Google Gemini(PaLM) Api account» erneuert (2026-07-11); Verifikationslauf: alle vier Engines antworten (Testzeilen unter Monat `2026-07-verify` in `geo_probes`)
-- [ ] Nutzer-Aktion: Workflow in n8n aktivieren (erster geplanter Lauf: 1. des Folgemonats, 07:00)
+- [x] Workflow in n8n aktiviert (2026-07-11) — erster geplanter Lauf: 1. August 2026, 07:00
+
+**P7 vollständig abgeschlossen am 2026-07-11.**
 
 ---
 
