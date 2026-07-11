@@ -3,6 +3,7 @@ import HeroLight from "@/components/HeroLight";
 import SectionLabel from "@/components/SectionLabel";
 import ScrollReveal from "@/components/ScrollReveal";
 import { pageShareMeta } from "@/lib/og";
+import { localePath, pageAlternates } from "@/lib/i18n";
 import { getContent } from "@/content";
 import type { Locale } from "@/content/types";
 
@@ -11,11 +12,11 @@ export function privacyMetadata(locale: Locale): Metadata {
   return {
     title: c.metaTitle,
     description: c.metaDescription,
-    alternates: { canonical: "https://www.rautaki.ch/privacy" },
+    alternates: pageAlternates(locale, "/privacy"),
     ...pageShareMeta({
       title: c.metaTitle,
       description: c.metaDescription,
-      path: "/privacy",
+      path: localePath(locale, "/privacy"),
       locale,
     }),
   };

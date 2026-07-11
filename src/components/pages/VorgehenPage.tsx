@@ -8,6 +8,7 @@ import SectionLabel from "@/components/SectionLabel";
 import Highlight from "@/components/Highlight";
 import { pageShareMeta } from "@/lib/og";
 import { breadcrumbSchema } from "@/lib/breadcrumb";
+import { absoluteUrl, localePath, pageAlternates } from "@/lib/i18n";
 import { getContent } from "@/content";
 import type { JourneyItem, Locale } from "@/content/types";
 
@@ -16,11 +17,11 @@ export function vorgehenMetadata(locale: Locale): Metadata {
   return {
     title: c.metaTitle,
     description: c.metaDescription,
-    alternates: { canonical: "https://www.rautaki.ch/vorgehen" },
+    alternates: pageAlternates(locale, "/vorgehen"),
     ...pageShareMeta({
       title: c.metaTitle,
       description: c.metaDescription,
-      path: "/vorgehen",
+      path: localePath(locale, "/vorgehen"),
       locale,
     }),
   };
@@ -46,6 +47,7 @@ export default function VorgehenPage({ locale }: { locale: Locale }) {
   const c = content.vorgehen;
   const journey = content.journey.items;
   const inLanguage = INLANGUAGE[locale];
+  const vorgehenUrl = absoluteUrl(localePath(locale, "/vorgehen"));
 
   const steps = journey.filter((item) => item.kind === "step");
 
@@ -55,17 +57,17 @@ export default function VorgehenPage({ locale }: { locale: Locale }) {
   const howToSchema = {
     "@context": "https://schema.org",
     "@type": "HowTo",
-    "@id": "https://www.rautaki.ch/vorgehen#programm",
+    "@id": `${vorgehenUrl}#programm`,
     name: c.schema.howToName,
     description: c.intro,
-    url: "https://www.rautaki.ch/vorgehen",
-    mainEntityOfPage: "https://www.rautaki.ch/vorgehen",
+    url: vorgehenUrl,
+    mainEntityOfPage: vorgehenUrl,
     inLanguage,
     step: steps.map((item) => ({
       "@type": "HowToStep",
       position: Number(item.no),
       name: item.title,
-      url: `https://www.rautaki.ch/vorgehen#schritt-${item.no}`,
+      url: `${vorgehenUrl}#schritt-${item.no}`,
       text: `${item.activity} ${c.schema.resultLabel}: ${item.outcome}`,
     })),
   };
@@ -84,7 +86,7 @@ export default function VorgehenPage({ locale }: { locale: Locale }) {
     isAccessibleForFree: true,
     datePublished: "2026-07-06",
     publisher: { "@id": "https://www.rautaki.ch/#organization" },
-    about: { "@id": "https://www.rautaki.ch/vorgehen#programm" },
+    about: { "@id": `${vorgehenUrl}#programm` },
   };
 
   // Group the flat journey list into phases so each phase renders as its
@@ -285,7 +287,7 @@ export default function VorgehenPage({ locale }: { locale: Locale }) {
             <p className="font-ui text-sm font-light leading-body text-mid-grey mt-12 pt-8 border-t border-ink/10 max-w-reading">
               {c.collaborationNote}{" "}
               <a
-                href="/services#preise"
+                href={localePath(locale, "/services#preise")}
                 className="text-ink underline decoration-gold/70 underline-offset-4 hover:decoration-gold"
               >
                 {c.collaborationSection.tariffLinkLabel}
@@ -307,7 +309,11 @@ export default function VorgehenPage({ locale }: { locale: Locale }) {
             {c.cta.body}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-6">
-            <Button href="/booking" variant="gold" showArrow>
+            <Button
+              href={localePath(locale, "/booking")}
+              variant="gold"
+              showArrow
+            >
               {c.cta.button}
             </Button>
             <a

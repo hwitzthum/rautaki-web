@@ -23,7 +23,6 @@ export const common = {
         name: "Diplomierter Verbands- und NPO-Manager VMI",
       },
     ],
-    websiteInLanguage: "de-CH",
   },
   nav: {
     aria: "Hauptnavigation",

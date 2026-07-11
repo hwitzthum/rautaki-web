@@ -1,11 +1,13 @@
 import Link from "next/link";
 import Logo from "./Logo";
 import CookieSettingsLink from "./CookieSettingsLink";
-import { common } from "@/content/de/common";
+import { getContent } from "@/content";
+import { localePath, type Locale } from "@/lib/i18n";
 
-const navLinks = common.footer.navLinks;
+export default function Footer({ locale }: { locale: Locale }) {
+  const common = getContent(locale).common;
+  const navLinks = common.footer.navLinks;
 
-export default function Footer() {
   return (
     <footer className="bg-obsidian grain overflow-hidden">
       <div className="h-[3px] bg-gold-rule" aria-hidden="true" />
@@ -26,7 +28,7 @@ export default function Footer() {
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <Link
-                    href={link.href}
+                    href={localePath(locale, link.href)}
                     className="no-underline hover:text-gold transition-colors"
                   >
                     {link.label}
@@ -76,18 +78,18 @@ export default function Footer() {
           </div>
           <div className="flex gap-6">
             <Link
-              href="/privacy"
+              href={localePath(locale, "/privacy")}
               className="no-underline hover:text-gold transition-colors"
             >
               {common.footer.privacyLabel}
             </Link>
             <Link
-              href="/imprint"
+              href={localePath(locale, "/imprint")}
               className="no-underline hover:text-gold transition-colors"
             >
               {common.footer.imprintLabel}
             </Link>
-            <CookieSettingsLink />
+            <CookieSettingsLink locale={locale} />
           </div>
         </div>
       </div>

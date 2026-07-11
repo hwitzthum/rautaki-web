@@ -4,12 +4,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import Logo from "./Logo";
-import { common } from "@/content/de/common";
-
-const navItems = common.nav.items;
+import LocaleSwitch from "./LocaleSwitch";
+import { getContent } from "@/content";
+import { localePath, type Locale } from "@/lib/i18n";
 
 export default function Navigation() {
   const pathname = usePathname();
+  const locale: Locale =
+    pathname === "/en" || pathname.startsWith("/en/") ? "en" : "de";
+  const common = getContent(locale).common;
+  const navItems = common.nav.items;
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(pathname !== "/");
   const [hidden, setHidden] = useState(false);
@@ -72,11 +76,12 @@ export default function Navigation() {
           className="hidden lg:flex items-center gap-9 font-ui text-xs uppercase tracking-wide-nav"
         >
           {navItems.map((item) => {
-            const active = pathname === item.href;
+            const href = localePath(locale, item.href);
+            const active = pathname === href;
             return (
               <Link
                 key={item.href}
-                href={item.href}
+                href={href}
                 aria-current={active ? "page" : undefined}
                 className={`nav-link-sweep no-underline transition-colors duration-200 ${
                   active ? "text-gold" : "text-white/[0.28] hover:text-gold"
@@ -86,6 +91,7 @@ export default function Navigation() {
               </Link>
             );
           })}
+          <LocaleSwitch className="border-l border-white/15 pl-9" />
         </nav>
 
         <button
@@ -125,11 +131,12 @@ export default function Navigation() {
       >
         <div className="px-6 sm:px-10 pb-6 pt-4 flex flex-col gap-4 font-ui text-xs uppercase tracking-wide-nav">
           {navItems.map((item) => {
-            const active = pathname === item.href;
+            const href = localePath(locale, item.href);
+            const active = pathname === href;
             return (
               <Link
                 key={item.href}
-                href={item.href}
+                href={href}
                 onClick={() => setMenuOpen(false)}
                 className={`no-underline transition-colors duration-200 py-2 ${
                   active ? "text-gold" : "text-white/[0.28] hover:text-gold"
@@ -140,6 +147,10 @@ export default function Navigation() {
               </Link>
             );
           })}
+          <LocaleSwitch
+            className="pt-2 border-t border-white/10"
+            onNavigate={() => setMenuOpen(false)}
+          />
         </div>
       </nav>
     </header>

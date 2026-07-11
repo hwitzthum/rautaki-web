@@ -19,7 +19,6 @@ export interface CommonContent {
     personJobTitle: string;
     personDescription: string;
     credentials: { category: string; name: string }[];
-    websiteInLanguage: string;
   };
   nav: {
     aria: string;

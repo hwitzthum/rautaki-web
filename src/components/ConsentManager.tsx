@@ -11,7 +11,8 @@ import {
   SALESFLARE_TOKEN,
   type Consent,
 } from "@/lib/consent";
-import { common } from "@/content/de/common";
+import { getContent } from "@/content";
+import { localePath, type Locale } from "@/lib/i18n";
 
 // flare.js attaches a global `Flare` constructor once loaded.
 type FlareConstructor = new () => { track: (token: string) => void };
@@ -42,7 +43,8 @@ function getServerSnapshot(): Consent | null {
 
 // Consent gate for Salesflare website tracking. Loads the tracking script only
 // after the visitor opts in; renders a banner until a choice is made.
-export default function ConsentManager() {
+export default function ConsentManager({ locale }: { locale: Locale }) {
+  const common = getContent(locale).common;
   const consent = useSyncExternalStore(
     subscribe,
     readConsent,
@@ -105,7 +107,7 @@ export default function ConsentManager() {
             <p className="max-w-[640px] font-ui text-sm leading-body text-white/60">
               {common.consent.textBeforeLink}
               <Link
-                href="/privacy"
+                href={localePath(locale, "/privacy")}
                 className="text-gold underline underline-offset-4 hover:text-gold-light transition-colors"
               >
                 {common.consent.privacyLinkLabel}

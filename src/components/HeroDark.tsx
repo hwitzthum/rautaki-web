@@ -4,19 +4,21 @@ import React, { useEffect, useRef } from "react";
 import Logo from "./Logo";
 import Button from "./Button";
 import Highlight from "./Highlight";
-import { home } from "@/content/de/home";
+import { getContent } from "@/content";
+import type { Locale } from "@/content/types";
 
 interface HeroDarkProps {
+  locale: Locale;
   onBookingClick: () => void;
 }
-
-const { headlineLines, intro, ctaTitle, ctaBody, ctaButton } = home.heroDark;
 
 // Reduced-motion handling lives entirely in CSS (globals.css neutralises the
 // entrance animations; .hero-glow is disabled there explicitly). Reading
 // matchMedia during render caused a hydration mismatch for reduced-motion
 // users — the server has no window and always rendered the animated styles.
-export default function HeroDark({ onBookingClick }: HeroDarkProps) {
+export default function HeroDark({ locale, onBookingClick }: HeroDarkProps) {
+  const { headlineLines, intro, ctaTitle, ctaBody, ctaButton } =
+    getContent(locale).home.heroDark;
   const parallaxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

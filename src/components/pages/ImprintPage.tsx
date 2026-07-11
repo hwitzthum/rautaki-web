@@ -3,6 +3,7 @@ import HeroLight from "@/components/HeroLight";
 import SectionLabel from "@/components/SectionLabel";
 import ScrollReveal from "@/components/ScrollReveal";
 import { pageShareMeta } from "@/lib/og";
+import { localePath, pageAlternates } from "@/lib/i18n";
 import { getContent } from "@/content";
 import type { Locale } from "@/content/types";
 
@@ -11,11 +12,11 @@ export function imprintMetadata(locale: Locale): Metadata {
   return {
     title: c.metaTitle,
     description: c.metaDescription,
-    alternates: { canonical: "https://www.rautaki.ch/imprint" },
+    alternates: pageAlternates(locale, "/imprint"),
     ...pageShareMeta({
       title: c.metaTitle,
       description: c.metaDescription,
-      path: "/imprint",
+      path: localePath(locale, "/imprint"),
       locale,
     }),
   };

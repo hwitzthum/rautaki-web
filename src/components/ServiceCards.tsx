@@ -3,10 +3,15 @@ import ScrollReveal from "./ScrollReveal";
 import SectionLabel from "./SectionLabel";
 import ServiceCard from "./ServiceCard";
 import Highlight from "./Highlight";
-import { services } from "@/content/de/services";
-import { home } from "@/content/de/home";
+import { getContent } from "@/content";
+import { localePath } from "@/lib/i18n";
+import type { Locale } from "@/content/types";
 
-export default function ServiceCards() {
+export default function ServiceCards({ locale }: { locale: Locale }) {
+  const content = getContent(locale);
+  const home = content.home;
+  const services = content.services;
+
   return (
     <section className="bg-obsidian px-6 sm:px-10 lg:px-20 py-24 grain">
       <div className="mx-auto max-w-content">
@@ -20,6 +25,7 @@ export default function ServiceCards() {
           {services.items.map((service, index) => (
             <ScrollReveal key={service.id} delay={index * 90}>
               <ServiceCard
+                locale={locale}
                 number={service.number}
                 title={
                   <Highlight
@@ -28,14 +34,18 @@ export default function ServiceCards() {
                   />
                 }
                 description={service.shortDesc}
-                href={`/services#${service.slug}`}
+                href={localePath(locale, `/services#${service.slug}`)}
               />
             </ScrollReveal>
           ))}
         </div>
 
         <div className="mt-14 text-center">
-          <Button href="/services" variant="gold" showArrow>
+          <Button
+            href={localePath(locale, "/services")}
+            variant="gold"
+            showArrow
+          >
             {home.serviceCards.cta}
           </Button>
         </div>

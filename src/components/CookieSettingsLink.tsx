@@ -1,10 +1,12 @@
 "use client";
 
 import { COOKIE_SETTINGS_EVENT } from "@/lib/consent";
-import { common } from "@/content/de/common";
+import { getContent } from "@/content";
+import type { Locale } from "@/content/types";
 
 // Footer entry point to re-open the consent banner (change/withdraw consent).
-export default function CookieSettingsLink() {
+export default function CookieSettingsLink({ locale }: { locale: Locale }) {
+  const common = getContent(locale).common;
   return (
     <button
       type="button"

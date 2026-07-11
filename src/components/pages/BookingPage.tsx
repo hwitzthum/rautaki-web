@@ -8,6 +8,7 @@ import JsonLd from "@/components/JsonLd";
 import Highlight from "@/components/Highlight";
 import { pageShareMeta } from "@/lib/og";
 import { breadcrumbSchema } from "@/lib/breadcrumb";
+import { localePath, pageAlternates } from "@/lib/i18n";
 import { getContent } from "@/content";
 import type { Locale } from "@/content/types";
 
@@ -16,11 +17,11 @@ export function bookingMetadata(locale: Locale): Metadata {
   return {
     title: c.metaTitle,
     description: c.metaDescription,
-    alternates: { canonical: "https://www.rautaki.ch/booking" },
+    alternates: pageAlternates(locale, "/booking"),
     ...pageShareMeta({
       title: c.metaTitle,
       description: c.metaDescription,
-      path: "/booking",
+      path: localePath(locale, "/booking"),
       locale,
     }),
   };

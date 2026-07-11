@@ -4,8 +4,7 @@
 // The @id anchors the list to its page so re-renders resolve to one entity.
 
 import type { Locale } from "@/content/types";
-
-const BASE = "https://www.rautaki.ch";
+import { absoluteUrl, localePath } from "./i18n";
 
 const HOME_CRUMB: Record<Locale, string> = {
   de: "Start",
@@ -14,22 +13,22 @@ const HOME_CRUMB: Record<Locale, string> = {
 
 export interface Crumb {
   name: string;
-  /** Route path starting with "/" (e.g. "/services"). */
+  /** German (canonical) route path starting with "/" (e.g. "/services"). */
   path: string;
 }
 
 export function breadcrumbSchema(crumbs: Crumb[], locale: Locale = "de") {
-  const trail: Crumb[] = [{ name: HOME_CRUMB[locale], path: "" }, ...crumbs];
+  const trail: Crumb[] = [{ name: HOME_CRUMB[locale], path: "/" }, ...crumbs];
   const last = trail[trail.length - 1];
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "@id": `${BASE}${last.path}#breadcrumb`,
+    "@id": `${absoluteUrl(localePath(locale, last.path))}#breadcrumb`,
     itemListElement: trail.map((crumb, index) => ({
       "@type": "ListItem",
       position: index + 1,
       name: crumb.name,
-      item: `${BASE}${crumb.path}` || BASE,
+      item: absoluteUrl(localePath(locale, crumb.path)),
     })),
   };
 }

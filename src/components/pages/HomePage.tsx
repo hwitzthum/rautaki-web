@@ -8,6 +8,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import HeroWithBooking from "@/components/BookingTrigger";
 import Highlight from "@/components/Highlight";
 import { getContent } from "@/content";
+import { localePath } from "@/lib/i18n";
 import type { Locale } from "@/content/types";
 
 export function homeMetadata(_locale: Locale): Metadata {
@@ -22,7 +23,7 @@ export default function HomePage({ locale }: { locale: Locale }) {
 
   return (
     <>
-      <HeroWithBooking />
+      <HeroWithBooking locale={locale} />
 
       {/* ── Referenzen-Streifen ─────────────────────────── */}
       <div className="bg-charcoal border-b border-white/5 overflow-hidden py-5">
@@ -60,7 +61,7 @@ export default function HomePage({ locale }: { locale: Locale }) {
         </div>
       </section>
 
-      <ServiceCards />
+      <ServiceCards locale={locale} />
 
       {/* ── Warum Rautaki ───────────────────────────────── */}
       <section className="bg-white px-6 sm:px-10 lg:px-20 py-20">
@@ -102,13 +103,17 @@ export default function HomePage({ locale }: { locale: Locale }) {
           <p className="font-ui text-body font-light leading-body text-white/45 mb-10 max-w-reading mx-auto">
             {c.cta.body}
           </p>
-          <Button href="/booking" variant="gold" showArrow>
+          <Button
+            href={localePath(locale, "/booking")}
+            variant="gold"
+            showArrow
+          >
             {c.cta.button}
           </Button>
           <p className="font-ui text-sm font-light text-white/45 mt-8">
             {c.cta.pricePrefix}
             <a
-              href="/services#preise"
+              href={localePath(locale, "/services#preise")}
               className="text-white/45 underline decoration-white/20 underline-offset-4 transition-colors duration-200 hover:text-gold hover:decoration-gold"
             >
               {c.cta.priceLinkLabel}
