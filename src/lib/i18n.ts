@@ -30,12 +30,20 @@ export function absoluteUrl(path: string): string {
 
 /**
  * Self-referencing canonical plus the de-CH / en / x-default hreflang set for a
- * page. `path` is the German (canonical) path, e.g. "/services" or "/".
+ * page. `path` is the German (canonical) path, e.g. "/services" or "/". The RSS
+ * feed is advertised site-wide via `types` so autodiscovery works from any page
+ * (Next merges metadata shallowly — a page that sets `alternates` replaces the
+ * layout's object wholesale, so the feed link must live in this shared builder,
+ * not only in the root layout).
  */
 export function pageAlternates(
   locale: Locale,
   path: string,
-): { canonical: string; languages: Record<string, string> } {
+): {
+  canonical: string;
+  languages: Record<string, string>;
+  types: Record<string, string>;
+} {
   const deUrl = absoluteUrl(localePath("de", path));
   const enUrl = absoluteUrl(localePath("en", path));
   return {
@@ -44,6 +52,9 @@ export function pageAlternates(
       "de-CH": deUrl,
       en: enUrl,
       "x-default": deUrl,
+    },
+    types: {
+      "application/rss+xml": `${BASE}/feed.xml`,
     },
   };
 }

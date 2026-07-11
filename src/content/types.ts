@@ -471,6 +471,27 @@ export interface PrivacyContent {
   };
 }
 
+// ── wissen (insights) ────────────────────────────────────────────────────────
+// Chrome copy for the Wissen index and article pages. The article bodies
+// themselves live as Markdown in src/content/articles/{de,en}/*.md and are
+// loaded through src/lib/articles.ts — these strings are only the surrounding
+// UI labels, shared across every article of a locale.
+export interface WissenContent {
+  metaTitle: string;
+  metaDescription: string;
+  heroLabel: string;
+  heroTitle: string;
+  heroDescription: string;
+  publishedLabel: string;
+  updatedLabel: string;
+  questionLabel: string;
+  authorRole: string;
+  ctaText: string;
+  ctaButton: string;
+  backLabel: string;
+  breadcrumbLabel: string;
+}
+
 // ── aggregate ────────────────────────────────────────────────────────────────
 export interface SiteContent {
   common: CommonContent;
@@ -483,4 +504,5 @@ export interface SiteContent {
   booking: BookingContent;
   imprint: ImprintContent;
   privacy: PrivacyContent;
+  wissen: WissenContent;
 }

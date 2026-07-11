@@ -9,6 +9,7 @@ import { stripMarkers } from "@/components/Highlight";
 import { getContent } from "@/content";
 import type { Locale } from "@/content/types";
 import { localePath } from "@/lib/i18n";
+import { getArticles } from "@/lib/articles";
 
 export const dynamic = "force-static";
 
@@ -57,6 +58,8 @@ Verantwortlichkeiten.`,
     labTools: `- [EU AI Act Compliance Checker](${BASE}/lab/eu-ai-act-check.html): 12 Fragen, sofortige Risikoklassifizierung nach EU AI Act — mit massgeschneiderter Massnahmenliste zum Abhaken und herunterladbarem Bericht.
 - [KI-Governance-Richtlinie Generator](${BASE}/lab/ki-governance-policy.html): Vier Formulare, zehn Abschnitte, ein druckfertiges Word-Dokument — mit Deckblatt, nummerierten Klauseln und Unterschriftenblock.
 - [Multi-Assistant-System mit Custom GPTs](${BASE}/lab/multi-assistant-gpt.html): Team-Router und zwei Spezialisten-GPTs als orchestriertes System — ohne Code, mit Schritt-für-Schritt-Anleitung und Word-Export.`,
+    wissenHeading: "Wissen",
+    wissenPublished: "Publiziert",
     contactHeading: "Kontakt",
     contactLines: `- E-Mail: hello@rautaki.ch
 - Adresse: Weinbergstrasse 23, 8802 Kilchberg ZH, Schweiz
@@ -106,6 +109,8 @@ isolated tool but along decision paths, roles and responsibilities.`,
     labTools: `- [EU AI Act Compliance Checker](${BASE}/lab/eu-ai-act-check.html): 12 questions, instant risk classification under the EU AI Act — with a tailored checklist of measures and a downloadable report.
 - [AI Governance Policy Generator](${BASE}/lab/ki-governance-policy.html): four forms, ten sections, one print-ready Word document — with cover page, numbered clauses and signature block.
 - [Multi-assistant system with Custom GPTs](${BASE}/lab/multi-assistant-gpt.html): a team router and two specialist GPTs as an orchestrated system — no code, with step-by-step instructions and Word export.`,
+    wissenHeading: "Insights",
+    wissenPublished: "Published",
     contactHeading: "Contact",
     contactLines: `- E-mail: hello@rautaki.ch
 - Address: Weinbergstrasse 23, 8802 Kilchberg ZH, Switzerland
@@ -169,6 +174,23 @@ function buildFullText(locale: Locale): string {
     )
     .join("\n");
 
+  // Wissen articles from the same loader the pages render — one block per
+  // article with the localized URL, description and publication date. Omitted
+  // entirely for a locale with no articles yet (EN may lag DE).
+  const articles = getArticles(locale);
+  const wissenBlock = articles.length
+    ? `## ${s.wissenHeading} (${url("/wissen")})
+
+${articles
+  .map(
+    (article) =>
+      `### ${article.title}\n\n${article.description}\n\n${s.wissenPublished}: ${article.datePublished} · ${url(`/wissen/${article.slug}`)}`,
+  )
+  .join("\n\n")}
+
+`
+    : "";
+
   return `${s.title}
 
 ${s.summary}
@@ -227,7 +249,7 @@ ${s.labIntro}
 
 ${s.labTools}
 
-## ${s.contactHeading}
+${wissenBlock}## ${s.contactHeading}
 
 ${s.contactLines}
 `;
