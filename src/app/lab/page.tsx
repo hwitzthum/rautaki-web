@@ -6,6 +6,7 @@ import LabGate, { LabToolLink } from "@/components/LabGateModal";
 import JsonLd from "@/components/JsonLd";
 import { pageShareMeta } from "@/lib/og";
 import { breadcrumbSchema } from "@/lib/breadcrumb";
+import { pageAlternates } from "@/lib/i18n";
 
 const pageTitle = "Lab";
 const pageDescription =
@@ -14,7 +15,7 @@ const pageDescription =
 export const metadata: Metadata = {
   title: pageTitle,
   description: pageDescription,
-  alternates: { canonical: "https://www.rautaki.ch/lab" },
+  alternates: pageAlternates("de", "/lab"),
   ...pageShareMeta({
     title: pageTitle,
     description: pageDescription,

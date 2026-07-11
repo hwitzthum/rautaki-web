@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Logo from "@/components/Logo";
 import GoldRule from "@/components/GoldRule";
 import { common } from "@/content/de/common";
+import { common as commonEn } from "@/content/en/common";
 
 export const metadata: Metadata = {
   title: common.maintenance.metaTitle,
@@ -25,8 +26,14 @@ export default function MaintenancePage() {
           {common.maintenance.title}
         </h1>
 
-        <p className="font-ui text-lead font-light leading-body text-mid-grey mb-10">
+        <p className="font-ui text-lead font-light leading-body text-mid-grey mb-3">
           {common.maintenance.body}
+        </p>
+        <p
+          className="font-ui text-body font-light leading-body text-mid-grey/80 mb-10"
+          lang="en"
+        >
+          {commonEn.maintenance.body}
         </p>
 
         <p className="font-ui text-body font-light leading-body text-mid-grey">

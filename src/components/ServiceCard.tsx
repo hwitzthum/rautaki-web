@@ -1,7 +1,9 @@
 import Link from "next/link";
-import { common } from "@/content/de/common";
+import { getContent } from "@/content";
+import type { Locale } from "@/content/types";
 
 interface ServiceCardProps {
+  locale: Locale;
   number: string;
   title: React.ReactNode;
   description: string;
@@ -9,11 +11,13 @@ interface ServiceCardProps {
 }
 
 export default function ServiceCard({
+  locale,
   number,
   title,
   description,
   href,
 }: ServiceCardProps) {
+  const common = getContent(locale).common;
   return (
     <Link
       href={href}

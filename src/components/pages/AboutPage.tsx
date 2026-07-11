@@ -9,6 +9,7 @@ import JsonLd from "@/components/JsonLd";
 import Highlight from "@/components/Highlight";
 import { pageShareMeta } from "@/lib/og";
 import { breadcrumbSchema } from "@/lib/breadcrumb";
+import { absoluteUrl, localePath, pageAlternates } from "@/lib/i18n";
 import { getContent } from "@/content";
 import type { Locale } from "@/content/types";
 
@@ -17,11 +18,11 @@ export function aboutMetadata(locale: Locale): Metadata {
   return {
     title: c.metaTitle,
     description: c.metaDescription,
-    alternates: { canonical: "https://www.rautaki.ch/about" },
+    alternates: pageAlternates(locale, "/about"),
     ...pageShareMeta({
       title: c.metaTitle,
       description: c.metaDescription,
-      path: "/about",
+      path: localePath(locale, "/about"),
       locale,
     }),
   };
@@ -44,14 +45,15 @@ function BrandRautaki() {
 export default function AboutPage({ locale }: { locale: Locale }) {
   const c = getContent(locale).about;
   const inLanguage = INLANGUAGE[locale];
+  const aboutUrl = absoluteUrl(localePath(locale, "/about"));
 
   // Marks /about as the canonical profile page for the founder entity defined
   // in the site-wide @graph (layout.tsx) — strengthens E-A-T signals for AI.
   const profilePageSchema = {
     "@context": "https://schema.org",
     "@type": ["AboutPage", "ProfilePage"],
-    "@id": "https://www.rautaki.ch/about#page",
-    url: "https://www.rautaki.ch/about",
+    "@id": `${aboutUrl}#page`,
+    url: aboutUrl,
     name: c.schema.profileName,
     inLanguage,
     isPartOf: { "@id": "https://www.rautaki.ch/#website" },
@@ -420,7 +422,11 @@ export default function AboutPage({ locale }: { locale: Locale }) {
             <p className="font-ui text-body font-light leading-body text-ink/65 max-w-narrow mx-auto mb-10">
               {c.cta.body}
             </p>
-            <Button href="/booking" variant="gold" showArrow>
+            <Button
+              href={localePath(locale, "/booking")}
+              variant="gold"
+              showArrow
+            >
               {c.cta.button}
             </Button>
           </ScrollReveal>

@@ -9,18 +9,41 @@ import { NextRequest, NextResponse } from "next/server";
 
 const MAINTENANCE_PATH = "/maintenance";
 
+// The English site lives under /en; everything else is German. Derived here and
+// forwarded to the layout via x-locale so the server components never have to
+// re-parse the pathname.
+function localeFromPathname(pathname: string): "de" | "en" {
+  return pathname === "/en" || pathname.startsWith("/en/") ? "en" : "de";
+}
+
 export function proxy(request: NextRequest) {
   const enabled = process.env.MAINTENANCE_MODE === "true";
+  const { pathname } = request.nextUrl;
+  const locale = localeFromPathname(pathname);
 
   if (!enabled) {
-    // Strip any client-sent x-maintenance header so the layout server component
-    // cannot be tricked into suppressing the chat widget via header injection.
+    // A returning English visitor who lands on the bare "/" is sent to "/en".
+    // Only the bare root and only when the cookie says "en": crawlers send no
+    // cookie (never redirected), deep links never redirect, and the DE toggle
+    // sets the cookie to "de" so there is no loop.
+    if (
+      pathname === "/" &&
+      request.cookies.get("NEXT_LOCALE")?.value === "en"
+    ) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/en";
+      return NextResponse.redirect(url, 307);
+    }
+
+    // Strip any client-sent x-maintenance / x-locale headers so the layout
+    // server component cannot be tricked into suppressing the chat widget or
+    // flipping the locale via header injection; then set the derived locale.
     const cleaned = new Headers(request.headers);
     cleaned.delete("x-maintenance");
+    cleaned.delete("x-locale");
+    cleaned.set("x-locale", locale);
     return NextResponse.next({ request: { headers: cleaned } });
   }
-
-  const { pathname } = request.nextUrl;
 
   // Keep-alive cron must reach Redis even during maintenance — keeping the
   // shared store from being archived is precisely its job.
@@ -53,9 +76,13 @@ export function proxy(request: NextRequest) {
   const url = request.nextUrl.clone();
   url.pathname = MAINTENANCE_PATH;
 
-  // Forward a request header so the root layout (server component) can
-  // read it via `headers()` and drop site chrome.
+  // Forward request headers so the root layout (server component) can read
+  // them via `headers()` — x-maintenance drops site chrome, x-locale keeps
+  // <html lang> consistent with the requested URL. Strip any client-sent
+  // x-locale first (same injection guard as x-maintenance).
   const requestHeaders = new Headers(request.headers);
+  requestHeaders.delete("x-locale");
+  requestHeaders.set("x-locale", locale);
   requestHeaders.set("x-maintenance", "true");
 
   const response = NextResponse.rewrite(url, {

@@ -23,7 +23,6 @@ export const common = {
         name: "VMI, Certified Association and NPO Manager",
       },
     ],
-    websiteInLanguage: "de-CH",
   },
   nav: {
     aria: "Main navigation",

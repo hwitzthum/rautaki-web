@@ -4,9 +4,11 @@ import { useEffect, useRef, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { CalInline } from "./CalBooking";
 import Logo from "./Logo";
-import { common } from "@/content/de/common";
+import { getContent } from "@/content";
+import type { Locale } from "@/content/types";
 
 interface CalModalProps {
+  locale: Locale;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -18,7 +20,7 @@ const getServerSnapshot = () => false;
 const FOCUSABLE =
   'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
-export default function CalModal({ isOpen, onClose }: CalModalProps) {
+export default function CalModal({ locale, isOpen, onClose }: CalModalProps) {
   const mounted = useSyncExternalStore(
     subscribe,
     getSnapshot,
@@ -46,10 +48,20 @@ export default function CalModal({ isOpen, onClose }: CalModalProps) {
 
   if (!mounted || !isOpen) return null;
 
-  return createPortal(<CalModalContent onClose={onClose} />, document.body);
+  return createPortal(
+    <CalModalContent locale={locale} onClose={onClose} />,
+    document.body,
+  );
 }
 
-function CalModalContent({ onClose }: { onClose: () => void }) {
+function CalModalContent({
+  locale,
+  onClose,
+}: {
+  locale: Locale;
+  onClose: () => void;
+}) {
+  const common = getContent(locale).common;
   const panelRef = useRef<HTMLDivElement>(null);
 
   /* Initial focus */

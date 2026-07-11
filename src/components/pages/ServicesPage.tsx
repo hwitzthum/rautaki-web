@@ -10,6 +10,7 @@ import ServiceCard from "@/components/ServiceCard";
 import Highlight, { stripMarkers } from "@/components/Highlight";
 import { pageShareMeta } from "@/lib/og";
 import { breadcrumbSchema } from "@/lib/breadcrumb";
+import { absoluteUrl, localePath, pageAlternates } from "@/lib/i18n";
 import { getContent } from "@/content";
 import type { Locale } from "@/content/types";
 
@@ -18,11 +19,11 @@ export function servicesMetadata(locale: Locale): Metadata {
   return {
     title: c.metaTitle,
     description: c.metaDescription,
-    alternates: { canonical: "https://www.rautaki.ch/services" },
+    alternates: pageAlternates(locale, "/services"),
     ...pageShareMeta({
       title: c.metaTitle,
       description: c.metaDescription,
-      path: "/services",
+      path: localePath(locale, "/services"),
       locale,
     }),
   };
@@ -36,13 +37,15 @@ export default function ServicesPage({ locale }: { locale: Locale }) {
   const services = c.items;
   const faq = content.faq.items;
   const journey = content.journey.items;
+  const servicesUrl = absoluteUrl(localePath(locale, "/services"));
+  const vorgehenUrl = absoluteUrl(localePath(locale, "/vorgehen"));
 
   const serviceSchemas = services.map((service) => ({
     "@context": "https://schema.org",
     "@type": "Service",
     name: stripMarkers(service.title),
     description: service.longDesc,
-    url: `https://www.rautaki.ch/services#${service.slug}`,
+    url: `${servicesUrl}#${service.slug}`,
     provider: {
       "@type": "Organization",
       "@id": "https://www.rautaki.ch/#organization",
@@ -58,7 +61,7 @@ export default function ServicesPage({ locale }: { locale: Locale }) {
   const offerCatalogSchema = {
     "@context": "https://schema.org",
     "@type": "OfferCatalog",
-    "@id": "https://www.rautaki.ch/services#preise",
+    "@id": `${servicesUrl}#preise`,
     name: c.schema.offerCatalogName,
     itemListElement: [
       {
@@ -105,7 +108,7 @@ export default function ServicesPage({ locale }: { locale: Locale }) {
   const howToSchema = {
     "@context": "https://schema.org",
     "@type": "HowTo",
-    "@id": "https://www.rautaki.ch/vorgehen#programm",
+    "@id": `${vorgehenUrl}#programm`,
     name: c.schema.howToName,
     description: c.schema.howToDescription,
     step: journey
@@ -123,7 +126,7 @@ export default function ServicesPage({ locale }: { locale: Locale }) {
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "@id": "https://www.rautaki.ch/services#faq",
+    "@id": `${servicesUrl}#faq`,
     mainEntity: faq.map((item) => ({
       "@type": "Question",
       name: item.question,
@@ -176,6 +179,7 @@ export default function ServicesPage({ locale }: { locale: Locale }) {
             {services.map((service, index) => (
               <ScrollReveal key={service.id} delay={index * 80}>
                 <ServiceCard
+                  locale={locale}
                   number={service.number}
                   title={
                     <Highlight
@@ -337,7 +341,7 @@ export default function ServicesPage({ locale }: { locale: Locale }) {
           <ScrollReveal>
             <div className="mt-14 pt-8 border-t border-white/10 flex flex-wrap items-center gap-x-6 gap-y-4">
               <a
-                href="/vorgehen"
+                href={localePath(locale, "/vorgehen")}
                 className="group inline-flex items-center gap-2 border border-white/35 text-white px-8 py-4 font-ui text-xs font-medium uppercase tracking-wide-btn no-underline hover:border-gold hover:text-gold transition-colors duration-200"
               >
                 {c.journeySection.detailLink}
@@ -423,7 +427,7 @@ export default function ServicesPage({ locale }: { locale: Locale }) {
               {c.education.body}
             </p>
             <a
-              href="/about"
+              href={localePath(locale, "/about")}
               className="font-sans text-sm text-ink hover:text-gold transition-colors duration-200 tracking-wide"
             >
               {c.education.link}
@@ -458,7 +462,7 @@ export default function ServicesPage({ locale }: { locale: Locale }) {
                     </p>
                     {item.link && (
                       <a
-                        href={item.link.href}
+                        href={localePath(locale, item.link.href)}
                         className="mt-3 inline-block font-sans text-sm text-ink hover:text-gold transition-colors duration-200 tracking-wide"
                       >
                         {item.link.label} →
@@ -483,7 +487,11 @@ export default function ServicesPage({ locale }: { locale: Locale }) {
           <p className="font-ui text-body font-light leading-body text-white/55 mb-10 max-w-reading mx-auto">
             {c.cta.body}
           </p>
-          <Button href="/booking" variant="gold" showArrow>
+          <Button
+            href={localePath(locale, "/booking")}
+            variant="gold"
+            showArrow
+          >
             {c.cta.button}
           </Button>
         </ScrollReveal>
