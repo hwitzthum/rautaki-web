@@ -85,10 +85,17 @@ export async function POST(request: NextRequest) {
   const templateKey = String(body.template ?? "");
   const template = NURTURE_TEMPLATES[templateKey as "1" | "2" | "3"];
   const to = typeof body.to === "string" ? body.to.trim() : "";
-  const unsubEmail =
+  // Lowercased to match how /api/unsubscribe stores suppressed addresses
+  // (it lowercases every email before writing to SUPPRESSION_SET). Without
+  // this, a CRM record with different casing (e.g. "John@Example.com" vs.
+  // the lowercase "john@example.com" the unsubscribe link stored) bypasses
+  // the opt-out check below and the recipient keeps receiving nurture email
+  // after unsubscribing — a GDPR/CH-DSG violation, not just a cosmetic bug.
+  const unsubEmail = (
     typeof body.email === "string" && body.email.trim()
       ? body.email.trim()
-      : to;
+      : to
+  ).toLowerCase();
   const vorname = escapeHtml(
     (typeof body.vorname === "string" ? body.vorname : "").trim() || "there",
   );
