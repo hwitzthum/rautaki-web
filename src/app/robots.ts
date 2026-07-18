@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/_next/", "/maintenance"],
+        disallow: ["/api/", "/maintenance"],
       },
     ],
     sitemap: "https://www.rautaki.ch/sitemap.xml",
