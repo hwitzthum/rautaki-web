@@ -64,7 +64,7 @@ Retrieval-Engines finden nur, was Dritte erwähnen. Jede unabhängige Seite «Ra
 ## P6 — Aufgeschoben aus P1
 
 - [ ] Lab-Tools (3 statische HTML-Apps) auf Englisch — inkl. generierter Word/PDF-Dokumente
-- [x] n8n-Chatbot: englische Antworten (2026-07-11) — Bot folgte bereits der Nutzersprache; ergänzt: Seiten-Locale-Fallback bei mehrdeutiger Eingabe (?locale via Proxy-URL, HMAC-kompatibel in beide Richtungen), /en-Links in englischen Antworten, englische Refusals, Wissen-Artikel im Prompt (Workflow-Update + PR #85; live E2E-verifiziert)
+  - [x] n8n-Chatbot: englische Antworten (2026-07-11) — Bot folgte bereits der Nutzersprache; ergänzt: Seiten-Locale-Fallback bei mehrdeutiger Eingabe (?locale via Proxy-URL, HMAC-kompatibel in beide Richtungen), /en-Links in englischen Antworten, englische Refusals, Wissen-Artikel im Prompt (Workflow-Update + PR #85; live E2E-verifiziert)
 
 ## P7 — GEO-Messung
 
@@ -82,4 +82,5 @@ Retrieval-Engines finden nur, was Dritte erwähnen. Jede unabhängige Seite «Ra
 
 ## Erledigt
 
+- [x] 2026-07-18 — robots.txt: `Disallow: /_next/` entfernt (PR #88). Search Console meldete «Blocked by robots.txt» für die JS-Chunks unter `/_next/static/chunks/*.js` — Google fand sie im gerenderten HTML, konnte sie aber nicht crawlen und damit die Seiten nicht vollständig rendern. `/api/` und `/maintenance` bleiben gesperrt. Live verifiziert; «Fehler beheben» in Search Console angestoßen.
 - [x] 2026-07-10 — Code-Level-Fixes aus dem Benchmark (PR #64): Authority-Links zentralisiert (`src/lib/authority.ts`), Lab-HTML-Schemas an /lab-Entities angeglichen, Booklet als `DigitalDocument` mit `datePublished`, CAS-Lehrgänge als `Course`-Entities
