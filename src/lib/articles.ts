@@ -31,6 +31,23 @@ export interface Article extends ArticleMeta {
 const ARTICLES_DIR = path.join(process.cwd(), "src/content/articles");
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
+// `slug` ultimately comes from the `[slug]` route param (src/app/wissen/[slug]
+// and src/app/en/wissen/[slug]), which the page components pass through raw
+// and unvalidated. generateStaticParams() only pre-renders the known article
+// slugs, but dynamicParams defaults to true, so a request
+// for an unknown slug still reaches getArticle()/getArticleMeta() at request
+// time with whatever string the client sent. Every slug on disk is
+// lowercase-kebab-case, so anything else — path separators, "..", encoded
+// slashes, absolute paths — is rejected before it ever reaches fs.*: without
+// this check, a crafted slug like "../../../../security/chatbot-hardening-plan"
+// would resolve outside ARTICLES_DIR via path.join and read arbitrary
+// *.md files from the filesystem (CWE-22).
+const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+function isValidSlug(slug: string): boolean {
+  return SLUG_RE.test(slug);
+}
+
 const DATE_LOCALE: Record<Locale, string> = {
   de: "de-CH",
   en: "en-GB",
@@ -150,7 +167,13 @@ export function getArticles(locale: Locale): ArticleMeta[] {
 
 /** One article (metadata + Markdown body), or null if the file is absent. */
 export function getArticle(locale: Locale, slug: string): Article | null {
-  const file = path.join(localeDir(locale), `${slug}.md`);
+  if (!isValidSlug(slug)) return null;
+  const dir = localeDir(locale);
+  const file = path.join(dir, `${slug}.md`);
+  // Belt-and-suspenders: even though isValidSlug() above already rejects any
+  // "/" or ".." in the slug, confirm the resolved path still lives inside the
+  // locale directory before touching the filesystem.
+  if (path.dirname(file) !== dir) return null;
   if (!fs.existsSync(file)) return null;
   const { data, content } = matter(fs.readFileSync(file, "utf8"));
   return { ...parseMeta(slug, locale, data), body: content.trim() };
