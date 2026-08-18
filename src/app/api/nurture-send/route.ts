@@ -47,6 +47,15 @@ function timingSafeEqual(a: string, b: string): boolean {
   return ab.length === bb.length && crypto.timingSafeEqual(ab, bb);
 }
 
+// Same bar as /api/lab-access's EMAIL_RE: requires a TLD of 2+ chars, no
+// consecutive/leading/trailing dots in the local part. `to` is trusted
+// n8n-workflow input, not a public form field, but the shared-secret token
+// is the only gate on this route — validating the shape of the address it
+// actually sends to keeps a token leak or a malformed workflow record from
+// turning this into an arbitrary-string-to-Resend relay.
+const EMAIL_RE =
+  /^[A-Za-z0-9._%+-]+@[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+$/;
+
 export async function POST(request: NextRequest) {
   const sendToken = process.env.N8N_SEND_TOKEN;
   const resendKey = process.env.RESEND_API_KEY;
@@ -104,7 +113,14 @@ export async function POST(request: NextRequest) {
       "unser Lab-Werkzeug",
   );
 
-  if (!template || !to || !unsubEmail) {
+  if (
+    !template ||
+    !to ||
+    !unsubEmail ||
+    to.length > 254 ||
+    !EMAIL_RE.test(to) ||
+    !EMAIL_RE.test(unsubEmail)
+  ) {
     return NextResponse.json({ error: "invalid payload" }, { status: 400 });
   }
 
