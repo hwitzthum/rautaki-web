@@ -51,5 +51,11 @@
     },
     "nanoid": "3.3.18",
     "fast-uri": "3.1.5"
+  },
+  "allowScripts": {
+    "@sentry/cli@2.58.6": true,
+    "vue-demi@0.14.10": true,
+    "unrs-resolver@1.11.1": true,
+    "fsevents@2.3.3": true
   }
 }
