@@ -3,6 +3,7 @@ title: "Der Weg zu wirksamer KI: die Methode hinter dem Rautaki-Beratungsprogram
 description: "Wirksame KI-Einführung braucht einen Weg von der Standortbestimmung bis zum Betrieb. «Der Weg zu wirksamer KI» ist die Methode von Rautaki dafür."
 question: "Wie führt man KI wirksam in einer Organisation ein?"
 datePublished: "2026-07-11"
+dateModified: "2026-08-21"
 tags: [Methode, KI-Einführung, Vorgehen]
 ---
 
@@ -17,7 +18,9 @@ Wirksame KI-Einführung ist keine Frage des richtigen Werkzeugs, sondern eines s
 
 ## Das Problem, das die Methode löst
 
-Der Befund ist ernüchternd: Laut dem MIT GenAI Enterprise Report 2025 scheitern rund 95 % der KI-Pilotprojekte, bevor sie je in den Produktivbetrieb kommen. Nicht an der Technik — die funktioniert meist —, sondern an der Art, wie Organisationen KI angehen.
+Der Befund ist ernüchternd: Laut dem [McKinsey State of AI 2025](https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai) haben rund zwei Drittel der Organisationen KI noch nicht über die Pilotphase hinaus skaliert — nur etwa ein Drittel schafft den Sprung in den unternehmensweiten Betrieb. Der Engpass ist nicht die Technik — die funktioniert meist —, sondern die Art, wie Organisationen KI angehen.
+
+Die oft zitierte Zahl, wonach 95 % der KI-Pilotprojekte scheitern, verwenden wir bewusst nicht: Sie stammt aus einem nicht begutachteten MIT-NANDA-Bericht mit 52 Interviews und 153 Antworten und vermischt unterschiedliche Grundgesamtheiten. Die belastbaren Daten sind weniger dramatisch — und für die Praxis aussagekräftiger.
 
 Drei Fehlerbilder wiederholen sich. Das erste ist **Aktionismus**: ein Dutzend paralleler Pilotprojekte ohne Fokus, angetrieben von Begeisterung statt Priorisierung. Das zweite ist **Tool-first-Denken**: Ein Werkzeug wird eingekauft und danebengestellt, ohne den Arbeitsablauf neu zu denken — das Tool verändert nichts, weil niemand seine Arbeit ändert. Das dritte ist **fehlende Verankerung**: Ein Pilot gelingt, aber niemand ist zuständig, das Wissen bleibt bei externen Beratern, und mit deren Weggang verschwindet die Fähigkeit. Die Methode ist als Antwort auf genau diese drei Muster gebaut.
 

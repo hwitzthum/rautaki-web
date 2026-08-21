@@ -3,6 +3,7 @@ title: "The path to effective AI: the method behind the Rautaki consulting progr
 description: "Effective AI adoption needs a path from baseline assessment to production. “The path to effective AI” is Rautaki’s method for exactly that."
 question: "How do you introduce AI effectively in an organisation?"
 datePublished: "2026-07-11"
+dateModified: "2026-08-21"
 tags: [Method, AI Adoption, Approach]
 ---
 
@@ -17,7 +18,9 @@ Effective AI adoption is not a question of the right tool, but of a structured p
 
 ## The problem the method solves
 
-The finding is sobering: according to the MIT GenAI Enterprise Report 2025, around 95% of AI pilot projects fail before they ever reach production. Not because of the technology — that mostly works — but because of the way organisations approach AI.
+The finding is sobering: according to [McKinsey's State of AI 2025](https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai), around two-thirds of organisations have not yet scaled AI beyond the pilot stage — only about one in three makes the leap to enterprise-wide operation. The bottleneck is not the technology — that mostly works — but the way organisations approach AI.
+
+We deliberately do not use the widely quoted figure that 95% of AI pilots fail: it comes from a non-peer-reviewed MIT NANDA report based on 52 interviews and 153 survey responses, and it conflates different populations. The defensible data are less dramatic — and more useful in practice.
 
 Three failure patterns recur. The first is **frantic activity**: a dozen parallel pilot projects with no focus, driven by enthusiasm rather than prioritisation. The second is **tool-first thinking**: a tool is bought and set down alongside the work without rethinking the workflow — the tool changes nothing because no one changes how they work. The third is **a lack of anchoring**: a pilot succeeds, but no one is accountable, the knowledge stays with external consultants, and when they leave the capability disappears with them. The method is built as an answer to exactly these three patterns.
 

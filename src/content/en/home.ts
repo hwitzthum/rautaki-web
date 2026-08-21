@@ -20,16 +20,16 @@ export const home = {
   },
   stats: [
     {
-      value: 78,
+      value: 88,
       suffix: "%",
-      label: "of companies already use AI in at least one function",
+      label: "of companies use AI regularly in at least one function",
       source: "McKinsey State of AI, 2025",
     },
     {
-      value: 95,
+      value: 66,
       suffix: "%",
-      label: "of AI pilot projects fail before reaching production",
-      source: "MIT GenAI Enterprise Report, 2025",
+      label: "of organisations have not yet scaled AI beyond the pilot stage",
+      source: "McKinsey State of AI, 2025",
     },
     {
       value: 2,

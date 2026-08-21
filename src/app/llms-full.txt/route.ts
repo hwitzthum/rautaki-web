@@ -60,6 +60,7 @@ Verantwortlichkeiten.`,
 - [Multi-Assistant-System mit Custom GPTs](${BASE}/lab/multi-assistant-gpt.html): Team-Router und zwei Spezialisten-GPTs als orchestriertes System — ohne Code, mit Schritt-für-Schritt-Anleitung und Word-Export.`,
     wissenHeading: "Wissen",
     wissenPublished: "Publiziert",
+    wissenUpdated: "Aktualisiert",
     contactHeading: "Kontakt",
     contactLines: `- E-Mail: hello@rautaki.ch
 - Adresse: Weinbergstrasse 23, 8802 Kilchberg ZH, Schweiz
@@ -111,6 +112,7 @@ isolated tool but along decision paths, roles and responsibilities.`,
 - [Multi-assistant system with Custom GPTs](${BASE}/lab/multi-assistant-gpt.html): a team router and two specialist GPTs as an orchestrated system — no code, with step-by-step instructions and Word export.`,
     wissenHeading: "Insights",
     wissenPublished: "Published",
+    wissenUpdated: "Updated",
     contactHeading: "Contact",
     contactLines: `- E-mail: hello@rautaki.ch
 - Address: Weinbergstrasse 23, 8802 Kilchberg ZH, Switzerland
@@ -182,10 +184,13 @@ function buildFullText(locale: Locale): string {
     ? `## ${s.wissenHeading} (${url("/wissen")})
 
 ${articles
-  .map(
-    (article) =>
-      `### ${article.title}\n\n${article.description}\n\n${s.wissenPublished}: ${article.datePublished} · ${url(`/wissen/${article.slug}`)}`,
-  )
+  .map((article) => {
+    const revised =
+      article.dateModified && article.dateModified !== article.datePublished
+        ? ` · ${s.wissenUpdated}: ${article.dateModified}`
+        : "";
+    return `### ${article.title}\n\n${article.description}\n\n${s.wissenPublished}: ${article.datePublished}${revised} · ${url(`/wissen/${article.slug}`)}`;
+  })
   .join("\n\n")}
 
 `

@@ -3,6 +3,7 @@ title: "KI-Strategie im Verwaltungsrat: die entscheidenden Fragen"
 description: "KI gehört zur Oberleitung und damit auf die VR-Agenda. Der Verwaltungsrat muss nicht die Technik verstehen, sondern die richtigen Fragen stellen."
 question: "Welche KI-Fragen muss ein Verwaltungsrat stellen?"
 datePublished: "2026-07-11"
+dateModified: "2026-08-21"
 tags: [Verwaltungsrat, KI-Strategie, Governance]
 ---
 
@@ -35,7 +36,7 @@ Ein Verwaltungsrat oder Stiftungsrat braucht keinen Fragenkatalog aus dem Lehrbu
 
 **4. Wer haftet für KI-Outputs, und wer prüft sie?** Ein KI-System entlastet nie von der Verantwortung; diese bleibt bei der Organisation und ihren Organen. Eine tragfähige Antwort benennt klare Zuständigkeiten, einen Prüfmechanismus für kritische Outputs und dokumentierte Leitplanken für den Datenschutz nach [revidiertem DSG](https://www.fedlex.admin.ch/eli/cc/2022/491/de). Dass laut swissVR nur 17 % der Gremien alle Outputs prüfen lassen, zeigt, wie oft diese Frage offenbleibt.
 
-**5. Haben Geschäftsleitung und Mitarbeitende die nötige KI-Kompetenz?** KI-Kompetenz ist keine Kür, sondern seit Februar 2025 eine Rechtspflicht: Art. 4 des EU AI Act verlangt ein ausreichendes KI-Verständnis bei allen, die KI-Systeme betreiben — mit Wirkung auch für Schweizer Organisationen mit EU-Bezug (siehe [EU AI Act für Schweizer NPOs](/wissen/eu-ai-act-schweizer-npos)). Eine gute Antwort belegt gezielte, dokumentierte Schulung — nicht die Annahme, «das lernen die schon nebenbei».
+**5. Haben Geschäftsleitung und Mitarbeitende die nötige KI-Kompetenz?** KI-Kompetenz ist keine Kür, sondern seit Februar 2025 eine Rechtspflicht: Art. 4 des EU AI Act verlangt, dass Anbieter und Betreiber Massnahmen zur Förderung der KI-Kompetenz aller ergreifen, die KI-Systeme betreiben — mit Wirkung auch für Schweizer Organisationen mit EU-Bezug (siehe [EU AI Act für Schweizer NPOs](/wissen/eu-ai-act-schweizer-npos)). Seit dem 27. Juli 2026 ist das eine Bemühens- und keine Erfolgspflicht: Geschuldet sind angemessene Massnahmen, nicht ein garantiertes Kompetenzniveau pro Person. Eine gute Antwort belegt trotzdem gezielte, dokumentierte Schulung — nicht die Annahme, «das lernen die schon nebenbei».
 
 **6. Wie wird dem Gremium über KI berichtet — und an welchen Kennzahlen?** Ohne Reporting keine Oberaufsicht. Eine belastbare Antwort definiert wenige aussagekräftige Kennzahlen — eingesetzte Systeme, Vorfälle, geprüfte Outputs, Kompetenzstand — und einen festen Rhythmus, in dem sie das Gremium erreichen. Dass drei von vier Verwaltungsräten kein regelmässiges KI-Reporting erhalten, ist die grösste strukturelle Schwachstelle überhaupt.
 

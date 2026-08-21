@@ -3,6 +3,7 @@ title: "AI strategy in the boardroom: the questions that matter"
 description: "AI belongs to the board's overall direction, and thus on its agenda. A board need not understand the technology — it must ask the right questions."
 question: "Which AI questions should a board of directors ask?"
 datePublished: "2026-07-11"
+dateModified: "2026-08-21"
 tags: [Board of Directors, AI Strategy, Governance]
 ---
 
@@ -35,7 +36,7 @@ A board of directors or foundation board needs no textbook questionnaire, but se
 
 **4. Who is liable for AI outputs, and who reviews them?** An AI system never relieves anyone of responsibility; that remains with the organisation and its governing bodies. A sound answer names clear responsibilities, a review mechanism for critical outputs and documented guardrails for data protection under the [revised Data Protection Act (revDSG)](https://www.fedlex.admin.ch/eli/cc/2022/491/de). That, according to swissVR, only 17% of boards have all outputs reviewed shows how often this question is left open.
 
-**5. Do executive management and staff have the necessary AI literacy?** AI literacy is no optional extra but, since February 2025, a legal obligation: Art. 4 of the EU AI Act requires a sufficient understanding of AI from all who operate AI systems — with effect for Swiss organisations with an EU nexus as well (see [EU AI Act for Swiss nonprofits](/en/wissen/eu-ai-act-schweizer-npos)). A good answer evidences targeted, documented training — not the assumption that "they will pick it up as they go".
+**5. Do executive management and staff have the necessary AI literacy?** AI literacy is no optional extra but, since February 2025, a legal obligation: Art. 4 of the EU AI Act requires providers and deployers to take measures supporting the AI literacy of all who operate AI systems — with effect for Swiss organisations with an EU nexus as well (see [EU AI Act for Swiss nonprofits](/en/wissen/eu-ai-act-schweizer-npos)). Since 27 July 2026 this is an obligation of effort, not of result: what is owed are appropriate measures, not a guaranteed level of competence per person. A good answer nonetheless evidences targeted, documented training — not the assumption that "they will pick it up as they go".
 
 **6. How is the board reported to on AI — and against which metrics?** Without reporting there is no ultimate supervision. A robust answer defines a few meaningful metrics — systems in use, incidents, reviewed outputs, level of competence — and a fixed cadence in which they reach the board. That three in four boards of directors receive no regular AI reporting is the single greatest structural weakness of all.
 

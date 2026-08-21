@@ -19,17 +19,18 @@ export const home = {
   },
   stats: [
     {
-      value: 78,
+      value: 88,
       suffix: "%",
       label:
-        "der Unternehmen setzen KI bereits in mindestens einer Funktion ein",
+        "der Unternehmen setzen KI regelmässig in mindestens einer Funktion ein",
       source: "McKinsey State of AI, 2025",
     },
     {
-      value: 95,
+      value: 66,
       suffix: "%",
-      label: "der KI-Pilotprojekte scheitern vor dem Produktivbetrieb",
-      source: "MIT GenAI Enterprise Report, 2025",
+      label:
+        "der Organisationen haben KI noch nicht über die Pilotphase hinaus skaliert",
+      source: "McKinsey State of AI, 2025",
     },
     {
       value: 2,

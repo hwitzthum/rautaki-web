@@ -2041,6 +2041,16 @@
       /* =================================================================
          CHECKLIST CONTENT
          ================================================================= */
+
+      // Art. 4 (KI-Kompetenz) gilt risikoklassenuebergreifend fuer alle
+      // Anbieter und Betreiber und erscheint daher in jeder Liste. Die
+      // Verordnung (EU) 2026/1744 hat Art. 4 per 27.07.2026 neu gefasst:
+      // seither Bemuehens- statt Erfolgspflicht.
+      var AI_LITERACY_ITEM = {
+        text: "KI-Kompetenz von Personal und Beauftragten durch geeignete Massnahmen fördern und diese dokumentieren (Art. 4) — geschuldet sind angemessene Bemühungen, kein garantiertes Kompetenzniveau",
+        tag: "mandatory",
+      };
+
       var CHECKLISTS = {
         unacceptable: [
           {
@@ -2059,6 +2069,7 @@
             text: "Schriftliche Dokumentation aller ergriffenen Sofortmassnahmen erstellen",
             tag: "mandatory",
           },
+          AI_LITERACY_ITEM,
           {
             text: "Intern prüfen, ob ähnliche Systeme betroffen sind (Breitenprüfung)",
             tag: "recommended",
@@ -2105,6 +2116,7 @@
             text: "Registrierung im EU-Datenbank-System (sofern zutreffend)",
             tag: "mandatory",
           },
+          AI_LITERACY_ITEM,
           {
             text: "Grundrechte-Folgenabschätzung (FRIA) durchführen — insb. für öffentliche Stellen",
             tag: "recommended",
@@ -2135,6 +2147,7 @@
             text: "Bei KI-generierten Inhalten: Kennzeichnungspflicht für synthetische Medien sicherstellen",
             tag: "mandatory",
           },
+          AI_LITERACY_ITEM,
           {
             text: "Bei Deepfakes / synthetischen Medien: Maschinenlesbare Markierung (Wasserzeichen) implementieren",
             tag: "recommended",
@@ -2153,6 +2166,7 @@
           },
         ],
         minimal: [
+          AI_LITERACY_ITEM,
           {
             text: "Freiwillige Selbstverpflichtung zu Transparenz und verantwortungsvollem KI-Einsatz in Betracht ziehen",
             tag: "best-practice",
@@ -2213,11 +2227,11 @@
         minimal: {
           icon: "✅",
           title: "Minimales Risiko",
-          sub: "Keine spezifischen Pflichten nach EU AI Act",
+          sub: "Keine klassenspezifischen Pflichten — Art. 4 gilt dennoch",
           label: "Minimal",
           meterKey: "minimal",
           explanation:
-            "Dein System fällt in die Kategorie mit minimalem Risiko. Der EU AI Act enthält keine spezifischen Pflichten für diese Klasse — du kannst freiwillige Verhaltenskodizes anwenden. Wichtig: Auch wenn dein KI-System selbst kein hohes Risiko birgt, bleiben allgemeine datenschutzrechtliche Pflichten (DSGVO, DSG) sowie branchenspezifische Vorschriften unberührt.",
+            "Dein System fällt in die Kategorie mit minimalem Risiko. Der EU AI Act knüpft an diese Klasse keine spezifischen Pflichten — du kannst freiwillige Verhaltenskodizes anwenden. Zwei Dinge gelten trotzdem: Die KI-Kompetenzpflicht nach Art. 4 trifft Anbieter und Betreiber unabhängig von der Risikoklasse — seit dem 27. Juli 2026 als Bemühens- und nicht als Erfolgspflicht. Und allgemeine datenschutzrechtliche Pflichten (DSGVO, DSG) sowie branchenspezifische Vorschriften bleiben unberührt.",
           swissNote:
             "Auch für Systeme mit minimalem KI-Risiko gelten in der Schweiz die allgemeinen Anforderungen des revidierten DSG, insbesondere bei der Verarbeitung von Personendaten.",
         },
