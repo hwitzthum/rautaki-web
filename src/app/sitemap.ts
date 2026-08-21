@@ -8,7 +8,7 @@ import { getArticles } from "@/lib/articles";
 // carry separate de/en dates so an English copy-edit doesn't fake-bump the
 // German page (and vice versa).
 const lastModified = {
-  home: { de: new Date("2026-07-03"), en: new Date("2026-07-11") },
+  home: { de: new Date("2026-08-21"), en: new Date("2026-08-21") },
   services: { de: new Date("2026-07-06"), en: new Date("2026-07-11") },
   vorgehen: { de: new Date("2026-07-06"), en: new Date("2026-07-11") },
   about: { de: new Date("2026-07-06"), en: new Date("2026-07-11") },
@@ -18,7 +18,7 @@ const lastModified = {
   privacy: { de: new Date("2026-07-11"), en: new Date("2026-07-11") }, // NEXT_LOCALE-Absatz
   labMultiAssistant: new Date("2026-05-10"),
   labGovernancePolicy: new Date("2026-05-11"),
-  labEuAiActCheck: new Date("2026-05-10"),
+  labEuAiActCheck: new Date("2026-08-21"),
 };
 
 const base = "https://www.rautaki.ch";
