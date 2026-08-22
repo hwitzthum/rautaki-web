@@ -385,7 +385,7 @@ export async function POST(request: NextRequest) {
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), 4000);
       try {
-        await fetch(webhookCheck.url.toString(), {
+        const crmRes = await fetch(webhookCheck.url.toString(), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -398,6 +398,14 @@ export async function POST(request: NextRequest) {
           }),
           signal: controller.signal,
         });
+        // A wrong or stale webhook URL answers 404/401 rather than throwing,
+        // so without this check the lead is dropped with nothing in the logs.
+        // Still best-effort: the registration itself has already succeeded.
+        if (!crmRes.ok) {
+          console.error(
+            `[lab-access] CRM webhook returned ${crmRes.status} — lead not recorded in CRM.`,
+          );
+        }
       } catch (crmErr) {
         console.error(
           "[lab-access] CRM webhook failed:",
