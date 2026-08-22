@@ -8,7 +8,7 @@ import { getArticles } from "@/lib/articles";
 // carry separate de/en dates so an English copy-edit doesn't fake-bump the
 // German page (and vice versa).
 const lastModified = {
-  home: { de: new Date("2026-08-21"), en: new Date("2026-08-21") },
+  home: { de: new Date("2026-08-22"), en: new Date("2026-08-22") },
   services: { de: new Date("2026-07-06"), en: new Date("2026-07-11") },
   vorgehen: { de: new Date("2026-07-06"), en: new Date("2026-07-11") },
   about: { de: new Date("2026-07-06"), en: new Date("2026-07-11") },
