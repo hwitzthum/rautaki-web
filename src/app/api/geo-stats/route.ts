@@ -52,17 +52,33 @@ export async function GET(request: NextRequest) {
     ...BOT_SLUGS.map((s) => `geo:${m}:bot:${s}`),
   ]);
 
-  const res = await fetch(
-    `${url}/mget/${keys.map(encodeURIComponent).join("/")}`,
-    {
-      headers: { Authorization: `Bearer ${token}` },
-      cache: "no-store",
-    },
-  );
-  if (!res.ok) {
+  let result: unknown[];
+  try {
+    const res = await fetch(
+      `${url}/mget/${keys.map(encodeURIComponent).join("/")}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        cache: "no-store",
+        signal: AbortSignal.timeout(5_000),
+      },
+    );
+    if (!res.ok) throw new Error(`Redis returned ${res.status}`);
+    const payload: unknown = await res.json();
+    if (
+      typeof payload !== "object" ||
+      payload === null ||
+      !Array.isArray((payload as { result?: unknown }).result)
+    ) {
+      throw new Error("Redis returned an invalid payload");
+    }
+    result = (payload as { result: unknown[] }).result;
+  } catch (error) {
+    console.error(
+      "[geo-stats] Redis read failed:",
+      error instanceof Error ? error.name : "unknown",
+    );
     return NextResponse.json({ error: "Store unavailable" }, { status: 503 });
   }
-  const { result } = (await res.json()) as { result: (string | null)[] };
 
   let i = 0;
   const data: Record<

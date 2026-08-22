@@ -88,7 +88,7 @@ export function filterBotText(text: string): string {
  * dropped by construction so they are never visible to clients.
  */
 export function filterChatResponse(payload: unknown): unknown {
-  if (typeof payload !== "object" || payload === null) return payload;
+  if (typeof payload !== "object" || payload === null) return {};
   const p = payload as Record<string, unknown>;
   const result: Record<string, unknown> = {};
   for (const key of ["output", "text", "message"] as const) {

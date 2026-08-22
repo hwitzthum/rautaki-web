@@ -185,8 +185,19 @@ export async function POST(req: NextRequest) {
   // 2. Per-IP rate limit (coarse abuse gate)
   let limited = false;
   if (ratelimit) {
-    const { success } = await ratelimit.limit(ip);
-    limited = !success;
+    try {
+      const { success } = await ratelimit.limit(ip);
+      limited = !success;
+    } catch (error) {
+      Sentry.captureException(error, {
+        tags: { route: "api/chat", stage: "ip-rate-limit" },
+      });
+      return jsonWithRequestId(
+        { error: "Service nicht verfügbar" },
+        { status: 503 },
+        requestId,
+      );
+    }
   } else if (process.env.NODE_ENV === "production") {
     // Fail closed in production: a per-instance in-memory limiter is
     // ineffective across serverless cold starts and trivially bypassable.
@@ -261,7 +272,19 @@ export async function POST(req: NextRequest) {
   //    that the IP limit can't see). Skipped silently when Upstash isn't
   //    configured — the IP limit above already failed-closed in prod.
   if (sessionRatelimit) {
-    const { success } = await sessionRatelimit.limit(body.sessionId);
+    let success: boolean;
+    try {
+      ({ success } = await sessionRatelimit.limit(body.sessionId));
+    } catch (error) {
+      Sentry.captureException(error, {
+        tags: { route: "api/chat", stage: "session-rate-limit" },
+      });
+      return jsonWithRequestId(
+        { error: "Service nicht verfügbar" },
+        { status: 503 },
+        requestId,
+      );
+    }
     if (!success) {
       Sentry.addBreadcrumb({
         category: "chat",
@@ -280,7 +303,19 @@ export async function POST(req: NextRequest) {
   // 6. Daily token-spend kill-switch — check BEFORE the upstream call so a
   //    runaway attacker can't keep burning credits past the cap.
   if (redis) {
-    const used = await getDailyTokenUsage(redis);
+    let used: number;
+    try {
+      used = await getDailyTokenUsage(redis);
+    } catch (error) {
+      Sentry.captureException(error, {
+        tags: { route: "api/chat", stage: "daily-token-read" },
+      });
+      return jsonWithRequestId(
+        { error: "Service nicht verfügbar" },
+        { status: 503 },
+        requestId,
+      );
+    }
     if (used >= DAILY_TOKEN_CAP) {
       await reportDailyCapHit(redis, used, requestId);
       return jsonWithRequestId(
@@ -599,11 +634,18 @@ async function reportDailyCapHit(
   // First hit of the day → Sentry warning. Subsequent hits → breadcrumb only,
   // so a 24-hour attack doesn't flood the project.
   const alertKey = `chat:tokens:alerted:${todayUtcKey()}`;
-  const first = await redis.set(alertKey, "1", {
-    ex: DAILY_KEY_TTL_SECONDS,
-    nx: true,
-  });
-  if (first === "OK") {
+  let first: "1" | "OK" | null = null;
+  try {
+    first = await redis.set(alertKey, "1", {
+      ex: DAILY_KEY_TTL_SECONDS,
+      nx: true,
+    });
+  } catch (error) {
+    Sentry.captureException(error, {
+      tags: { route: "api/chat", stage: "daily-cap-alert-dedupe" },
+    });
+  }
+  if (first !== null) {
     Sentry.captureMessage(
       `Chat daily token cap hit: ${used} >= ${DAILY_TOKEN_CAP}`,
       "warning",

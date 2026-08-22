@@ -44,8 +44,8 @@ für Geschäftsleitungen & Verwaltungsräte; Quelle: `docs/Rautaki_KI-Beratung_B
 | `POST /api/mahnung-request`                                        | n8n → Freigabe-Mail mit signierten Links                      | `N8N_SEND_TOKEN`, Ask-Dedup                                                               |
 | `GET/POST /api/referral-action`                                    | Approve/Skip-Klickziel Referrals                              | wie mahnung-action                                                                        |
 | `POST /api/referral-request`                                       | n8n → Referral-Freigabe-Mail                                  | `N8N_SEND_TOKEN`                                                                          |
-| `POST /api/briefing-send`, `/api/digest-send`, `/api/nurture-send` | n8n-getriggerte Versand-Routen                                | `N8N_SEND_TOKEN`                                                                          |
-| `GET/POST /api/unsubscribe`                                        | Abmeldung (HMAC-Token pro Adresse)                            | fail-closed ohne Secret                                                                   |
+| `POST /api/briefing-send`, `/api/digest-send`, `/api/nurture-send` | n8n-getriggerte Versand-Routen                                | `N8N_SEND_TOKEN`; Nurture zusätzlich fail-closed Suppression-Check                        |
+| `GET/POST /api/unsubscribe`                                        | Abmeldung (HMAC-Token + RFC-8058-One-Click)                   | fail-closed ohne Secret                                                                   |
 | `GET /api/cron/keepalive`                                          | Hält Upstash Redis aktiv                                      | `CRON_SECRET` (Bearer)                                                                    |
 
 ## Entwicklung
@@ -60,11 +60,12 @@ npm run dev                  # http://localhost:3000
 | --------------------------------- | ----------------------------------------------------------- |
 | `npm run dev` / `build` / `start` | Next.js Standard                                            |
 | `npm run lint`                    | ESLint                                                      |
-| `npm run test:libs`               | Security-Unit-Tests (Chat-Validierung, HMAC, Output-Filter) |
+| `npm run test:libs`               | Security-Unit-Tests (Chat, HMAC, E-Mail, JSON, SSRF)        |
 | `npm run test:api`                | Chat-API-Härtungstests gegen laufenden Dev-Server           |
 
-Ohne Upstash-Env-Vars fallen Rate-Limits lokal auf In-Memory zurück;
-in Produktion lehnen die geschützten Routen dann ab (fail-closed).
+Ohne Upstash-Env-Vars fallen reine Rate-Limits lokal auf In-Memory zurück.
+Routen, die persistente Suppression oder Idempotenz benötigen, lehnen ab;
+in Produktion gilt dies für alle geschützten Routen (fail-closed).
 
 ## Sicherheit
 

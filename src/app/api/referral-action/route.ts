@@ -1,9 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import crypto from "crypto";
 import { Resend } from "resend";
 import { Redis } from "@upstash/redis";
 import { REFERRAL_EMAIL, REFERRAL_SUBJECT } from "@/lib/referral-templates";
 import { verifyReferral, type ReferralParams } from "@/lib/referral-sign";
+import {
+  createUnsubscribeToken,
+  emailIdempotencyKey,
+  isValidEmail,
+  normalizeEmail,
+} from "@/lib/email-security";
 
 // Harry's Approve/Skip click target. GET shows a confirmation (a scanner/prefetch
 // must NOT trigger the send); POST performs the send. Never statically cached.
@@ -63,13 +68,10 @@ function readParams(sp: URLSearchParams): { p: ReferralParams; t: string } {
   };
 }
 
-function unsubscribeUrl(email: string): string {
-  const secret = process.env.UNSUBSCRIBE_SECRET ?? "";
-  const token = crypto
-    .createHmac("sha256", secret)
-    .update(email.trim().toLowerCase())
-    .digest("hex");
-  const q = new URLSearchParams({ e: email.trim().toLowerCase(), t: token });
+function unsubscribeUrl(email: string, secret: string): string {
+  const normalized = normalizeEmail(email);
+  const token = createUnsubscribeToken(normalized, secret);
+  const q = new URLSearchParams({ e: normalized, t: token });
   return `https://www.rautaki.ch/api/unsubscribe?${q.toString()}`;
 }
 
@@ -112,7 +114,9 @@ export async function POST(request: NextRequest) {
     return page("Ungültig", invalidBody, 400);
   }
   const resendKey = process.env.RESEND_API_KEY;
-  if (!resendKey) return page("Fehler", invalidBody, 503);
+  const unsubscribeSecret = process.env.UNSUBSCRIBE_SECRET;
+  if (!resendKey || !unsubscribeSecret) return page("Fehler", invalidBody, 503);
+  if (!isValidEmail(p.e)) return page("Ungültig", invalidBody, 400);
 
   // Replay protection needs the shared dedup set — without Redis in production
   // every re-POST of the same link would send another referral email. Fail closed.
@@ -138,22 +142,26 @@ export async function POST(request: NextRequest) {
         "[referral-action] Redis error:",
         (err as { name?: string })?.name ?? "unknown",
       );
+      return page("Fehler", invalidBody, 503);
     }
   }
 
   const html = REFERRAL_EMAIL.split("{{VORNAME}}")
     .join(esc(p.v || "there"))
     .split("{{UNSUBSCRIBE_URL}}")
-    .join(unsubscribeUrl(p.e));
+    .join(unsubscribeUrl(p.e, unsubscribeSecret));
 
   const resend = new Resend(resendKey);
-  const { error } = await resend.emails.send({
-    from: FROM,
-    to: p.e,
-    replyTo: REPLY_TO,
-    subject: REFERRAL_SUBJECT,
-    html,
-  });
+  const { error } = await resend.emails.send(
+    {
+      from: FROM,
+      to: p.e,
+      replyTo: REPLY_TO,
+      subject: REFERRAL_SUBJECT,
+      html,
+    },
+    { idempotencyKey: emailIdempotencyKey("referral-action", t) },
+  );
 
   if (error) {
     // roll back the idempotency marker so it can be retried
