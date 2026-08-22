@@ -4,6 +4,7 @@ import { Redis } from "@upstash/redis";
 import { renderReminder } from "@/lib/mahnung-templates";
 import { verifyMahnung, type MahnungParams } from "@/lib/mahnung-sign";
 import { validateWebhookUrl } from "@/lib/ssrf-guard";
+import { emailIdempotencyKey, isValidEmail } from "@/lib/email-security";
 
 // Harry's Approve/Skip click target for payment reminders. GET shows a
 // confirmation (prefetch-safe); POST sends the reminder to the client.
@@ -76,16 +77,19 @@ function deadlinePlus10(): string {
   return `${dd}.${mm}.${d.getFullYear()}`;
 }
 
+function reminderLabel(level: number): string {
+  return level >= 3
+    ? "2. Mahnung"
+    : level === 2
+      ? "1. Mahnung"
+      : "Zahlungserinnerung";
+}
+
 export async function GET(request: NextRequest) {
   const { p, t } = readParams(new URL(request.url).searchParams);
   if (!verifyMahnung(p, t)) return page("Ungültig", invalid, 400);
 
-  const stufe =
-    p.l >= "3"
-      ? "2. Mahnung"
-      : p.l === "2"
-        ? "1. Mahnung"
-        : "Zahlungserinnerung";
+  const stufe = reminderLabel(Number(p.l));
   if (p.a === "skip") {
     return page(
       "Übersprungen",
@@ -119,6 +123,17 @@ export async function POST(request: NextRequest) {
   if (!verifyMahnung(p, t) || p.a !== "send")
     return page("Ungültig", invalid, 400);
 
+  const level = Number(p.l);
+  if (
+    !isValidEmail(p.e) ||
+    !p.n ||
+    !Number.isInteger(level) ||
+    level < 1 ||
+    level > 3
+  ) {
+    return page("Ungültig", invalid, 400);
+  }
+
   const resendKey = process.env.RESEND_API_KEY;
   if (!resendKey) return page("Fehler", invalid, 503);
 
@@ -131,7 +146,7 @@ export async function POST(request: NextRequest) {
     return page("Fehler", invalid, 503);
   }
 
-  const key = `${p.i}:${p.l}`;
+  const key = `${p.i || p.n}:${level}`;
   if (redis) {
     try {
       const added = await redis.sadd(SENT_SET, key);
@@ -146,10 +161,10 @@ export async function POST(request: NextRequest) {
         "[mahnung-action] Redis error:",
         (err as { name?: string })?.name ?? "unknown",
       );
+      return page("Fehler", invalid, 503);
     }
   }
 
-  const level = Number(p.l) || 1;
   const { subject, html } = renderReminder(level, {
     vorname: p.v,
     nr: p.n,
@@ -159,13 +174,16 @@ export async function POST(request: NextRequest) {
   });
 
   const resend = new Resend(resendKey);
-  const { error } = await resend.emails.send({
-    from: FROM,
-    to: p.e,
-    replyTo: REPLY_TO,
-    subject,
-    html,
-  });
+  const { error } = await resend.emails.send(
+    {
+      from: FROM,
+      to: p.e,
+      replyTo: REPLY_TO,
+      subject,
+      html,
+    },
+    { idempotencyKey: emailIdempotencyKey("mahnung-action", t) },
+  );
 
   if (error) {
     if (redis) {
@@ -191,7 +209,8 @@ export async function POST(request: NextRequest) {
   // no CashCtrl status; n8n treats it as a no-op. Same SSRF defence-in-depth
   // as N8N_LAB_WEBHOOK_URL in src/app/api/lab-access/route.ts.
   const statusWebhookUrl = process.env.N8N_MAHNUNG_STATUS_WEBHOOK_URL;
-  if (statusWebhookUrl) {
+  const invoiceId = Number(p.i);
+  if (statusWebhookUrl && Number.isSafeInteger(invoiceId) && invoiceId > 0) {
     const webhookCheck = validateWebhookUrl(statusWebhookUrl);
     if (!webhookCheck.ok) {
       console.error(
@@ -204,7 +223,7 @@ export async function POST(request: NextRequest) {
         const statusRes = await fetch(webhookCheck.url.toString(), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ invoiceId: Number(p.i), level }),
+          body: JSON.stringify({ invoiceId, level }),
           signal: controller.signal,
         });
         // A wrong or stale webhook URL answers 404/401 rather than throwing,
@@ -213,7 +232,7 @@ export async function POST(request: NextRequest) {
         // the reminder has already gone out.
         if (!statusRes.ok) {
           console.error(
-            `[mahnung-action] status write-back returned ${statusRes.status} — CashCtrl status not updated for invoice ${Number(p.i)}.`,
+            `[mahnung-action] status write-back returned ${statusRes.status} — CashCtrl status not updated for invoice ${invoiceId}.`,
           );
         }
       } catch (hookErr) {
@@ -227,12 +246,7 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  const stufe =
-    level >= 3
-      ? "2. Mahnung"
-      : level === 2
-        ? "1. Mahnung"
-        : "Zahlungserinnerung";
+  const stufe = reminderLabel(level);
   return page(
     "Gesendet",
     `<h1 style="font-family:Georgia,serif;font-size:24px;font-weight:400;letter-spacing:-0.01em;margin:0 0 14px;">${esc(stufe)} <em style="font-style:italic;color:#F5A623;">gesendet</em>.</h1><p style="font-size:15px;line-height:1.7;color:rgba(28,28,28,0.65);margin:0;">An <strong>${esc(p.v)}</strong> für Rechnung <strong>${esc(p.n)}</strong>.</p>`,

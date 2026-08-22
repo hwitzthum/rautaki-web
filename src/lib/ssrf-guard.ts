@@ -58,6 +58,11 @@ export function isSsrfTarget(hostname: string): boolean {
     if (/^fe[89ab]/.test(h)) return true;
     // fc00::/7 ULA (fc00:: – fdff::)
     if (/^f[cd]/.test(h)) return true;
+    // ff00::/8 multicast and deprecated fec0::/10 site-local space are not
+    // globally routable webhook destinations.
+    if (/^ff/.test(h) || /^fe[c-f]/.test(h)) return true;
+    // 2001:db8::/32 documentation range.
+    if (/^2001:0*db8(?::|$)/.test(h)) return true;
     // IPv4-mapped x:…:ffff:x.x.x.x in any spelling ("::ffff:", expanded
     // "0:0:0:0:0:ffff:") — extract the dotted quad and re-check it. A hex
     // tail after ffff: (e.g. "::ffff:7f00:1") is the same address without
@@ -94,7 +99,8 @@ export function isSsrfTarget(hostname: string): boolean {
       (a === 192 && b === 0 && c === 2) || // 192.0.2.0/24 TEST-NET-1
       (a === 198 && b === 51 && c === 100) || // 198.51.100.0/24 TEST-NET-2
       (a === 203 && b === 0 && c === 113) || // 203.0.113.0/24 TEST-NET-3
-      a >= 240 // 240.0.0.0/4 reserved + 255.255.255.255
+      (a === 198 && (b === 18 || b === 19)) || // 198.18.0.0/15 benchmarking
+      a >= 224 // multicast + reserved + 255.255.255.255
     ) {
       return true;
     }

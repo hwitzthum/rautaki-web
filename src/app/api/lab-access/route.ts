@@ -3,6 +3,7 @@ import { Resend } from "resend";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 import { validateWebhookUrl } from "@/lib/ssrf-guard";
+import { isValidEmail } from "@/lib/email-security";
 
 // Force dynamic rendering — this route reads runtime headers and must never
 // be statically cached at the edge.
@@ -94,12 +95,6 @@ interface LabAccessPayload {
   consent: true;
 }
 
-// Stricter than the previous `[^\s@]+@[^\s@]+\.[^\s@]+` — requires a TLD of
-// 2+ chars and disallows consecutive dots / leading-or-trailing dots in the
-// local part. Not RFC-perfect, but rejects the obvious abuse patterns.
-const EMAIL_RE =
-  /^[A-Za-z0-9._%+-]+@[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+$/;
-
 function isValidPayload(body: unknown): body is LabAccessPayload {
   if (typeof body !== "object" || body === null) return false;
   const b = body as Record<string, unknown>;
@@ -121,7 +116,7 @@ function isValidPayload(body: unknown): body is LabAccessPayload {
     return false;
   if (email.length === 0 || email.length > 254 || hasControlChars(email))
     return false;
-  if (!EMAIL_RE.test(email)) return false;
+  if (!isValidEmail(email)) return false;
   return true;
 }
 
@@ -182,8 +177,19 @@ export async function POST(request: NextRequest) {
 
   let limited = false;
   if (ratelimit) {
-    const { success } = await ratelimit.limit(ip);
-    limited = !success;
+    try {
+      const { success } = await ratelimit.limit(ip);
+      limited = !success;
+    } catch (error) {
+      console.error(
+        "[lab-access] IP rate-limit check failed:",
+        error instanceof Error ? error.name : "unknown",
+      );
+      return NextResponse.json(
+        { error: "Service nicht verfügbar" },
+        { status: 503 },
+      );
+    }
   } else {
     if (process.env.NODE_ENV === "production") {
       // Fail closed: in-memory rate limiting is ineffective across serverless
@@ -274,8 +280,19 @@ export async function POST(request: NextRequest) {
   const emailKey = email.toLowerCase();
   let emailLimited = false;
   if (emailRatelimit) {
-    const { success } = await emailRatelimit.limit(emailKey);
-    emailLimited = !success;
+    try {
+      const { success } = await emailRatelimit.limit(emailKey);
+      emailLimited = !success;
+    } catch (error) {
+      console.error(
+        "[lab-access] recipient rate-limit check failed:",
+        error instanceof Error ? error.name : "unknown",
+      );
+      return NextResponse.json(
+        { error: "Service nicht verfügbar" },
+        { status: 503 },
+      );
+    }
   } else if (process.env.NODE_ENV !== "production") {
     emailLimited = memoryLimit(
       `email:${emailKey}`,

@@ -61,8 +61,16 @@ export async function checkRateLimit(
   windowSeconds: number,
 ): Promise<RateLimitResult> {
   if (redis) {
-    const { success } = await getLimiter(prefix, max, windowSeconds).limit(key);
-    return success ? "ok" : "limited";
+    try {
+      const { success } = await getLimiter(prefix, max, windowSeconds).limit(key);
+      return success ? "ok" : "limited";
+    } catch (error) {
+      console.error(
+        `[${prefix}] Redis rate-limit check failed:`,
+        error instanceof Error ? error.name : "unknown",
+      );
+      return "unavailable";
+    }
   }
 
   if (process.env.NODE_ENV === "production") {

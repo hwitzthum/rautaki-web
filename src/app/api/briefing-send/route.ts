@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import crypto from "crypto";
 import { Resend } from "resend";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
+import { tokenMatches } from "@/lib/email-security";
+import { readJsonObject } from "@/lib/request-body";
 
 // Pre-call briefing. The n8n #4 workflow compiles a lead's context (Lab tool,
 // nurture history, activity) for a booked Beratung and POSTs it here; this
@@ -26,6 +27,38 @@ interface BriefingPayload {
   salesflareUrl?: string;
 }
 
+const BRIEFING_STRING_FIELDS = [
+  "name",
+  "company",
+  "email",
+  "phone",
+  "meeting",
+  "labTool",
+  "nurture",
+  "source",
+  "message",
+  "salesflareUrl",
+] as const;
+
+function isBriefingPayload(
+  value: Record<string, unknown>,
+): value is Record<string, unknown> & BriefingPayload {
+  for (const key of BRIEFING_STRING_FIELDS) {
+    const field = value[key];
+    if (field !== undefined && (typeof field !== "string" || field.length > 4_000)) {
+      return false;
+    }
+  }
+  if (value.activity === undefined) return true;
+  return (
+    Array.isArray(value.activity) &&
+    value.activity.length <= 50 &&
+    value.activity.every(
+      (entry) => typeof entry === "string" && entry.length <= 1_000,
+    )
+  );
+}
+
 function esc(s: string): string {
   return String(s ?? "")
     .replace(/&/g, "&amp;")
@@ -48,12 +81,6 @@ function safeSalesflareUrl(s: string): string | null {
   } catch {
     return null;
   }
-}
-
-function timingSafeEqual(a: string, b: string): boolean {
-  const ab = Buffer.from(a);
-  const bb = Buffer.from(b);
-  return ab.length === bb.length && crypto.timingSafeEqual(ab, bb);
 }
 
 function label(text: string): string {
@@ -159,21 +186,20 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "service unavailable" }, { status: 503 });
   }
 
-  let body: BriefingPayload & { token?: string };
-  try {
-    body = (await request.json()) as BriefingPayload & { token?: string };
-  } catch {
-    return NextResponse.json({ error: "bad request" }, { status: 400 });
+  const parsed = await readJsonObject(request);
+  if (!parsed.ok) {
+    return NextResponse.json(
+      { error: parsed.status === 413 ? "payload too large" : "bad request" },
+      { status: parsed.status },
+    );
   }
-
-  if (
-    !timingSafeEqual(
-      typeof body.token === "string" ? body.token : "",
-      sendToken,
-    )
-  ) {
+  if (!tokenMatches(parsed.body.token, sendToken)) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
+  if (!isBriefingPayload(parsed.body)) {
+    return NextResponse.json({ error: "invalid payload" }, { status: 400 });
+  }
+  const body = parsed.body;
 
   const { subject, html } = render(body);
   const resend = new Resend(resendKey);

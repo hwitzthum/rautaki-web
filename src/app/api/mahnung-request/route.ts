@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import crypto from "crypto";
 import { Resend } from "resend";
 import { Redis } from "@upstash/redis";
 import { renderApproval, renderHeadsUp } from "@/lib/mahnung-templates";
 import { linkExpiry, signMahnung } from "@/lib/mahnung-sign";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
+import {
+  emailIdempotencyKey,
+  isValidEmail,
+  tokenMatches,
+} from "@/lib/email-security";
+import { readJsonObject } from "@/lib/request-body";
 
 // Called by the n8n #9 workflow for each overdue invoice. Emails Harry an
 // Approve/Skip message with signed action links. Never statically cached.
@@ -24,12 +29,6 @@ const redis =
         token: process.env.UPSTASH_REDIS_REST_TOKEN,
       })
     : null;
-
-function timingSafeEqual(a: string, b: string): boolean {
-  const ab = Buffer.from(a);
-  const bb = Buffer.from(b);
-  return ab.length === bb.length && crypto.timingSafeEqual(ab, bb);
-}
 
 export async function POST(request: NextRequest) {
   const sendToken = process.env.N8N_SEND_TOKEN;
@@ -53,19 +52,16 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "service unavailable" }, { status: 503 });
   }
 
-  let body: Record<string, unknown>;
-  try {
-    body = (await request.json()) as Record<string, unknown>;
-  } catch {
-    return NextResponse.json({ error: "bad request" }, { status: 400 });
+  const parsed = await readJsonObject(request);
+  if (!parsed.ok) {
+    return NextResponse.json(
+      { error: parsed.status === 413 ? "payload too large" : "bad request" },
+      { status: parsed.status },
+    );
   }
+  const body = parsed.body;
 
-  if (
-    !timingSafeEqual(
-      typeof body.token === "string" ? body.token : "",
-      sendToken,
-    )
-  ) {
+  if (!tokenMatches(body.token, sendToken)) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 
@@ -83,19 +79,39 @@ export async function POST(request: NextRequest) {
   const i = str("invoiceId");
   const l = str("level", "1");
 
-  if (!n) {
+  const level = Number(l);
+  if (
+    !n ||
+    n.length > 100 ||
+    v.length > 200 ||
+    company.length > 200 ||
+    b.length > 100 ||
+    f.length > 100 ||
+    i.length > 100 ||
+    !Number.isInteger(level) ||
+    level < 1 ||
+    level > 3 ||
+    (e !== "" && !isValidEmail(e))
+  ) {
     return NextResponse.json({ error: "invalid payload" }, { status: 400 });
   }
-  const level = Number(l) || 1;
   // With a valid client email → approval email (a real reminder can be sent).
   // Without one → heads-up to Harry to follow up manually.
   const hasEmail = !!e && e.indexOf("@") !== -1;
   const mode = hasEmail ? "email" : "manual";
 
-  // Dedup: one message per (invoice, level).
+  // Dedup: one message per (invoice, level). Invoice number is a stable
+  // fallback for workflows that do not expose CashCtrl's numeric invoice ID.
+  const dedupKey = `${i || n}:${level}`;
+  if (!redis && process.env.NODE_ENV === "production") {
+    console.error(
+      "[mahnung-request] UPSTASH_REDIS_REST_URL/TOKEN not set in production — refusing request (no deduplication).",
+    );
+    return NextResponse.json({ error: "service unavailable" }, { status: 503 });
+  }
   if (redis) {
     try {
-      const added = await redis.sadd(ASKED_SET, `${i}:${l}`);
+      const added = await redis.sadd(ASKED_SET, dedupKey);
       if (added === 0) {
         return NextResponse.json(
           { ok: true, skipped: true },
@@ -107,6 +123,7 @@ export async function POST(request: NextRequest) {
         "[mahnung-request] asked-dedup failed:",
         (err as { name?: string })?.name ?? "unknown",
       );
+      return NextResponse.json({ error: "service unavailable" }, { status: 503 });
     }
   }
 
@@ -130,19 +147,22 @@ export async function POST(request: NextRequest) {
     : renderHeadsUp({ company, nr: n, betrag: b, faellig: f, level });
 
   const resend = new Resend(resendKey);
-  const { error } = await resend.emails.send({
-    from: FROM,
-    to: APPROVER,
-    replyTo: APPROVER,
-    subject,
-    html,
-  });
+  const { error } = await resend.emails.send(
+    {
+      from: FROM,
+      to: APPROVER,
+      replyTo: APPROVER,
+      subject,
+      html,
+    },
+    { idempotencyKey: emailIdempotencyKey("mahnung-request", dedupKey) },
+  );
 
   if (error) {
     // roll back the asked marker so this invoice/level can be retried tomorrow
     if (redis) {
       try {
-        await redis.srem(ASKED_SET, `${i}:${l}`);
+        await redis.srem(ASKED_SET, dedupKey);
       } catch {
         /* best effort */
       }

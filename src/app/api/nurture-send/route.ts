@@ -1,9 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import crypto from "crypto";
 import { Resend } from "resend";
 import { Redis } from "@upstash/redis";
 import { NURTURE_TEMPLATES } from "@/lib/nurture-templates";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
+import {
+  createUnsubscribeToken,
+  isValidEmail,
+  normalizeEmail,
+  tokenMatches,
+} from "@/lib/email-security";
+import { readJsonObject } from "@/lib/request-body";
 
 const SUPPRESSION_SET = "nurture:unsub";
 const redis =
@@ -31,35 +37,18 @@ function escapeHtml(s: string): string {
 }
 
 // Same signing scheme the /api/unsubscribe endpoint verifies.
-function unsubscribeUrl(email: string): string {
-  const secret = process.env.UNSUBSCRIBE_SECRET ?? "";
-  const token = crypto
-    .createHmac("sha256", secret)
-    .update(email.trim().toLowerCase())
-    .digest("hex");
-  const q = new URLSearchParams({ e: email.trim().toLowerCase(), t: token });
+function unsubscribeUrl(email: string, secret: string): string {
+  const normalized = normalizeEmail(email);
+  const token = createUnsubscribeToken(normalized, secret);
+  const q = new URLSearchParams({ e: normalized, t: token });
   return `https://www.rautaki.ch/api/unsubscribe?${q.toString()}`;
 }
-
-function timingSafeEqual(a: string, b: string): boolean {
-  const ab = Buffer.from(a);
-  const bb = Buffer.from(b);
-  return ab.length === bb.length && crypto.timingSafeEqual(ab, bb);
-}
-
-// Same bar as /api/lab-access's EMAIL_RE: requires a TLD of 2+ chars, no
-// consecutive/leading/trailing dots in the local part. `to` is trusted
-// n8n-workflow input, not a public form field, but the shared-secret token
-// is the only gate on this route — validating the shape of the address it
-// actually sends to keeps a token leak or a malformed workflow record from
-// turning this into an arbitrary-string-to-Resend relay.
-const EMAIL_RE =
-  /^[A-Za-z0-9._%+-]+@[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+$/;
 
 export async function POST(request: NextRequest) {
   const sendToken = process.env.N8N_SEND_TOKEN;
   const resendKey = process.env.RESEND_API_KEY;
-  if (!sendToken || !resendKey || !process.env.UNSUBSCRIBE_SECRET) {
+  const unsubscribeSecret = process.env.UNSUBSCRIBE_SECRET;
+  if (!sendToken || !resendKey || !unsubscribeSecret) {
     return NextResponse.json({ error: "not configured" }, { status: 503 });
   }
 
@@ -78,33 +67,27 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "service unavailable" }, { status: 503 });
   }
 
-  let body: Record<string, unknown>;
-  try {
-    body = (await request.json()) as Record<string, unknown>;
-  } catch {
-    return NextResponse.json({ error: "bad request" }, { status: 400 });
+  const parsed = await readJsonObject(request);
+  if (!parsed.ok) {
+    return NextResponse.json(
+      { error: parsed.status === 413 ? "payload too large" : "bad request" },
+      { status: parsed.status },
+    );
   }
+  const body = parsed.body;
 
   // Shared-secret auth (constant-time).
-  const token = typeof body.token === "string" ? body.token : "";
-  if (!timingSafeEqual(token, sendToken)) {
+  if (!tokenMatches(body.token, sendToken)) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 
   const templateKey = String(body.template ?? "");
   const template = NURTURE_TEMPLATES[templateKey as "1" | "2" | "3"];
   const to = typeof body.to === "string" ? body.to.trim() : "";
-  // Lowercased to match how /api/unsubscribe stores suppressed addresses
-  // (it lowercases every email before writing to SUPPRESSION_SET). Without
-  // this, a CRM record with different casing (e.g. "John@Example.com" vs.
-  // the lowercase "john@example.com" the unsubscribe link stored) bypasses
-  // the opt-out check below and the recipient keeps receiving nurture email
-  // after unsubscribing — a GDPR/CH-DSG violation, not just a cosmetic bug.
-  const unsubEmail = (
-    typeof body.email === "string" && body.email.trim()
-      ? body.email.trim()
-      : to
-  ).toLowerCase();
+  // The suppression key and unsubscribe link must always describe the actual
+  // recipient. Trusting a second `email` field allowed workflow drift to send
+  // to one address while suppressing another.
+  const unsubEmail = normalizeEmail(to);
   const vorname = escapeHtml(
     (typeof body.vorname === "string" ? body.vorname : "").trim() || "there",
   );
@@ -117,33 +100,34 @@ export async function POST(request: NextRequest) {
     !template ||
     !to ||
     !unsubEmail ||
-    to.length > 254 ||
-    !EMAIL_RE.test(to) ||
-    !EMAIL_RE.test(unsubEmail)
+    !isValidEmail(to)
   ) {
     return NextResponse.json({ error: "invalid payload" }, { status: 400 });
   }
 
-  // GDPR: never send to an address that has opted out. Fail open only if Redis
-  // is unreachable (better to send than to silently drop legitimate mail).
-  if (redis) {
-    try {
-      const suppressed = await redis.sismember(SUPPRESSION_SET, unsubEmail);
-      if (suppressed) {
-        return NextResponse.json(
-          { ok: true, skipped: "unsubscribed" },
-          { headers: { "Cache-Control": "no-store" } },
-        );
-      }
-    } catch (err) {
-      console.error(
-        "[nurture-send] suppression check failed:",
-        (err as { name?: string })?.name ?? "unknown",
+  // Never send when suppression state cannot be checked. Failing open here
+  // can contact someone who has opted out, which is worse than a retryable
+  // workflow failure.
+  if (!redis) {
+    return NextResponse.json({ error: "service unavailable" }, { status: 503 });
+  }
+  try {
+    const suppressed = await redis.sismember(SUPPRESSION_SET, unsubEmail);
+    if (suppressed) {
+      return NextResponse.json(
+        { ok: true, skipped: "unsubscribed" },
+        { headers: { "Cache-Control": "no-store" } },
       );
     }
+  } catch (err) {
+    console.error(
+      "[nurture-send] suppression check failed:",
+      (err as { name?: string })?.name ?? "unknown",
+    );
+    return NextResponse.json({ error: "service unavailable" }, { status: 503 });
   }
 
-  const unsub = unsubscribeUrl(unsubEmail);
+  const unsub = unsubscribeUrl(unsubEmail, unsubscribeSecret);
   const html = template.html
     .split("{{VORNAME}}")
     .join(vorname)

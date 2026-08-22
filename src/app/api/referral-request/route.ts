@@ -1,9 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import crypto from "crypto";
 import { Resend } from "resend";
 import { APPROVAL_EMAIL } from "@/lib/referral-templates";
 import { linkExpiry, signReferral } from "@/lib/referral-sign";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
+import {
+  emailIdempotencyKey,
+  isValidEmail,
+  tokenMatches,
+} from "@/lib/email-security";
+import { readJsonObject } from "@/lib/request-body";
 
 // Called by the n8n #10 workflow when a client pays. Emails Harry an
 // Approve/Skip message with signed action links. Never statically cached.
@@ -18,12 +23,6 @@ function esc(s: string): string {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
-}
-
-function timingSafeEqual(a: string, b: string): boolean {
-  const ab = Buffer.from(a);
-  const bb = Buffer.from(b);
-  return ab.length === bb.length && crypto.timingSafeEqual(ab, bb);
 }
 
 function actionUrl(
@@ -42,7 +41,12 @@ function actionUrl(
 export async function POST(request: NextRequest) {
   const sendToken = process.env.N8N_SEND_TOKEN;
   const resendKey = process.env.RESEND_API_KEY;
-  if (!sendToken || !resendKey || !process.env.REFERRAL_SECRET) {
+  if (
+    !sendToken ||
+    !resendKey ||
+    !process.env.REFERRAL_SECRET ||
+    !process.env.UNSUBSCRIBE_SECRET
+  ) {
     return NextResponse.json({ error: "not configured" }, { status: 503 });
   }
 
@@ -61,15 +65,16 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "service unavailable" }, { status: 503 });
   }
 
-  let body: Record<string, unknown>;
-  try {
-    body = (await request.json()) as Record<string, unknown>;
-  } catch {
-    return NextResponse.json({ error: "bad request" }, { status: 400 });
+  const parsed = await readJsonObject(request);
+  if (!parsed.ok) {
+    return NextResponse.json(
+      { error: parsed.status === 413 ? "payload too large" : "bad request" },
+      { status: parsed.status },
+    );
   }
+  const body = parsed.body;
 
-  const token = typeof body.token === "string" ? body.token : "";
-  if (!timingSafeEqual(token, sendToken)) {
+  if (!tokenMatches(body.token, sendToken)) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 
@@ -86,7 +91,12 @@ export async function POST(request: NextRequest) {
   const oppId =
     typeof body.oppId === "string" ? body.oppId : String(body.oppId ?? "");
 
-  if (!clientEmail || clientEmail.indexOf("@") === -1) {
+  if (
+    !isValidEmail(clientEmail) ||
+    vorname.length > 200 ||
+    company.length > 200 ||
+    oppId.length > 200
+  ) {
     return NextResponse.json({ error: "invalid payload" }, { status: 400 });
   }
 
@@ -103,13 +113,21 @@ export async function POST(request: NextRequest) {
     .join(skipUrl);
 
   const resend = new Resend(resendKey);
-  const { error } = await resend.emails.send({
-    from: FROM,
-    to: APPROVER,
-    replyTo: APPROVER,
-    subject: `Referral freigeben: ${company}?`,
-    html,
-  });
+  const { error } = await resend.emails.send(
+    {
+      from: FROM,
+      to: APPROVER,
+      replyTo: APPROVER,
+      subject: `Referral freigeben: ${company}?`,
+      html,
+    },
+    {
+      idempotencyKey: emailIdempotencyKey(
+        "referral-request",
+        oppId || clientEmail.toLowerCase(),
+      ),
+    },
+  );
 
   if (error) {
     console.error(

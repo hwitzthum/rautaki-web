@@ -66,8 +66,20 @@ export async function GET(request: NextRequest) {
 
   const redis = new Redis({ url, token });
   const wroteAt = new Date().toISOString();
-  await redis.set(KEY, wroteAt, { ex: TTL_SECONDS });
-  const readBack = await redis.get<string>(KEY);
+  let readBack: string | null;
+  try {
+    await redis.set(KEY, wroteAt, { ex: TTL_SECONDS });
+    readBack = await redis.get<string>(KEY);
+  } catch (error) {
+    console.error(
+      "[cron/keepalive] Redis operation failed:",
+      error instanceof Error ? error.name : "unknown",
+    );
+    return NextResponse.json(
+      { error: "Redis unavailable" },
+      { status: 503, headers: { "cache-control": "no-store" } },
+    );
+  }
 
   return NextResponse.json(
     { ok: true, key: KEY, wroteAt, readBack },

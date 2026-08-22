@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import crypto from "crypto";
 import { Resend } from "resend";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
+import { tokenMatches } from "@/lib/email-security";
+import { readJsonObject } from "@/lib/request-body";
 
 // Weekly business digest. n8n aggregates Salesflare + CashCtrl and POSTs the
 // numbers here; this renders the branded email and sends it to hello@.
@@ -29,17 +30,76 @@ interface DigestPayload {
   receivables?: { count?: number; total?: number };
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function isOptionalNumber(value: unknown): boolean {
+  return (
+    value === undefined ||
+    (typeof value === "number" && Number.isFinite(value) && Math.abs(value) <= 1e12)
+  );
+}
+
+function isOptionalString(value: unknown): boolean {
+  return value === undefined || (typeof value === "string" && value.length <= 500);
+}
+
+function isRow(value: unknown): value is Row {
+  if (!isRecord(value)) return false;
+  return (
+    isOptionalString(value.stage) &&
+    isOptionalString(value.label) &&
+    isOptionalString(value.company) &&
+    isOptionalString(value.name) &&
+    isOptionalNumber(value.count) &&
+    isOptionalNumber(value.value)
+  );
+}
+
+function isRows(value: unknown): value is Row[] {
+  return Array.isArray(value) && value.length <= 100 && value.every(isRow);
+}
+
+function isCountValue(value: unknown, valueKey: "value" | "total"): boolean {
+  return (
+    value === undefined ||
+    (isRecord(value) &&
+      isOptionalNumber(value.count) &&
+      isOptionalNumber(value[valueKey]))
+  );
+}
+
+function isDigestPayload(
+  value: Record<string, unknown>,
+): value is Record<string, unknown> & DigestPayload {
+  const newLeads = value.newLeads;
+  const validNewLeads =
+    newLeads === undefined ||
+    (isRecord(newLeads) &&
+      isOptionalNumber(newLeads.count) &&
+      (newLeads.list === undefined || isRows(newLeads.list)));
+  const lost = value.lost;
+  const validLost =
+    lost === undefined || (isRecord(lost) && isOptionalNumber(lost.count));
+
+  return (
+    isOptionalString(value.period) &&
+    isOptionalString(value.currency) &&
+    validNewLeads &&
+    (value.pipeline === undefined || isRows(value.pipeline)) &&
+    isCountValue(value.pipelineTotal, "value") &&
+    isCountValue(value.won, "value") &&
+    validLost &&
+    isCountValue(value.receivables, "total")
+  );
+}
+
 function esc(s: string): string {
   return String(s ?? "")
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
-}
-
-function timingSafeEqual(a: string, b: string): boolean {
-  const ab = Buffer.from(a);
-  const bb = Buffer.from(b);
-  return ab.length === bb.length && crypto.timingSafeEqual(ab, bb);
 }
 
 function fmtMoney(n: number | undefined, cur: string): string {
@@ -158,21 +218,20 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "service unavailable" }, { status: 503 });
   }
 
-  let body: DigestPayload & { token?: string };
-  try {
-    body = (await request.json()) as DigestPayload & { token?: string };
-  } catch {
-    return NextResponse.json({ error: "bad request" }, { status: 400 });
+  const parsed = await readJsonObject(request);
+  if (!parsed.ok) {
+    return NextResponse.json(
+      { error: parsed.status === 413 ? "payload too large" : "bad request" },
+      { status: parsed.status },
+    );
   }
-
-  if (
-    !timingSafeEqual(
-      typeof body.token === "string" ? body.token : "",
-      sendToken,
-    )
-  ) {
+  if (!tokenMatches(parsed.body.token, sendToken)) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
+  if (!isDigestPayload(parsed.body)) {
+    return NextResponse.json({ error: "invalid payload" }, { status: 400 });
+  }
+  const body = parsed.body;
 
   const { subject, html } = render(body);
   const resend = new Resend(resendKey);

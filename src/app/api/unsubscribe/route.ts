@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import crypto from "crypto";
 import { Redis } from "@upstash/redis";
+import {
+  resolveUnsubscribeCredentials,
+  verifyUnsubscribeToken,
+} from "@/lib/email-security";
 
 // Reads runtime headers/query and writes to Redis — never statically cached.
 export const dynamic = "force-dynamic";
@@ -14,20 +17,8 @@ const redis =
     ? new Redis({ url: upstashUrl, token: upstashToken })
     : null;
 
-// ── Token ──────────────────────────────────────────────────────────────────
-// The n8n nurture flow signs each unsubscribe link with HMAC-SHA256(email) using
-// the shared UNSUBSCRIBE_SECRET, so links cannot be forged for arbitrary addresses.
-function expectedToken(email: string, secret: string): string {
-  return crypto.createHmac("sha256", secret).update(email).digest("hex");
-}
-
 function isValid(email: string, token: string): boolean {
-  const secret = process.env.UNSUBSCRIBE_SECRET;
-  if (!secret || !email || !token) return false;
-  const expected = expectedToken(email.trim().toLowerCase(), secret);
-  const a = Buffer.from(expected);
-  const b = Buffer.from(token);
-  return a.length === b.length && crypto.timingSafeEqual(a, b);
+  return verifyUnsubscribeToken(email, token, process.env.UNSUBSCRIBE_SECRET);
 }
 
 // ── Branded HTML shell ───────────────────────────────────────────────────────
@@ -60,9 +51,9 @@ const invalidBody = `<h1 style="font-family:Georgia,serif;font-size:24px;font-we
 
 // GET → confirmation page (a scanner/prefetch must NOT unsubscribe; only the POST does).
 export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const email = (searchParams.get("e") ?? "").trim().toLowerCase();
-  const token = (searchParams.get("t") ?? "").trim();
+  const { email, token } = resolveUnsubscribeCredentials(
+    new URL(request.url).searchParams,
+  );
   if (!isValid(email, token)) return html(400, "Ungültig", invalidBody);
 
   // Escape for both the text-node context (h1/p/strong below) and the
@@ -94,23 +85,20 @@ export async function GET(request: NextRequest) {
 
 // POST → perform the opt-out.
 export async function POST(request: NextRequest) {
-  let email = "";
-  let token = "";
+  const searchParams = new URL(request.url).searchParams;
+  let form: FormData | undefined;
   const ct = request.headers.get("content-type") ?? "";
   if (
     ct.includes("application/x-www-form-urlencoded") ||
     ct.includes("multipart/form-data")
   ) {
-    const form = await request.formData();
-    email = String(form.get("e") ?? "")
-      .trim()
-      .toLowerCase();
-    token = String(form.get("t") ?? "").trim();
-  } else {
-    const { searchParams } = new URL(request.url);
-    email = (searchParams.get("e") ?? "").trim().toLowerCase();
-    token = (searchParams.get("t") ?? "").trim();
+    try {
+      form = await request.formData();
+    } catch {
+      return html(400, "Ungültig", invalidBody);
+    }
   }
+  const { email, token } = resolveUnsubscribeCredentials(searchParams, form);
 
   if (!isValid(email, token)) return html(400, "Ungültig", invalidBody);
 
