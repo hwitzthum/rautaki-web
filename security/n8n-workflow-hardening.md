@@ -443,73 +443,200 @@ In `Rautaki-Support`:
    - **Respond**: "Using 'Respond to Webhook' Node"
    - **Options** → check **"Allowed Origins (CORS)"** → set to
      `https://www.rautaki.ch,https://www.rautaki.com,http://localhost:3000`
-3. Wire: `Webhook → Verify Rautaki HMAC (Code) → Shape Input (Code) → AI Agent → Sanitise Output → Respond to Webhook`
+3. Wire the accepted path:
+   `Webhook → Verify HMAC (Code) → Signatur gültig? (IF) → Shape Input (Code) → AI Agent → Sanitise Output → Respond to Webhook`
+   and the rejected path off the IF node's **false** output:
+   `Signatur gültig? (false) → Rate-Limit (abgewiesen) (Code) → Limit erreicht? (IF) → Antwort 429 / Antwort 401`
 
-### 3.2 — Verify Rautaki HMAC (Code node, immediately after Webhook)
+### 3.2 — Verify HMAC (Code node, immediately after Webhook)
+
+> **Stand: 2026-08-22.** Byte-exact copy of the live `Verify HMAC` node in
+> workflow `lIPMcSi2yljEbfPJ`, read back over the n8n API. Mirror any edit
+> here in the same commit.
 
 ```javascript
-// Verify Rautaki HMAC — first node after the Webhook trigger.
-// Mirrors src/lib/hmac.ts in rautaki-web. Throws on any mismatch.
-
-const crypto = require("crypto");
+const crypto = require('crypto');
 const HMAC_SKEW_SECONDS = 300;
 const SECRET = $env.RAUTAKI_SHARED_SECRET;
-if (!SECRET) throw new Error("RAUTAKI_SHARED_SECRET is not configured");
+
+// Fehlende Server-Konfiguration ist ein echter Fault -> werfen, damit der
+// zentrale Error-Alert anschlaegt.
+if (typeof SECRET !== 'string' || SECRET.length === 0) {
+  throw new Error('RAUTAKI_SHARED_SECRET is not configured');
+}
+
+// Eine fehlende/ungueltige Signatur ist ein Client-Fehler, kein Workflow-Fehler:
+// _authOk=false zurueckgeben, die IF-Node antwortet mit 401. Frueher wurde hier
+// geworfen -> jeder unsignierte Request auf die oeffentliche Webhook-URL erzeugte
+// eine fehlgeschlagene Execution samt Alert-Mail.
+const reject = (reason) => [{ json: { _authOk: false, reason } }];
 
 const incoming = $input.first().json;
 const headers = incoming.headers || {};
-const sigHeader =
-  headers["x-rautaki-signature"] || headers["X-Rautaki-Signature"];
-if (typeof sigHeader !== "string")
-  throw new Error("Missing X-Rautaki-Signature header");
+const sigHeader = headers['x-rautaki-signature'] || headers['X-Rautaki-Signature'];
+if (typeof sigHeader !== 'string') {
+  return reject('missing_signature');
+}
 
 const parts = {};
-for (const seg of sigHeader.split(",")) {
-  const i = seg.indexOf("=");
+for (const seg of sigHeader.split(',')) {
+  const i = seg.indexOf('=');
   if (i !== -1) parts[seg.slice(0, i)] = seg.slice(i + 1);
 }
 const t = Number(parts.t);
 const v1 = parts.v1;
-if (!Number.isFinite(t) || typeof v1 !== "string" || v1.length !== 64) {
-  throw new Error("Malformed signature header");
+if (!Number.isFinite(t) || typeof v1 !== 'string' || v1.length !== 64) {
+  return reject('malformed_signature');
 }
 if (Math.abs(Math.floor(Date.now() / 1000) - t) > HMAC_SKEW_SECONDS) {
-  throw new Error("Stale signature");
+  return reject('stale_signature');
 }
 
 const body = incoming.body || {};
 // Key order must match src/lib/hmac.ts canonicalize(). `locale` is included
 // only when present in the body, so pre-locale clients (cached pages that
 // still send {action, sessionId, chatInput}) keep validating.
-const canonical =
-  body.locale !== undefined
-    ? JSON.stringify({
-        action: body.action,
-        sessionId: body.sessionId,
-        chatInput: body.chatInput,
-        locale: body.locale,
-      })
-    : JSON.stringify({
-        action: body.action,
-        sessionId: body.sessionId,
-        chatInput: body.chatInput,
-      });
+const canonical = body.locale !== undefined
+  ? JSON.stringify({
+      action: body.action,
+      sessionId: body.sessionId,
+      chatInput: body.chatInput,
+      locale: body.locale,
+    })
+  : JSON.stringify({
+      action: body.action,
+      sessionId: body.sessionId,
+      chatInput: body.chatInput,
+    });
 
-const expected = crypto
-  .createHmac("sha256", SECRET)
-  .update(`${t}.${canonical}`)
-  .digest("hex");
-const a = Buffer.from(expected, "hex");
-const b = Buffer.from(v1, "hex");
+const expected = crypto.createHmac('sha256', SECRET).update(`${t}.${canonical}`).digest('hex');
+const a = Buffer.from(expected, 'hex');
+const b = Buffer.from(v1, 'hex');
 if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) {
-  throw new Error("HMAC mismatch");
+  return reject('hmac_mismatch');
 }
 
-return [{ json: body }];
+return [{ json: { _authOk: true, ...body } }];
 ```
+
+A missing or invalid signature is a **client** error, not a workflow error.
+The node returns `_authOk: false` instead of throwing, and the
+`Signatur gültig?` IF node answers 401. Throwing turned every unsigned probe
+against the public webhook URL into a *failed* execution — and because
+`Rautaki-Support` has `n8n Error-Alert` set as its error workflow, into an
+alert mail to hello@rautaki.ch. Anyone who knew the URL could flood that
+inbox. (That is exactly what execution 22485 on 2026-08-21 was: a
+`Python-urllib/3.12` probe with an empty body.)
+
+The node still throws for the one case that genuinely *is* a server fault —
+a missing `RAUTAKI_SHARED_SECRET`. That must keep alerting, otherwise a
+broken env var would silently 401 every visitor.
 
 Set `RAUTAKI_SHARED_SECRET` in n8n env to the same 64-hex value as
 `N8N_CHAT_SHARED_SECRET` in `.env.local`.
+
+### 3.2b — The rejected path: 401, and a rate limit that returns 429
+
+`Verify HMAC` never answers by itself. Its output feeds an IF node
+**`Signatur gültig?`** (`n8n-nodes-base.if`, condition: `{{ $json._authOk }}`
+is true). The **true** output continues to `Shape Input`; the **false**
+output runs the rate limiter below and then answers.
+
+**Where the limit sits, and why it is not in front of the HMAC check.**
+Every real visitor reaches n8n through the Vercel route, so the only client
+IP n8n ever sees for legitimate traffic is Vercel's shared egress address
+(`x-vercel-id: fra1::…`, `cf-connecting-ip` in AWS eu-central-1). A per-IP
+limit *before* the signature check would therefore throttle the whole site
+through one counter as soon as traffic grows. Signed requests skip the
+limiter entirely; only callers hitting the public webhook URL without a
+valid signature are counted.
+
+This limit does **not** replace the ones in `/api/chat` — those protect the
+OpenRouter spend and are keyed on the real visitor IP and session (see the
+env table in §8). This one bounds what an unauthenticated stranger can do
+with the raw n8n URL.
+
+> **Stand: 2026-08-22.** Byte-exact copy of the live
+> `Rate-Limit (abgewiesen)` node in workflow `lIPMcSi2yljEbfPJ`.
+
+```javascript
+// Zaehlt NUR abgewiesene Requests pro Client-IP.
+//
+// Warum nur hier: Alle echten Besucher kommen ueber die Vercel-Route
+// (/api/chat), die selbst schon IP- und Session-Limits plus einen Token-Cap
+// durchsetzt. n8n sieht davon nur Vercels geteilte Egress-IP -- ein Limit VOR
+// der Signaturpruefung wuerde also alle Besucher gemeinsam drosseln. Signierte
+// Requests erreichen diese Node nie; gedrosselt wird ausschliesslich, wer die
+// oeffentliche Webhook-URL ohne gueltige Signatur beschiesst.
+const WINDOW_MS = 5 * 60 * 1000;
+const MAX_REJECTS = 10; // pro IP und Fenster
+const MAX_TRACKED_IPS = 500; // Deckel gegen verteilte Fluten
+
+const store = $getWorkflowStaticData('global');
+if (!store.rejectHits || typeof store.rejectHits !== 'object') {
+  store.rejectHits = {};
+}
+const hits = store.rejectHits;
+const now = Date.now();
+
+const headers = $('Webhook').first().json.headers || {};
+const ip =
+  headers['cf-connecting-ip'] ||
+  headers['true-client-ip'] ||
+  String(headers['x-forwarded-for'] || '').split(',')[0].trim() ||
+  'unknown';
+
+// Fenster aufraeumen: alles aelter als WINDOW_MS faellt raus.
+for (const key of Object.keys(hits)) {
+  const kept = (Array.isArray(hits[key]) ? hits[key] : []).filter(
+    (t) => now - t < WINDOW_MS,
+  );
+  if (kept.length) hits[key] = kept;
+  else delete hits[key];
+}
+
+// Harte Obergrenze, damit eine Flut aus vielen IPs die Static Data nicht
+// aufblaeht: aelteste Eintraege zuerst verwerfen.
+const keys = Object.keys(hits);
+if (keys.length > MAX_TRACKED_IPS) {
+  keys.sort((a, b) => hits[a][hits[a].length - 1] - hits[b][hits[b].length - 1]);
+  for (const key of keys.slice(0, keys.length - MAX_TRACKED_IPS)) {
+    delete hits[key];
+  }
+}
+
+const own = hits[ip] || (hits[ip] = []);
+const limited = own.length >= MAX_REJECTS;
+// Im gedrosselten Zustand NICHT weiterzaehlen -- sonst waechst das Array
+// waehrend einer Flut unbegrenzt und das Fenster verschiebt sich endlos.
+if (!limited) own.push(now);
+
+const retryAfter = limited
+  ? Math.max(1, Math.ceil((WINDOW_MS - (now - own[0])) / 1000))
+  : 0;
+
+return [{ json: { ...$input.first().json, _rateLimited: limited, retryAfter } }];
+```
+
+Its output feeds a second IF node **`Limit erreicht?`** (condition:
+`{{ $json._rateLimited }}` is true):
+
+- **true** → `Antwort 429` — `respondToWebhook`, response code 429, body
+  `{"error":"rate_limited"}`, plus a response header named `Retry-After`
+  with the value `{{ $json.retryAfter }}`
+- **false** → `Antwort 401` — `respondToWebhook`, response code 401, body
+  `{"error":"unauthorized"}`
+
+The reject reason (`missing_signature`, `malformed_signature`,
+`stale_signature`, `hmac_mismatch`) stays inside n8n and is deliberately not
+returned to the caller.
+
+**Known limit.** The counter lives in `$getWorkflowStaticData('global')`, so
+it is per n8n instance and would degrade if the instance ever ran in queue
+mode with several workers. It also cannot stop n8n from *recording* an
+execution per flood request — the webhook fires before any node runs. Only
+something in front of n8n could, and `*.onrender.com` sits behind Render's
+Cloudflare, not ours.
 
 ### 3.3 — Shape Input (Code node, between HMAC and AI Agent)
 
@@ -590,8 +717,10 @@ Expected after §1 + §2 are applied:
 4. → same refusal (or filtered output containing no `<`, `>`, `javascript:`)
 
 After §3 is applied, direct curl to the n8n webhook (with no HMAC
-header) must return a workflow error / 500. Only requests through
-`/api/chat` succeed.
+header) must return **401** `{"error":"unauthorized"}` — not a 500 and not
+a workflow error. From the 11th rejected request within 5 minutes, the same
+IP gets **429** `{"error":"rate_limited"}` with a `Retry-After` header.
+Only requests through `/api/chat` succeed.
 
 ## §6 — Rotation (quick reference)
 
