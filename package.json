@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@calcom/embed-react": "^1.5.3",
-    "@n8n/chat": "1.32.3",
+    "@n8n/chat": "1.27.2",
     "@sentry/nextjs": "^10.70.0",
     "@upstash/ratelimit": "^2.0.8",
     "@upstash/redis": "^1.38.2",
@@ -54,6 +54,7 @@
   },
   "allowScripts": {
     "@sentry/cli@2.58.6": true,
+    "vue-demi@0.14.10": true,
     "unrs-resolver@1.11.1": true,
     "fsevents@2.3.3": true
   }
