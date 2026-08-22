@@ -201,12 +201,21 @@ export async function POST(request: NextRequest) {
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), 4000);
       try {
-        await fetch(webhookCheck.url.toString(), {
+        const statusRes = await fetch(webhookCheck.url.toString(), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ invoiceId: Number(p.i), level }),
           signal: controller.signal,
         });
+        // A wrong or stale webhook URL answers 404/401 rather than throwing,
+        // so without this check CashCtrl silently keeps the old status and the
+        // next run repeats this level instead of escalating. Still best-effort:
+        // the reminder has already gone out.
+        if (!statusRes.ok) {
+          console.error(
+            `[mahnung-action] status write-back returned ${statusRes.status} — CashCtrl status not updated for invoice ${Number(p.i)}.`,
+          );
+        }
       } catch (hookErr) {
         console.error(
           "[mahnung-action] status write-back webhook failed:",
