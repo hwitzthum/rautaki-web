@@ -1,6 +1,5 @@
 import { withSentryConfig } from "@sentry/nextjs";
 import type { NextConfig } from "next";
-import webpack from "webpack";
 
 function buildCsp(): string {
   // The chatbot now talks to a same-origin proxy at /api/chat which forwards
@@ -121,17 +120,20 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  webpack(config) {
-    // @n8n/chat is built with Vue. Define the three compile-time flags Vue
-    // expects so the browser console stays clean and tree-shaking works correctly.
-    config.plugins.push(
-      new webpack.DefinePlugin({
-        __VUE_OPTIONS_API__: JSON.stringify(true),
-        __VUE_PROD_DEVTOOLS__: JSON.stringify(false),
-        __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: JSON.stringify(false),
-      }),
-    );
-    return config;
+  // @n8n/chat is built with Vue. Define the three compile-time flags Vue
+  // expects so the browser console stays clean and tree-shaking works correctly.
+  //
+  // This lives under `compiler.define` rather than a `webpack()` hook: builds
+  // run on Turbopack, which never calls that hook, so the flags were silently
+  // left unreplaced and Vue's dev-only branches stayed in the bundle.
+  // `compiler.define` is applied by the SWC layer and so works under both
+  // bundlers. Values are the literal source text substituted at the use site.
+  compiler: {
+    define: {
+      __VUE_OPTIONS_API__: "true",
+      __VUE_PROD_DEVTOOLS__: "false",
+      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: "false",
+    },
   },
 };
 
