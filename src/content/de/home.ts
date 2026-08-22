@@ -55,7 +55,7 @@ export const home = {
   problem: {
     label: "KI-Wirkung",
     heading: "Das Potenzial ist real. Die Lücke zur *Wirkung* auch.",
-    body: "78 Prozent der Unternehmen setzen KI bereits ein — doch 95 Prozent der Pilotprojekte erreichen nie den Produktivbetrieb. Diese Lücke zwischen Aktivität und Wirkung ist die strategische Herausforderung unserer Zeit.",
+    body: "88 Prozent der Unternehmen setzen KI regelmässig ein — doch zwei Drittel haben sie nie über die Pilotphase hinaus skaliert. Diese Lücke zwischen Aktivität und Wirkung ist die strategische Herausforderung unserer Zeit.",
   },
   serviceCards: {
     label: "Leistungen",

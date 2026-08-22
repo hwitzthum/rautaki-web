@@ -53,7 +53,7 @@ export const home = {
   problem: {
     label: "Impact of AI",
     heading: "The potential is real. So is the gap to *impact*.",
-    body: "78 per cent of companies are already using AI — yet 95 per cent of pilot projects never make it into production. This gap between action and impact is the strategic challenge of our time.",
+    body: "88 per cent of companies use AI regularly — yet two thirds have never scaled it beyond the pilot stage. This gap between action and impact is the strategic challenge of our time.",
   },
   serviceCards: {
     label: "Services",
