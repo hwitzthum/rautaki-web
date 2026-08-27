@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
-import { tokenMatches } from "@/lib/email-security";
+import { hasControlChars, tokenMatches } from "@/lib/email-security";
 import { readJsonObject } from "@/lib/request-body";
 
 // Pre-call briefing. The n8n #4 workflow compiles a lead's context (Lab tool,
@@ -43,9 +43,19 @@ const BRIEFING_STRING_FIELDS = [
 function isBriefingPayload(
   value: Record<string, unknown>,
 ): value is Record<string, unknown> & BriefingPayload {
+  // name, company, and meeting land in the email subject line, so they must
+  // also be free of header-injection control characters.
+  const SUBJECT_FIELDS = ["name", "company", "meeting"] as const;
   for (const key of BRIEFING_STRING_FIELDS) {
     const field = value[key];
     if (field !== undefined && (typeof field !== "string" || field.length > 4_000)) {
+      return false;
+    }
+    if (
+      typeof field === "string" &&
+      (SUBJECT_FIELDS as readonly string[]).includes(key) &&
+      hasControlChars(field)
+    ) {
       return false;
     }
   }

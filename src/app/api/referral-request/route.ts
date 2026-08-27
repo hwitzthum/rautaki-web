@@ -5,6 +5,7 @@ import { linkExpiry, signReferral } from "@/lib/referral-sign";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 import {
   emailIdempotencyKey,
+  hasControlChars,
   isValidEmail,
   tokenMatches,
 } from "@/lib/email-security";
@@ -95,7 +96,8 @@ export async function POST(request: NextRequest) {
     !isValidEmail(clientEmail) ||
     vorname.length > 200 ||
     company.length > 200 ||
-    oppId.length > 200
+    oppId.length > 200 ||
+    hasControlChars(company)
   ) {
     return NextResponse.json({ error: "invalid payload" }, { status: 400 });
   }

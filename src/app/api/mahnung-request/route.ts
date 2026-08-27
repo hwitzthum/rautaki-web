@@ -6,6 +6,7 @@ import { linkExpiry, signMahnung } from "@/lib/mahnung-sign";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 import {
   emailIdempotencyKey,
+  hasControlChars,
   isValidEmail,
   tokenMatches,
 } from "@/lib/email-security";
@@ -88,6 +89,8 @@ export async function POST(request: NextRequest) {
     b.length > 100 ||
     f.length > 100 ||
     i.length > 100 ||
+    hasControlChars(n) ||
+    hasControlChars(company) ||
     !Number.isInteger(level) ||
     level < 1 ||
     level > 3 ||
