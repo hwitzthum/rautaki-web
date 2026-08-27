@@ -12,6 +12,11 @@ export function normalizeEmail(value: string): string {
   return value.trim().toLowerCase();
 }
 
+/** Reject CR, LF, tab, NUL — header- and subject-injection vectors. */
+export function hasControlChars(s: string): boolean {
+  return /[\r\n\t\0]/.test(s);
+}
+
 export function isValidEmail(value: unknown): value is string {
   if (typeof value !== "string") return false;
   const email = value.trim();

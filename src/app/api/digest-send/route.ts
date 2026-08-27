@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
-import { tokenMatches } from "@/lib/email-security";
+import { hasControlChars, tokenMatches } from "@/lib/email-security";
 import { readJsonObject } from "@/lib/request-body";
 
 // Weekly business digest. n8n aggregates Salesflare + CashCtrl and POSTs the
@@ -85,6 +85,7 @@ function isDigestPayload(
 
   return (
     isOptionalString(value.period) &&
+    (value.period === undefined || !hasControlChars(value.period as string)) &&
     isOptionalString(value.currency) &&
     validNewLeads &&
     (value.pipeline === undefined || isRows(value.pipeline)) &&
