@@ -1,15 +1,15 @@
-// /imprint legal copy — Swiss Obligationenrecht / UWG imprint details.
+// /imprint legal copy — Swiss imprint details (Art. 3 para. 1 let. s UWG).
 
 import type { ImprintContent } from "../types";
 
 export const imprint = {
   metaTitle: "Impressum",
   metaDescription:
-    "Impressum der Rautaki, Kilchberg ZH — Angaben gemäss Schweizer Obligationenrecht, Kontakt und Unternehmens-Identifikation.",
+    "Impressum der Rautaki, Kilchberg ZH — Angaben gemäss Bundesgesetz gegen den unlauteren Wettbewerb (UWG), Kontakt und Unternehmens-Identifikation.",
   heroLabel: "Impressum",
   heroTitle: "Impressum",
   heroDescription:
-    "Angaben gemäss Art. 3 des Bundesgesetzes gegen den unlauteren Wettbewerb (UWG) und Art. 5 des E-Commerce-Gesetzes.",
+    "Angaben gemäss Art. 3 Abs. 1 Bst. s des Bundesgesetzes gegen den unlauteren Wettbewerb (UWG).",
   company: {
     label: "Unternehmen",
     heading: "Angaben zum Unternehmen",
