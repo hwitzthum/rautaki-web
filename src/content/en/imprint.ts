@@ -8,11 +8,11 @@ import type { ImprintContent } from "../types";
 export const imprint = {
   metaTitle: "Legal Notice",
   metaDescription:
-    "Legal notice for Rautaki, Kilchberg ZH — Information in accordance with the Swiss Code of Obligations, contact details and company identification.",
+    "Legal notice for Rautaki, Kilchberg ZH — Information in accordance with the Federal Act against Unfair Competition (UWG), contact details and company identification.",
   heroLabel: "Legal Notice",
   heroTitle: "Legal Notice",
   heroDescription:
-    "Information in accordance with Article 3 of the Federal Act against Unfair Competition (UWG) and Article 5 of the E-Commerce Act.",
+    "Information in accordance with Article 3 paragraph 1 letter s of the Federal Act against Unfair Competition (UWG).",
   company: {
     label: "Company",
     heading: "Company details",
