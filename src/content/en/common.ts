@@ -127,6 +127,7 @@ export const common = {
     inputPlaceholder:
       "Questions about our AI strategy, services or next steps...",
     closeButtonTooltip: "Close chat",
+    openButtonLabel: "Open chat",
   },
   consent: {
     dialogAria: "Cookie settings",

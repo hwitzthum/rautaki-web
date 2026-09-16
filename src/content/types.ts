@@ -55,6 +55,7 @@ export interface CommonContent {
     getStarted: string;
     inputPlaceholder: string;
     closeButtonTooltip: string;
+    openButtonLabel: string;
   };
   consent: {
     dialogAria: string;
