@@ -15,7 +15,7 @@ Status-Werte: `offen` · `in Arbeit` · `erledigt` · `blockiert` (Grund in der 
 | Phase | Inhalt | Status | Datum | PR / Wer | Notiz |
 |---|---|---|---|---|---|
 | 0 | Entscheide und Plan | erledigt | 2026-09-16 | Auftraggeber + Claude | dieses Dokument |
-| 1 | Menü und Fusszeile: «Lab» → «Apps» | offen | | | |
+| 1 | Menü und Fusszeile: «Lab» → «Apps» | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | zusätzlich `localePath` in `src/lib/i18n.ts`: absolute URLs bleiben ohne `/en`-Präfix |
 | 2 | Lab-Seiten und E-Mail-Schranke abbauen | offen | | | |
 | 3 | HTML-Werkzeuge archivieren | offen | | | |
 | 4 | Weiterleitungen alter Lab-Adressen | offen | | | |
@@ -26,7 +26,7 @@ Status-Werte: `offen` · `in Arbeit` · `erledigt` · `blockiert` (Grund in der 
 | 9 | Prüfung und Veröffentlichung | offen | | | |
 | 10 | Kontrolle nach dem Livegang | offen | | | |
 
-**Gesamtstand:** 1 von 11 Phasen erledigt. Livegang: noch nicht erfolgt.
+**Gesamtstand:** 2 von 11 Phasen erledigt. Livegang: noch nicht erfolgt.
 
 ---
 
@@ -62,6 +62,7 @@ Alles, was der Umbau berührt. Dient als Checkliste, dass nichts vergessen geht.
 | Ort | Was | Massnahme |
 |---|---|---|
 | `src/content/de/common.ts`, `src/content/en/common.ts` | Menüpunkt und Fusszeilen-Link «Lab» → `/lab` | ersetzen durch «Apps» → `https://apps.rautaki.ch` |
+| `src/lib/i18n.ts` | `localePath()` setzte das `/en`-Präfix auch vor absolute URLs (`/enhttps://…`) | absolute URLs unverändert durchlassen (erledigt in Phase 1) |
 | `src/components/Navigation.tsx` | rendert die Menüpunkte mit `Link`; markiert den aktiven Punkt über den Pfad | externer Link braucht `target`/`rel` nicht zwingend (gleiche Marke, selber Tab gemäss Profil E6); prüfen, dass der Punkt nie fälschlich «aktiv» ist |
 | `src/components/Footer.tsx` | rendert `footer.navLinks` | keine Codeänderung nötig, wenn ein absoluter Link funktioniert; prüfen |
 | `src/app/lab/page.tsx`, `src/app/en/lab/page.tsx` | Lab-Übersichtsseiten, WebApplication-Schemas der drei Werkzeuge | löschen |
@@ -86,11 +87,11 @@ Alles, was der Umbau berührt. Dient als Checkliste, dass nichts vergessen geht.
 
 ### Phase 1 — Menü und Fusszeile
 
-- [ ] Branch `claude/apps-statt-lab` von `main` anlegen
-- [ ] DE: Menü und Fusszeile «Lab» → «Apps», Ziel `https://apps.rautaki.ch`
-- [ ] EN: Menü und Fusszeile «Lab» → «Apps», Ziel `https://apps.rautaki.ch`
-- [ ] Desktop-Menü, Mobilmenü und Fusszeile im Browser geprüft (DE und EN); Punkt ist nie als «aktive Seite» markiert
-- Status: offen
+- [x] Branch `claude/apps-statt-lab` von `main` anlegen
+- [x] DE: Menü und Fusszeile «Lab» → «Apps», Ziel `https://apps.rautaki.ch`
+- [x] EN: Menü und Fusszeile «Lab» → «Apps», Ziel `https://apps.rautaki.ch`
+- [x] Desktop-Menü, Mobilmenü und Fusszeile im Browser geprüft (DE und EN); Punkt ist nie als «aktive Seite» markiert — geprüft am gerenderten HTML des Produktions-Builds auf `/`, `/en`, `/lab`, `/en/lab`: kein `aria-current`, keine Aktiv-Farbe
+- Status: erledigt (2026-09-16)
 
 ### Phase 2 — Lab-Seiten und E-Mail-Schranke abbauen
 
@@ -215,4 +216,5 @@ Diese Punkte kann Claude nicht ausführen; sie brauchen Konten und Zugänge.
 ## 6. Änderungsprotokoll
 
 - 2026-09-16 — Dokument angelegt; Entscheide des Auftraggebers aufgenommen (Zeitpunkt sofort, Checker bleibt, E-Mail-Kanal fällt weg, «Apps» mit Weiterleitung).
+- 2026-09-16 — Phase 1 erledigt: «Lab» → «Apps» in Menü und Fusszeile (DE/EN). Nebenbefund: `localePath()` hätte `/en` vor die absolute Adresse gesetzt; behoben in `src/lib/i18n.ts`. `npm run lint`, `tsc`, `npm run build` grün.
 - 2026-09-16 — Phase 7 «Neuer Chatbot-Prompt für n8n» eingefügt (vollständiger Prompt statt Teilkorrektur, Freigabe des Wortlauts, Kontrollfragen); bisherige Phasen 7 bis 9 sind neu 8 bis 10. Offen: Satz zur Testphase im Prompt nach Ende der Testphase streichen.
