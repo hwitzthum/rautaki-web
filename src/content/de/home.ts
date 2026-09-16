@@ -5,9 +5,9 @@
 import type { HomeContent } from "../types";
 
 export const home = {
-  metaTitle: "Rautaki — KI-Strategie für Entscheider",
+  metaTitle: "KI-Strategie für Schweizer NPOs & Verwaltungsräte | Rautaki",
   metaDescription:
-    "Rautaki begleitet Unternehmen bei der strategischen KI-Einführung — von der Potenzialanalyse bis zur skalierbaren Umsetzung.",
+    "KI-Strategieberatung für Verwaltungsräte und Geschäftsleitungen in der Schweiz, mit Schwerpunkt NPO: von der Standortbestimmung bis zur Umsetzung.",
   heroDark: {
     headlineLines: ["Strategie", "im *KI-Zeitalter*", "mit Wirkung."],
     intro:
