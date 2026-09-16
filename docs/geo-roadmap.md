@@ -186,7 +186,7 @@ Zielanfragen (Empfehlung) → beste Seite:
   - Inhaltslücke geschlossen: Artikel behandelte nur die KI-Kompetenz von GL/Mitarbeitenden (Frage 5), nicht die des Gremiums selbst → neuer Abschnitt «Welche KI-Kompetenz braucht der Verwaltungsrat selbst?» (de + en, ohne neue Zahlen/Quellen); `dateModified` → 2026-09-16.
   - DE: «KI-Kompetenz im Verwaltungsrat: sieben Fragen, die zählen» · Eyebrow «Welche KI-Kompetenz braucht ein Verwaltungsrat?»; EN: «AI literacy in the boardroom: seven questions that matter». Slug unverändert. llms.txt «## Wissen» nachgeführt (Feed, llms-full, Sitemap automatisch).
   - Folgemessung ab 2026-10-16 (mit P9.6): Position und Klicks für «verwaltungsrat ki kompetenz».
-- [x] P9.4 Startseite: Begriffe aus Title und H1 im Fliesstext aufgreifen (Seobility-Warnungen) (2026-09-16, Variante «4 Stellen» freigegeben)
+- [x] P9.4 Startseite: Begriffe aus Title und H1 im Fliesstext aufgreifen (Seobility-Warnungen) (PR #125, 2026-09-16, Variante «4 Stellen» freigegeben)
   - Gemessen gegen den neuen Title (P9.1) + H1 «Strategie im KI-Zeitalter mit Wirkung», Fliesstext in `<main>` ohne Überschriften, DE: «KI-Strategie» 0 → 3, «Schweizer» 0 → 1, «Schweiz» → 4, «Verwaltungsr…» → 3, «KI-Zeitalter» 0 → 1 (347 Wörter; kein Begriff > 4×). EN analog («AI strategy» 3, «AI era» 1, «Swiss» 1).
   - Geänderte Stellen (de + en, `src/content/{de,en}/home.ts`): Hero-Intro, Problem-Abschnitt, «Zuhause, wo Wirkung zählt», Schluss-CTA. Layout unverändert; mobil (390 px) ohne horizontales Scrollen geprüft.
   - Folgeprüfung mit P11.2: Seobility-Check der Startseite wiederholen.
