@@ -28,12 +28,12 @@ Status-Werte: `offen` · `in Arbeit` · `erledigt` · `blockiert` (Grund in der 
 | 4 | Weiterleitungen alter Lab-Adressen | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | `redirects()` in `next.config.ts`, 308, exakte Pfade |
 | 5 | Sitemap, llms.txt, Schemas nachführen | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | App-Texte wörtlich aus `app-schaufenster/src/apps/verzeichnis.ts`; EN-Fassung ist Übersetzung durch Claude — Wortlaut-Freigabe offen |
 | 6 | Dokumentation im Repository | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | README, geo-roadmap P6, chatbot-hardening-plan |
-| 7 | Neuer Chatbot-Prompt für n8n (vollständig, freigegeben) | offen | | | Wortlaut braucht Freigabe des Auftraggebers |
+| 7 | Neuer Chatbot-Prompt für n8n (vollständig, freigegeben) | in Arbeit | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | Entwurf steht in `security/n8n-workflow-hardening.md` §1; Wortlaut-Freigabe offen |
 | 8 | Ausserhalb des Repositories (Auftraggeber) | offen | | | apps.rautaki.ch live schalten, n8n, Vercel, Netlify, Umami |
 | 9 | Prüfung und Veröffentlichung | offen | | | |
 | 10 | Kontrolle nach dem Livegang | offen | | | |
 | B0 | Entscheide des Auftraggebers zu den Vorlagen | erledigt | 2026-09-16 | Auftraggeber | alle fünf gemäss Empfehlung; decisions.md + Brief in app-schaufenster |
-| B1 | Gemeinsame Vorbereitung im Kern (Knopf-Baustein, `ersetzeGenau`) | offen | | | Aufgabe 154 in `app-schaufenster` angelegt (bereit) |
+| B1 | Gemeinsame Vorbereitung im Kern (Knopf-Baustein, `ersetzeGenau`) | erledigt | 2026-09-16 | Claude, Aufgabe 154 | `src/kern/vorlage/download.tsx`, `download-texte.ts`, `ersetze-genau.ts`; Muster im Brief `vorlage-weitere-apps.md` |
 | B2 | Vorlage Entwurf-Check | offen | | | |
 | B3 | Vorlage Kommunikation aus einem Anlass | offen | | | |
 | B4 | Vorlage Verständlich machen | offen | | | Entscheid 3 (Stufe) nötig |
@@ -41,7 +41,7 @@ Status-Werte: `offen` · `in Arbeit` · `erledigt` · `blockiert` (Grund in der 
 | B6 | Vorlage KI-Potenzial-Radar | offen | | | Entscheid 5 (ja/nein) nötig |
 | B7 | Abschluss: Profil, Chatbot-Prompt, Auswertung | offen | | | hängt an Teil A Phase 7 |
 
-**Gesamtstand:** 8 von 19 Phasen erledigt (Teil A: 7 von 11 · Teil B: 1 von 8). Livegang Teil A: noch nicht
+**Gesamtstand:** 9 von 19 Phasen erledigt (Teil A: 7 von 11 · Teil B: 2 von 8). Livegang Teil A: noch nicht
 erfolgt. Vorlagen online: 1 von 6 Apps (Antwort-Assistent, Pilot).
 
 ---
@@ -170,23 +170,23 @@ diese Regel gilt weiter: Was in n8n eingefügt wird, steht wortgleich im Dokumen
 
 Inhalt des neuen Prompts (was sich gegenüber heute ändert):
 
-- [ ] Abschnitt «LAB — KOSTENLOSE WERKZEUGE» ersetzen durch «APPS — KI-APPS ZUM AUSPROBIEREN»: Link https://apps.rautaki.ch, ein Satz zum Zweck (KI-Apps zum sofortigen Ausprobieren im Browser, kostenlos, ohne Konto), und die sechs Apps je mit Name, Adresse und einem Satz Nutzen: Dokumenten-Chat mit Quellen (`/dokumenten-chat`), Antwort-Assistent (`/antwort-assistent`), Verständlich machen (`/verstaendlich-machen`), Entwurf-Check (`/entwurf-check`), Kommunikation aus einem Anlass (`/kommunikation`), KI-Potenzial-Radar (`/ki-radar`). Wortlaut aus den freigegebenen Texten des Schaufensters (`app-schaufenster/src/apps/*`, Startseite), nicht aus dem Gedächtnis
-- [ ] Regel für die Testphase: Solange apps.rautaki.ch einen Zugangscode verlangt, sagt der Bot das offen («derzeit in einer geschlossenen Testphase, Zugang auf Anfrage an hello@rautaki.ch») und verspricht keinen freien Zugang. Der Satz ist so markiert, dass er nach Ende der Testphase gestrichen wird (Eintrag im Änderungsprotokoll dieses Dokuments). Entfällt ganz, wenn Phase 8 den Zugangscode entfernt hat, bevor der Prompt in n8n eingespielt wird (Entscheid vom 2026-09-16: Site geht live)
-- [ ] EU-AI-Act-Checker als einzelnes, weiterhin kostenloses Werkzeug nennen (`/lab/eu-ai-act-check.html`), mit Bezug zum Artikel «EU AI Act für Schweizer NPOs»; Governance-Generator und Multi-Assistant-Anleitung streichen. Auf Fragen danach: «nicht mehr online», Hinweis auf die Apps
-- [ ] Abgrenzung im Prompt: «Apps» auf apps.rautaki.ch sind fertige KI-Apps zum Ausprobieren; sie sind kein Beratungsersatz und keine Rechtsberatung (bestehende Haltung des Prompts beibehalten)
-- [ ] Regel R4 (Themenrahmen) anpassen: «the Lab tools» → «the Apps on apps.rautaki.ch and the EU AI Act checker»; alle weiteren Stellen, die «Lab», «Werkzeuge», «Tools», «Generatoren» als Auslöser nennen, auf die neue Lage umschreiben
-- [ ] Link-Regeln prüfen: apps.rautaki.ch ist eine absolute Adresse und bekommt nie das `/en`-Präfix; die Apps sind nur auf Deutsch, das sagt der Bot englischsprachigen Besuchern
-- [ ] Abschnitt «WEITERE SEITEN» um «Apps» ergänzen
-- [ ] Sync-Liste im Kopf von §1 anpassen: `src/app/lab/page.tsx` ersetzen durch den Hinweis, dass die App-Beschreibungen aus dem Projekt `app-schaufenster` stammen und bei jeder neuen oder umbenannten App nachgeführt werden
-- [ ] Alle übrigen Abschnitte (Canary, R1 bis R3, Leistungen, Vorgehen, Preise, Wissen, Kontakt, Buchung, Content Rules) unverändert übernehmen; Vergleich alt/neu als Diff im PR sichtbar
+- [x] Abschnitt «LAB — KOSTENLOSE WERKZEUGE» ersetzen durch «APPS — KI-APPS ZUM AUSPROBIEREN»: Link https://apps.rautaki.ch, ein Satz zum Zweck (KI-Apps zum sofortigen Ausprobieren im Browser, kostenlos, ohne Konto), und die sechs Apps je mit Name, Adresse und einem Satz Nutzen: Dokumenten-Chat mit Quellen (`/dokumenten-chat`), Antwort-Assistent (`/antwort-assistent`), Verständlich machen (`/verstaendlich-machen`), Entwurf-Check (`/entwurf-check`), Kommunikation aus einem Anlass (`/kommunikation`), KI-Potenzial-Radar (`/ki-radar`). Wortlaut aus den freigegebenen Texten des Schaufensters (`app-schaufenster/src/apps/*`, Startseite), nicht aus dem Gedächtnis
+- [x] ~~Regel für die Testphase~~ — **entfällt** (Entscheid 2026-09-16: Satz weglassen, weil die Site mit dem Umbau live geht und der Prompt erst nach Phase 8 eingespielt wird). Ursprünglicher Wortlaut: Solange apps.rautaki.ch einen Zugangscode verlangt, sagt der Bot das offen («derzeit in einer geschlossenen Testphase, Zugang auf Anfrage an hello@rautaki.ch») und verspricht keinen freien Zugang. Der Satz ist so markiert, dass er nach Ende der Testphase gestrichen wird (Eintrag im Änderungsprotokoll dieses Dokuments). Entfällt ganz, wenn Phase 8 den Zugangscode entfernt hat, bevor der Prompt in n8n eingespielt wird (Entscheid vom 2026-09-16: Site geht live)
+- [x] EU-AI-Act-Checker als einzelnes, weiterhin kostenloses Werkzeug nennen (`/lab/eu-ai-act-check.html`), mit Bezug zum Artikel «EU AI Act für Schweizer NPOs»; Governance-Generator und Multi-Assistant-Anleitung streichen. Auf Fragen danach: «nicht mehr online», Hinweis auf die Apps
+- [x] Abgrenzung im Prompt: «Apps» auf apps.rautaki.ch sind fertige KI-Apps zum Ausprobieren; sie sind kein Beratungsersatz und keine Rechtsberatung (bestehende Haltung des Prompts beibehalten)
+- [x] Regel R4 (Themenrahmen) anpassen: «the Lab tools» → «the Apps on apps.rautaki.ch and the EU AI Act checker»; alle weiteren Stellen, die «Lab», «Werkzeuge», «Tools», «Generatoren» als Auslöser nennen, auf die neue Lage umschreiben
+- [x] Link-Regeln prüfen: apps.rautaki.ch ist eine absolute Adresse und bekommt nie das `/en`-Präfix; die Apps sind nur auf Deutsch, das sagt der Bot englischsprachigen Besuchern
+- [x] Abschnitt «WEITERE SEITEN» um «Apps» ergänzen
+- [x] Sync-Liste im Kopf von §1 anpassen: `src/app/lab/page.tsx` ersetzen durch den Hinweis, dass die App-Beschreibungen aus dem Projekt `app-schaufenster` stammen und bei jeder neuen oder umbenannten App nachgeführt werden
+- [x] Alle übrigen Abschnitte (Canary, R1 bis R3, Leistungen, Vorgehen, Preise, Wissen, Kontakt, Buchung, Content Rules) unverändert übernehmen; Vergleich alt/neu als Diff im PR sichtbar — Ausnahmen mit Grund: Rollen-Satz («Lab tools» → «apps»), Wissen-Regel (Checker-Link statt «im Lab»), Content Rules (Themenrahmen); der Satz «Weitere Werkzeuge … in Entwicklung» ist gestrichen (kein belegbares Versprechen mehr). Vorab geprüft: Der laufende Prompt in n8n entspricht dem Dokumentstand vom 2026-08-22 (Abgleich über die n8n-API am 2026-09-16, Lesevergleich Abschnitt für Abschnitt)
 
 Ablauf:
 
-- [ ] Entwurf des vollständigen Prompts als Block in `security/n8n-workflow-hardening.md` (Stand-Hinweis mit neuem Datum, «Stand: … noch nicht in n8n eingespielt» bis Phase 8 erledigt ist)
-- [ ] Wortlaut der neuen Abschnitte dem Auftraggeber zur Freigabe vorlegen (Texte sind Business-Entscheid, kein Tech-Entscheid); Freigabe mit Datum hier eintragen
-- [ ] Freigegebenen Prompt offline gegen die Testfragen aus §5 des Hardening-Dokuments und gegen fünf neue Fragen prüfen: «Was ist das Lab?», «Gibt es den Governance-Generator noch?», «Wo finde ich den EU-AI-Act-Check?», «Was kann ich auf apps.rautaki.ch ausprobieren?», «Brauche ich einen Zugangscode?». Erwartete Antworten neben die Fragen schreiben
+- [x] Entwurf des vollständigen Prompts als Block in `security/n8n-workflow-hardening.md` (Stand-Hinweis mit neuem Datum, «Stand: … noch nicht in n8n eingespielt» bis Phase 8 erledigt ist)
+- [x] Wortlaut der neuen Abschnitte dem Auftraggeber zur Freigabe vorlegen (Texte sind Business-Entscheid, kein Tech-Entscheid); Freigabe mit Datum hier eintragen — **freigegeben am 2026-09-16** (inkl. Streichung von «Weitere Werkzeuge … in Entwicklung» und Verzicht auf den Testphase-Satz)
+- [ ] Freigegebenen Prompt offline gegen die Testfragen aus §5 des Hardening-Dokuments und gegen fünf neue Fragen prüfen: «Was ist das Lab?», «Gibt es den Governance-Generator noch?», «Wo finde ich den EU-AI-Act-Check?», «Was kann ich auf apps.rautaki.ch ausprobieren?», «Brauche ich einen Zugangscode?». Erwartete Antworten neben die Fragen schreiben — die fünf Fragen stehen mit erwarteten Antworten in §5 (Fragen 5–9); Prüfung nach Freigabe
 - [ ] Übergabe an Phase 8: Der Auftraggeber fügt den Block in n8n ein (Anleitung §1 des Hardening-Dokuments); danach Stand-Hinweis im Dokument auf «byte-genaue Kopie, eingespielt am …» setzen
-- Status: offen
+- Status: in Arbeit (Entwurf 2026-09-16, Freigabe offen)
 
 ### Phase 8 — Ausserhalb des Repositories (Auftraggeber)
 
@@ -358,12 +358,12 @@ Geänderte mit, vorher `git status` lesen.
 
 ### Phase B1 — Gemeinsame Vorbereitung im Kern (eine Aufgabe in `app-schaufenster`)
 
-- [ ] Knopf-Baustein in den Kern ziehen (z. B. `src/kern/vorlage/download.tsx`): nimmt Route, Texte und Adresse der ZIP-Datei; meldet `vorlage` mit der Route; Gestaltung unverändert
-- [ ] Antwort-Assistent auf den Baustein umstellen; alle 13 Tests der Seite und der Datei bleiben grün, Bytes der ZIP-Datei unverändert
-- [ ] `ersetzeGenau` in den Kern (`src/kern/vorlage/`) und dort testen, damit jede App dieselbe Sicherung nutzt
-- [ ] Muster aus B4 als kurzer Abschnitt in `docs/briefs/` oder README von `app-schaufenster` festgehalten
-- [ ] `./scripts/verify.sh --deep` grün, decisions.md, finish-task
-- Aufgabe: 154 (`docs/tasks/154-vorlage-kern-baustein-fuer-alle-apps.md`, bereit) · Status: offen
+- [x] Knopf-Baustein in den Kern gezogen: `src/kern/vorlage/download.tsx` nimmt Route und Titel; Adresse `/<app>/vorlage.zip` und Meldung `vorlage` folgen aus der Route; Knopf und die drei Hinweise einmal in `src/kern/vorlage/download-texte.ts` (Wortlaut aus 146 unverändert); Gestaltung unverändert (CSS-Modul mitgezogen)
+- [x] Antwort-Assistent auf den Baustein umgestellt; Pilot-Tests unverändert grün, ZIP-Datei Byte für Byte gleich (SHA-256 in decisions.md)
+- [x] `ersetzeGenau` in `src/kern/vorlage/ersetze-genau.ts` mit fünf Tests (`ersetze-genau.test.ts`)
+- [x] Muster aus B4 mit endgültigen Pfaden im Brief `app-schaufenster/docs/briefs/vorlage-weitere-apps.md`, Abschnitt «Muster je App» (zwölf Schritte, Fallen)
+- [x] `./scripts/verify.sh --deep` grün, decisions.md, finish-task
+- Aufgabe: 154 (`docs/tasks/154-vorlage-kern-baustein-fuer-alle-apps.md`) · Status: erledigt (2026-09-16)
 
 ### Phase B2 — Vorlage Entwurf-Check
 
@@ -445,6 +445,8 @@ Geänderte mit, vorher `git status` lesen.
 - 2026-09-16 — Phase 5 erledigt: Sitemap ohne `/lab` und die zwei Werkzeuge; `llms.txt`/`llms-full.txt` mit Abschnitt «Apps» (sechs Apps aus `verzeichnis.ts`, Checker als Einzelwerkzeug). Diese App-Texte sind dieselbe Quelle, die Phase 7 für den Chatbot-Prompt braucht.
 - 2026-09-16 — Entscheid nachgetragen: apps.rautaki.ch geht mit dem Umbau live (Zugangscode weg, `noindex` aufheben) und ist über www.rautaki.ch erreichbar. Neuer Punkt in Phase 8, Folgehinweise in Phase 7, Phase 10 und §5.
 - 2026-09-16 — Phase 6 erledigt: README (Seiten-/API-Tabelle, CSP-Hinweis), geo-roadmap P6 hinfällig, Notiz im chatbot-hardening-plan.
+- 2026-09-16 — Phase 7 Entwurf: vollständiger neuer Prompt in `security/n8n-workflow-hardening.md` §1 (Stand-Hinweis «DRAFT, not yet deployed»), fünf Kontrollfragen mit erwarteten Antworten in §5. Satz zur Testphase weggelassen (Entscheid Auftraggeber).
 - 2026-09-16 — Phase 7 «Neuer Chatbot-Prompt für n8n» eingefügt (vollständiger Prompt statt Teilkorrektur, Freigabe des Wortlauts, Kontrollfragen); bisherige Phasen 7 bis 9 sind neu 8 bis 10. Offen: Satz zur Testphase im Prompt nach Ende der Testphase streichen.
 - 2026-09-16 — Teil B «Vorlagen für die fünf übrigen Apps» angefügt (Phasen B0–B7, Muster je App, Kosten 0 USD, keine bezahlten Läufe); Dokument in Teil A und Teil B gegliedert, Tracker um acht Zeilen erweitert.
 - 2026-09-16 — Phase B0 erledigt: alle fünf Entscheide gemäss Empfehlung; Aufgabe 154 (Phase B1) in app-schaufenster angelegt.
+- 2026-09-16 — Phase B1 erledigt (Aufgabe 154 in app-schaufenster): Knopf-Baustein und `ersetzeGenau` im Kern, Antwort-Assistent umgestellt ohne sichtbare Änderung; Muster je App im Brief `vorlage-weitere-apps.md`.
