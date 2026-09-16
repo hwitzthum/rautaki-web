@@ -28,7 +28,7 @@ Status-Werte: `offen` · `in Arbeit` · `erledigt` · `blockiert` (Grund in der 
 | 4 | Weiterleitungen alter Lab-Adressen | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | `redirects()` in `next.config.ts`, 308, exakte Pfade |
 | 5 | Sitemap, llms.txt, Schemas nachführen | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | App-Texte wörtlich aus `app-schaufenster/src/apps/verzeichnis.ts`; EN-Fassung ist Übersetzung durch Claude — Wortlaut-Freigabe offen |
 | 6 | Dokumentation im Repository | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | README, geo-roadmap P6, chatbot-hardening-plan |
-| 7 | Neuer Chatbot-Prompt für n8n (vollständig, freigegeben) | in Arbeit | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | Entwurf steht in `security/n8n-workflow-hardening.md` §1; Wortlaut-Freigabe offen |
+| 7 | Neuer Chatbot-Prompt für n8n (vollständig, freigegeben) | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab`; Freigabe Auftraggeber | Block in `security/n8n-workflow-hardening.md` §1, Status dort «DRAFT» bis Phase 8 ihn einspielt |
 | 8 | Ausserhalb des Repositories (Auftraggeber) | offen | | | apps.rautaki.ch live schalten, n8n, Vercel, Netlify, Umami |
 | 9 | Prüfung und Veröffentlichung | offen | | | |
 | 10 | Kontrolle nach dem Livegang | offen | | | |
@@ -41,7 +41,7 @@ Status-Werte: `offen` · `in Arbeit` · `erledigt` · `blockiert` (Grund in der 
 | B6 | Vorlage KI-Potenzial-Radar | offen | | | Entscheid 5 (ja/nein) nötig |
 | B7 | Abschluss: Profil, Chatbot-Prompt, Auswertung | offen | | | hängt an Teil A Phase 7 |
 
-**Gesamtstand:** 9 von 19 Phasen erledigt (Teil A: 7 von 11 · Teil B: 2 von 8). Livegang Teil A: noch nicht
+**Gesamtstand:** 10 von 19 Phasen erledigt (Teil A: 8 von 11 · Teil B: 2 von 8). Livegang Teil A: noch nicht
 erfolgt. Vorlagen online: 1 von 6 Apps (Antwort-Assistent, Pilot).
 
 ---
@@ -184,15 +184,15 @@ Ablauf:
 
 - [x] Entwurf des vollständigen Prompts als Block in `security/n8n-workflow-hardening.md` (Stand-Hinweis mit neuem Datum, «Stand: … noch nicht in n8n eingespielt» bis Phase 8 erledigt ist)
 - [x] Wortlaut der neuen Abschnitte dem Auftraggeber zur Freigabe vorlegen (Texte sind Business-Entscheid, kein Tech-Entscheid); Freigabe mit Datum hier eintragen — **freigegeben am 2026-09-16** (inkl. Streichung von «Weitere Werkzeuge … in Entwicklung» und Verzicht auf den Testphase-Satz)
-- [ ] Freigegebenen Prompt offline gegen die Testfragen aus §5 des Hardening-Dokuments und gegen fünf neue Fragen prüfen: «Was ist das Lab?», «Gibt es den Governance-Generator noch?», «Wo finde ich den EU-AI-Act-Check?», «Was kann ich auf apps.rautaki.ch ausprobieren?», «Brauche ich einen Zugangscode?». Erwartete Antworten neben die Fragen schreiben — die fünf Fragen stehen mit erwarteten Antworten in §5 (Fragen 5–9); Prüfung nach Freigabe
-- [ ] Übergabe an Phase 8: Der Auftraggeber fügt den Block in n8n ein (Anleitung §1 des Hardening-Dokuments); danach Stand-Hinweis im Dokument auf «byte-genaue Kopie, eingespielt am …» setzen
-- Status: in Arbeit (Entwurf 2026-09-16, Freigabe offen)
+- [ ] Freigegebenen Prompt offline gegen die Testfragen aus §5 des Hardening-Dokuments und gegen fünf neue Fragen prüfen: «Was ist das Lab?», «Gibt es den Governance-Generator noch?», «Wo finde ich den EU-AI-Act-Check?», «Was kann ich auf apps.rautaki.ch ausprobieren?», «Brauche ich einen Zugangscode?». Erwartete Antworten neben die Fragen schreiben — die fünf Fragen stehen mit erwarteten Antworten in §5 (Fragen 5–9). Offline-Prüfung 2026-09-16: Fragen 1–4 (Canary, R1–R3) unverändert abgedeckt; 5–8 haben je eine ausdrückliche Regel im Block («kein Bereich Lab mehr», «nicht mehr online», Checker-Link, sechs Apps); 9 stützt sich auf «Kostenlos, ohne Anmeldung» — das Wort «Zugangscode» steht nicht im Prompt, die Live-Kontrolle in Phase 8 zeigt, ob das reicht. Alle 28 Links des Blocks aufgelöst (www lokal am Produktions-Build, apps.rautaki.ch live, je 200); die `/en`-Ausnahmen sind vollständig (nur Booklet und Checker haben keine EN-Fassung)
+- [x] Übergabe an Phase 8: Der Auftraggeber fügt den Block in n8n ein (Anleitung §1 des Hardening-Dokuments); danach Stand-Hinweis im Dokument auf «byte-genaue Kopie, eingespielt am …» setzen — übergeben 2026-09-16; Einspielen und Stand-Hinweis sind der erste Punkt von Phase 8
+- Status: erledigt (2026-09-16)
 
 ### Phase 8 — Ausserhalb des Repositories (Auftraggeber)
 
 Diese Punkte kann Claude nicht ausführen; sie brauchen Konten und Zugänge.
 
-- [ ] n8n: Systemprompt des Website-Chatbots durch den in Phase 7 freigegebenen Block ersetzen (Anleitung in `security/n8n-workflow-hardening.md`, §1); danach die fünf Kontrollfragen aus Phase 7 live stellen und die Antworten mit den erwarteten vergleichen
+- [ ] n8n: Systemprompt des Website-Chatbots durch den in Phase 7 freigegebenen Block ersetzen (Anleitung in `security/n8n-workflow-hardening.md`, §1); danach die fünf Kontrollfragen aus Phase 7 live stellen und die Antworten mit den erwarteten vergleichen (§5, Fragen 5–9) und den Stand-Hinweis in §1 von «DRAFT» auf «byte-exact copy, deployed on …» setzen
 - [ ] apps.rautaki.ch (Projekt `app-schaufenster`): Site live schalten — Zugangscode entfernen, `noindex` aufheben, Sitemap/robots dort prüfen — damit der Klick aus Menü und Fusszeile von www.rautaki.ch direkt in die Apps führt (Entscheid vom 2026-09-16). Danach Datum in §5 «Zugangscode» eintragen
 - [ ] n8n: Workflow «Lab-Anmeldung → Salesflare» deaktivieren oder löschen
 - [ ] Vercel, Projekt `rautaki-web`: Umgebungsvariable `N8N_LAB_WEBHOOK_URL` entfernen
@@ -445,6 +445,7 @@ Geänderte mit, vorher `git status` lesen.
 - 2026-09-16 — Phase 5 erledigt: Sitemap ohne `/lab` und die zwei Werkzeuge; `llms.txt`/`llms-full.txt` mit Abschnitt «Apps» (sechs Apps aus `verzeichnis.ts`, Checker als Einzelwerkzeug). Diese App-Texte sind dieselbe Quelle, die Phase 7 für den Chatbot-Prompt braucht.
 - 2026-09-16 — Entscheid nachgetragen: apps.rautaki.ch geht mit dem Umbau live (Zugangscode weg, `noindex` aufheben) und ist über www.rautaki.ch erreichbar. Neuer Punkt in Phase 8, Folgehinweise in Phase 7, Phase 10 und §5.
 - 2026-09-16 — Phase 6 erledigt: README (Seiten-/API-Tabelle, CSP-Hinweis), geo-roadmap P6 hinfällig, Notiz im chatbot-hardening-plan.
+- 2026-09-16 — Phase 7 erledigt: Wortlaut freigegeben, Offline-Prüfung (Regelabdeckung der neun Testfragen, alle Links aufgelöst) bestanden, an Phase 8 übergeben.
 - 2026-09-16 — Phase 7 Entwurf: vollständiger neuer Prompt in `security/n8n-workflow-hardening.md` §1 (Stand-Hinweis «DRAFT, not yet deployed»), fünf Kontrollfragen mit erwarteten Antworten in §5. Satz zur Testphase weggelassen (Entscheid Auftraggeber).
 - 2026-09-16 — Phase 7 «Neuer Chatbot-Prompt für n8n» eingefügt (vollständiger Prompt statt Teilkorrektur, Freigabe des Wortlauts, Kontrollfragen); bisherige Phasen 7 bis 9 sind neu 8 bis 10. Offen: Satz zur Testphase im Prompt nach Ende der Testphase streichen.
 - 2026-09-16 — Teil B «Vorlagen für die fünf übrigen Apps» angefügt (Phasen B0–B7, Muster je App, Kosten 0 USD, keine bezahlten Läufe); Dokument in Teil A und Teil B gegliedert, Tracker um acht Zeilen erweitert.
