@@ -10,12 +10,12 @@ export const faq = {
     {
       question: "What does Rautaki do?",
       answer:
-        "Rautaki supports companies and organisations in the strategic roll-out of AI — from analysing potential through to scalable implementation. The focus is on management teams: strategic vision, ongoing sparring and supporting teams right through to production.",
+        "Rautaki is a Swiss AI strategy consultancy for boards and senior management, with a focus on non-profits, the social sector and the public sector — from assessing where you stand to implementation. At its core are strategic vision, ongoing sparring and supporting teams right through to production.",
     },
     {
       question: "Who is ‘Rautaki’ aimed at?",
       answer:
-        "For management teams, executive management and boards of directors who make far-reaching decisions involving AI — particularly in the NPO, social and public sectors, as well as in SMEs.",
+        "For boards of directors, executive management and management teams who make far-reaching decisions involving AI — particularly in the NPO, social and public sectors.",
     },
     {
       question: "How much does AI consultancy cost at Rautaki?",

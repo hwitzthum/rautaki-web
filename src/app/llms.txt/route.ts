@@ -13,7 +13,7 @@ export const dynamic = "force-static";
 
 const content = `# Rautaki
 
-> Rautaki begleitet Unternehmen und Organisationen bei der strategischen Einführung von KI — von der Potenzialanalyse bis zur skalierbaren Umsetzung. Sitz in Kilchberg ZH, Schweiz. Fokus: Führungsteams in NPO, Sozialwesen, öffentlichem Sektor und KMU. Website auf Deutsch (primär) und Englisch (https://www.rautaki.ch/en, siehe «English» unten).
+> Rautaki ist eine Schweizer KI-Strategieberatung für Verwaltungsräte und Geschäftsleitungen, mit Schwerpunkt NPO, Sozialwesen und öffentlicher Sektor — von der Standortbestimmung bis zur Umsetzung. Sitz in Kilchberg ZH, Schweiz. Website auf Deutsch (primär) und Englisch (https://www.rautaki.ch/en, siehe «English» unten).
 
 Rautaki (te reo Māori für «Strategie») wurde von Harry Witzthum gegründet —
 Doktor der Philosophie, Diplomierter Verbands- und NPO-Manager VMI, langjährige
@@ -71,16 +71,15 @@ akkreditierten CAS-Programmen zu KI-Strategie und KI-Transformation.
 - E-Mail: hello@rautaki.ch
 - Adresse: Weinbergstrasse 23, 8802 Kilchberg ZH, Schweiz
 - UID: CHE-362.050.451 (Schweizer Unternehmens-Identifikationsnummer, ${orgProfiles.uidRegister})
-- Wikidata: ${orgProfiles.wikidata}
 - Google Business Profile: ${orgProfiles.googleBusiness}
 - LinkedIn: ${orgProfiles.linkedIn}
 - ResearchGate: ${personProfiles.researchGate}
 
 ## English
 
-Rautaki is a Swiss AI-strategy consultancy for leadership teams — strategic vision, ongoing sparring for executive management and boards, and hands-on AI mentoring from use-case prioritisation to production. Based in Kilchberg ZH, Switzerland; German- and English-speaking.
+Rautaki is a Swiss AI strategy consultancy for boards and senior management, with a focus on non-profits, the social sector and the public sector — strategic vision, ongoing sparring and hands-on AI mentoring from use-case prioritisation to production. Based in Kilchberg ZH, Switzerland; German- and English-speaking.
 
-- [Home](https://www.rautaki.ch/en): AI strategy for decision-makers
+- [Home](https://www.rautaki.ch/en): AI strategy for Swiss non-profits and boards
 - [Services](https://www.rautaki.ch/en/services): Strategic Vision, Consultancy & Sparring, AI Mentoring — with transparent rates (consulting day from CHF 3,500)
 - [FAQ](https://www.rautaki.ch/en/services#faq): Frequently asked questions on services, prices, process and audience
 - [The path to effective AI](https://www.rautaki.ch/en/vorgehen): The consulting programme in full — three phases, nine steps, two go/no-go gates

@@ -9,7 +9,7 @@ import { getArticles } from "@/lib/articles";
 // German page (and vice versa).
 const lastModified = {
   home: { de: new Date("2026-09-16"), en: new Date("2026-09-16") }, // P9.1 Title/Description
-  services: { de: new Date("2026-07-06"), en: new Date("2026-07-11") },
+  services: { de: new Date("2026-09-16"), en: new Date("2026-09-16") }, // P9.2 FAQ-Positionierung
   vorgehen: { de: new Date("2026-07-06"), en: new Date("2026-07-11") },
   about: { de: new Date("2026-07-06"), en: new Date("2026-07-11") },
   booking: { de: new Date("2026-07-06"), en: new Date("2026-07-11") },

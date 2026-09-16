@@ -9,7 +9,7 @@ export const common = {
   skipLink: "Skip to content",
   graph: {
     orgDescription:
-      "Rautaki supports companies with the strategic roll-out of AI — from analysing potential to scalable implementation.",
+      "Rautaki is a Swiss AI strategy consultancy for boards and senior management, with a focus on non-profits, the social sector and the public sector — from assessing where you stand to implementation.",
     personJobTitle: "Founder & Consultant for AI Strategy",
     personDescription:
       "Founder of Rautaki. Doctor of Philosophy and qualified association and NPO manager VMI. Many years’ leadership experience in national non-profit organisations; lecturer on accredited CAS programmes on AI strategy and AI transformation.",

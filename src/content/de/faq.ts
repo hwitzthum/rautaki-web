@@ -3,7 +3,8 @@
 // every fact is verified against published site content (pricing table,
 // booking page, /about, llms.txt). Derived from docs/faq-draft.md with the
 // open [BITTE PRÜFEN] points resolved:
-// - KMU: named as audience (llms.txt + /services hero claim it).
+// - KMU: no longer named as audience since GEO P9.2 (2026-09-16) — positioning
+//   is NPO, social and public sector, consistent across all surfaces.
 // - Region: Switzerland only — every surface asserts areaServed CH; the
 //   draft's "Deutschland und Österreich" had no verified source.
 // - Institution: ikf is publicly named on /about, so it is safe here.
@@ -15,12 +16,12 @@ export const faq = {
     {
       question: "Was macht Rautaki?",
       answer:
-        "Rautaki begleitet Unternehmen und Organisationen bei der strategischen Einführung von KI — von der Potenzialanalyse bis zur skalierbaren Umsetzung. Der Fokus liegt auf Führungsteams: strategische Vision, kontinuierliches Sparring und die Begleitung von Teams bis zum Produktivbetrieb.",
+        "Rautaki ist eine Schweizer KI-Strategieberatung für Verwaltungsräte und Geschäftsleitungen, mit Schwerpunkt NPO, Sozialwesen und öffentlicher Sektor — von der Standortbestimmung bis zur Umsetzung. Im Zentrum stehen strategische Vision, kontinuierliches Sparring und die Begleitung von Teams bis zum Produktivbetrieb.",
     },
     {
       question: "Für wen ist Rautaki das richtige Angebot?",
       answer:
-        "Für Führungsteams, Geschäftsleitungen und Verwaltungsräte, die KI-Entscheide mit hoher Tragweite treffen — insbesondere im NPO-, Sozial- und öffentlichen Sektor sowie in KMU.",
+        "Für Verwaltungsräte, Geschäftsleitungen und Führungsteams, die KI-Entscheide mit hoher Tragweite treffen — insbesondere im NPO-, Sozial- und öffentlichen Sektor.",
     },
     {
       question: "Was kostet KI-Beratung bei Rautaki?",

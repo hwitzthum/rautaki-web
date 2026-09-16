@@ -1,11 +1,13 @@
 // Canonical set of external authority/profile links for the Rautaki entity
 // graph. Single source for the JSON-LD sameAs arrays (layout.tsx) and the
 // llms.txt / llms-full.txt routes, so the surfaces cannot drift.
+//
+// No Wikidata entry: Q140457396 and Q140500710 were deleted on 2026-07-11 for
+// notability — re-add only after a recreated item survives (docs/geo-roadmap.md P4).
 
 export const orgProfiles = {
   linkedIn: "https://www.linkedin.com/in/harry-witzthum-25b814a/",
   uidRegister: "https://www.uid.admin.ch/Detail.aspx?uid_id=CHE-362.050.451",
-  wikidata: "https://www.wikidata.org/wiki/Q140457396",
   googleBusiness: "https://share.google/T7mqIG90h8HLrLNrW",
 } as const;
 

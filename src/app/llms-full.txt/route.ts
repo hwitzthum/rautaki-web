@@ -22,7 +22,7 @@ const scaffold = {
   de: {
     title: "# Rautaki — Volltext",
     summary:
-      "> Rautaki begleitet Unternehmen und Organisationen bei der strategischen Einführung von KI — von der Potenzialanalyse bis zur skalierbaren Umsetzung. Sitz in Kilchberg ZH, Schweiz. Fokus: Führungsteams in NPO, Sozialwesen, öffentlichem Sektor und KMU.",
+      "> Rautaki ist eine Schweizer KI-Strategieberatung für Verwaltungsräte und Geschäftsleitungen, mit Schwerpunkt NPO, Sozialwesen und öffentlicher Sektor — von der Standortbestimmung bis zur Umsetzung. Sitz in Kilchberg ZH, Schweiz.",
     intro: `Rautaki (te reo Māori für «Strategie») wurde von Harry Witzthum gegründet —
 Doktor der Philosophie, Diplomierter Verbands- und NPO-Manager VMI, langjährige
 Führungserfahrung in nationalen Nonprofit-Organisationen und Dozent in
@@ -71,7 +71,6 @@ Verantwortlichkeiten.`,
     contactLines: `- E-Mail: hello@rautaki.ch
 - Adresse: Weinbergstrasse 23, 8802 Kilchberg ZH, Schweiz
 - UID: CHE-362.050.451 (Schweizer Unternehmens-Identifikationsnummer, ${orgProfiles.uidRegister})
-- Wikidata: ${orgProfiles.wikidata}
 - Google Business Profile: ${orgProfiles.googleBusiness}
 - LinkedIn: ${orgProfiles.linkedIn}
 - ResearchGate: ${personProfiles.researchGate}
@@ -80,7 +79,7 @@ Verantwortlichkeiten.`,
   en: {
     title: "# Rautaki — Full text (English)",
     summary:
-      "> Rautaki supports companies and organisations with the strategic adoption of AI — from analysing potential to scalable implementation. Based in Kilchberg ZH, Switzerland. Focus: leadership teams in NPOs, the social and public sectors, and SMEs.",
+      "> Rautaki is a Swiss AI strategy consultancy for boards and senior management, with a focus on non-profits, the social sector and the public sector — from assessing where you stand to implementation. Based in Kilchberg ZH, Switzerland.",
     intro: `Rautaki (te reo Māori for "strategy") was founded by Harry Witzthum —
 Doctor of Philosophy, certified association and NPO manager VMI, with many years
 of leadership experience in national nonprofit organisations, and a lecturer on
@@ -128,7 +127,6 @@ isolated tool but along decision paths, roles and responsibilities.`,
     contactLines: `- E-mail: hello@rautaki.ch
 - Address: Weinbergstrasse 23, 8802 Kilchberg ZH, Switzerland
 - UID: CHE-362.050.451 (Swiss enterprise identification number, ${orgProfiles.uidRegister})
-- Wikidata: ${orgProfiles.wikidata}
 - Google Business Profile: ${orgProfiles.googleBusiness}
 - LinkedIn: ${orgProfiles.linkedIn}
 - ResearchGate: ${personProfiles.researchGate}

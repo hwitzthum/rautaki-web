@@ -8,7 +8,7 @@ import type { ServicesContent } from "../types";
 export const services = {
   metaTitle: "Services",
   metaDescription:
-    "AI strategy, implementation and leadership development — tailored to decision-makers in Switzerland.",
+    "AI strategy, implementation and leadership development — for boards and senior management in Switzerland, with a focus on non-profits.",
   items: [
     {
       id: "strategic-vision",
