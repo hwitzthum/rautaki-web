@@ -12,7 +12,7 @@ export const home = {
   heroDark: {
     headlineLines: ["Strategy", "in *the AI era*", "with impact."],
     intro:
-      "We combine strategic consultancy for senior management and boards of directors with accredited professional development — from assessing the current situation to delivering a solution ready for implementation. We have particular expertise in the NPO, social and public sectors.",
+      "We combine AI strategy consultancy for boards of directors and senior management in Switzerland with accredited professional development — from assessing the current situation to delivering a solution ready for implementation. With a focus on non-profits, the social sector and the public sector.",
     ctaTitle: "Develop a robust AI strategy",
     ctaBody:
       "During the initial consultation, we will clarify priorities, governance decisions and the leadership skills required for your next phase.",
@@ -53,7 +53,7 @@ export const home = {
   problem: {
     label: "Impact of AI",
     heading: "The potential is real. So is the gap to *impact*.",
-    body: "88 per cent of companies use AI regularly — yet two thirds have never scaled it beyond the pilot stage. This gap between action and impact is the strategic challenge of our time.",
+    body: "88 per cent of companies use AI regularly — yet two thirds have never scaled it beyond the pilot stage. This gap between action and impact is the strategic challenge of the AI era — and without a clear AI strategy it will not close.",
   },
   serviceCards: {
     label: "Services",
@@ -74,14 +74,14 @@ export const home = {
       },
       {
         title: "At home, where impact matters",
-        body: "NPOs, associations, the social and public sectors: we know organisations where every franc must be justified twice over — and where AI is still expected to make a difference.",
+        body: "Swiss NPOs, associations, the social and public sectors: we know organisations where every franc must be justified twice over — and where AI is still expected to make a difference.",
       },
     ],
   },
   cta: {
     label: "Next step",
     heading: "Is your organisation ready for AI?",
-    body: "We help management teams determine where AI should take the lead, where safeguards are essential, and how to move from ambition to successful implementation.",
+    body: "We help boards of directors and senior management define in their AI strategy where AI should take the lead, where safeguards are essential, and how to move from ambition to successful implementation.",
     button: "Arrange an initial consultation",
     pricePrefix: "Transparent fees: consulting day from CHF 3,500 — ",
     priceLinkLabel: "all prices under Services",
