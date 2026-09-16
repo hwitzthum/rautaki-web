@@ -1,11 +1,38 @@
 # GEO-Roadmap
 
-Trackable Liste der GEO-Massnahmen aus dem Benchmark vom 2026-07-10.
-Quellen: Search Engine Land (Mastering GEO in 2026), Google (Optimizing for Generative AI Features), LLMrefs (GEO Guide 2026), Firebrand (GEO Best Practices 2026); Wettbewerbs-Benchmark: transformind.ch, sollbergeraiconsulting.ch, kimpact.ch, spekt.ch.
+Trackable Liste der GEO-Massnahmen. **Zyklus 1** (P1–P7): Benchmark vom 2026-07-10. **Zyklus 2** (P8–P11 + Re-Verifikation R): Sichtbarkeits-Audit vom 2026-09-16.
+Quellen Zyklus 1: Search Engine Land (Mastering GEO in 2026), Google (Optimizing for Generative AI Features), LLMrefs (GEO Guide 2026), Firebrand (GEO Best Practices 2026); Wettbewerbs-Benchmark: transformind.ch, sollbergeraiconsulting.ch, kimpact.ch, spekt.ch.
 
 Befund: On-Site-GEO ist erstklassig (llms.txt/llms-full.txt, @graph-Schemas, FAQPage, Wikidata, AI-Bots erhalten volles SSR-HTML). **Engpass ist Off-Site**: Für Kernqueries («KI-Strategie Beratung NPO Schweiz Verwaltungsrat») erscheinen Wettbewerber, Rautaki nicht.
 
-Konventionen: Checkbox abhaken im selben PR, der das Item abschliesst; Status-Zeile mit Datum + PR-Link ergänzen.
+Konventionen:
+- Checkbox abhaken im selben PR, der das Item abschliesst; Status-Zeile mit Datum + PR-Link ergänzen.
+- Zyklus-2-Items haben IDs (`P8.1`, `R3`, …) — in Commits und PR-Titeln referenzieren.
+- Re-Verifikationen (R): beim Abhaken Datum + Ergebnis notieren — «✓ unverändert» oder «✗ Regression → Folge-Item Px.y».
+- Mit jedem abgeschlossenen Item die Tabelle «Fortschritt» nachführen (Zähler + «Letzte Änderung»).
+
+## Fortschritt
+
+| Paket | Thema | Zyklus | Erledigt | Status | Letzte Änderung |
+|---|---|---|---|---|---|
+| P1 | Englische Version | 1 | 5/5 | abgeschlossen | 2026-07-11 |
+| P2 | Wissen-Sektion | 1 | 6/6 | abgeschlossen | 2026-07-11 |
+| P3 | Externe Erwähnungen | 1 + 2 | 0/7 | offen — Priorität 2 in Zyklus 2 | 2026-09-16 |
+| P4 | Wikidata | 1 | 5/5 | abgeschlossen | 2026-07-11 |
+| P5 | Google-Business-Profile-URL | 1 | — | geschlossen mit Befund | 2026-07-11 |
+| P6 | Aufgeschoben aus P1 | 1 | 2/2 | abgeschlossen | 2026-09-16 |
+| P7 | GEO-Messung | 1 | 5/5 | abgeschlossen | 2026-07-11 |
+| P8 | Indexierung der Kernseiten | 2 | 0/4 | offen — Priorität 1 | 2026-09-16 |
+| P9 | Nicht-Marken-Suchen & Snippets | 2 | 0/6 | offen — Priorität 3 | 2026-09-16 |
+| P10 | Performance & Technik | 2 | 0/6 | offen | 2026-09-16 |
+| P11 | Externe Sichtbarkeitsmessung | 2 | 0/4 | offen | 2026-09-16 |
+| R | Re-Verifikation Zyklus 1 | 2 | 0/12 | offen | 2026-09-16 |
+
+Zähler aus der Datei neu berechnen (Abgleich mit der Tabelle):
+
+```bash
+awk '/^## /{s=$0; o[s]+=0; d[s]+=0} /^[[:space:]]*- \[x\]/{d[s]++} /^[[:space:]]*- \[ \]/{o[s]++} END{for(k in d) if(d[k]+o[k]) printf "%-50s %2d/%2d\n", k, d[k], d[k]+o[k]}' docs/geo-roadmap.md | sort -V
+```
 
 ---
 
@@ -39,12 +66,15 @@ Wichtigster inhaltlicher Hebel: AI-Engines bevorzugen datierbare, attribuierbare
 
 Retrieval-Engines finden nur, was Dritte erwähnen. Jede unabhängige Seite «Rautaki = Schweizer KI-Strategieberatung für NPOs» zählt.
 
-- [ ] Brancheneinträge: local.ch / search.ch (Kilchberg, Beratung)
+Audit 2026-09-16 bestätigt den Engpass: Share of Voice 0/10 bei ChatGPT, Perplexity und Gemini (HubSpot), 0 KI-Erwähnungen (Semrush), 1 verweisende Domain (Seobility), bekannte Backlinks nur Spam-Seiten, kein Eintrag auf local.ch/search.ch/Zefix. → Priorität 2 in Zyklus 2.
+
+- [ ] Brancheneinträge: local.ch / search.ch (Kilchberg, Beratung) — Audit 2026-09-16: weiterhin kein Eintrag
 - [ ] Dozentenprofil mit Backlink auf ikf-Kursseiten anfragen
 - [ ] Dozentenprofil mit Backlink beim VMI (Uni Fribourg) anfragen
 - [ ] NPO-Fachmedien: Gastbeitrag/Interview (StiftungSchweiz, Fundraiso, …)
 - [ ] Podcast-Auftritte im NPO-/KI-Umfeld
 - [ ] LinkedIn-Kadenz mit Links auf kanonische Seiten beibehalten
+- [ ] LinkedIn-Unternehmensseite «Rautaki» anlegen und auf der Website verlinken (Audit 2026-09-16: nur persönliches Profil verlinkt)
 
 ## P4 — Wikidata-Anreicherung (Q140457396)
 
@@ -77,6 +107,98 @@ Retrieval-Engines finden nur, was Dritte erwähnen. Jede unabhängige Seite «Ra
 - [x] Workflow in n8n aktiviert (2026-07-11) — erster geplanter Lauf: 1. August 2026, 07:00
 
 **P7 vollständig abgeschlossen am 2026-07-11.**
+
+---
+
+# Zyklus 2 — Sichtbarkeits-Audit vom 2026-09-16
+
+Quellen (alle 2026-09-16, kostenlose Stufen): Semrush SEO Checker + AI Search Visibility Checker, HubSpot AI Search Grader, Peekaboo, Google Search Console, Seobility SEO-Check, Google Rich Results Test, validator.schema.org, Lighthouse 12 (lokal), Mozilla Observatory, securityheaders.com, local.ch / search.ch / Zefix, Cookie-Check per Headless Chrome. PDF-Bericht liegt beim Owner (nicht im Repo).
+
+Reihenfolge (Empfehlung aus dem Audit): **1 · P8** Indexierung → **2 · P3** Off-Site-Erwähnungen → **3 · P9** Nicht-Marken-Suchen. P10, P11 und R laufen parallel.
+
+## Baseline 2026-09-16
+
+Messarten bewusst getrennt. Nach Abschluss von P8/P9 (frühestens 2026-10-16) mit identischen Eingaben wiederholen und Spalte «Folgemessung» füllen (→ P11.2).
+
+| Messart | Quelle | Wert 2026-09-16 | Folgemessung |
+|---|---|---|---|
+| SEO-Score | Semrush SEO Checker (nur Startseite) | 46/100 — On-Page 85 %, Technik 80 %, Off-Page 0 %, Social 20 % | |
+| SEO-Score | Seobility SEO-Check (Startseite) | On-Page 78 % — Seitenqualität 48 %, Links 86 %, Externe Faktoren 3 % | |
+| Performance | Lighthouse 12 lokal | Mobil 78 (LCP 5.3 s, TBT 140 ms, CLS 0) · Desktop 100 (LCP 0.7 s) | |
+| Strukturierte Daten | Rich Results Test / validator.schema.org | 2 gültige Elemente / 0 Fehler, 2 Warnungen | |
+| Sicherheit | Mozilla Observatory / securityheaders.com | B+ (80/100) / A | |
+| KI-Erwähnungen | HubSpot AI Search Grader (Rautaki / Switzerland / KI-Strategieberatung / Management Consulting) | ChatGPT 33 · Perplexity 35 · Gemini 44; Share of Voice 0/10 | |
+| KI-Erwähnungen | Peekaboo (ChatGPT + Google AI Overview, auto-generierte Prompts) | Sichtbarkeit 3 %, Ø Position 3.0 | |
+| KI-Erwähnungen | Semrush AI Search Visibility Checker | keine Daten (N/A) | |
+| KI-Erwähnungen | GEO-Probe n8n (P7) | Juli 2026: OpenAI 2/10, Perplexity 0/10, Claude 0/10 (Aug/Sep → P11.3) | |
+| Google-Impressionen | GSC Websuche 10.07.–13.09.2026 | 48 Klicks · 318 Impr. · CTR 15.1 % · Ø Pos. 13.4; 69 % der Klicks Markensuchen | |
+| Google-KI-Impressionen | GSC «Generative AI features» (Beta), gleicher Zeitraum | 38 Impr. (CH 29, DE 4) | |
+| Indexierung | GSC Seitenbericht (Stand 04.09.2026) | 19 indexiert / 15 nicht indexiert | |
+| Lokale Präsenz | local.ch / search.ch / Zefix | kein Eintrag | |
+
+## P8 — Indexierung der Kernseiten
+
+Befund: GSC «Gefunden – zurzeit nicht indexiert» (Stand 04.09.2026) für `/services`, `/wissen`, `/en/vorgehen`, `/privacy`, drei EN-Artikel und drei alte `/lab`-URLs. Ohne Index weder Rankings noch Zitate in AI Overviews/AI Mode.
+
+- [ ] P8.1 GSC-URL-Prüfung + Indexierung beantragen: `/services`, `/wissen`
+- [ ] P8.2 GSC-URL-Prüfung + Indexierung beantragen: `/en/vorgehen`, `/en/wissen/der-weg-zu-wirksamer-ki`, `/en/wissen/ki-reifegrad-schweizer-npos`, `/en/wissen/ki-strategie-verwaltungsrat`
+- [ ] P8.3 Ursache klären: interne Verlinkung auf `/services` und `/wissen` (Startseite, Artikel, Footer) und `lastModified` in `src/app/sitemap.ts` prüfen; Befund hier dokumentieren
+- [ ] P8.4 Frühestens 2026-10-01: GSC-Seitenbericht erneut prüfen — Ziel: keine Kernseite mehr in «Gefunden – nicht indexiert»
+- Hinweis: `/lab`-URLs leiten per 308 auf apps.rautaki.ch um — keine Aktion. «Gecrawlt – nicht indexiert» betrifft nur `/_next/static/chunks/*.js` — unkritisch.
+
+## P9 — Nicht-Marken-Suchen & Snippets
+
+Befund: 69 % der Klicks stammen aus Markensuchen. «verwaltungsrat ki kompetenz» hat 21 Impressionen, 0 Klicks. Startseiten-Title nur 38 Zeichen; Meta-Description spricht «Unternehmen» statt NPO/Verwaltungsrat an; Seobility: Title-/H1-Begriffe kaum im Fliesstext. Peekaboo ordnete Rautaki neben McKinsey/BCG statt im Schweizer NPO-/VR-Umfeld ein.
+
+Zielanfragen (Empfehlung) → beste Seite:
+
+| Anfrage (Schweiz) | Seite | Beleg |
+|---|---|---|
+| KI-Strategie Beratung für NPO Schweiz | `/services` (P8.1) | Kernquery Benchmark 2026-07 |
+| KI-Kompetenz im Verwaltungsrat | `/wissen/ki-strategie-verwaltungsrat` | GSC: 21 Impr., 0 Klicks |
+| EU AI Act: Was gilt in der Schweiz? | `/wissen/eu-ai-act-schweizer-npos` | GSC-Query + 9 KI-Impressionen |
+| Wie KI-bereit ist unsere Organisation? | `/wissen/ki-reifegrad-schweizer-npos` | Themen-Fit |
+| KI-Tools und Datenschutz (nDSG) in Verein/Stiftung | neue Seite (P9.5) | keine passende Seite |
+
+- [ ] P9.1 Startseite: Title (50–60 Zeichen) und Meta-Description auf NPO · Verwaltungsrat · Schweiz schärfen, de + en (Entwurf zur Freigabe vor Umsetzung)
+- [ ] P9.2 Positionierung konsistent nachziehen: Organization-Schema `description`, llms.txt, Wikidata-Beschreibung, LinkedIn — alle Flächen gleichzeitig (Regionsbehauptung nur CH)
+- [ ] P9.3 VR-Artikel: Title/Description auf «KI-Kompetenz im Verwaltungsrat» ausrichten (CTR-Hebel)
+- [ ] P9.4 Startseite: Begriffe aus Title und H1 im Fliesstext aufgreifen (Seobility-Warnungen)
+- [ ] P9.5 Neuer Wissen-Artikel «KI-Tools und Datenschutz (nDSG) in Vereinen und Stiftungen» de + en; llms.txt «## Wissen» und Chatbot-Prompt nachführen
+- [ ] P9.6 Monatlich GSC-Queries auf neue Nicht-Marken-Anfragen prüfen und der Tabelle oben zuordnen (erste Prüfung 2026-10-16)
+
+## P10 — Performance & Technik
+
+- [ ] P10.1 Mobile LCP 5.3 s → < 2.5 s: LCP-Element bestimmen, render-blockierende Ressourcen und ungenutztes/Legacy-JavaScript reduzieren; Ergebnis mit PageSpeed Insights gegenprüfen (lokales Lighthouse ≠ PSI)
+- [ ] P10.2 Schema-Warnung beheben: `availableLanguage` am Organization-Node (2×) ist dort nicht erlaubt — auf `ContactPoint` verschieben oder entfernen
+- [ ] P10.3 CSP ohne `'unsafe-inline'` (Nonces) evaluieren — Observatory B+ → A; nur ohne Funktionsverlust (cal.com, Salesflare, Sentry, Chat-Widget)
+- [ ] P10.4 Accessibility (Lighthouse Desktop 96): Farbkontrast und «sichtbares Label ≠ accessible name» beheben
+- [ ] P10.5 Apple-Touch-Icon ergänzen (Seobility-Warnung, geringe Priorität)
+- [ ] P10.6 Core Web Vitals in GSC beobachten — derzeit «keine Daten» (zu wenig Traffic); bei ersten Felddaten hier eintragen
+
+## P11 — Externe Sichtbarkeitsmessung (ergänzt P7)
+
+- [ ] P11.1 Peekaboo: deutsche Prompts zu NPO/Verwaltungsrat/Schweiz und echte Mitbewerber (transformind.ch, sollbergeraiconsulting.ch, kimpact.ch, spekt.ch) statt Big Four hinterlegen, falls im Gratisplan möglich
+- [ ] P11.2 Audit wiederholen mit identischen Eingaben (frühestens 2026-10-16) und Baseline-Spalte «Folgemessung» füllen
+- [ ] P11.3 GEO-Probe-Resultate August + September 2026 aus `geo_probes` in die Baseline übernehmen
+- [ ] P11.4 Spam-Backlinks (PBN-/Statistikseiten laut Semrush) beobachten; Disavow nur bei manueller Massnahme in der GSC
+
+## R — Re-Verifikation Zyklus 1
+
+Die erledigten Massnahmen aus P1–P7 und «Erledigt» erneut prüfen, damit Zyklus 2 auf einer funktionierenden Basis aufbaut (Apps-Umbau, Next.js-Updates und Content-Änderungen seit Juli können sie gebrochen haben). Ergebnis pro Item gemäss Konventionen notieren; Regressionen werden zu Folge-Items im passenden Paket.
+
+- [ ] R1 (P1) `/en`-Routen, LocaleSwitch, hreflang inkl. `x-default` und `og:locale` für alle Seitenpaare live prüfen
+- [ ] R2 (P1) Sitemap: Alternates vollständig (inkl. aller Artikel), `lastModified`-Konstanten in `src/app/sitemap.ts` entsprechen den letzten inhaltlichen Änderungen
+- [ ] R3 (P1/P2) `llms.txt` («## Wissen», «## English») und `llms-full.txt` enthalten alle Artikel und Apps-Links, keine `/lab`-Reste
+- [ ] R4 (P2) `/wissen` + `/en/wissen`: BlogPosting-Schema im Rich Results Test valide, `/feed.xml` gültig, `dateModified` korrekt
+- [ ] R5 (P3) Offene P3-Items mit Audit-Befund neu priorisieren und Reihenfolge hier festhalten
+- [ ] R6 (P4) Wikidata Q140457396 + Q140500710: Claims und Referenzen unverändert vorhanden; Beschreibung mit P9.2 abgleichen
+- [ ] R7 (P5) GBP: prüfen, ob Google inzwischen eine öffentliche Place-Seite anbietet; `share.google`-Link in `src/lib/authority.ts` funktioniert
+- [ ] R8 (P6) Chatbot (Workflow `lIPMcSi2yljEbfPJ`): DE/EN-Antworten, `/en`-Links, Wissen-Artikel und Apps statt Lab im System-Prompt — E2E-Test auf beiden Sprachen
+- [ ] R9 (P7) `/api/geo-stats` liefert Counter für 2026-08 und 2026-09; Proxy-Tracking aktiv
+- [ ] R10 (P7) GEO-Probe-Läufe vom 1.8. und 1.9.2026 in `geo_probes` vorhanden, Digest angekommen, alle vier Engines antworten
+- [ ] R11 (Erledigt 2026-07-18) robots.txt sperrt nur `/api/` und `/maintenance`; GSC «Blocked by robots.txt» zeigt genau diese Pfade
+- [ ] R12 (Erledigt 2026-07-10) Authority-Links, Booklet als `DigitalDocument` und CAS-Lehrgänge als `Course` im Live-Schema vorhanden
 
 ---
 
