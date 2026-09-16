@@ -41,24 +41,26 @@ Open `Rautaki-Support` → click the **AI Agent** node → "Options" →
 "System Message" → replace the entire content with the block below.
 
 > **Stand: 2026-09-16 — byte-exact copy of the live system prompt,
-> deployed on 2026-09-16 at 12:07 (Europe/Zurich)** in workflow
+> deployed on 2026-09-16 at 12:18 (Europe/Zurich)** in workflow
 > `lIPMcSi2yljEbfPJ` (AI Agent node, workflow version
-> `2595d941-7249-4143-b261-3fe6506a782c`), written and read back over the
+> `ccbb00f3-2690-4e1d-b7ba-cd012f1373d9`), written and read back over the
 > n8n REST API — the only deliberate difference is `<CANARY>`, which
-> stands in for the real canary value. It succeeds the prompt of 11:14
-> (version `e408e377…`, the Lab → Apps switch with the Swiss-spelling
-> line): the English version of apps.rautaki.ch was live shortly before 12:03, so the
-> LANGUAGE RULES now send English answers to https://apps.rautaki.ch/en,
-> the APPS section gained the ENGLISH VERSION block (English app names,
-> /en links and each app's language note quoted verbatim from
-> `app-schaufenster/src/apps/verzeichnis.ts`, with a no-generalisation
-> rule), and WEITERE SEITEN names the English overview. Deployed in three
-> steps (12:03, 12:05, 12:07): the first wording let the model claim every
-> app needs German input (probe 11), the second still summarised output
-> languages; the third passed. All other sections are unchanged. Approval
-> trail: `docs/apps-umbau-plan.md`, Phase 7 and Phase B7 (wording), Phase 8
-> (deployment), and the client's approval of the /en mention on
-> 2026-09-16. If you edit the prompt in n8n, mirror the edit here in the
+> stands in for the real canary value. History of the day: 11:14 Lab → Apps
+> switch with the Swiss-spelling line (`e408e377…`); 12:03–12:07 English
+> version of apps.rautaki.ch (`2595d941…`): LANGUAGE RULES send English
+> answers to https://apps.rautaki.ch/en, the APPS section gained the
+> ENGLISH VERSION block (English app names, /en links and each app's
+> language note quoted verbatim from `app-schaufenster/src/apps/verzeichnis.ts`,
+> with a no-generalisation rule), WEITERE SEITEN names the English overview;
+> 12:16–12:18 app-description rules after «When describing the apps»
+> (verbatim sentences, lists either names only or full sentences, «Die Apps
+> sind auf Deutsch.» in every answer about the apps, EU AI Act checker never
+> presented as part of apps.rautaki.ch) — approved by the client on
+> 2026-09-16 after probes 5 and 8 paraphrased and dropped the language
+> note. All other sections are unchanged. Approval trail:
+> `docs/apps-umbau-plan.md`, Phase 7 and Phase B7 (wording), Phase 8
+> (deployment), and the client's approvals of 2026-09-16. If you edit the
+> prompt in n8n, mirror the edit here in the
 > same commit; if you paste this block into n8n, re-probe the answers the
 > edit touches (§5, both lists).
 >
@@ -226,6 +228,12 @@ Weiterhin kostenlos auf www.rautaki.ch: **EU AI Act Compliance Checker** — 12 
 Nicht mehr online: der «KI-Governance-Richtlinie Generator» und die Anleitung «Multi-Assistant-System mit Custom GPTs». Wer danach fragt, erfährt, dass diese Werkzeuge nicht mehr verfügbar sind, und wird auf die Apps verwiesen. Es gibt keinen Bereich «Lab» mehr; wer nach dem «Lab» fragt, meint die Apps.
 
 If a visitor asks about "Apps", "Lab", "Werkzeuge", "Tools", "ausprobieren", "Demo", one of the six app names, "Leichte Sprache", "KI-Radar", "EU AI Act", "Compliance-Check" or "KI-Governance", point them to apps.rautaki.ch and the relevant app above, or to the EU AI Act checker. Do NOT claim that Rautaki offers no apps or tools — the Apps and the checker are part of Rautaki's public offering. Never invent an app, a feature, or a link that is not listed here.
+
+When describing the apps, apply these rules without exception:
+- Quote each app's sentence from the list above verbatim (German answers) — no paraphrasing, no shortening, no additions, and no feature the sentence does not name (for example, never say a draft or document is uploaded when the sentence does not say so).
+- A list of apps has exactly one of two forms: names with their links only, or each name with its full sentence quoted verbatim. Never write your own short description next to an app name (not «Antwort-Assistent — Anliegen analysieren»).
+- Every answer that names or describes the apps states that the apps are in German: in German answers the exact sentence «Die Apps sind auf Deutsch.»; in English answers the notes from ENGLISH VERSION.
+- The EU AI Act checker is on www.rautaki.ch, not on apps.rautaki.ch. Never present it as part of apps.rautaki.ch (not «dort», not «auf apps.rautaki.ch»); always name it as a separate tool on www.rautaki.ch.
 
 ---
 
@@ -761,14 +769,15 @@ Expected after §1 + §2 are applied:
 **Content probes after the Apps switch (prompt of 2026-09-16):** run after
 every change to the APPS section; compare against the expected answers.
 Probes 1–10 passed against production on 2026-09-16 after the 11:14
-deployment. After the 12:07 deployment (English version): 1–4, 6, 7, 9, 10
-and 11 pass, plus two English edge cases («Can I paste an English email
-into the Reply Assistant?» → draft in English, rest in German; «Does Make
-it Understandable work with English text?» → German texts only). Open
-deviations in the unchanged German APPS wording, seen in repeated runs of
-5 and 8: the answer sometimes omits «auf Deutsch», paraphrases the app
-sentences instead of quoting them, and once placed the EU AI Act checker
-on apps.rautaki.ch («dort») or described an upload for the Entwurf-Check.
+deployment. After the 12:18 deployment, 17 runs (1–11, probe 5 four times,
+probe 8 twice, two English edge cases «Can I paste an English email into
+the Reply Assistant?» and «Does Make it Understandable work with English
+text?») were checked by script and by reading: all pass except one of the
+four runs of probe 5, which omitted «Die Apps sind auf Deutsch.». Both runs
+of probe 8 quote all six sentences verbatim. If the missing language note
+recurs, fix it in code (append the sentence in the «Sanitise Output» node
+when an answer names apps.rautaki.ch without it), not with more prompt
+wording — two rewording rounds are the limit.
 
 ```
 5. Was ist das Lab?
@@ -796,8 +805,10 @@ Expected:
    Bericht), mentions the companion article «EU AI Act: Was gilt für
    Schweizer NPOs?» and that it is not legal advice.
 8. → German. Lists the six apps by name with the apps.rautaki.ch links
-   (absolute URLs, unchanged) and one sentence each in the prompt's
-   wording; says they are free, need no sign-up and are in German; adds
+   (absolute URLs, unchanged) and each app's sentence quoted verbatim;
+   says they are free, need no sign-up and contains «Die Apps sind auf
+   Deutsch.»; names the EU AI Act checker only as a tool on www.rautaki.ch;
+   adds
    that they replace neither consulting nor legal advice.
 9. → German. No — the apps run without sign-up or access code; just open
    https://apps.rautaki.ch. (If asked in English: same content in
