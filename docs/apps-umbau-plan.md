@@ -1,6 +1,13 @@
-# Umbau: «Lab» wird «Apps» (Anbindung von apps.rautaki.ch)
+# Gesamtpaket «Apps»: Umbau rautaki.ch und Vorlagen für alle Apps
 
-Stand: 2026-09-16 · Planungsdokument mit Fortschritts-Tracker · Projekt `rautaki-web`
+Stand: 2026-09-16 · Planungsdokument mit Fortschritts-Tracker · Projekte `rautaki-web` (Teil A) und
+`app-schaufenster` (Teil B)
+
+Zwei Teile, ein Tracker:
+
+- **Teil A** — www.rautaki.ch: «Lab» wird «Apps», Anbindung von apps.rautaki.ch (Phasen 1–10, Projekt `rautaki-web`).
+- **Teil B** — apps.rautaki.ch: Vorlage («Skill») zum Herunterladen für die fünf übrigen Apps, wie beim
+  Antwort-Assistenten (Phasen B0–B7, Projekt `app-schaufenster`; die Aufgaben entstehen dort unter `docs/tasks/`).
 
 Konventionen (wie `docs/geo-roadmap.md`): Checkbox im selben PR abhaken, der den Punkt
 abschliesst. Die Tabelle «Stand der Umsetzung» bei jedem Schritt nachführen: Status,
@@ -25,10 +32,21 @@ Status-Werte: `offen` · `in Arbeit` · `erledigt` · `blockiert` (Grund in der 
 | 8 | Ausserhalb des Repositories (Auftraggeber) | offen | | | apps.rautaki.ch live schalten, n8n, Vercel, Netlify, Umami |
 | 9 | Prüfung und Veröffentlichung | offen | | | |
 | 10 | Kontrolle nach dem Livegang | offen | | | |
+| B0 | Entscheide des Auftraggebers zu den Vorlagen | erledigt | 2026-09-16 | Auftraggeber | alle fünf gemäss Empfehlung; decisions.md + Brief in app-schaufenster |
+| B1 | Gemeinsame Vorbereitung im Kern (Knopf-Baustein, `ersetzeGenau`) | offen | | | Aufgabe 154 in `app-schaufenster` angelegt (bereit) |
+| B2 | Vorlage Entwurf-Check | offen | | | |
+| B3 | Vorlage Kommunikation aus einem Anlass | offen | | | |
+| B4 | Vorlage Verständlich machen | offen | | | Entscheid 3 (Stufe) nötig |
+| B5 | Vorlage Dokumenten-Chat | offen | | | Entscheid 4 (Zitierweise) nötig |
+| B6 | Vorlage KI-Potenzial-Radar | offen | | | Entscheid 5 (ja/nein) nötig |
+| B7 | Abschluss: Profil, Chatbot-Prompt, Auswertung | offen | | | hängt an Teil A Phase 7 |
 
-**Gesamtstand:** 6 von 11 Phasen erledigt. Livegang: noch nicht erfolgt.
+**Gesamtstand:** 7 von 19 Phasen erledigt (Teil A: 6 von 11 · Teil B: 1 von 8). Livegang Teil A: noch nicht
+erfolgt. Vorlagen online: 1 von 6 Apps (Antwort-Assistent, Pilot).
 
 ---
+
+# Teil A — www.rautaki.ch: «Lab» wird «Apps»
 
 ## 1. Ziel
 
@@ -216,7 +234,208 @@ Diese Punkte kann Claude nicht ausführen; sie brauchen Konten und Zugänge.
 - **Archiv:** `archiv/` liegt ausserhalb von `public/` und `src/`, wird also weder ausgeliefert
   noch gebaut. Sollte `tsconfig` oder ESLint darüber stolpern, den Ordner dort ausschliessen.
 
-## 6. Änderungsprotokoll
+# Teil B — apps.rautaki.ch: Vorlagen für die fünf übrigen Apps
+
+Die Arbeit von Teil B geschieht im Projekt `app-schaufenster` (Aufgaben unter `docs/tasks/`, Abschluss nur über
+`./scripts/finish-task.sh`, Entscheide in `docs/state/decisions.md`). Dieses Dokument ist der Tracker des Gesamtpakets:
+Aufgaben-Nummern und Daten werden hier nachgetragen, sobald sie feststehen.
+
+## B1. Ziel und Ausgangslage
+
+Jede der sechs Apps auf apps.rautaki.ch bietet nach dem Ergebnis einen Knopf «Vorlage herunterladen»: eine ZIP-Datei
+mit `SKILL.md` im offenen Standard Agent Skills, die sich im eigenen Claude oder ChatGPT als Skill hochladen lässt.
+Heute hat das nur der Antwort-Assistent (Pilot, Aufgaben 143–147, online mit der Veröffentlichung).
+
+Was schon da ist und wiederverwendet wird:
+
+- **Kern-Baustein** `src/kern/vorlage/skill.ts` (setzt `SKILL.md` aus den Angaben einer App zusammen, prüft Kopf und
+  Grenzen) und `src/kern/vorlage/zip.ts` (ZIP mit festem Datum, Byte für Byte gleich). Beide sind allgemein gebaut:
+  «eine weitere App liefert später nur ihre Angaben».
+- **Messung:** Das Ereignis `vorlage` mit `app` ist für jede App schon zugelassen (`src/kern/messung/ereignisse.ts`).
+- **Muster:** `src/apps/antwort-assistent/vorlage.ts` (Angaben und Chat-Anpassung), `src/app/antwort-assistent/vorlage.zip/route.ts`
+  (feste Datei), `src/app/antwort-assistent/vorlage-download.tsx` (Knopf), Tests dazu (`vorlage.test.ts`,
+  `route.test.ts`, `tests/e2e/vorlage.spec.ts`), Features F354–F368 in `docs/state/features.md`.
+- **Entscheide, die weitergelten** (decisions.md 2026-09-15): CC BY 4.0, Kopfzeile «Vorlage von Rautaki,
+  apps.rautaki.ch», Beschreibung höchstens 200 Zeichen, Ausgabe als lesbare Abschnitte statt JSON, kein Zusatz in der
+  Datenschutzerklärung, Knopf ohne Menünamen und ohne eigene Fehlermeldung, Knopf kommt je App als Letztes.
+
+## B2. Entscheide des Auftraggebers (Phase B0)
+
+Ohne diese Entscheide beginnt keine App-Aufgabe. Antworten mit Datum hier eintragen und in decisions.md festhalten.
+
+| Nr. | Frage | Empfehlung | Entscheid |
+|---|---|---|---|
+| 1 | Der Brief zum Pilot sagt: Die übrigen Apps folgen erst, wenn nach 30 Tagen mindestens 5 % der Nutzungen zu einem Download führen. Wird dieser Entscheid aufgehoben und jetzt gebaut? | Ja, aufheben und in decisions.md begründen (Gesamtpaket, Vorlage als Bestandteil jeder App). Die Auswertung nach 30 Tagen bleibt, je App. | **Ja, aufgehoben** (2026-09-16); decisions.md und Brief `vorlage-weitere-apps.md` in app-schaufenster |
+| 2 | Reihenfolge der Apps | Von leicht nach schwer: Entwurf-Check, Kommunikation, Verständlich machen, Dokumenten-Chat, KI-Radar. So entsteht das Muster an den einfachen Apps und die schwierigen profitieren davon. | **Wie empfohlen** (2026-09-16): Entwurf-Check, Kommunikation, Verständlich machen, Dokumenten-Chat, KI-Radar |
+| 3 | Verständlich machen hat je Stufe eine eigene Anweisung. Eine Vorlage, in der die Person die Stufe im Chat nennt, oder eine Vorlage je Stufe? | Eine Vorlage mit allen Stufen und einer Regel, welche gilt (Standardstufe, wenn keine genannt). Ein Download, ein Skill. | **Eine Vorlage mit allen Stufen**, Standardstufe der Seite, wenn keine genannt (2026-09-16) |
+| 4 | Dokumenten-Chat: Auf der Website zerlegt Code das PDF in nummerierte Abschnitte, die die KI zitiert. Im Chat liest Claude das PDF selbst. Zitierweise? | Nach Seiten und wörtlichem Zitat («Seite 3: “…”»); keine Abschnittsnummern. | **Nach Seiten und wörtlichem Zitat** (2026-09-16) |
+| 5 | KI-Potenzial-Radar: Grafik und PDF gibt es im Chat nicht; die Vorlage wäre ein Fragebogen im Chat mit einer Einschätzung als Text. Bauen? | Ja, aber als Letztes und mit dem Hinweis in der Vorlage, was fehlt. Alternativ weglassen, dann fünf statt sechs Vorlagen. | **Ja, bauen, als Letztes**, mit Hinweis auf fehlende Grafik/PDF (2026-09-16) |
+
+Dazu je App: Freigabe der Texte (Beschreibung, Einleitung, die zwei Ersatzsätze, Titel beim Knopf) vor dem Knopf,
+wie bei Aufgabe 146.
+
+## B3. Kosten und Prüfung: ohne bezahlte Läufe
+
+- **Echte KI: 0 USD.** Die Vorlage entsteht aus dem Code, ohne KI-Aufruf. Keine Aufgabe von Teil B nennt `npm run eval`
+  oder `beispiele:erzeugen` als Abnahmezeile.
+- **Automatisch geprüft:** Unit-Tests (Vitest) je Vorlage und ZIP-Route, e2e-Tests (Playwright, `TESTMODUS=1`, Testanbieter
+  statt Anthropic) je Knopf, `./scripts/verify.sh --deep` (axe, CSP, Lighthouse mobil) vor der Freigabe.
+- **Mit echter KI prüft nur der Auftraggeber im eigenen Abo,** einmal je Vorlage, wie bei Aufgabe 146: ZIP aus der
+  Vorschau laden, in Claude als Skill hochladen, ein Beispiel ausprobieren, die Abschnitte und die Prüfliste anschauen.
+  Ergebnis mit Datum und Beispiel in decisions.md; erst dann kommt der Knopf.
+- **Warum kein Testlauf gegen die API:** Er würde die Anweisung der Website prüfen, nicht die Vorlage im Chat.
+- **Bekannte Grenze:** Vier Apps (Entwurf-Check, Kommunikation, Verständlich machen, KI-Radar) lassen die KI auf der
+  Website bei Befunden aus Code-Prüfungen einmal nachbessern. Im Chat gibt es diesen Code nicht. Die Code-Prüfungen
+  stehen als Sätze in der Prüfliste der Vorlage, die die Person selbst abhakt. Die Vorlage sagt das offen.
+
+## B4. Muster je App: so wird die Vorlage fehlerfrei
+
+Jede App-Aufgabe folgt dieser Liste. Abweichungen nur mit Eintrag in decisions.md.
+
+1. **Angaben aus dem Code** in `src/apps/<app>/vorlage.ts`, nach dem Vorbild des Antwort-Assistenten:
+   `VORLAGE_NAME` = Route der App (Kleinbuchstaben, Bindestriche; Test prüft das Muster); Beschreibung eine Zeile,
+   höchstens 200 Zeichen, endet mit «Vorlage von Rautaki, apps.rautaki.ch»; Lizenz `CC-BY-4.0`; Titel = Name der App;
+   Grenze aus dem Seitentext; Beispiele = die vier Varianten (NPO, Verwaltung, Bildung/Hochschule, KMU) wörtlich;
+   Prüfliste = alle Testfälle mit Modellbewertung, je Fall Eingabe und jeder Bewertungssatz.
+2. **Chat-Anpassung der Anweisung** nur über `ersetzeGenau`: genau die Stelle, die den Datenblock der Website nennt,
+   und genau die Stelle, die das JSON-Format verlangt, werden durch die freigegebenen Ersatzsätze ersetzt. Steht eine
+   Stelle nicht genau einmal in der Anweisung, bricht die Erzeugung ab, und mit ihr der Build. Das ist gewollt: Eine
+   veränderte App darf nie still eine falsche Vorlage liefern. Jede App hat eigene Formulierungen (siehe B5); die
+   Sätze werden aus `prompt.ts` kopiert, nicht aus dem Gedächtnis.
+3. **Beschriftungen aus einer Quelle ohne zod:** Die Überschriften der Ausgabe kommen aus `felder.ts` der App (Feldliste
+   und Beschriftungen, Typen nur als `import type`). Fehlt `felder.ts`, wird es angelegt; Browser-Code importiert nie
+   Werte aus `schema.ts` (CSP-Falle, Aufgabe 092).
+4. **Unit-Tests** `src/apps/<app>/vorlage.test.ts`, gleiche Fälle wie beim Pilot: Kopf (genau `name`, `description`,
+   `license`); jede Überschrift und jeder Regelblock der Anweisung in der Vorlage; eine veränderte Regel erscheint
+   verändert; ohne Datenblock und JSON, Abbruch, wenn eine Stelle fehlt; jede Beschriftung der Ausgabe; «Darf
+   nicht»-Regeln und Grenze; die vier Beispiele wörtlich; jeder Testfall mit Bewertung in der Prüfliste; Hinweis zu
+   Datenschutz und Kosten; zweimal erzeugt Zeichen für Zeichen gleich.
+5. **Feste ZIP-Datei** `src/app/<app>/vorlage.zip/route.ts` mit `force-static`, Dateiname `<app>.zip`, genau ein
+   Ordner `<app>` mit `SKILL.md`. Tests wie `route.test.ts` des Pilots: force-static, Dateiname, kein Cookie, Ordner
+   und Inhalt gleich der Vorlage, jede Antwort dieselben Bytes.
+6. **Knopf** über den gemeinsamen Baustein aus Phase B1, mit den Texten der App (`vorlageDownloadTexte` in
+   `src/app/<app>/texte.ts`: Knopf, Titel «Den/Die … im eigenen Claude oder ChatGPT nutzen», Hinweis Claude, Hinweis
+   ChatGPT mit Vorbehalt je Land, Hinweis Datenschutz und Kosten). Nur nach einem Ergebnis; nicht vor dem Absenden,
+   nicht bei einer Meldung, nicht beim Beispielergebnis bei erschöpftem Budget. Jeder Klick meldet `vorlage` mit der
+   Route der App, genau einmal.
+7. **e2e-Tests** (Playwright, nach `npm run build`, Exit-Code jeder Stufe ausgeben): kein Knopf vor dem Ergebnis und bei
+   einer Meldung; nach dem Ergebnis Knopf, Titel, drei Hinweise; Download beginnt mit «PK»; geladene Adresse genau
+   `/<app>/vorlage.zip`, ohne Parameter, ohne Teile von Eingabe oder Ergebnis; Ereignis `vorlage` einmal je Klick;
+   Tastatur; axe ohne Verstösse im Zustand mit Ergebnis; 360 px ohne seitliches Scrollen; gleiche Bytes mit und ohne
+   Parameter und Cookie.
+8. **Features** in `docs/state/features.md` als eigene Gruppe «Vorlage mitnehmen: <App> (Stufe 2)», nach dem Muster
+   F354–F368 (inkl. eines Features «lässt sich in Claude hochladen und liefert …», das nur der Auftraggeber belegt).
+9. **Reihenfolge innerhalb der App:** Vorlage und Tests → ZIP-Route → Texte zur Freigabe und Prüfung in Claude durch den
+   Auftraggeber → Knopf und e2e. So ist jederzeit hochladbar, ohne dass Ungeprüftes online geht. Eine Aufgabe je
+   Entscheid: mindestens zwei Aufgaben je App (Vorlage + ZIP; Freigabe + Knopf).
+10. **Abschluss je Aufgabe:** `./scripts/verify.sh --deep` grün, Eintrag in decisions.md in Alltagssprache (Was, Warum,
+    Gegenprobe, Folge für den Auftraggeber), README von `app-schaufenster` nachführen (Vorlage je App), `finish-task.sh`
+    mit Modell, Runden, Tokens.
+
+Fallen, die der Pilot gezeigt hat: drei Anführungs-Backticks in einem Beispiel schliessen den Codeblock (Kern wirft);
+Zeilenumbruch in der Beschreibung (Kern wirft); `vi.useFakeTimers` hält `jszip` an, nur die Uhrzeit verfälschen;
+Playwright kann keine Server-Module laden, ZIP-Inhalt im e2e über die Adresse prüfen; `finish-task.sh` nimmt alles
+Geänderte mit, vorher `git status` lesen.
+
+## B5. Besonderheiten je App
+
+| App (Route) | Eingabe auf der Website | Was im Chat anders ist | Besondere Punkte |
+|---|---|---|---|
+| Entwurf-Check (`entwurf-check`) | zwei benannte Texte, Entwurf und Anforderungen, je in einem Datenblock; `anKi` nummeriert die Kriterien | Die Person fügt beide Texte im Chat ein; die Vorlage sagt, dass sie die Kriterien selbst nummeriert | `felder.ts` vorhanden. Nachbessern und Platzhalter-Regeln (`platzhalter.ts`) nur als Prüfliste. Anweisung nennt zwei Datenblöcke, beide Stellen ersetzen |
+| Kommunikation aus einem Anlass (`kommunikation`) | benannte Texte in einem Datenblock; Quelle und Platzhalter werden im Code nachbearbeitet | Texte im Chat; Quellenregel als Anweisung an die KI | `felder.ts` vorhanden. Nachbessern nur als Prüfliste |
+| Verständlich machen (`verstaendlich-machen`) | Text mit Einstellung (Stufe); eine Anweisung je Stufe | Je nach Entscheid 3: eine Vorlage mit allen Stufen und Auswahlregel, oder eine je Stufe | Kein `felder.ts`, anlegen. Code-Regeln in `regeln.ts` (z. B. Wortlänge) hält die KI schlecht ein: in der Prüfliste ausdrücklich, in der Vorlage als Hinweis. Ausgabe-Beschriftungen aus `texte.ts` der Seite |
+| Dokumenten-Chat (`dokumenten-chat`) | PDF wird im Code zerlegt (`dokumente.ts`), Frage plus nummerierte Abschnitte, Antwort mit Quellen (`erzeugeMitQuellen`) | Die Person hängt das PDF selbst an und stellt die Frage; Zitierweise nach Entscheid 4 | Kein `felder.ts`, Beschriftungen aus `antwort.ts`/Seite. Die Anweisung spricht von Abschnitten und Quellen-Nummern: grössere Anpassung, mehrere `ersetzeGenau`-Stellen, jede einzeln getestet. PDF-Meldungen der Website (`pdf-meldungen.ts`) entfallen. Kein Nachbessern |
+| KI-Potenzial-Radar (`ki-radar`) | Antworten zum Anklicken aus festen Listen (`fragen.ts`), `alsNachricht` macht daraus Text; Auswertung, Grafik und PDF im Code | Nur nach Entscheid 5. Die Vorlage stellt die Fragen mit ihren Antwortmöglichkeiten nacheinander, dann Einschätzung als Text nach den Feldern der App | `felder.ts` vorhanden. Aufgabentexte je Organisationstyp (`aufgabeTextFuerKi`, Aufgabe 152) übernehmen. In der Vorlage steht, was fehlt (Grafik, PDF). Nachbessern nur als Prüfliste |
+
+## B6. Phasen und Arbeitsschritte
+
+### Phase B0 — Entscheide des Auftraggebers
+
+- [x] Fünf Fragen aus B2 beantwortet, mit Datum in der Tabelle (2026-09-16, alle gemäss Empfehlung)
+- [x] Eintrag in `docs/state/decisions.md` («Vorlagen für die fünf übrigen Apps: Entscheide des Auftraggebers», 2026-09-16); neuer Brief `docs/briefs/vorlage-weitere-apps.md`
+- [x] Brief `docs/briefs/vorlage-antwort-assistent.md` um den Nachtrag ergänzt, dass die übrigen Apps unabhängig vom Ergebnis folgen
+- Status: erledigt (2026-09-16)
+
+### Phase B1 — Gemeinsame Vorbereitung im Kern (eine Aufgabe in `app-schaufenster`)
+
+- [ ] Knopf-Baustein in den Kern ziehen (z. B. `src/kern/vorlage/download.tsx`): nimmt Route, Texte und Adresse der ZIP-Datei; meldet `vorlage` mit der Route; Gestaltung unverändert
+- [ ] Antwort-Assistent auf den Baustein umstellen; alle 13 Tests der Seite und der Datei bleiben grün, Bytes der ZIP-Datei unverändert
+- [ ] `ersetzeGenau` in den Kern (`src/kern/vorlage/`) und dort testen, damit jede App dieselbe Sicherung nutzt
+- [ ] Muster aus B4 als kurzer Abschnitt in `docs/briefs/` oder README von `app-schaufenster` festgehalten
+- [ ] `./scripts/verify.sh --deep` grün, decisions.md, finish-task
+- Aufgabe: 154 (`docs/tasks/154-vorlage-kern-baustein-fuer-alle-apps.md`, bereit) · Status: offen
+
+### Phase B2 — Vorlage Entwurf-Check
+
+- [ ] Aufgabe A: `vorlage.ts` + Unit-Tests + ZIP-Route + Tests (B4 Punkte 1–5) · Aufgabe: (Nummer)
+- [ ] Texte dem Auftraggeber vorgelegt und freigegeben (Datum)
+- [ ] Prüfung in Claude durch den Auftraggeber: Datum, Beispiel, Ergebnis in decisions.md
+- [ ] Aufgabe B: Knopf + e2e (B4 Punkte 6–7), Features, README · Aufgabe: (Nummer)
+- [ ] `./scripts/verify.sh --deep` grün, finish-task
+- Status: offen
+
+### Phase B3 — Vorlage Kommunikation aus einem Anlass
+
+- [ ] Aufgabe A: Vorlage, Tests, ZIP-Route · Aufgabe: (Nummer)
+- [ ] Texte freigegeben (Datum)
+- [ ] Prüfung in Claude durch den Auftraggeber (Datum, Beispiel)
+- [ ] Aufgabe B: Knopf, e2e, Features, README · Aufgabe: (Nummer)
+- [ ] `./scripts/verify.sh --deep` grün, finish-task
+- Status: offen
+
+### Phase B4 — Vorlage Verständlich machen
+
+- [ ] Entscheid 3 liegt vor
+- [ ] `felder.ts` ohne zod angelegt
+- [ ] Aufgabe A: Vorlage (mit Stufenregel), Tests, ZIP-Route · Aufgabe: (Nummer)
+- [ ] Texte freigegeben (Datum)
+- [ ] Prüfung in Claude durch den Auftraggeber, je Stufe einmal (Datum, Beispiel)
+- [ ] Aufgabe B: Knopf, e2e, Features, README · Aufgabe: (Nummer)
+- [ ] `./scripts/verify.sh --deep` grün, finish-task
+- Status: offen
+
+### Phase B5 — Vorlage Dokumenten-Chat
+
+- [ ] Entscheid 4 liegt vor
+- [ ] Aufgabe A: Vorlage (Anweisung für PDF im Chat, Zitierweise), Tests je Ersatzstelle, ZIP-Route · Aufgabe: (Nummer)
+- [ ] Texte freigegeben (Datum)
+- [ ] Prüfung in Claude durch den Auftraggeber mit einem der Beispiel-Dokumente (Datum, Dokument, Frage)
+- [ ] Aufgabe B: Knopf, e2e, Features, README · Aufgabe: (Nummer)
+- [ ] `./scripts/verify.sh --deep` grün, finish-task
+- Status: offen
+
+### Phase B6 — Vorlage KI-Potenzial-Radar
+
+- [ ] Entscheid 5 liegt vor (bei «nein»: Phase als «entfällt» markieren, Gesamtstand anpassen)
+- [ ] Aufgabe A: Vorlage (Fragen mit Antwortmöglichkeiten, Einschätzung als Text, Hinweis auf fehlende Grafik/PDF), Tests, ZIP-Route · Aufgabe: (Nummer)
+- [ ] Texte freigegeben (Datum)
+- [ ] Prüfung in Claude durch den Auftraggeber (Datum, Organisationstyp)
+- [ ] Aufgabe B: Knopf, e2e, Features, README · Aufgabe: (Nummer)
+- [ ] `./scripts/verify.sh --deep` grün, finish-task
+- Status: offen
+
+### Phase B7 — Abschluss des Gesamtpakets
+
+- [ ] `docs/profil/produkte.md` §5.1: Stand «alle sechs Apps mit Vorlage», Datum
+- [ ] Chatbot-Prompt (Teil A, Phase 7): ein Satz, dass sich jede App als Vorlage für Claude oder ChatGPT mitnehmen lässt; wenn Phase 7 schon eingespielt ist, als Nachtrag über denselben Ablauf (Freigabe, n8n, Kontrollfrage)
+- [ ] `llms.txt`/`llms-full.txt` in `rautaki-web`: Hinweis auf die Vorlagen im Abschnitt «Apps»
+- [ ] Auswertung: je App `vorlage` ÷ `benutzt` in Vercel Web Analytics, 30 Tage nach dem Livegang der jeweiligen Vorlage; Aufgabe mit Datum in `app-schaufenster` anlegen
+- [ ] handoff.md in `app-schaufenster` nachgeführt
+- Status: offen
+
+## B7. Risiken und offene Punkte
+
+- **Qualität im Chat unter der Website** bei den vier Apps mit Nachbessern (B3). Wird das in der Prüfung durch den
+  Auftraggeber sichtbar, ist die Antwort ein deutlicherer Hinweis in der Vorlage, kein bezahlter Lauf und keine neue
+  Regel, die nur der Chat kennt.
+- **Build bricht bei Änderung einer Anweisung:** gewollt (B4 Punkt 2). Wer eine Anweisung ändert, führt die
+  Ersatzstellen in `vorlage.ts` nach; der Test «fehlt eine Stelle, bricht die Erzeugung ab» zeigt es sofort.
+- **Sechs ZIP-Dateien, sechs Texte:** Die Hinweise beim Knopf (Claude, ChatGPT, Abo) sind bei allen Apps gleich und
+  liegen nach B1 einmal im Kern; je App nur Titel und Beschreibung. So bleiben die Freigaben klein.
+- **Zeitpunkt der Auswertung:** Jede Vorlage bekommt ihr eigenes Datum; eine gemeinsame Auswertung erst, wenn die
+  letzte 30 Tage online ist.
+
+# Änderungsprotokoll (beide Teile)
 
 - 2026-09-16 — Dokument angelegt; Entscheide des Auftraggebers aufgenommen (Zeitpunkt sofort, Checker bleibt, E-Mail-Kanal fällt weg, «Apps» mit Weiterleitung).
 - 2026-09-16 — Phase 1 erledigt: «Lab» → «Apps» in Menü und Fusszeile (DE/EN). Nebenbefund: `localePath()` hätte `/en` vor die absolute Adresse gesetzt; behoben in `src/lib/i18n.ts`. `npm run lint`, `tsc`, `npm run build` grün.
@@ -226,3 +445,5 @@ Diese Punkte kann Claude nicht ausführen; sie brauchen Konten und Zugänge.
 - 2026-09-16 — Phase 5 erledigt: Sitemap ohne `/lab` und die zwei Werkzeuge; `llms.txt`/`llms-full.txt` mit Abschnitt «Apps» (sechs Apps aus `verzeichnis.ts`, Checker als Einzelwerkzeug). Diese App-Texte sind dieselbe Quelle, die Phase 7 für den Chatbot-Prompt braucht.
 - 2026-09-16 — Entscheid nachgetragen: apps.rautaki.ch geht mit dem Umbau live (Zugangscode weg, `noindex` aufheben) und ist über www.rautaki.ch erreichbar. Neuer Punkt in Phase 8, Folgehinweise in Phase 7, Phase 10 und §5.
 - 2026-09-16 — Phase 7 «Neuer Chatbot-Prompt für n8n» eingefügt (vollständiger Prompt statt Teilkorrektur, Freigabe des Wortlauts, Kontrollfragen); bisherige Phasen 7 bis 9 sind neu 8 bis 10. Offen: Satz zur Testphase im Prompt nach Ende der Testphase streichen.
+- 2026-09-16 — Teil B «Vorlagen für die fünf übrigen Apps» angefügt (Phasen B0–B7, Muster je App, Kosten 0 USD, keine bezahlten Läufe); Dokument in Teil A und Teil B gegliedert, Tracker um acht Zeilen erweitert.
+- 2026-09-16 — Phase B0 erledigt: alle fünf Entscheide gemäss Empfehlung; Aufgabe 154 (Phase B1) in app-schaufenster angelegt.
