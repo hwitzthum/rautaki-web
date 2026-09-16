@@ -14,10 +14,9 @@ const MAINTENANCE_PATH = "/maintenance";
 // The English site lives under /en; everything else is German. Derived here and
 // forwarded to the layout via x-locale so the server components never have to
 // re-parse the pathname.
-// Per-request nonce CSP for pages (roadmap P10.7). Next.js reads the nonce from
-// this request header during rendering and tags its own scripts with it.
-// Rollout: Report-Only first (the static enforcing policy from next.config.ts
-// stays in force), then switch to the enforcing header.
+// Per-request nonce CSP for pages (roadmap P10.7). Rollout: Report-Only first
+// (the static enforcing policy from next.config.ts stays in force), then
+// switch the response header to the enforcing one.
 const NONCE_CSP_HEADER = "Content-Security-Policy-Report-Only";
 
 function applyNonceCsp(requestHeaders: Headers): string {
@@ -26,7 +25,11 @@ function applyNonceCsp(requestHeaders: Headers): string {
     nonce,
     dev: process.env.NODE_ENV === "development",
   });
-  requestHeaders.set(NONCE_CSP_HEADER, policy);
+  // Next.js takes the nonce from the `content-security-policy` REQUEST header
+  // and only falls back to the report-only one. On Vercel the static policy
+  // from next.config.ts (no nonce) already arrives there, so the nonce policy
+  // must overwrite exactly this header — otherwise no script gets a nonce.
+  requestHeaders.set("content-security-policy", policy);
   return policy;
 }
 
