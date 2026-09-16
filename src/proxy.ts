@@ -14,24 +14,24 @@ const MAINTENANCE_PATH = "/maintenance";
 // The English site lives under /en; everything else is German. Derived here and
 // forwarded to the layout via x-locale so the server components never have to
 // re-parse the pathname.
-// Per-request CSP for pages (roadmap P10.7). The proxy owns the CSP for every
-// HTML route: next.config.ts only covers /api. Reason: on Vercel a header from
-// next.config.ts is also merged into the request headers and wins over the
-// proxy's request-header override, and Next.js reads the nonce only from the
-// request's `content-security-policy` (falling back to `…-report-only`), so a
-// static policy there means no script ever gets a nonce.
+// Per-request nonce CSP for pages (roadmap P10.7). The proxy owns the CSP for
+// every HTML route; next.config.ts only covers /api. Next.js reads the nonce
+// from the request's `content-security-policy` header and tags its scripts.
 //
-// Rollout: the enforced policy is the previous static one; the nonce policy
-// ships as Report-Only until production shows no violations, then it becomes
-// the enforced header.
-const isDev = process.env.NODE_ENV === "development";
-
+// Vercel merges the proxy's RESPONSE headers into the request the page
+// function receives, and they win over the request-header override — so any
+// `Content-Security-Policy` set here (from next.config.ts or as a response
+// header) is what Next.js sees. A static policy there hides the nonce and a
+// Report-Only rollout alongside the old enforced policy is not possible: the
+// enforced response header itself has to carry the nonce.
 function applyCsp(requestHeaders: Headers, response: NextResponse): void {
   const nonce = btoa(crypto.randomUUID());
-  const noncePolicy = buildCsp({ nonce, dev: isDev });
-  requestHeaders.set("content-security-policy", noncePolicy);
-  response.headers.set("Content-Security-Policy", buildCsp({ dev: isDev }));
-  response.headers.set("Content-Security-Policy-Report-Only", noncePolicy);
+  const policy = buildCsp({
+    nonce,
+    dev: process.env.NODE_ENV === "development",
+  });
+  requestHeaders.set("content-security-policy", policy);
+  response.headers.set("Content-Security-Policy", policy);
 }
 
 function localeFromPathname(pathname: string): "de" | "en" {

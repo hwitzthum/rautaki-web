@@ -171,11 +171,6 @@ export default async function RootLayout({
     <html lang={locale === "en" ? "en" : "de-CH"} data-scroll-behavior="smooth">
       <head>
         <JsonLd schema={siteSchema(locale)} />
-        {/* TEMP-DEBUG P10.7 */}
-        <meta
-          name="x-debug-csp"
-          content={`csp=${(hdrs.get("content-security-policy") ?? "none").slice(0, 90)} | ro=${(hdrs.get("content-security-policy-report-only") ?? "none").slice(0, 90)}`}
-        />
       </head>
       <body className={`${dmSans.variable} antialiased`}>
         <a href="#main-content" className="skip-to-content">
