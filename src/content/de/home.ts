@@ -11,7 +11,7 @@ export const home = {
   heroDark: {
     headlineLines: ["Strategie", "im *KI-Zeitalter*", "mit Wirkung."],
     intro:
-      "Wir verbinden strategische Beratung für Geschäftsleitungen und Verwaltungsräte mit akkreditierter Weiterbildung — von der Standortbestimmung bis zur produktionsreifen Lösung. Mit besonderer Erfahrung im NPO-, Sozial- und öffentlichen Sektor.",
+      "Wir verbinden KI-Strategieberatung für Verwaltungsräte und Geschäftsleitungen in der Schweiz mit akkreditierter Weiterbildung — von der Standortbestimmung bis zur produktionsreifen Lösung. Mit Schwerpunkt NPO, Sozialwesen und öffentlicher Sektor.",
     ctaTitle: "Entwickeln Sie eine belastbare KI-Strategie",
     ctaBody:
       "Im Erstgespräch klären wir Prioritäten, Governance-Entscheide und die Führungskompetenzen für Ihre nächste Phase.",
@@ -55,7 +55,7 @@ export const home = {
   problem: {
     label: "KI-Wirkung",
     heading: "Das Potenzial ist real. Die Lücke zur *Wirkung* auch.",
-    body: "88 Prozent der Unternehmen setzen KI regelmässig ein — doch zwei Drittel haben sie nie über die Pilotphase hinaus skaliert. Diese Lücke zwischen Aktivität und Wirkung ist die strategische Herausforderung unserer Zeit.",
+    body: "88 Prozent der Unternehmen setzen KI regelmässig ein — doch zwei Drittel haben sie nie über die Pilotphase hinaus skaliert. Diese Lücke zwischen Aktivität und Wirkung ist die strategische Herausforderung im KI-Zeitalter — und ohne klare KI-Strategie schliesst sie sich nicht.",
   },
   serviceCards: {
     label: "Leistungen",
@@ -76,14 +76,14 @@ export const home = {
       },
       {
         title: "Zuhause, wo Wirkung zählt",
-        body: "NPO, Verbände, Sozial- und öffentlicher Sektor: Wir kennen Organisationen, in denen jeder Franken doppelt begründet sein muss — und KI trotzdem wirken soll.",
+        body: "Schweizer NPOs, Verbände, Sozial- und öffentlicher Sektor: Wir kennen Organisationen, in denen jeder Franken doppelt begründet sein muss — und KI trotzdem wirken soll.",
       },
     ],
   },
   cta: {
     label: "Nächster Schritt",
     heading: "Ist Ihre Organisation bereit für KI?",
-    body: "Wir unterstützen Führungsteams dabei, festzulegen, wo KI führen soll, wo Leitplanken essenziell sind und wie Sie von Ambition zu sicherer Umsetzung gelangen.",
+    body: "Wir unterstützen Verwaltungsräte und Geschäftsleitungen dabei, in ihrer KI-Strategie festzulegen, wo KI führen soll, wo Leitplanken essenziell sind und wie sie von Ambition zu sicherer Umsetzung gelangen.",
     button: "Erstgespräch vereinbaren",
     pricePrefix: "Transparente Tarife: Beratungstag ab CHF 3'500 — ",
     priceLinkLabel: "alle Preise unter Leistungen",
