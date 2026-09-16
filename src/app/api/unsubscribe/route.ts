@@ -63,8 +63,8 @@ export async function GET(request: NextRequest) {
   // double-quoted `value` attribute and inject additional attributes on
   // the <input> tag. `email` reaches here already HMAC-verified against
   // UNSUBSCRIBE_SECRET (see isValid above), but the same secret signs
-  // whatever string an upstream caller (referral-action, nurture-send)
-  // chose to pass in — those callers do not restrict the string to a
+  // whatever string an upstream caller (referral-action) chose to pass
+  // in — that caller does not restrict the string to a
   // strict email shape — so this endpoint must not assume the value is
   // attribute-safe on its own.
   const safeEmail = email

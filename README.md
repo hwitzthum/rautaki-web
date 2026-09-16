@@ -43,7 +43,7 @@ für Geschäftsleitungen & Verwaltungsräte; Quelle: `docs/Rautaki_KI-Beratung_B
 | `POST /api/mahnung-request`                                        | n8n → Freigabe-Mail mit signierten Links                      | `N8N_SEND_TOKEN`, Ask-Dedup                                                               |
 | `GET/POST /api/referral-action`                                    | Approve/Skip-Klickziel Referrals                              | wie mahnung-action                                                                        |
 | `POST /api/referral-request`                                       | n8n → Referral-Freigabe-Mail                                  | `N8N_SEND_TOKEN`                                                                          |
-| `POST /api/briefing-send`, `/api/digest-send`, `/api/nurture-send` | n8n-getriggerte Versand-Routen                                | `N8N_SEND_TOKEN`; Nurture zusätzlich fail-closed Suppression-Check                        |
+| `POST /api/briefing-send`, `/api/digest-send`                      | n8n-getriggerte Versand-Routen                                | `N8N_SEND_TOKEN`                                                                          |
 | `GET/POST /api/unsubscribe`                                        | Abmeldung (HMAC-Token + RFC-8058-One-Click)                   | fail-closed ohne Secret                                                                   |
 | `GET /api/cron/keepalive`                                          | Hält Upstash Redis aktiv                                      | `CRON_SECRET` (Bearer)                                                                    |
 
