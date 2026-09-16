@@ -83,9 +83,9 @@ export default function BookingPage({ locale }: { locale: Locale }) {
                   <div className="font-ui text-xs font-medium uppercase tracking-wide-label text-mid-grey mb-4">
                     {item.number}
                   </div>
-                  <h3 className="font-serif text-h3 tracking-tight-h3 font-normal text-white mb-3">
+                  <h2 className="font-serif text-h3 tracking-tight-h3 font-normal text-white mb-3">
                     {item.title}
-                  </h3>
+                  </h2>
                   <p className="font-ui text-sm leading-body text-white/55 font-light">
                     {item.body}
                   </p>

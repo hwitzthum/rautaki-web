@@ -24,7 +24,7 @@ export default function Logo({
   const baseColor = variant === "dark" ? "text-white" : "text-ink";
 
   return (
-    <Link href="/" aria-label="Rautaki — home" className="inline-block">
+    <Link href="/" className="inline-block">
       <div
         className={`font-serif font-normal leading-none tracking-tight-h4 ${sizeClasses[size]} ${baseColor}`}
       >

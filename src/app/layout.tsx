@@ -60,7 +60,6 @@ function siteSchema(locale: Locale) {
         // CH only — every visible surface (llms.txt, /services Service schema,
         // all copy) claims Switzerland; the schema must not assert more.
         areaServed: "CH",
-        availableLanguage: ["German", "English"],
         knowsAbout: [
           "AI Strategy",
           "Artificial Intelligence",
