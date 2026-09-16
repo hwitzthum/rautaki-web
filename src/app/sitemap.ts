@@ -15,7 +15,7 @@ const lastModified = {
   booking: { de: new Date("2026-07-06"), en: new Date("2026-07-11") },
   imprint: { de: new Date("2026-07-06"), en: new Date("2026-07-11") },
   privacy: { de: new Date("2026-07-11"), en: new Date("2026-07-11") }, // NEXT_LOCALE-Absatz
-  labEuAiActCheck: new Date("2026-08-21"),
+  labEuAiActCheck: new Date("2026-09-16"), // Header/Titel: «Rautaki Lab» → «Rautaki»
 };
 
 const base = "https://www.rautaki.ch";
