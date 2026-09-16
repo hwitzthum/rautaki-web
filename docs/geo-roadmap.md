@@ -22,7 +22,7 @@ Konventionen:
 | P5 | Google-Business-Profile-URL | 1 | — | geschlossen mit Befund | 2026-07-11 |
 | P6 | Aufgeschoben aus P1 | 1 | 2/2 | abgeschlossen | 2026-09-16 |
 | P7 | GEO-Messung | 1 | 5/5 | abgeschlossen | 2026-07-11 |
-| P8 | Indexierung der Kernseiten | 2 | 0/4 | offen — Priorität 1 | 2026-09-16 |
+| P8 | Indexierung der Kernseiten | 2 | 1/4 | in Arbeit — Priorität 1 | 2026-09-16 |
 | P9 | Nicht-Marken-Suchen & Snippets | 2 | 0/6 | offen — Priorität 3 | 2026-09-16 |
 | P10 | Performance & Technik | 2 | 0/6 | offen | 2026-09-16 |
 | P11 | Externe Sichtbarkeitsmessung | 2 | 0/4 | offen | 2026-09-16 |
@@ -140,7 +140,7 @@ Messarten bewusst getrennt. Nach Abschluss von P8/P9 (frühestens 2026-10-16) mi
 
 Befund: GSC «Gefunden – zurzeit nicht indexiert» (Stand 04.09.2026) für `/services`, `/wissen`, `/en/vorgehen`, `/privacy`, drei EN-Artikel und drei alte `/lab`-URLs. Ohne Index weder Rankings noch Zitate in AI Overviews/AI Mode.
 
-- [ ] P8.1 GSC-URL-Prüfung + Indexierung beantragen: `/services`, `/wissen`
+- [x] P8.1 GSC-URL-Prüfung + Indexierung beantragen: `/services`, `/wissen` (2026-09-16, beide «Indexierung beantragt»). Befund URL-Prüfung (Property `https://www.rautaki.ch/`): `/services` = «URL ist Google nicht bekannt» — keine verweisende Sitemap, keine verweisende Seite erkannt, obwohl in `sitemap.xml` enthalten; `/wissen` = «Gefunden – zurzeit nicht indexiert», bekannt über `sitemap.xml` und `/en/wissen`. Beides fliesst in P8.3 ein. Vorab live geprüft: beide 200, `index, follow`, selbstreferenzierender Canonical, nicht per robots.txt gesperrt.
 - [ ] P8.2 GSC-URL-Prüfung + Indexierung beantragen: `/en/vorgehen`, `/en/wissen/der-weg-zu-wirksamer-ki`, `/en/wissen/ki-reifegrad-schweizer-npos`, `/en/wissen/ki-strategie-verwaltungsrat`
 - [ ] P8.3 Ursache klären: interne Verlinkung auf `/services` und `/wissen` (Startseite, Artikel, Footer) und `lastModified` in `src/app/sitemap.ts` prüfen; Befund hier dokumentieren
 - [ ] P8.4 Frühestens 2026-10-01: GSC-Seitenbericht erneut prüfen — Ziel: keine Kernseite mehr in «Gefunden – nicht indexiert»
