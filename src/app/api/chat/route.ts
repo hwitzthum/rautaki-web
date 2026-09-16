@@ -462,7 +462,7 @@ export async function POST(req: NextRequest) {
     await reportCanaryLeak(redis, requestId);
     responseBody = stripCanaryLeakFlag(responseBody);
   }
-  responseBody = filterChatResponse(responseBody);
+  responseBody = filterChatResponse(responseBody, locale);
 
   // 9. Observability — log shape, sizes, and a coarse token estimate.
   //    No message content goes to Sentry to avoid PII leakage.
