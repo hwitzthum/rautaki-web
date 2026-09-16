@@ -181,7 +181,7 @@ Zielanfragen (Empfehlung) → beste Seite:
   - ✓ Wikidata: entfällt — Items gelöscht (siehe P4/R6); toter Link aus `sameAs`, llms.txt und llms-full.txt entfernt
   - offen: LinkedIn (persönliches Profil): Headline + Info nach Entwurf aktualisieren (Owner)
   - Bewusst unverändert: Apps-Beschreibungen (Zielgruppe der Apps inkl. Schulen und KMU) und Artikel «Der Weg zu wirksamer KI» (nennt KMU im publizierten Text); n8n-Chatbot-Prompt nicht geprüft
-- [x] P9.3 VR-Artikel: Title/Description auf «KI-Kompetenz im Verwaltungsrat» ausrichten (CTR-Hebel) (2026-09-16, Umfang «Title + Abschnitt» freigegeben)
+- [x] P9.3 VR-Artikel: Title/Description auf «KI-Kompetenz im Verwaltungsrat» ausrichten (CTR-Hebel) (PR #124, 2026-09-16, Umfang «Title + Abschnitt» freigegeben)
   - GSC vorher (3 Monate bis 13.09.2026): 56 Impr., 1 Klick, Ø Pos. 16.4; «verwaltungsrat ki kompetenz» 21 Impr., 0 Klicks, Ø Pos. **22.6** (Seite 3) — bei dieser Position wirkt der Title vor allem auf Relevanz, kaum auf CTR.
   - Inhaltslücke geschlossen: Artikel behandelte nur die KI-Kompetenz von GL/Mitarbeitenden (Frage 5), nicht die des Gremiums selbst → neuer Abschnitt «Welche KI-Kompetenz braucht der Verwaltungsrat selbst?» (de + en, ohne neue Zahlen/Quellen); `dateModified` → 2026-09-16.
   - DE: «KI-Kompetenz im Verwaltungsrat: sieben Fragen, die zählen» · Eyebrow «Welche KI-Kompetenz braucht ein Verwaltungsrat?»; EN: «AI literacy in the boardroom: seven questions that matter». Slug unverändert. llms.txt «## Wissen» nachgeführt (Feed, llms-full, Sitemap automatisch).
