@@ -85,7 +85,7 @@ Rautaki is a Swiss AI-strategy consultancy for leadership teams — strategic vi
 - [FAQ](https://www.rautaki.ch/en/services#faq): Frequently asked questions on services, prices, process and audience
 - [The path to effective AI](https://www.rautaki.ch/en/vorgehen): The consulting programme in full — three phases, nine steps, two go/no-go gates
 - [About us](https://www.rautaki.ch/en/about): Founding story, profile of Harry Witzthum, how we work
-- [Apps](https://apps.rautaki.ch): AI apps to try out in the browser — no sign-up (the apps themselves are German-only); each app can be taken along as a template (Agent Skill, SKILL.md, CC BY 4.0) for your own Claude or ChatGPT
+- [Apps](https://apps.rautaki.ch/en): AI apps to try out in the browser — no sign-up; English overview, the apps themselves work in German; each app can be taken along as a template (Agent Skill, SKILL.md, CC BY 4.0) for your own Claude or ChatGPT
 - [EU AI Act Compliance Checker](https://www.rautaki.ch/lab/eu-ai-act-check.html): Free tool, 12 questions, instant risk classification under the EU AI Act (German-only)
 - [Insights](https://www.rautaki.ch/en/wissen): Grounded analysis on AI strategy, governance and regulation
 - [Book an initial consultation](https://www.rautaki.ch/en/booking): Free, 45 minutes, via video call

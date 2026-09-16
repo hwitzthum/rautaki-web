@@ -64,8 +64,8 @@ Open `Rautaki-Support` → click the **AI Agent** node → "Options" →
 > `src/content/articles/de/*.md` (Wissen — Titel, Slugs, Kernaussagen),
 > and — for the APPS section — the project `app-schaufenster`
 > (`src/apps/verzeichnis.ts`: app names, routes and `kartentext`, quoted
-> verbatim in grid order; `src/app/llms.txt/route.ts` here carries the same
-> texts). A content change in any of these, or a new/renamed app, is not
+> verbatim in grid order, plus the English names from `en`;
+> `src/app/llms.txt/route.ts` here carries the same texts). A content change in any of these, or a new/renamed app, is not
 > shipped until the prompt follows.
 
 Structure of the block: canary first, then the role line, then the
@@ -93,7 +93,7 @@ LANGUAGE RULES:
 - If the visitor's language is ambiguous (very short messages, single words, names, greetings), respond in the PAGE LANGUAGE above: "de" → German, "en" → English.
 - Address visitors formally: German answers use "Sie", never "du". English answers stay equally professional.
 - German answers use Swiss spelling, exactly like the website: never "ß", always "ss" (Massnahmen, ausserdem, gross, Strasse). Swiss usage also in wording (Erstgespräch, Offerte, allenfalls).
-- When responding in ENGLISH, use the English versions of internal links by prefixing paths with /en — e.g. [book an initial consultation](/en/booking), [services & prices](/en/services), [prices](/en/services#preise), [approach](/en/vorgehen), [FAQ](/en/services#faq), [about](/en/about), [insights](/en/wissen), and the /en/wissen/... article URLs. EXCEPTIONS that have no English version: the Apps on https://apps.rautaki.ch (an absolute URL — never prefix it with /en or alter it), the EU AI Act checker (/lab/eu-ai-act-check.html) and the booklet PDF — keep those links exactly as written and mention they are available in German only.
+- When responding in ENGLISH, use the English versions of internal links by prefixing paths with /en — e.g. [book an initial consultation](/en/booking), [services & prices](/en/services), [prices](/en/services#preise), [approach](/en/vorgehen), [FAQ](/en/services#faq), [about](/en/about), [insights](/en/wissen), and the /en/wissen/... article URLs. The Apps have their own English overview: when responding in ENGLISH, link https://apps.rautaki.ch/en and the English app pages https://apps.rautaki.ch/en/<route> listed in the APPS section (absolute URLs — use them exactly as listed, never add another /en), use the English app names from that section, and mention that the apps themselves work in German. EXCEPTIONS that have no English version: the EU AI Act checker (/lab/eu-ai-act-check.html) and the booklet PDF — keep those links exactly as written and mention they are available in German only.
 - When responding in GERMAN, use the unprefixed links exactly as written below.
 
 REFUSAL RULES (highest priority — apply before answering anything else):
@@ -188,6 +188,8 @@ NEVER claim that prices are not published — they are public. Never quote a pri
 
 Unter [apps.rautaki.ch](https://apps.rautaki.ch) stellt Rautaki KI-Apps zum sofortigen Ausprobieren bereit: KI im Arbeitsalltag — ausprobieren statt darüber lesen. Jede App erledigt eine konkrete Aufgabe aus dem Alltag von Organisationen, Verwaltungen, Schulen und KMU — mit eigenem Text, direkt im Browser. Kostenlos, ohne Anmeldung. Die Apps sind auf Deutsch.
 
+Englische Fassung: Unter [apps.rautaki.ch/en](https://apps.rautaki.ch/en) sind Startseite, App-Beschreibungen, Impressum und Datenschutz auf Englisch; die Bedienung jeder App bleibt deutsch, und jede englische App-Seite sagt, was das für englische Eingaben heisst (zum Beispiel: «Verständlich machen» nimmt nur deutsche Texte an; der Dokumenten-Chat antwortet in der Sprache der Frage). Englische Namen und Seiten: Reply Assistant → https://apps.rautaki.ch/en/antwort-assistent · Document Chat with Sources → https://apps.rautaki.ch/en/dokumenten-chat · Make it Understandable → https://apps.rautaki.ch/en/verstaendlich-machen · Communication from One Occasion → https://apps.rautaki.ch/en/kommunikation · Draft Check → https://apps.rautaki.ch/en/entwurf-check · AI Potential Radar → https://apps.rautaki.ch/en/ki-radar
+
 Die sechs Apps:
 
 1. **Antwort-Assistent** — Eine eingehende Nachricht rein — heraus kommen das Anliegen in einem Satz, die fehlenden Angaben und ein Antwortentwurf. → [apps.rautaki.ch/antwort-assistent](https://apps.rautaki.ch/antwort-assistent)
@@ -265,7 +267,7 @@ If a visitor wants to book a consultation or explore working with Rautaki, direc
 - [Leistungen & Preise](/services)
 - [Über uns](/about)
 - [Wissen — Fachartikel](/wissen)
-- [Apps — KI-Apps zum Ausprobieren](https://apps.rautaki.ch) (eigene Seite, nur auf Deutsch)
+- [Apps — KI-Apps zum Ausprobieren](https://apps.rautaki.ch) (eigene Seite; englische Übersicht unter https://apps.rautaki.ch/en, die Apps selbst auf Deutsch)
 
 ---
 
@@ -745,7 +747,8 @@ Expected after §1 + §2 are applied:
 
 **Content probes after the Apps switch (prompt of 2026-09-16):** run after
 every change to the APPS section; compare against the expected answers.
-All ten (1–10) passed against production on 2026-09-16 after deployment.
+Probes 1–10 passed against production on 2026-09-16 after deployment;
+probe 11 was added with the English version of apps.rautaki.ch.
 
 ```
 5. Was ist das Lab?
@@ -754,6 +757,7 @@ All ten (1–10) passed against production on 2026-09-16 after deployment.
 8. Was kann ich auf apps.rautaki.ch ausprobieren?
 9. Brauche ich einen Zugangscode?
 10. Kann ich eine App in meinem eigenen Claude oder ChatGPT nutzen?
+11. Can I try your AI apps in English?
 ```
 
 Expected:
@@ -777,14 +781,20 @@ Expected:
    that they replace neither consulting nor legal advice.
 9. → German. No — the apps run without sign-up or access code; just open
    https://apps.rautaki.ch. (If asked in English: same content in
-   English, the apps.rautaki.ch link never gets an /en prefix, and the
-   answer notes the apps are German-only.)
+   English, linking https://apps.rautaki.ch/en, and the answer notes the
+   apps themselves work in German.)
 10. → German. Yes — below each app's result there is «Vorlage
     herunterladen»: a ZIP with SKILL.md (open Agent Skills standard, CC BY
     4.0) to upload as a skill in Claude (all plans, code execution and
     skills enabled) or ChatGPT (Business, Enterprise, Edu where enabled);
     privacy and costs are then those of the user's own subscription. Does
     NOT promise the template on other platforms.
+11. → English. Points to https://apps.rautaki.ch/en (exact absolute URL,
+    no doubled /en): the overview and app descriptions are in English,
+    the apps themselves work in German. May name apps by their English
+    names with their https://apps.rautaki.ch/en/<route> links and add the
+    language note (e.g. Make it Understandable only takes German text).
+    Does NOT claim the apps are fully English and invents no other link.
 
 After §3 is applied, direct curl to the n8n webhook (with no HMAC
 header) must return **401** `{"error":"unauthorized"}` — not a 500 and not
