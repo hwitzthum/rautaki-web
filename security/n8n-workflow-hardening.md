@@ -41,19 +41,24 @@ Open `Rautaki-Support` → click the **AI Agent** node → "Options" →
 "System Message" → replace the entire content with the block below.
 
 > **Stand: 2026-09-16 — byte-exact copy of the live system prompt,
-> deployed on 2026-09-16 at 11:14 (Europe/Zurich)** in workflow
+> deployed on 2026-09-16 at 12:07 (Europe/Zurich)** in workflow
 > `lIPMcSi2yljEbfPJ` (AI Agent node, workflow version
-> `e408e377-dabe-41f9-8002-b246074f3c76`), written and read back over the
+> `2595d941-7249-4143-b261-3fe6506a782c`), written and read back over the
 > n8n REST API — the only deliberate difference is `<CANARY>`, which
-> stands in for the real canary value. It succeeds the prompt live since
-> 2026-08-22: the «Lab» section became «Apps» (apps.rautaki.ch, six apps,
-> templates paragraph, EU AI Act checker as the one remaining tool on
-> www.rautaki.ch), every rule that named the Lab follows suit, and the
-> LANGUAGE RULES gained the Swiss-spelling line (ss, never ß — first
-> deployment at 11:06 answered with «Außerdem»); all other sections are
-> unchanged. All ten §5 probes passed against production the same day. Approval trail:
-> `docs/apps-umbau-plan.md`, Phase 7 and Phase B7 (wording), Phase 8
-> (deployment). If you edit the prompt in n8n, mirror the edit here in the
+> stands in for the real canary value. It succeeds the prompt of 11:14
+> (version `e408e377…`, the Lab → Apps switch with the Swiss-spelling
+> line): the English version of apps.rautaki.ch was live shortly before 12:03, so the
+> LANGUAGE RULES now send English answers to https://apps.rautaki.ch/en,
+> the APPS section gained the ENGLISH VERSION block (English app names,
+> /en links and each app's language note quoted verbatim from
+> `app-schaufenster/src/apps/verzeichnis.ts`, with a no-generalisation
+> rule), and WEITERE SEITEN names the English overview. Deployed in three
+> steps (12:03, 12:05, 12:07): the first wording let the model claim every
+> app needs German input (probe 11), the second still summarised output
+> languages; the third passed. All other sections are unchanged. Approval
+> trail: `docs/apps-umbau-plan.md`, Phase 7 and Phase B7 (wording), Phase 8
+> (deployment), and the client's approval of the /en mention on
+> 2026-09-16. If you edit the prompt in n8n, mirror the edit here in the
 > same commit; if you paste this block into n8n, re-probe the answers the
 > edit touches (§5, both lists).
 >
@@ -64,7 +69,8 @@ Open `Rautaki-Support` → click the **AI Agent** node → "Options" →
 > `src/content/articles/de/*.md` (Wissen — Titel, Slugs, Kernaussagen),
 > and — for the APPS section — the project `app-schaufenster`
 > (`src/apps/verzeichnis.ts`: app names, routes and `kartentext`, quoted
-> verbatim in grid order, plus the English names from `en`;
+> verbatim in grid order, plus `en` — English names and the `sprachhinweis`
+> of each app, quoted verbatim;
 > `src/app/llms.txt/route.ts` here carries the same texts). A content change in any of these, or a new/renamed app, is not
 > shipped until the prompt follows.
 
@@ -188,7 +194,14 @@ NEVER claim that prices are not published — they are public. Never quote a pri
 
 Unter [apps.rautaki.ch](https://apps.rautaki.ch) stellt Rautaki KI-Apps zum sofortigen Ausprobieren bereit: KI im Arbeitsalltag — ausprobieren statt darüber lesen. Jede App erledigt eine konkrete Aufgabe aus dem Alltag von Organisationen, Verwaltungen, Schulen und KMU — mit eigenem Text, direkt im Browser. Kostenlos, ohne Anmeldung. Die Apps sind auf Deutsch.
 
-Englische Fassung: Unter [apps.rautaki.ch/en](https://apps.rautaki.ch/en) sind Startseite, App-Beschreibungen, Impressum und Datenschutz auf Englisch; die Bedienung jeder App bleibt deutsch, und jede englische App-Seite sagt, was das für englische Eingaben heisst (zum Beispiel: «Verständlich machen» nimmt nur deutsche Texte an; der Dokumenten-Chat antwortet in der Sprache der Frage). Englische Namen und Seiten: Reply Assistant → https://apps.rautaki.ch/en/antwort-assistent · Document Chat with Sources → https://apps.rautaki.ch/en/dokumenten-chat · Make it Understandable → https://apps.rautaki.ch/en/verstaendlich-machen · Communication from One Occasion → https://apps.rautaki.ch/en/kommunikation · Draft Check → https://apps.rautaki.ch/en/entwurf-check · AI Potential Radar → https://apps.rautaki.ch/en/ki-radar
+ENGLISH VERSION: [apps.rautaki.ch/en](https://apps.rautaki.ch/en) has the start page, the app descriptions, the legal notice and the privacy policy in English. The apps themselves (fields, buttons, examples, results) are in German. What each app does with English input differs — quote the note of the app in question exactly and never generalise it to the other apps. Never summarise the notes into a general statement about input or output language (not "the apps need German input", not "results typically stay in German"); if several apps matter, list each app with its own note:
+
+- Reply Assistant → https://apps.rautaki.ch/en/antwort-assistent — The app is in German. The request and the missing details come back in German; the draft reply is written in the language of the message.
+- Document Chat with Sources → https://apps.rautaki.ch/en/dokumenten-chat — The app and its sample documents are in German. Ask in English and the answer comes back in English; quoted passages stay in the original.
+- Make it Understandable → https://apps.rautaki.ch/en/verstaendlich-machen — This app only works with German texts: it rewrites German into plain or easy German.
+- Communication from One Occasion → https://apps.rautaki.ch/en/kommunikation — The app is in German. Describe the occasion in English and the three texts are written in English.
+- Draft Check → https://apps.rautaki.ch/en/entwurf-check — The app is in German. The assessment is written in the language of the draft.
+- AI Potential Radar → https://apps.rautaki.ch/en/ki-radar — The questionnaire and the result are in German.
 
 Die sechs Apps:
 
@@ -747,8 +760,15 @@ Expected after §1 + §2 are applied:
 
 **Content probes after the Apps switch (prompt of 2026-09-16):** run after
 every change to the APPS section; compare against the expected answers.
-Probes 1–10 passed against production on 2026-09-16 after deployment;
-probe 11 was added with the English version of apps.rautaki.ch.
+Probes 1–10 passed against production on 2026-09-16 after the 11:14
+deployment. After the 12:07 deployment (English version): 1–4, 6, 7, 9, 10
+and 11 pass, plus two English edge cases («Can I paste an English email
+into the Reply Assistant?» → draft in English, rest in German; «Does Make
+it Understandable work with English text?» → German texts only). Open
+deviations in the unchanged German APPS wording, seen in repeated runs of
+5 and 8: the answer sometimes omits «auf Deutsch», paraphrases the app
+sentences instead of quoting them, and once placed the EU AI Act checker
+on apps.rautaki.ch («dort») or described an upload for the Entwurf-Check.
 
 ```
 5. Was ist das Lab?
@@ -793,8 +813,9 @@ Expected:
     no doubled /en): the overview and app descriptions are in English,
     the apps themselves work in German. May name apps by their English
     names with their https://apps.rautaki.ch/en/<route> links and add the
-    language note (e.g. Make it Understandable only takes German text).
-    Does NOT claim the apps are fully English and invents no other link.
+    language note of that app verbatim. Does NOT claim the apps are fully
+    English, does NOT say that every app needs German input, and invents no
+    other link.
 
 After §3 is applied, direct curl to the n8n webhook (with no HMAC
 header) must return **401** `{"error":"unauthorized"}` — not a 500 and not
