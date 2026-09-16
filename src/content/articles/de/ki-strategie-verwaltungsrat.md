@@ -1,9 +1,9 @@
 ---
-title: "KI-Strategie im Verwaltungsrat: die entscheidenden Fragen"
-description: "KI gehört zur Oberleitung und damit auf die VR-Agenda. Der Verwaltungsrat muss nicht die Technik verstehen, sondern die richtigen Fragen stellen."
-question: "Welche KI-Fragen muss ein Verwaltungsrat stellen?"
+title: "KI-Kompetenz im Verwaltungsrat: sieben Fragen, die zählen"
+description: "Welche KI-Kompetenz braucht der Verwaltungsrat? Kein Technikwissen, sondern die richtigen Fragen an die Geschäftsleitung: sieben Fragen für VR und Stiftungsrat."
+question: "Welche KI-Kompetenz braucht ein Verwaltungsrat?"
 datePublished: "2026-07-11"
-dateModified: "2026-08-21"
+dateModified: "2026-09-16"
 tags: [Verwaltungsrat, KI-Strategie, Governance]
 ---
 
@@ -23,6 +23,14 @@ Der Verwaltungsrat einer Aktiengesellschaft hat eine Handvoll Aufgaben, die er w
 Für NPOs gilt die gleiche Logik über eine andere Rechtsgrundlage. Der Stiftungsrat trägt nach ständiger Praxis die Oberleitung der Stiftung und unterliegt einer gesetzlichen Sorgfalts-, Treue- und Aufsichtspflicht; der Vereinsvorstand besorgt die Geschäfte und vertritt den Verein ([Art. 69 ZGB](https://www.fedlex.admin.ch/eli/cc/24/233_245_233/de#art_69)). Die Delegation einer Aufgabe entbindet ein Aufsichtsorgan nie von der Pflicht zu sorgfältiger Auswahl, Instruktion und Überwachung — das gilt für einen ausgelagerten KI-Dienst so gut wie für jede andere Geschäftsführung.
 
 Dass hier eine reale Lücke klafft, zeigen die Zahlen. Der [swissVR Monitor II/2024](https://www.deloitte.com/ch/de/about/press-room/boards-of-directors-are-aware-of-the-importance-and-risks-of-ai.html) (Deloitte, HSLU, n=391) hält fest: 70 % der Schweizer Verwaltungsräte haben sich mit generativer KI befasst, doch nur 17 % lassen sämtliche KI-Outputs menschlich prüfen, und rund drei von vier erhalten kaum oder kein regelmässiges Reporting zum KI-Einsatz. Das grösste wahrgenommene Risiko sind fehlerhafte KI-Resultate (60 %). Die Aufmerksamkeit ist also da — die Aufsicht noch nicht.
+
+## Welche KI-Kompetenz braucht der Verwaltungsrat selbst?
+
+Der Verwaltungsrat muss KI nicht bauen, betreiben oder technisch bewerten können. Seine KI-Kompetenz ist Urteilskompetenz: erkennen, wo KI die Strategie, das Risikoprofil oder die Rechtskonformität berührt, belastbare von vagen Antworten der Geschäftsleitung unterscheiden und wissen, wann eine unabhängige Einschätzung nötig ist. Es ist dieselbe Rolle, die das Gremium bei Finanzen oder Recht wahrnimmt — auch dort prüft es, ohne selbst Revisionsstelle oder Anwaltskanzlei zu sein.
+
+Konkret heisst das drei Dinge. Erstens ein Grundverständnis dessen, was heutige KI-Systeme leisten und wo sie typischerweise versagen — etwa bei plausibel klingenden, aber falschen Resultaten, dem Risiko, das Schweizer Verwaltungsräte laut swissVR Monitor selbst am höchsten gewichten. Zweitens die Fähigkeit, KI-Vorhaben an Wertschöpfung, Risiko und Kosten zu messen statt an technischer Begeisterung. Drittens die Bereitschaft, die eigene Kompetenz als Gremium zu organisieren: KI regelmässig traktandieren, sich gezielt weiterbilden und bei der Zusammensetzung darauf achten, dass mindestens ein Mitglied KI-Fragen fundiert einordnen kann. Für Stiftungsräte und Vereinsvorstände gilt das ebenso.
+
+Die folgenden sieben Fragen machen diese Urteilskompetenz praktisch: Sie übersetzen die Aufsichtspflicht in Fragen, die ein Gremium ohne technisches Fachwissen stellen und deren Antworten es prüfen kann.
 
 ## Die sieben Fragen
 
