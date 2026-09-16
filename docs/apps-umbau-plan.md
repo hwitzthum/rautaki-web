@@ -29,7 +29,7 @@ Status-Werte: `offen` · `in Arbeit` · `erledigt` · `blockiert` (Grund in der 
 | 5 | Sitemap, llms.txt, Schemas nachführen | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | App-Texte wörtlich aus `app-schaufenster/src/apps/verzeichnis.ts`; EN-Fassung ist Übersetzung durch Claude — Wortlaut-Freigabe offen |
 | 6 | Dokumentation im Repository | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | README, geo-roadmap P6, chatbot-hardening-plan |
 | 7 | Neuer Chatbot-Prompt für n8n (vollständig, freigegeben) | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab`; Freigabe Auftraggeber | Block in `security/n8n-workflow-hardening.md` §1, Status dort «DRAFT» bis Phase 8 ihn einspielt |
-| 8 | Ausserhalb des Repositories (Auftraggeber) | offen | | | apps.rautaki.ch live schalten, n8n, Vercel, Netlify, Umami |
+| 8 | Ausserhalb des Repositories (Auftraggeber) | in Arbeit | 2026-09-16 | n8n-Prompt: Claude; Rest: Auftraggeber | Prompt eingespielt und geprüft (10/10); offen: apps.rautaki.ch live schalten, Lab-Workflow n8n, Vercel-Variable, Netlify, Umami |
 | 9 | Prüfung und Veröffentlichung | erledigt | 2026-09-16 | Claude; Merge-Freigabe Auftraggeber | PR #111 gemerged (`7d093ee`), Vercel-Produktion grün, Livegang 2026-09-16 09:01 UTC |
 | 10 | Kontrolle nach dem Livegang | in Arbeit | 2026-09-16 | Claude | www-Seite geprüft; offen: apps.rautaki.ch ohne Zugangscode, Chatbot (beides nach Phase 8) |
 | B0 | Entscheide des Auftraggebers zu den Vorlagen | erledigt | 2026-09-16 | Auftraggeber | alle fünf gemäss Empfehlung; decisions.md + Brief in app-schaufenster |
@@ -47,7 +47,7 @@ Knopf «Vorlage herunterladen»; online sind sie erst mit der Veröffentlichung 
 
 **Übergabe (2026-09-16): `rautaki-web` übernimmt die weiteren Schritte direkt.** Offen, mit Ort:
 
-- Phase 8, n8n: den freigegebenen Block aus `security/n8n-workflow-hardening.md` §1 in den Knoten «AI Agent» des
+- ~~Phase 8, n8n~~ — erledigt 2026-09-16 (siehe Phase 8). Ursprünglicher Punkt: den freigegebenen Block aus `security/n8n-workflow-hardening.md` §1 in den Knoten «AI Agent» des
   Workflows `Rautaki-Support` (`lIPMcSi2yljEbfPJ`) einsetzen, `<CANARY>` durch den Wert von `N8N_CHAT_SYSTEM_CANARY`
   ersetzen; danach die zehn Kontrollfragen aus §5 und den Stand-Hinweis auf «deployed on …». Ein Einspielen über die
   n8n-Anbindung aus `app-schaufenster` heraus wurde am 2026-09-16 von der Sicherheitsregel der Arbeitsumgebung
@@ -210,7 +210,7 @@ Ablauf:
 
 Diese Punkte kann Claude nicht ausführen; sie brauchen Konten und Zugänge.
 
-- [ ] n8n: Systemprompt des Website-Chatbots durch den in Phase 7 freigegebenen Block ersetzen (Anleitung in `security/n8n-workflow-hardening.md`, §1); danach die fünf Kontrollfragen aus Phase 7 live stellen und die Antworten mit den erwarteten vergleichen (§5, Fragen 5–9) und den Stand-Hinweis in §1 von «DRAFT» auf «byte-exact copy, deployed on …» setzen
+- [x] n8n: Systemprompt des Website-Chatbots durch den in Phase 7 freigegebenen Block ersetzen (Anleitung in `security/n8n-workflow-hardening.md`, §1); danach die fünf Kontrollfragen aus Phase 7 live stellen und die Antworten mit den erwarteten vergleichen (§5, Fragen 5–9) und den Stand-Hinweis in §1 von «DRAFT» auf «byte-exact copy, deployed on …» setzen — **erledigt 2026-09-16 09:06 UTC** durch Claude über die n8n-REST-API (Freigabe des Auftraggebers): Canary aus dem laufenden Prompt übernommen, Sicherung des alten Workflows lokal, Rücklesen byte-gleich zum Dokumentblock, `activeVersionId` = neue Version (veröffentlicht, nicht nur Entwurf). Alle zehn §5-Fragen live über `/api/chat` gestellt: 1–4 exakte Refusals, 5–10 wie erwartet (kein `/lab`-Übersichtslink, Checker-Link korrekt, sechs Apps mit Links, Vorlagen-Antwort mit Abo-Hinweis). Beobachtung: Frage 9 wird mit «kein Zugangscode» beantwortet — stimmt erst, wenn der nächste Punkt erledigt ist
 - [ ] apps.rautaki.ch (Projekt `app-schaufenster`): Site live schalten — Zugangscode entfernen, `noindex` aufheben, Sitemap/robots dort prüfen — damit der Klick aus Menü und Fusszeile von www.rautaki.ch direkt in die Apps führt (Entscheid vom 2026-09-16). Danach Datum in §5 «Zugangscode» eintragen
 - [ ] n8n: Workflow «Lab-Anmeldung → Salesflare» deaktivieren oder löschen
 - [ ] Vercel, Projekt `rautaki-web`: Umgebungsvariable `N8N_LAB_WEBHOOK_URL` entfernen
@@ -231,7 +231,7 @@ Diese Punkte kann Claude nicht ausführen; sie brauchen Konten und Zugänge.
 - [ ] www.rautaki.ch: Menü und Fusszeile zeigen «Apps», Klick landet auf apps.rautaki.ch — ohne Zugangscode direkt im App-Raster (Phase 8 wirksam) — Teil 1 geprüft 2026-09-16 (je 3 Apps-Anker auf `/` und `/en`, kein Lab-Anker); apps.rautaki.ch antwortet noch mit 307 auf die Zugangsseite → offen bis Phase 8
 - [ ] apps.rautaki.ch: Wortmarke führt zurück auf www.rautaki.ch (Profil §4.6)
 - [x] `https://www.rautaki.ch/lab` und `/en/lab` leiten weiter; Checker erreichbar — geprüft 2026-09-16 auf Produktion: vier 308 nach apps.rautaki.ch, Checker 200 (Logo → `/`), `/api/lab-access` 404, Sitemap und llms.txt ohne alte Lab-Links
-- [ ] Chatbot auf www.rautaki.ch beantwortet die fünf Kontrollfragen aus Phase 7 wie erwartet (Phasen 7 und 8 wirksam)
+- [x] Chatbot auf www.rautaki.ch beantwortet die fünf Kontrollfragen aus Phase 7 wie erwartet (Phasen 7 und 8 wirksam) — 2026-09-16, alle zehn §5-Fragen (Antworten im Protokoll der Session; Erwartungen in §5 des Hardening-Dokuments)
 - [ ] Datum des Livegangs hier eintragen und im Projekt `app-schaufenster` melden (Handoff: Pilot-Auswertung 30 Tage danach) — Livegang www.rautaki.ch: 2026-09-16; Meldung an `app-schaufenster` (Aufgabe 168, Datum) offen, weil die Auswertung am Livegang von apps.rautaki.ch hängt (Phase 8)
 - Status: offen
 
@@ -464,6 +464,7 @@ Geänderte mit, vorher `git status` lesen.
 - 2026-09-16 — Phase 5 erledigt: Sitemap ohne `/lab` und die zwei Werkzeuge; `llms.txt`/`llms-full.txt` mit Abschnitt «Apps» (sechs Apps aus `verzeichnis.ts`, Checker als Einzelwerkzeug). Diese App-Texte sind dieselbe Quelle, die Phase 7 für den Chatbot-Prompt braucht.
 - 2026-09-16 — Entscheid nachgetragen: apps.rautaki.ch geht mit dem Umbau live (Zugangscode weg, `noindex` aufheben) und ist über www.rautaki.ch erreichbar. Neuer Punkt in Phase 8, Folgehinweise in Phase 7, Phase 10 und §5.
 - 2026-09-16 — Phase 6 erledigt: README (Seiten-/API-Tabelle, CSP-Hinweis), geo-roadmap P6 hinfällig, Notiz im chatbot-hardening-plan.
+- 2026-09-16 — Phase 8, Punkt n8n erledigt: neuer Prompt über die REST-API eingespielt (Version `ba0298fa…`), byte-gleich rückgelesen, zehn Kontrollfragen live bestanden; Stand-Hinweis im Hardening-Dokument auf «deployed». Dringend: Zugangscode auf apps.rautaki.ch entfernen, der Bot sagt bereits «kein Zugangscode».
 - 2026-09-16 — Phase 9 erledigt: PR #111 gemerged (`7d093ee`, 09:01 UTC), Produktion geprüft (Redirects, Menü, Checker, Sitemap, llms.txt). Phase 10 begonnen; Rest hängt an Phase 8.
 - 2026-09-16 — Phase 9 Prüfung bestanden (Lint, tsc, Build, test:libs, manuelle Endprüfung am Produktions-Build); Nebenbefund im Checker behoben; PR #111 eröffnet.
 - 2026-09-16 — Phase 7 erledigt: Wortlaut freigegeben, Offline-Prüfung (Regelabdeckung der neun Testfragen, alle Links aufgelöst) bestanden, an Phase 8 übergeben.

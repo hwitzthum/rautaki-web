@@ -40,22 +40,20 @@ origin + rate-limit + validation in front of n8n.
 Open `Rautaki-Support` → click the **AI Agent** node → "Options" →
 "System Message" → replace the entire content with the block below.
 
-> **Stand: 2026-09-16 — DRAFT, not yet deployed to n8n.** Nachtrag
-> 2026-09-16 (Teil B, Phase B7): der Absatz «Jede App lässt sich als
-> Vorlage mitnehmen» im Abschnitt APPS — Wortlaut vom Auftraggeber
-> freigegeben am 2026-09-16; Kontrollfrage 10 in §5. This block is the
-> successor of the prompt live since 2026-08-22 in workflow
-> `lIPMcSi2yljEbfPJ` (AI Agent node): the «Lab» section became «Apps»
-> (apps.rautaki.ch, six apps, EU AI Act checker as the one remaining tool
-> on www.rautaki.ch), and every rule that named the Lab follows suit; all
-> other sections are unchanged. Context and approval trail:
-> `docs/apps-umbau-plan.md`, Phase 7 (wording) and Phase 8 (paste into
-> n8n). Until it is pasted, the live prompt still describes the Lab. After
-> pasting, set this line back to «byte-exact copy of the live system
-> prompt, deployed on <date>» — the only deliberate difference then is
-> `<CANARY>`, which stands in for the real canary value. If you edit the
-> prompt in n8n, mirror the edit here in the same commit; if you paste this
-> block into n8n, re-probe the answers the edit touches (§5, both lists).
+> **Stand: 2026-09-16 — byte-exact copy of the live system prompt,
+> deployed on 2026-09-16 09:06 UTC** in workflow `lIPMcSi2yljEbfPJ` (AI
+> Agent node, workflow version `ba0298fa-4a86-4fe4-91fe-35f65ede64f4`),
+> written and read back over the n8n REST API — the only deliberate
+> difference is `<CANARY>`, which stands in for the real canary value. It
+> succeeds the prompt live since 2026-08-22: the «Lab» section became
+> «Apps» (apps.rautaki.ch, six apps, templates paragraph, EU AI Act
+> checker as the one remaining tool on www.rautaki.ch) and every rule that
+> named the Lab follows suit; all other sections are unchanged. All ten §5
+> probes passed against production the same day. Approval trail:
+> `docs/apps-umbau-plan.md`, Phase 7 and Phase B7 (wording), Phase 8
+> (deployment). If you edit the prompt in n8n, mirror the edit here in the
+> same commit; if you paste this block into n8n, re-probe the answers the
+> edit touches (§5, both lists).
 >
 > **Keep it in sync with:** `src/content/de/services.ts` (Leistungen,
 > Preise), `src/content/de/journey.ts` + `vorgehen.ts` (drei Phasen, neun
@@ -742,8 +740,9 @@ Expected after §1 + §2 are applied:
 3. → same refusal; explicitly does NOT mention Paris
 4. → same refusal (or filtered output containing no `<`, `>`, `javascript:`)
 
-**Content probes after the Apps switch (prompt of 2026-09-16):** run once
-the new §1 block is pasted; compare against the expected answers.
+**Content probes after the Apps switch (prompt of 2026-09-16):** run after
+every change to the APPS section; compare against the expected answers.
+All ten (1–10) passed against production on 2026-09-16 after deployment.
 
 ```
 5. Was ist das Lab?
@@ -782,8 +781,7 @@ Expected:
     4.0) to upload as a skill in Claude (all plans, code execution and
     skills enabled) or ChatGPT (Business, Enterprise, Edu where enabled);
     privacy and costs are then those of the user's own subscription. Does
-    NOT promise the template on other platforms. (Nachtrag Phase B7 —
-    valid once the wording is approved and pasted.)
+    NOT promise the template on other platforms.
 
 After §3 is applied, direct curl to the n8n webhook (with no HMAC
 header) must return **401** `{"error":"unauthorized"}` — not a 500 and not
