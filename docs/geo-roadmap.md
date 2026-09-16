@@ -24,7 +24,7 @@ Konventionen:
 | P7 | GEO-Messung | 1 | 5/5 | abgeschlossen | 2026-07-11 |
 | P8 | Indexierung der Kernseiten | 2 | 2/4 | in Arbeit — Priorität 1 | 2026-09-16 |
 | P9 | Nicht-Marken-Suchen & Snippets | 2 | 4/6 | in Arbeit — Priorität 3 | 2026-09-16 |
-| P10 | Performance & Technik | 2 | 5/7 | in Arbeit — P10.7 CSP-Nonce als nächstes | 2026-09-16 |
+| P10 | Performance & Technik | 2 | 6/7 | in Arbeit — offen nur P10.6 (CWV-Felddaten) | 2026-09-16 |
 | P11 | Externe Sichtbarkeitsmessung | 2 | 1/5 | in Arbeit — P11.5 GEO-Probe-Lücken | 2026-09-16 |
 | R | Re-Verifikation Zyklus 1 | 2 | 9/12 | in Arbeit — offen R5, R7, R11 (GSC) | 2026-09-16 |
 
@@ -127,7 +127,7 @@ Messarten bewusst getrennt. Nach Abschluss von P8/P9 (frühestens 2026-10-16) mi
 | SEO-Score | Seobility SEO-Check (Startseite) | On-Page 78 % — Seitenqualität 48 %, Links 86 %, Externe Faktoren 3 % | |
 | Performance | Lighthouse 12 lokal | Mobil 78 (LCP 5.3 s, TBT 140 ms, CLS 0) · Desktop 100 (LCP 0.7 s) | |
 | Strukturierte Daten | Rich Results Test / validator.schema.org | 2 gültige Elemente / 0 Fehler, 2 Warnungen | |
-| Sicherheit | Mozilla Observatory / securityheaders.com | B+ (80/100) / A | |
+| Sicherheit | Mozilla Observatory / securityheaders.com | B+ (80/100) / A | Observatory **A+ (130/100)**, 12/12 (2026-09-16, nach P10.7) |
 | KI-Erwähnungen | HubSpot AI Search Grader (Rautaki / Switzerland / KI-Strategieberatung / Management Consulting) | ChatGPT 33 · Perplexity 35 · Gemini 44; Share of Voice 0/10 | |
 | KI-Erwähnungen | Peekaboo (ChatGPT + Google AI Overview, auto-generierte Prompts) | Sichtbarkeit 3 %, Ø Position 3.0 | |
 | KI-Erwähnungen | Semrush AI Search Visibility Checker | keine Daten (N/A) | |
@@ -223,8 +223,11 @@ Zielanfragen (Empfehlung) → beste Seite:
   - Messung (Lighthouse 12, `--force-prefers-reduced-motion`, damit `ScrollReveal`-Inhalte mitgeprüft werden; ohne das übersieht axe alles mit `opacity: 0`): keine Kontrastbefunde mehr ausser den bewusst akzeptierten — Gold-Kursiv/Gold-Eyebrows auf Hell (Markenregel) und dekorative Ziffern/Wasserzeichen (`ink/15`, `ink/25`, `white/[0.03]`). Score bleibt deshalb 0.96–0.97; Artikelseite 1.0.
 - [x] P10.5 Apple-Touch-Icon ergänzen (Seobility-Warnung, geringe Priorität) (2026-09-16) — `src/app/apple-icon.png` (180×180, Next-Dateikonvention → `<link rel="apple-touch-icon" sizes="180x180">`): weisses Dreieck des Favicons auf vollflächigem Schwarz, da iOS die Ecken selbst rundet und Transparenz schwarz füllt. Proxy-Matcher schliesst `.png` aus.
 - [ ] P10.6 Core Web Vitals in GSC beobachten — derzeit «keine Daten» (zu wenig Traffic); bei ersten Felddaten hier eintragen
-- [ ] P10.7 CSP-Nonce gemäss P10.3 Option A umsetzen (Report-Only → erzwingen); Durchklicktest: Startseite, `/booking` + Cal-Modal, Chat, Consent → Salesflare, Sentry-Testfehler — freigegeben 2026-09-16; Stand: Schritt 1 Report-Only.
-  - Schritt 1 (Report-Only): CSP-Builder nach `src/lib/csp.ts` (gemeinsam für `next.config.ts` und Proxy). `src/proxy.ts` erzeugt pro Seiten-Request einen Nonce (nicht für `/api/`, auch im Maintenance-Rewrite) und setzt die Nonce-Policy als `Content-Security-Policy-Report-Only` auf Request (Next liest daraus den Nonce) und Response; die bisherige Policy aus `next.config.ts` bleibt erzwungen. Lokal (`next start`): 30/30 ausführbare Skripte tragen den Nonce. Durchklicktest mit Playwright — Startseite, Sentry nach Load + Testfehler (Envelope 200), Consent → Salesflare (`flare.js` + `actual_flare.js`, Beacon 200), Chat, Cal-Modal, `/booking` inline, EN-Artikel: **0 Report-Only-Verstösse**. Gegenprobe: String-`eval` und Inline-Handler werden gemeldet, die Messung greift also.
+- [x] P10.7 CSP-Nonce gemäss P10.3 Option A umsetzen (Report-Only → erzwingen); Durchklicktest: Startseite, `/booking` + Cal-Modal, Chat, Consent → Salesflare, Sentry-Testfehler — 2026-09-16, erzwungen seit PR #135 (Vorarbeit PR #134). **Mozilla Observatory: B+ (80) → A+ (130/100), 12/12 Tests bestanden.**
+  - Umsetzung: CSP-Builder in `src/lib/csp.ts`; `src/proxy.ts` erzeugt pro Seiten-Request einen Nonce und setzt die Policy (`'nonce-…' 'strict-dynamic'`, `style-src` weiterhin `'unsafe-inline'`) als erzwungenen Header auf Request und Response; `next.config.ts` behält die statische Policy nur für `/api/(.*)`, `/lab/` bleibt bei der Policy aus `vercel.json` (eigene Inline-Skripte). Maintenance-Rewrite ebenfalls mit Nonce.
+  - Befund Vercel (kostete zwei Anläufe, Report-Only lokal sauber, in Produktion ohne Wirkung): Vercel mischt die **Response-Header des Proxys** in die Request-Header der Seitenfunktion, und sie gewinnen über die Request-Header-Überschreibung; ebenso landen `headers()`-Einträge aus `next.config.ts` im Request. Next liest den Nonce aus dem Request-Header `content-security-policy` (Fallback `…-report-only`) — solange dort eine Policy ohne Nonce steht, bekommt kein Skript einen Nonce. Folge: Ein Report-Only-Rollout neben der alten erzwungenen Policy ist auf Vercel nicht möglich; der erzwungene Header selbst muss den Nonce tragen. Verifikation deshalb auf dem Preview-Deployment mit erzwungener Policy statt Report-Only in Produktion.
+  - Nebenbefund: lokale `node_modules` hatten Next 16.3.2, Lockfile 16.3.4 (Vercel) — vor lokalen Vergleichsmessungen `npm ci`.
+  - Durchklicktest (Playwright, Preview und Produktion): 14/14 ausführbare Skripte mit Header-Nonce, React hydriert, Sentry nach Load + Testfehler (Envelope 200), Consent → Salesflare (`flare.js` + `actual_flare.js`, Beacon 200), Chat-Widget, Cal-Modal und `/booking` inline (Iframe 570 px), EN-Artikel: **0 CSP-Verstösse**. Einziger Preview-Fehler: Vercel-Live-Toolbar (`vercel.live`) durch `frame-src` blockiert — nur auf Previews, unverändert zur alten Policy.
 
 ## P11 — Externe Sichtbarkeitsmessung (ergänzt P7)
 
