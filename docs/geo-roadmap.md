@@ -24,7 +24,7 @@ Konventionen:
 | P7 | GEO-Messung | 1 | 5/5 | abgeschlossen | 2026-07-11 |
 | P8 | Indexierung der Kernseiten | 2 | 2/4 | in Arbeit — Priorität 1 | 2026-09-16 |
 | P9 | Nicht-Marken-Suchen & Snippets | 2 | 4/6 | in Arbeit — Priorität 3 | 2026-09-16 |
-| P10 | Performance & Technik | 2 | 0/6 | offen | 2026-09-16 |
+| P10 | Performance & Technik | 2 | 1/6 | in Arbeit | 2026-09-16 |
 | P11 | Externe Sichtbarkeitsmessung | 2 | 0/4 | offen | 2026-09-16 |
 | R | Re-Verifikation Zyklus 1 | 2 | 2/12 | in Arbeit | 2026-09-16 |
 
@@ -203,7 +203,13 @@ Zielanfragen (Empfehlung) → beste Seite:
 
 ## P10 — Performance & Technik
 
-- [ ] P10.1 Mobile LCP 5.3 s → < 2.5 s: LCP-Element bestimmen, render-blockierende Ressourcen und ungenutztes/Legacy-JavaScript reduzieren; Ergebnis mit PageSpeed Insights gegenprüfen (lokales Lighthouse ≠ PSI)
+- [x] P10.1 Mobile LCP 5.3 s → < 2.5 s: LCP-Element bestimmen, render-blockierende Ressourcen und ungenutztes/Legacy-JavaScript reduzieren; Ergebnis mit PageSpeed Insights gegenprüfen (lokales Lighthouse ≠ PSI) — 2026-09-16, zwei Schritte: Chat-Widget als Facade (PR #129) und Client-Sentry nachgeladen (PR #130).
+  - Befund: LCP-Element ist der Hero-Intro-Absatz (`<p class="font-ui text-body …">`, `src/components/HeroDark.tsx`), also Text — kein Bild, keine Schrift-Wartezeit. Beobachtet wird er im ersten Frame gemalt (LCP = FCP, 255–446 ms). Die hohen Werte sind Lantern-**Simulation**: sie rechnet alles vor dem beobachteten LCP gestartete JavaScript ein. Die 5.3 s der Baseline waren ein Ausreisser dieser Simulation (Streuung 1.8–5.9 s auf derselben Seite) — Vergleiche nur mit PSI oder `--throttling-method=devtools`, je ≥ 3 Läufe.
+  - Schritt 1, Chat-Facade (PR #129, live): `@n8n/chat` + CSS erst bei Hover/Fokus/Klick (`src/components/chat/load-chat.ts`). Lighthouse devtools-Drosselung mobil: Score 91 → 98, LCP 2135 → 1827 ms, TBT 284 → 47 ms.
+  - PSI 2026-09-16 danach (Referenz vor Schritt 2): mobil Score 97, FCP 0.9 s, **LCP 2.5 s** (orange, knapp über Ziel), TBT 50 ms, CLS 0, SI 2.8 s; Desktop 100 / LCP 0.4 s. Render-blockierend nur noch das Seiten-CSS (11.9 KiB, 220 ms); Legacy-JS 14 KiB; CrUX-Felddaten: keine (→ P10.6).
+  - Schritt 2, Client-Sentry nachladen (PR #130): das SDK (~70 KiB gz) war statisch im initialen Bundle. Neu: `src/instrumentation-client.ts` lädt es nach `load` + `requestIdleCallback` über `src/lib/sentry-client.ts` (dynamischer Import von `src/lib/sentry-sdk.ts` — ein Re-Export nur der genutzten Funktionen; ein dynamischer Import des ganzen `@sentry/nextjs` liesse sich nicht tree-shaken, 180 statt 71 KiB). Fehler vor der Initialisierung fangen temporäre `error`/`unhandledrejection`-Listener und reichen sie nach; `error.tsx`/`global-error.tsx` melden über den Wrapper. Initiales JS 262 → 192 KiB (Transfer), Sentry-Chunk 71 KiB separat. Lokal (`next start`, Lighthouse 12 Simulation, 6 Läufe je Variante): LCP-Median 3.26 → 2.77 s — gleich wie die Kontrollvariante ganz ohne Client-Sentry (2.9 s), TBT ~50 → ~3 ms, Score 93 → 96. Verifiziert im Browser: `window.__SENTRY__` nach Load gesetzt, Test-Fehler erzeugt Envelope-Request an Sentry.
+  - Bewusst nicht gemacht: Server-/Edge-Sentry unverändert; restliche ~190 KiB sind React/Next-Runtime + Seitenkomponenten — weitere Einsparung nur mit grösseren Umbauten.
+  - Nachmessung PSI (Produktion) nach Merge von PR #130: ausstehend — Ziel LCP < 2.5 s; Wert hier eintragen.
 - [ ] P10.2 Schema-Warnung beheben: `availableLanguage` am Organization-Node (2×) ist dort nicht erlaubt — auf `ContactPoint` verschieben oder entfernen
 - [ ] P10.3 CSP ohne `'unsafe-inline'` (Nonces) evaluieren — Observatory B+ → A; nur ohne Funktionsverlust (cal.com, Salesflare, Sentry, Chat-Widget)
 - [ ] P10.4 Accessibility (Lighthouse Desktop 96): Farbkontrast und «sichtbares Label ≠ accessible name» beheben
