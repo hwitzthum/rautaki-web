@@ -18,7 +18,7 @@ Status-Werte: `offen` · `in Arbeit` · `erledigt` · `blockiert` (Grund in der 
 | 1 | Menü und Fusszeile: «Lab» → «Apps» | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | zusätzlich `localePath` in `src/lib/i18n.ts`: absolute URLs bleiben ohne `/en`-Präfix |
 | 2 | Lab-Seiten und E-Mail-Schranke abbauen | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | `/lab`, `/en/lab` liefern bis Phase 4 ein 404 |
 | 3 | HTML-Werkzeuge archivieren | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | `archiv/lab/`, Vendor-Pfade dort relativ; `archiv/**` in ESLint-Ignores |
-| 4 | Weiterleitungen alter Lab-Adressen | offen | | | |
+| 4 | Weiterleitungen alter Lab-Adressen | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | `redirects()` in `next.config.ts`, 308, exakte Pfade |
 | 5 | Sitemap, llms.txt, Schemas nachführen | offen | | | |
 | 6 | Dokumentation im Repository | offen | | | |
 | 7 | Neuer Chatbot-Prompt für n8n (vollständig, freigegeben) | offen | | | Wortlaut braucht Freigabe des Auftraggebers |
@@ -26,7 +26,7 @@ Status-Werte: `offen` · `in Arbeit` · `erledigt` · `blockiert` (Grund in der 
 | 9 | Prüfung und Veröffentlichung | offen | | | |
 | 10 | Kontrolle nach dem Livegang | offen | | | |
 
-**Gesamtstand:** 4 von 11 Phasen erledigt. Livegang: noch nicht erfolgt.
+**Gesamtstand:** 5 von 11 Phasen erledigt. Livegang: noch nicht erfolgt.
 
 ---
 
@@ -116,12 +116,12 @@ Alles, was der Umbau berührt. Dient als Checkliste, dass nichts vergessen geht.
 Dauerhaft (308) in `next.config.ts` unter `redirects()`. Wichtig: den Checker nicht mitfangen,
 also nur exakte Pfade, kein Muster `/lab/(.*)`.
 
-- [ ] `/lab` → `https://apps.rautaki.ch`
-- [ ] `/en/lab` → `https://apps.rautaki.ch`
-- [ ] `/lab/ki-governance-policy.html` → `https://apps.rautaki.ch`
-- [ ] `/lab/multi-assistant-gpt.html` → `https://apps.rautaki.ch`
-- [ ] Lokal geprüft: alle vier leiten weiter, `/lab/eu-ai-act-check.html` nicht
-- Status: offen
+- [x] `/lab` → `https://apps.rautaki.ch`
+- [x] `/en/lab` → `https://apps.rautaki.ch`
+- [x] `/lab/ki-governance-policy.html` → `https://apps.rautaki.ch`
+- [x] `/lab/multi-assistant-gpt.html` → `https://apps.rautaki.ch`
+- [x] Lokal geprüft: alle vier leiten weiter, `/lab/eu-ai-act-check.html` nicht — Produktions-Build: alle vier 308 auf `https://apps.rautaki.ch/`, Query-Parameter werden mitgegeben; `/lab/` und `/en/lab/` (Schrägstrich) normalisiert Next zuerst auf `/lab` bzw. `/en/lab` und leitet dann weiter (zwei Hops); Checker 200
+- Status: erledigt (2026-09-16)
 
 ### Phase 5 — Sitemap, llms.txt und Schemas
 
@@ -219,4 +219,5 @@ Diese Punkte kann Claude nicht ausführen; sie brauchen Konten und Zugänge.
 - 2026-09-16 — Phase 1 erledigt: «Lab» → «Apps» in Menü und Fusszeile (DE/EN). Nebenbefund: `localePath()` hätte `/en` vor die absolute Adresse gesetzt; behoben in `src/lib/i18n.ts`. `npm run lint`, `tsc`, `npm run build` grün.
 - 2026-09-16 — Phase 2 erledigt: Lab-Seiten, `LabGateModal`, `/api/lab-access` und `N8N_LAB_WEBHOOK_URL` entfernt; Kommentare bereinigt (zusätzlich in `src/app/api/chat/route.ts`). Stolperstein: veraltete `.next/dev`-Typen, siehe Phase 2.
 - 2026-09-16 — Phase 3 erledigt: Generator und Multi-Assistant-Anleitung samt `html-docx.js` und Font-Kopie nach `archiv/lab/` (README dort); Vendor-Pfade im Archiv relativ gesetzt. Checker und seine Schriften bleiben unter `public/lab/`.
+- 2026-09-16 — Phase 4 erledigt: vier dauerhafte Weiterleitungen (308) in `next.config.ts` auf https://apps.rautaki.ch; Checker bleibt erreichbar.
 - 2026-09-16 — Phase 7 «Neuer Chatbot-Prompt für n8n» eingefügt (vollständiger Prompt statt Teilkorrektur, Freigabe des Wortlauts, Kontrollfragen); bisherige Phasen 7 bis 9 sind neu 8 bis 10. Offen: Satz zur Testphase im Prompt nach Ende der Testphase streichen.

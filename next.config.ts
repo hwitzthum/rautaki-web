@@ -64,6 +64,26 @@ const nextConfig: NextConfig = {
     "/en/wissen": ["./src/content/articles/**/*.md"],
     "/en/wissen/[slug]": ["./src/content/articles/**/*.md"],
   },
+  // The former Lab (overview pages + two retired HTML tools) now lives on
+  // apps.rautaki.ch — see docs/apps-umbau-plan.md. Exact paths only: the EU AI
+  // Act checker stays at /lab/eu-ai-act-check.html and must not be caught.
+  async redirects() {
+    const apps = "https://apps.rautaki.ch";
+    return [
+      { source: "/lab", destination: apps, permanent: true },
+      { source: "/en/lab", destination: apps, permanent: true },
+      {
+        source: "/lab/ki-governance-policy.html",
+        destination: apps,
+        permanent: true,
+      },
+      {
+        source: "/lab/multi-assistant-gpt.html",
+        destination: apps,
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {
