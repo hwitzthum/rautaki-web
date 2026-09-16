@@ -169,7 +169,7 @@ export const about = {
   cta: {
     eyebrow: "Gespräch vereinbaren",
     heading: "Bereit für den nächsten Schritt?",
-    body: "Erfahren Sie, wie Rautaki Ihr Unternehmen bei der strategischen KI-Einführung begleiten kann.",
+    body: "Erfahren Sie, wie Rautaki Ihre Organisation bei der strategischen KI-Einführung begleiten kann.",
     button: "Erstgespräch vereinbaren",
   },
   breadcrumbLabel: "Über uns",

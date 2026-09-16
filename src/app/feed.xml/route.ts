@@ -52,7 +52,7 @@ function buildFeed(): string {
   <channel>
     <title>Rautaki — Wissen</title>
     <link>${CHANNEL_URL}</link>
-    <description>Fundierte Analysen zu KI-Strategie, Governance und Regulierung für Führungsteams in NPO, öffentlichem Sektor und KMU.</description>
+    <description>Fundierte Analysen zu KI-Strategie, Governance und Regulierung für Verwaltungsräte und Führungsteams in NPO, Sozialwesen und öffentlichem Sektor.</description>
     <language>de-CH</language>
     <lastBuildDate>${lastBuildDate}</lastBuildDate>
     <atom:link href="${FEED_URL}" rel="self" type="application/rss+xml" />

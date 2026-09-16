@@ -4,9 +4,9 @@
 import type { WissenContent } from "../types";
 
 export const wissen = {
-  metaTitle: "Wissen — KI-Strategie für Entscheider",
+  metaTitle: "Wissen — KI-Strategie für NPOs und Verwaltungsräte",
   metaDescription:
-    "Fundierte Analysen zu KI-Strategie, Governance und Regulierung — geschrieben für Führungsteams in NPO, öffentlichem Sektor und KMU.",
+    "Fundierte Analysen zu KI-Strategie, Governance und Regulierung — für Verwaltungsräte und Führungsteams in NPO, Sozialwesen und öffentlichem Sektor.",
   heroLabel: "Wissen",
   heroTitle: "Klarheit statt *Hype*.",
   heroDescription:

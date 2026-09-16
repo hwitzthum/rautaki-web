@@ -17,8 +17,8 @@ Konventionen:
 |---|---|---|---|---|---|
 | P1 | Englische Version | 1 | 5/5 | abgeschlossen | 2026-07-11 |
 | P2 | Wissen-Sektion | 1 | 6/6 | abgeschlossen | 2026-07-11 |
-| P3 | Externe Erwähnungen | 1 + 2 | 0/7 | offen — Priorität 2 in Zyklus 2 | 2026-09-16 |
-| P4 | Wikidata | 1 | 5/5 | abgeschlossen | 2026-07-11 |
+| P3 | Externe Erwähnungen | 1 + 2 | 0/8 | offen — Priorität 2 in Zyklus 2 | 2026-09-16 |
+| P4 | Wikidata | 1 | 5/5 | abgeschlossen — Items am 2026-07-11 gelöscht (R6) | 2026-09-16 |
 | P5 | Google-Business-Profile-URL | 1 | — | geschlossen mit Befund | 2026-07-11 |
 | P6 | Aufgeschoben aus P1 | 1 | 2/2 | abgeschlossen | 2026-09-16 |
 | P7 | GEO-Messung | 1 | 5/5 | abgeschlossen | 2026-07-11 |
@@ -26,7 +26,7 @@ Konventionen:
 | P9 | Nicht-Marken-Suchen & Snippets | 2 | 1/6 | in Arbeit — Priorität 3 | 2026-09-16 |
 | P10 | Performance & Technik | 2 | 0/6 | offen | 2026-09-16 |
 | P11 | Externe Sichtbarkeitsmessung | 2 | 0/4 | offen | 2026-09-16 |
-| R | Re-Verifikation Zyklus 1 | 2 | 0/12 | offen | 2026-09-16 |
+| R | Re-Verifikation Zyklus 1 | 2 | 1/12 | in Arbeit | 2026-09-16 |
 
 Zähler aus der Datei neu berechnen (Abgleich mit der Tabelle):
 
@@ -75,10 +75,11 @@ Audit 2026-09-16 bestätigt den Engpass: Share of Voice 0/10 bei ChatGPT, Perple
 - [ ] Podcast-Auftritte im NPO-/KI-Umfeld
 - [ ] LinkedIn-Kadenz mit Links auf kanonische Seiten beibehalten
 - [ ] LinkedIn-Unternehmensseite «Rautaki» anlegen und auf der Website verlinken (Audit 2026-09-16: nur persönliches Profil verlinkt)
+- [ ] Wikidata-Items für Rautaki und Harry Witzthum neu anlegen — erst, wenn unabhängige Quellen (Fachmedien, Dozentenprofile, Brancheneinträge) die Notability belegen; dann `wikidata` wieder in `src/lib/authority.ts` aufnehmen (Folge-Item aus R6)
 
 ## P4 — Wikidata-Anreicherung (Q140457396)
 
-**Abgeschlossen 2026-07-11.**
+**Abgeschlossen 2026-07-11.** **Regression (R6, festgestellt 2026-09-16):** Beide Items wurden noch am 2026-07-11 von einem Wikidata-Admin gelöscht — Q140500710 um 11:53, Q140457396 um 11:54 (Begründung: «Does not meet the notability policy»). Die Website verwies seither auf ein gelöschtes Item (`sameAs`, llms.txt, llms-full.txt); Link entfernt in P9.2. Neuanlage → P3.
 
 - [x] Default-Label (`mul`, gilt für alle Sprachen) + `en`-Beschreibung ergänzt
 - [x] P112 (Gründer) — Item für Harry Witzthum angelegt: **Q140500710** (human, management consultant + lecturer, ResearchGate-/LinkedIn-ID)
@@ -174,7 +175,12 @@ Zielanfragen (Empfehlung) → beste Seite:
   - DE: «KI-Strategie für Schweizer NPOs & Verwaltungsräte | Rautaki» (59) · «KI-Strategieberatung für Verwaltungsräte und Geschäftsleitungen in der Schweiz, mit Schwerpunkt NPO: von der Standortbestimmung bis zur Umsetzung.» (146)
   - EN: «AI Strategy for Swiss Non-Profits and Boards | Rautaki» (54) · «AI strategy consulting for boards and senior management in Switzerland, with a focus on non-profits: from assessing where you stand to implementation.» (150)
   - Vorher: «Rautaki — KI-Strategie für Entscheider» (38) · «Rautaki begleitet Unternehmen …» — der alte Text lebt noch in `common.graph.orgDescription` (Organization-Schema) und im `/wissen`-Title → P9.2
-- [ ] P9.2 Positionierung konsistent nachziehen: Organization-Schema `description`, llms.txt, Wikidata-Beschreibung, LinkedIn — alle Flächen gleichzeitig (Regionsbehauptung nur CH)
+- [ ] P9.2 Positionierung konsistent nachziehen: Organization-Schema `description`, llms.txt, Wikidata-Beschreibung, LinkedIn — alle Flächen gleichzeitig (Regionsbehauptung nur CH) — Stand 2026-09-16: Website-Flächen umgesetzt (PR #123), LinkedIn offen.
+  - Kernsatz (freigegeben 2026-09-16, Zielgruppe ohne KMU): «Rautaki ist eine Schweizer KI-Strategieberatung für Verwaltungsräte und Geschäftsleitungen, mit Schwerpunkt NPO, Sozialwesen und öffentlicher Sektor — von der Standortbestimmung bis zur Umsetzung.» / «Rautaki is a Swiss AI strategy consultancy for boards and senior management, with a focus on non-profits, the social sector and the public sector — from assessing where you stand to implementation.»
+  - ✓ Website (de + en): Organization-Schema `description`, llms.txt (Summary, English-Absatz, Home-Link), llms-full.txt (Summaries), FAQ «Was macht Rautaki?» und «Für wen …» (KMU gestrichen), `/wissen` Title + Description, `/services` Description, RSS-Feed-Description, About-CTA «Ihr Unternehmen» → «Ihre Organisation»; `lastModified.services` → 2026-09-16
+  - ✓ Wikidata: entfällt — Items gelöscht (siehe P4/R6); toter Link aus `sameAs`, llms.txt und llms-full.txt entfernt
+  - offen: LinkedIn (persönliches Profil): Headline + Info nach Entwurf aktualisieren (Owner)
+  - Bewusst unverändert: Apps-Beschreibungen (Zielgruppe der Apps inkl. Schulen und KMU) und Artikel «Der Weg zu wirksamer KI» (nennt KMU im publizierten Text); n8n-Chatbot-Prompt nicht geprüft
 - [ ] P9.3 VR-Artikel: Title/Description auf «KI-Kompetenz im Verwaltungsrat» ausrichten (CTR-Hebel)
 - [ ] P9.4 Startseite: Begriffe aus Title und H1 im Fliesstext aufgreifen (Seobility-Warnungen)
 - [ ] P9.5 Neuer Wissen-Artikel «KI-Tools und Datenschutz (nDSG) in Vereinen und Stiftungen» de + en; llms.txt «## Wissen» und Chatbot-Prompt nachführen
@@ -205,7 +211,7 @@ Die erledigten Massnahmen aus P1–P7 und «Erledigt» erneut prüfen, damit Zyk
 - [ ] R3 (P1/P2) `llms.txt` («## Wissen», «## English») und `llms-full.txt` enthalten alle Artikel und Apps-Links, keine `/lab`-Reste
 - [ ] R4 (P2) `/wissen` + `/en/wissen`: BlogPosting-Schema im Rich Results Test valide, `/feed.xml` gültig, `dateModified` korrekt
 - [ ] R5 (P3) Offene P3-Items mit Audit-Befund neu priorisieren und Reihenfolge hier festhalten
-- [ ] R6 (P4) Wikidata Q140457396 + Q140500710: Claims und Referenzen unverändert vorhanden; Beschreibung mit P9.2 abgleichen
+- [x] R6 (P4) Wikidata Q140457396 + Q140500710: Claims und Referenzen unverändert vorhanden; Beschreibung mit P9.2 abgleichen — 2026-09-16: ✗ Regression — beide Items am 2026-07-11 gelöscht (Notability); toter Link entfernt (P9.2, PR #123) → Folge-Item in P3
 - [ ] R7 (P5) GBP: prüfen, ob Google inzwischen eine öffentliche Place-Seite anbietet; `share.google`-Link in `src/lib/authority.ts` funktioniert
 - [ ] R8 (P6) Chatbot (Workflow `lIPMcSi2yljEbfPJ`): DE/EN-Antworten, `/en`-Links, Wissen-Artikel und Apps statt Lab im System-Prompt — E2E-Test auf beiden Sprachen
 - [ ] R9 (P7) `/api/geo-stats` liefert Counter für 2026-08 und 2026-09; Proxy-Tracking aktiv

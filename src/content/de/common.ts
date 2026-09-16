@@ -9,7 +9,7 @@ export const common = {
   skipLink: "Zum Inhalt springen",
   graph: {
     orgDescription:
-      "Rautaki begleitet Unternehmen bei der strategischen KI-Einführung — von der Potenzialanalyse bis zur skalierbaren Umsetzung.",
+      "Rautaki ist eine Schweizer KI-Strategieberatung für Verwaltungsräte und Geschäftsleitungen, mit Schwerpunkt NPO, Sozialwesen und öffentlicher Sektor — von der Standortbestimmung bis zur Umsetzung.",
     personJobTitle: "Gründer & Berater für KI-Strategie",
     personDescription:
       "Gründer von Rautaki. Doktor der Philosophie und Diplomierter Verbands- und NPO-Manager VMI. Langjährige Führungserfahrung in nationalen Nonprofit-Organisationen; Dozent in akkreditierten CAS-Programmen zu KI-Strategie und KI-Transformation.",

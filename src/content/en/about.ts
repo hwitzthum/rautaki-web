@@ -167,7 +167,7 @@ export const about = {
   cta: {
     eyebrow: "Arrange a meeting",
     heading: "Ready for the next step?",
-    body: "Find out how Rautaki can support your business with the strategic implementation of AI.",
+    body: "Find out how Rautaki can support your organisation with the strategic implementation of AI.",
     button: "Arrange an initial consultation",
   },
   breadcrumbLabel: "About us",

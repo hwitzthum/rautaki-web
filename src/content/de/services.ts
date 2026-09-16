@@ -11,7 +11,7 @@ import type { ServicesContent } from "../types";
 export const services = {
   metaTitle: "Leistungen",
   metaDescription:
-    "KI-Strategie, Implementierung und Führungskräfteentwicklung — massgeschneidert für Entscheider in der Schweiz.",
+    "KI-Strategie, Implementierung und Führungskräfteentwicklung — für Verwaltungsräte und Geschäftsleitungen in der Schweiz, mit Schwerpunkt NPO.",
   items: [
     {
       id: "strategic-vision",

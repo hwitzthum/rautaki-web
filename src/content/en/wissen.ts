@@ -4,9 +4,9 @@
 import type { WissenContent } from "../types";
 
 export const wissen = {
-  metaTitle: "Insights — AI strategy for decision-makers",
+  metaTitle: "Insights — AI strategy for non-profits and boards",
   metaDescription:
-    "Grounded analysis on AI strategy, governance and regulation — written for leadership teams in NPOs, the public sector and SMEs.",
+    "Grounded analysis on AI strategy, governance and regulation — for boards and leadership teams in non-profits, the social sector and the public sector.",
   heroLabel: "Insights",
   heroTitle: "Clarity, not *hype*.",
   heroDescription:
