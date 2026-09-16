@@ -1,8 +1,8 @@
 // ── SSRF guard ───────────────────────────────────────────────────────────────
 //
 // Shared validation for server-configured outbound webhook URLs (n8n chat
-// proxy, n8n Lab-CRM webhook, ...). These URLs come from Vercel env vars, not
-// end-user input, but an operator typo or a compromised env var should not be
+// proxy, n8n Mahnung status webhook, ...). These URLs come from Vercel env
+// vars, not end-user input, but an operator typo or a compromised env var should not be
 // able to turn a fetch into an SSRF against internal infrastructure — hence
 // defence-in-depth here rather than trusting "it's just a config value".
 //

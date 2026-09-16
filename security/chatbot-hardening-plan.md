@@ -6,6 +6,8 @@
 **Date:** 2026-05-13
 **Reviewer constraint:** Sandbox egress blocked — static review is complete, live attacks must be run by you using §5 runbook.
 
+> **Note (2026-09-16):** `src/app/api/lab-access/route.ts`, cited below as the in-repo reference pattern (§4, §6, Appendix A), was removed with the «Lab» → «Apps» switch (`docs/apps-umbau-plan.md`, Phase 2). The patterns it demonstrated live on in `src/app/api/chat/route.ts` (origin gate, Upstash sliding-window limiter) and `src/lib/rate-limit.ts`. The rest of this document is kept unchanged as a historical record.
+
 ---
 
 ## 1. Executive summary

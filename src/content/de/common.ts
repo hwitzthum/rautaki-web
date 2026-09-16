@@ -29,7 +29,7 @@ export const common = {
     items: [
       { href: "/", label: "Start" },
       { href: "/services", label: "Leistungen" },
-      { href: "/lab", label: "Lab" },
+      { href: "https://apps.rautaki.ch", label: "Apps" },
       { href: "/wissen", label: "Wissen" },
       { href: "/about", label: "Über uns" },
       { href: "/booking", label: "Buchung" },
@@ -47,7 +47,7 @@ export const common = {
     navLinks: [
       { href: "/services", label: "Leistungen" },
       { href: "/vorgehen", label: "Vorgehen" },
-      { href: "/lab", label: "Lab" },
+      { href: "https://apps.rautaki.ch", label: "Apps" },
       { href: "/wissen", label: "Wissen" },
       { href: "/about", label: "Über uns" },
       { href: "/booking", label: "Buchung" },

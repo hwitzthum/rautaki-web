@@ -206,8 +206,8 @@ export async function POST(request: NextRequest) {
   // for #9 (6vmoSTKvHYwha9Z7), so the next run escalates instead of repeating.
   // Strictly best-effort and non-blocking — the reminder is already sent, and
   // n8n itself refuses downgrades / closed invoices. Level 3 (Betreibung) has
-  // no CashCtrl status; n8n treats it as a no-op. Same SSRF defence-in-depth
-  // as N8N_LAB_WEBHOOK_URL in src/app/api/lab-access/route.ts.
+  // no CashCtrl status; n8n treats it as a no-op. SSRF defence-in-depth via
+  // validateWebhookUrl (src/lib/ssrf-guard.ts).
   const statusWebhookUrl = process.env.N8N_MAHNUNG_STATUS_WEBHOOK_URL;
   const invoiceId = Number(p.i);
   if (statusWebhookUrl && Number.isSafeInteger(invoiceId) && invoiceId > 0) {

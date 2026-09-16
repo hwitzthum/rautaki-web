@@ -26,7 +26,7 @@ _Strategie_; Positionierung: **Strategy · Advisory · Growth**.
 | `/services`            | Leistungen, **„Der Weg zu wirksamer KI"** (`#vorgehen`: 3 Phasen, 9 Schritte, 2 Gates), Preise (`#preise`), Booklet-Download                                                                              |
 | `/about`               | Profil Harry Witzthum, Lehrtätigkeit (CAS ikf)                                                                                                                                                            |
 | `/booking`             | Erstgespräch buchen (Cal.com)                                                                                                                                                                             |
-| `/lab`                 | Kostenlose KI-Tools (Zugang via E-Mail-Gate): EU-AI-Act-Check, KI-Governance-Policy-Generator, Multi-Assistant-GPT — statische HTML-Tools unter `public/lab/` mit eigener, strikterer CSP (`vercel.json`) |
+| `/lab/eu-ai-act-check.html` | EU-AI-Act-Check — kostenloses statisches HTML-Tool unter `public/lab/` mit eigener, strikterer CSP (`vercel.json`). Die KI-Apps leben auf https://apps.rautaki.ch (eigenes Projekt `app-schaufenster`, Menüpunkt «Apps»); `/lab`, `/en/lab` und die zwei archivierten Tools (`archiv/lab/`) leiten dauerhaft dorthin (`next.config.ts` → `redirects()`) |
 | `/imprint`, `/privacy` | Impressum, Datenschutz                                                                                                                                                                                    |
 | `/maintenance`         | Wartungsseite — aktiv via `MAINTENANCE_MODE=true` (`src/proxy.ts`), `noindex`                                                                                                                             |
 | `/llms.txt`            | Maschinenlesbare Site-Zusammenfassung für AI-Crawler (llmstxt.org)                                                                                                                                        |
@@ -39,7 +39,6 @@ für Geschäftsleitungen & Verwaltungsräte; Quelle: `docs/Rautaki_KI-Beratung_B
 | Route                                                              | Zweck                                                         | Schutz                                                                                    |
 | ------------------------------------------------------------------ | ------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
 | `POST /api/chat`                                                   | Same-Origin-Proxy für das n8n-Chat-Widget                     | Origin-Gate, IP-/Session-Rate-Limit, Tages-Token-Budget, HMAC Richtung n8n, Output-Filter |
-| `POST /api/lab-access`                                             | Lab-Gate-Anmeldung (Operator-Mail + Bestätigung, CRM-Forward) | IP-Limit (3/15 min) + Empfänger-Limit (2/24 h), CSRF-Checks                               |
 | `GET/POST /api/mahnung-action`                                     | Approve/Skip-Klickziel Mahnwesen (GET bestätigt, POST sendet) | Signierte Links (HMAC + 14-Tage-Ablauf), Redis-Replay-Schutz (prod fail-closed)           |
 | `POST /api/mahnung-request`                                        | n8n → Freigabe-Mail mit signierten Links                      | `N8N_SEND_TOKEN`, Ask-Dedup                                                               |
 | `GET/POST /api/referral-action`                                    | Approve/Skip-Klickziel Referrals                              | wie mahnung-action                                                                        |
@@ -73,7 +72,8 @@ Härtungskonzepte und Tests liegen in `security/` (Chatbot-Hardening-Plan,
 n8n-Workflow-Hardening, Attack-Probes, Secret-Rotation). Kernpunkte:
 
 - **CSP + Security-Header** global in `next.config.ts`; striktere Zusatz-CSP
-  für die statischen Lab-Tools in `vercel.json` (Schnittmenge = Sandbox).
+  für den statischen EU-AI-Act-Check unter `/lab/` in `vercel.json`
+  (Schnittmenge = Sandbox).
 - **Signierte Action-Links** (Mahnung/Referral): HMAC-SHA256 über alle Params
   inkl. Ablauf (`x`, 14 Tage), timing-safe verglichen; GET zeigt nur eine
   Bestätigungsseite (prefetch-sicher), POST löst aus.

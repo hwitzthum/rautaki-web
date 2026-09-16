@@ -16,9 +16,11 @@ const BASE = "https://www.rautaki.ch";
 /**
  * Prefix a root-relative path with the locale segment. German paths are
  * returned unchanged; English paths gain the /en prefix ("/" → "/en").
+ * Absolute URLs (e.g. https://apps.rautaki.ch in the nav) carry no locale
+ * and pass through untouched.
  */
 export function localePath(locale: Locale, path: string): string {
-  if (locale === "de") return path;
+  if (locale === "de" || /^https?:\/\//.test(path)) return path;
   if (path === "/") return "/en";
   return `/en${path}`;
 }

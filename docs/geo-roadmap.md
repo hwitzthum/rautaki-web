@@ -63,7 +63,7 @@ Retrieval-Engines finden nur, was Dritte erwähnen. Jede unabhängige Seite «Ra
 
 ## P6 — Aufgeschoben aus P1
 
-- [ ] Lab-Tools (3 statische HTML-Apps) auf Englisch — inkl. generierter Word/PDF-Dokumente
+- [x] ~~Lab-Tools (3 statische HTML-Apps) auf Englisch — inkl. generierter Word/PDF-Dokumente~~ — **hinfällig seit 2026-09-16:** «Lab» wurde durch «Apps» (apps.rautaki.ch) ersetzt, zwei der drei Tools sind archiviert (`archiv/lab/`); nur der EU-AI-Act-Check bleibt online, eine englische Fassung ist nicht geplant. Siehe `docs/apps-umbau-plan.md`.
   - [x] n8n-Chatbot: englische Antworten (2026-07-11) — Bot folgte bereits der Nutzersprache; ergänzt: Seiten-Locale-Fallback bei mehrdeutiger Eingabe (?locale via Proxy-URL, HMAC-kompatibel in beide Richtungen), /en-Links in englischen Antworten, englische Refusals, Wissen-Artikel im Prompt (Workflow-Update + PR #85; live E2E-verifiziert)
 
 ## P7 — GEO-Messung

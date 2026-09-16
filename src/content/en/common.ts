@@ -36,8 +36,8 @@ export const common = {
         label: "Services",
       },
       {
-        href: "/lab",
-        label: "Lab",
+        href: "https://apps.rautaki.ch",
+        label: "Apps",
       },
       {
         href: "/wissen",
@@ -72,8 +72,8 @@ export const common = {
         label: "Approach",
       },
       {
-        href: "/lab",
-        label: "Lab",
+        href: "https://apps.rautaki.ch",
+        label: "Apps",
       },
       {
         href: "/wissen",
