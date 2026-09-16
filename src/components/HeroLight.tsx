@@ -27,7 +27,7 @@ export default function HeroLight({
             <div
               className={
                 descriptionClassName ??
-                "max-w-reading font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey space-y-4"
+                "max-w-reading font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey-deep space-y-4"
               }
             >
               {description}

@@ -46,7 +46,7 @@ export default function BookingPage({ locale }: { locale: Locale }) {
         description={<p>{c.heroDescription}</p>}
         rightContent={
           <div className="bg-charcoal border-t-[3px] border-gold p-8">
-            <p className="font-ui text-xs uppercase tracking-wide-label text-white/40 mb-6">
+            <p className="font-ui text-xs uppercase tracking-wide-label text-white/50 mb-6">
               {c.callFactsHeading}
             </p>
             <dl className="space-y-0">
@@ -57,7 +57,7 @@ export default function BookingPage({ locale }: { locale: Locale }) {
                     i < c.callFacts.length - 1 ? "border-b border-white/10" : ""
                   }`}
                 >
-                  <dt className="font-ui text-xs uppercase tracking-wide-label text-white/40">
+                  <dt className="font-ui text-xs uppercase tracking-wide-label text-white/50">
                     {label}
                   </dt>
                   <dd className="font-serif text-h4 tracking-tight-h4 font-normal text-white">
@@ -108,7 +108,7 @@ export default function BookingPage({ locale }: { locale: Locale }) {
                 <CalInline />
               </Suspense>
             </div>
-            <p className="mt-4 font-ui text-xs text-mid-grey">
+            <p className="mt-4 font-ui text-xs text-mid-grey-deep">
               {c.calendar.note}
             </p>
           </ScrollReveal>

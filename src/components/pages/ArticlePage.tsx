@@ -117,7 +117,7 @@ const markdownComponents: Components = {
     </div>
   ),
   th: ({ children }) => (
-    <th className="border-b border-ink/20 py-3 pr-6 text-left font-medium uppercase tracking-wide-label text-xs text-mid-grey">
+    <th className="border-b border-ink/20 py-3 pr-6 text-left font-medium uppercase tracking-wide-label text-xs text-mid-grey-deep">
       {children}
     </th>
   ),
@@ -189,7 +189,7 @@ export default function ArticlePage({
           <p className="font-ui text-lead font-light leading-body text-ink/70 mb-8">
             {article.description}
           </p>
-          <div className="flex flex-wrap gap-x-6 gap-y-1 font-ui text-xs uppercase tracking-wide-label text-mid-grey border-t border-ink/10 pt-5">
+          <div className="flex flex-wrap gap-x-6 gap-y-1 font-ui text-xs uppercase tracking-wide-label text-mid-grey-deep border-t border-ink/10 pt-5">
             <span>
               {c.publishedLabel}{" "}
               <time dateTime={article.datePublished}>
@@ -233,7 +233,7 @@ export default function ArticlePage({
               >
                 Harry Witzthum
               </a>
-              <p className="font-ui text-sm font-light leading-snug text-mid-grey mt-0.5">
+              <p className="font-ui text-sm font-light leading-snug text-mid-grey-deep mt-0.5">
                 {c.authorRole}
               </p>
             </div>

@@ -12,7 +12,7 @@ export default function NotFound() {
         <h1 className="font-serif text-h2 text-white mb-4">
           {common.notFound.title}
         </h1>
-        <p className="text-white/45 font-sans text-body mb-2">
+        <p className="text-white/50 font-sans text-body mb-2">
           {common.notFound.body}
         </p>
         <p className="text-white/35 font-sans text-body mb-10" lang="en">

@@ -28,14 +28,14 @@ export default function HomePage({ locale }: { locale: Locale }) {
       {/* ── Referenzen-Streifen ─────────────────────────── */}
       <div className="bg-charcoal border-b border-white/5 overflow-hidden py-5">
         <ScrollReveal>
-          <p className="text-center font-ui text-xs uppercase tracking-wide-label text-white/45 mb-4">
+          <p className="text-center font-ui text-xs uppercase tracking-wide-label text-white/50 mb-4">
             {c.credentialsLabel}
           </p>
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 px-6 sm:px-10 lg:px-20 max-w-content mx-auto">
             {c.credentials.map((name) => (
               <span
                 key={name}
-                className="font-ui text-xs text-white/45 whitespace-nowrap"
+                className="font-ui text-xs text-white/50 whitespace-nowrap"
               >
                 {name}
               </span>
@@ -52,7 +52,7 @@ export default function HomePage({ locale }: { locale: Locale }) {
             <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
               <Highlight text={c.problem.heading} />
             </h2>
-            <p className="font-ui text-body font-light leading-body text-ink/45 md:text-mid-grey max-w-narrow">
+            <p className="font-ui text-body font-light leading-body text-mid-grey-deep max-w-narrow">
               {c.problem.body}
             </p>
           </ScrollReveal>
@@ -80,7 +80,7 @@ export default function HomePage({ locale }: { locale: Locale }) {
                   <h3 className="font-serif text-h4 text-ink font-normal mb-2 leading-snug">
                     {item.title}
                   </h3>
-                  <p className="font-ui text-sm font-light leading-body text-mid-grey">
+                  <p className="font-ui text-sm font-light leading-body text-mid-grey-deep">
                     {item.body}
                   </p>
                 </div>
@@ -100,7 +100,7 @@ export default function HomePage({ locale }: { locale: Locale }) {
           <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-white mb-4 mt-10">
             {c.cta.heading}
           </h2>
-          <p className="font-ui text-body font-light leading-body text-white/45 mb-10 max-w-reading mx-auto">
+          <p className="font-ui text-body font-light leading-body text-white/50 mb-10 max-w-reading mx-auto">
             {c.cta.body}
           </p>
           <Button
@@ -110,11 +110,11 @@ export default function HomePage({ locale }: { locale: Locale }) {
           >
             {c.cta.button}
           </Button>
-          <p className="font-ui text-sm font-light text-white/45 mt-8">
+          <p className="font-ui text-sm font-light text-white/50 mt-8">
             {c.cta.pricePrefix}
             <a
               href={localePath(locale, "/services#preise")}
-              className="text-white/45 underline decoration-white/20 underline-offset-4 transition-colors duration-200 hover:text-gold hover:decoration-gold"
+              className="text-white/50 underline decoration-white/20 underline-offset-4 transition-colors duration-200 hover:text-gold hover:decoration-gold"
             >
               {c.cta.priceLinkLabel}
             </a>

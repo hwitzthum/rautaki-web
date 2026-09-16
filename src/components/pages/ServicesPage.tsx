@@ -212,7 +212,7 @@ export default function ServicesPage({ locale }: { locale: Locale }) {
                   <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
                     {service.detailHeading}
                   </h2>
-                  <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey mb-8 max-w-reading">
+                  <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey-deep mb-8 max-w-reading">
                     {service.longDesc}
                   </p>
                   <blockquote className="font-serif italic text-body leading-body text-ink border-l-2 border-gold pl-5">
@@ -234,7 +234,7 @@ export default function ServicesPage({ locale }: { locale: Locale }) {
 
             {/* Bridge into the shared process — the single "how" */}
             <div className="pt-8 border-t border-ink/10">
-              <p className="font-ui text-sm font-light text-mid-grey mb-3">
+              <p className="font-ui text-sm font-light text-mid-grey-deep mb-3">
                 {c.serviceBridgeNote}
               </p>
               <a
@@ -324,7 +324,7 @@ export default function ServicesPage({ locale }: { locale: Locale }) {
                       <h3 className="font-serif text-h4 font-normal leading-snug text-white pt-1 mb-3">
                         {item.title}
                       </h3>
-                      <div className="font-ui text-[0.7rem] uppercase tracking-wide-label text-white/30 mb-1">
+                      <div className="font-ui text-[0.7rem] uppercase tracking-wide-label text-white/50 mb-1">
                         {c.journeySection.resultLabel}
                       </div>
                       <p className="font-serif text-body leading-body text-white/75 max-w-reading">
@@ -365,7 +365,7 @@ export default function ServicesPage({ locale }: { locale: Locale }) {
                 </svg>
                 {c.journeySection.bookletLink}
               </a>
-              <span className="font-ui text-sm font-light text-white/40">
+              <span className="font-ui text-sm font-light text-white/50">
                 {c.journeySection.audience}
               </span>
             </div>
@@ -384,7 +384,7 @@ export default function ServicesPage({ locale }: { locale: Locale }) {
             <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
               <Highlight text={c.pricing.heading} />
             </h2>
-            <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey mb-12 max-w-reading">
+            <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey-deep mb-12 max-w-reading">
               {c.pricing.intro}
             </p>
           </ScrollReveal>
@@ -393,13 +393,13 @@ export default function ServicesPage({ locale }: { locale: Locale }) {
             {c.pricing.items.map((item, index) => (
               <ScrollReveal key={item.format} delay={index * 80}>
                 <div className="border-t border-ink/10 pt-6">
-                  <div className="font-ui text-xs font-medium uppercase tracking-wide-label text-mid-grey mb-3">
+                  <div className="font-ui text-xs font-medium uppercase tracking-wide-label text-mid-grey-deep mb-3">
                     {item.format}
                   </div>
                   <div className="font-serif text-h3 tracking-tight-h3 text-ink mb-3">
                     {item.price}
                   </div>
-                  <p className="font-ui text-sm font-light leading-body text-mid-grey">
+                  <p className="font-ui text-sm font-light leading-body text-mid-grey-deep">
                     {item.description}
                   </p>
                 </div>
@@ -408,7 +408,7 @@ export default function ServicesPage({ locale }: { locale: Locale }) {
           </div>
 
           <ScrollReveal>
-            <p className="font-ui text-sm font-light leading-body text-mid-grey mt-12 pt-8 border-t border-ink/10 max-w-reading">
+            <p className="font-ui text-sm font-light leading-body text-mid-grey-deep mt-12 pt-8 border-t border-ink/10 max-w-reading">
               {c.pricing.note}
             </p>
           </ScrollReveal>
@@ -423,7 +423,7 @@ export default function ServicesPage({ locale }: { locale: Locale }) {
             <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
               <Highlight text={c.education.heading} />
             </h2>
-            <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey mb-8 max-w-reading">
+            <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey-deep mb-8 max-w-reading">
               {c.education.body}
             </p>
             <a
@@ -460,7 +460,7 @@ export default function ServicesPage({ locale }: { locale: Locale }) {
                   {item.question}
                 </dt>
                 <dd className="m-0">
-                  <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey max-w-reading">
+                  <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey-deep max-w-reading">
                     {item.answer}
                   </p>
                   {item.link && (

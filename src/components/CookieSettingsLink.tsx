@@ -11,7 +11,7 @@ export default function CookieSettingsLink({ locale }: { locale: Locale }) {
     <button
       type="button"
       onClick={() => window.dispatchEvent(new Event(COOKIE_SETTINGS_EVENT))}
-      className="font-ui text-xs uppercase tracking-wide-footer text-white/45 no-underline cursor-pointer hover:text-gold transition-colors"
+      className="font-ui text-xs uppercase tracking-wide-footer text-white/50 no-underline cursor-pointer hover:text-gold transition-colors"
     >
       {common.cookieSettings.label}
     </button>

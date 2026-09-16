@@ -25,7 +25,7 @@ export default function Error({
         <h1 className="font-serif text-h2 text-white mb-4">
           {common.error.title}
         </h1>
-        <p className="text-white/45 font-sans text-body mb-2">
+        <p className="text-white/50 font-sans text-body mb-2">
           {common.error.body}
         </p>
         <p className="text-white/35 font-sans text-body mb-10" lang="en">
