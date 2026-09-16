@@ -24,7 +24,7 @@ Konventionen:
 | P7 | GEO-Messung | 1 | 5/5 | abgeschlossen | 2026-07-11 |
 | P8 | Indexierung der Kernseiten | 2 | 2/4 | in Arbeit — Priorität 1 | 2026-09-16 |
 | P9 | Nicht-Marken-Suchen & Snippets | 2 | 4/6 | in Arbeit — Priorität 3 | 2026-09-16 |
-| P10 | Performance & Technik | 2 | 4/7 | in Arbeit — P10.4 Kontrast + P10.7 CSP warten auf Freigabe | 2026-09-16 |
+| P10 | Performance & Technik | 2 | 5/7 | in Arbeit — P10.7 CSP-Nonce als nächstes | 2026-09-16 |
 | P11 | Externe Sichtbarkeitsmessung | 2 | 1/5 | in Arbeit — P11.5 GEO-Probe-Lücken | 2026-09-16 |
 | R | Re-Verifikation Zyklus 1 | 2 | 9/12 | in Arbeit — offen R5, R7, R11 (GSC) | 2026-09-16 |
 
@@ -216,13 +216,14 @@ Zielanfragen (Empfehlung) → beste Seite:
   - Hashes/SRI scheiden aus: die Inline-RSC-Skripte von Next ändern sich pro Request; `experimental.sri` deckt nur externe Chunks ab. Allowlist ohne `'unsafe-inline'` bricht die Hydration.
   - Hauptkosten von Nonces (dynamisches Rendering, kein CDN-Cache, kein PPR) fallen hier nicht an: alle Seiten sind bereits dynamisch (Root-Layout liest `headers()`, live `cache-control: private, no-store`). Nonces verbauen aber einen späteren Wechsel auf statisch/PPR.
   - Empfehlung Option A: Nonce + `'strict-dynamic'` in `script-src`, erzeugt in `src/proxy.ts` (inkl. Maintenance-Rewrite), CSP für HTML-Routen aus `next.config.ts` dorthin verschieben; `style-src 'unsafe-inline'` bleiben lassen (ein Nonce in `style-src` würde alle `style`-Attribute und Cal-/n8n-Styles brechen). Rollout erst als `Content-Security-Policy-Report-Only`, dann erzwingen.
-- [ ] P10.4 Accessibility (Lighthouse Desktop 96): Farbkontrast und «sichtbares Label ≠ accessible name» beheben — Stand 2026-09-16: Struktur-Befunde behoben, Farbkontrast offen (Design-Entscheid).
+- [x] P10.4 Accessibility (Lighthouse Desktop 96): Farbkontrast und «sichtbares Label ≠ accessible name» beheben — 2026-09-16: Struktur (PR #132) + Kontrast (Variante «Nav + Grau, Gold bleibt» freigegeben).
   - Lighthouse 12 Desktop lokal (`next start`), 7 Seiten: 0.90–0.96. Neben den bekannten zwei Befunden auch `definition-list`/`dlitem` (FAQ auf `/services`: `ScrollReveal`-div zwischen `<dl>` und `<dt>/<dd>`) und `heading-order` (`/booking`: `h3` ohne `h2`).
   - ✓ Label: `aria-label="Rautaki — home"` am Logo-Link entfernt — der sichtbare Text (Wortmarke, in der Hero-Variante mit Tagline) ist jetzt der Name. ✓ FAQ: `ScrollReveal` trägt das Grid selbst, `<dt>/<dd>` direkt darunter. ✓ Booking: Karten-Titel `h3` → `h2` (gleiche Klassen, optisch unverändert). Danach: `/services` 0.90 → 0.97, `/booking` 0.95 → 0.97, Startseite 0.96 nur noch Kontrast.
-  - Offen, Farbkontrast (alle Seiten): Navigations-Links `text-white/[0.28]` (2.4:1; ≥ 4.5 ab `white/45`), `--_mid-grey` #9A9590 als Eyebrow/Section-Label auf #FAFAFA (2.8:1; 4.5 ab ca. #77726C), Gold-Kursiv in Headlines auf Hell (#F5A623 auf #FAFAFA 1.9:1; Grosstext braucht 3:1 → ca. #B87A0F), Startseite `text-white/45` auf Charcoal (4.4:1 → `white/50`). Alle vier betreffen Design-Tokens bzw. die Markenregel «Gold-Kursiv in Headlines» → Freigabe nötig.
+  - ✓ Kontrast: neuer Token `mid-grey-deep` #6B6661 (Tailwind `text-mid-grey-deep`) für Sekundärtext auf hellen Flächen (5.4:1 auf Weiss, 4.5:1 auf Warm Grey); `mid-grey` #9A9590 bleibt nur auf Dunkel. Text auf Dunkel mindestens `white/50` (Nav/LocaleSwitch vorher `white/[0.28]`, Body/Labels `white/40–45`, Section-Label dunkel `white/20`, Services-Label `white/30`). `ink/45` → `mid-grey-deep`, `ink/60` → `ink/65`, Text auf Gold `obsidian/55` → `/70`. `docs/design/tokens.css`, `tokens.json`, `style-guide.md` nachgeführt.
+  - Messung (Lighthouse 12, `--force-prefers-reduced-motion`, damit `ScrollReveal`-Inhalte mitgeprüft werden; ohne das übersieht axe alles mit `opacity: 0`): keine Kontrastbefunde mehr ausser den bewusst akzeptierten — Gold-Kursiv/Gold-Eyebrows auf Hell (Markenregel) und dekorative Ziffern/Wasserzeichen (`ink/15`, `ink/25`, `white/[0.03]`). Score bleibt deshalb 0.96–0.97; Artikelseite 1.0.
 - [x] P10.5 Apple-Touch-Icon ergänzen (Seobility-Warnung, geringe Priorität) (2026-09-16) — `src/app/apple-icon.png` (180×180, Next-Dateikonvention → `<link rel="apple-touch-icon" sizes="180x180">`): weisses Dreieck des Favicons auf vollflächigem Schwarz, da iOS die Ecken selbst rundet und Transparenz schwarz füllt. Proxy-Matcher schliesst `.png` aus.
 - [ ] P10.6 Core Web Vitals in GSC beobachten — derzeit «keine Daten» (zu wenig Traffic); bei ersten Felddaten hier eintragen
-- [ ] P10.7 CSP-Nonce gemäss P10.3 Option A umsetzen (Report-Only → erzwingen); Durchklicktest: Startseite, `/booking` + Cal-Modal, Chat, Consent → Salesflare, Sentry-Testfehler — Freigabe ausstehend
+- [ ] P10.7 CSP-Nonce gemäss P10.3 Option A umsetzen (Report-Only → erzwingen); Durchklicktest: Startseite, `/booking` + Cal-Modal, Chat, Consent → Salesflare, Sentry-Testfehler — freigegeben 2026-09-16
 
 ## P11 — Externe Sichtbarkeitsmessung (ergänzt P7)
 

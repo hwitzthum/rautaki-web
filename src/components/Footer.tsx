@@ -15,16 +15,16 @@ export default function Footer({ locale }: { locale: Locale }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
           <div>
             <Logo size="sm" variant="dark" />
-            <p className="mt-4 max-w-[280px] font-ui text-sm text-white/45">
+            <p className="mt-4 max-w-[280px] font-ui text-sm text-white/50">
               {common.footer.tagline}
             </p>
           </div>
 
           <div>
-            <h3 className="font-ui text-xs uppercase tracking-wide-label text-white/45 mb-4">
+            <h3 className="font-ui text-xs uppercase tracking-wide-label text-white/50 mb-4">
               {common.footer.navHeading}
             </h3>
-            <ul className="space-y-3 font-ui text-sm text-white/45">
+            <ul className="space-y-3 font-ui text-sm text-white/50">
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <Link
@@ -39,10 +39,10 @@ export default function Footer({ locale }: { locale: Locale }) {
           </div>
 
           <div>
-            <h3 className="font-ui text-xs uppercase tracking-wide-label text-white/45 mb-4">
+            <h3 className="font-ui text-xs uppercase tracking-wide-label text-white/50 mb-4">
               {common.footer.contactHeading}
             </h3>
-            <ul className="space-y-3 font-ui text-sm text-white/45">
+            <ul className="space-y-3 font-ui text-sm text-white/50">
               <li>
                 <a
                   href={`mailto:${common.footer.email}`}
@@ -72,7 +72,7 @@ export default function Footer({ locale }: { locale: Locale }) {
           </div>
         </div>
 
-        <div className="mt-14 pt-6 border-t border-white/10 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between font-ui text-xs uppercase tracking-wide-footer text-white/45">
+        <div className="mt-14 pt-6 border-t border-white/10 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between font-ui text-xs uppercase tracking-wide-footer text-white/50">
           <div>
             © {new Date().getFullYear()} {common.footer.copyright}
           </div>

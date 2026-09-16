@@ -469,9 +469,11 @@ Always include this block in production stylesheets.
 | White `#FAFAFA` on Obsidian `#0A0A0A` | 19.4:1 | AAA |
 | Gold `#F5A623` on Obsidian `#0A0A0A` | 6.8:1 | AA (large text) |
 | Ink on Gold `#F5A623` | 6.9:1 | AA |
-| `rgba(255,255,255,0.45)` on Obsidian | ~5.5:1 | AA (body only) |
+| `rgba(255,255,255,0.50)` on Obsidian/Charcoal | ~5.3:1 | AA — minimum for body, labels, nav on dark |
+| Mid Grey Deep `#6B6661` on White / Cream / Warm Grey | 5.4 / 5.1 / 4.5:1 | AA |
+| `rgba(0,0,0,0.70)` on Gold | 5.3:1 | AA |
 
-> **Warning:** `rgba(255,255,255,0.28)` on Obsidian yields ~3:1 — use only for non-essential decorative text (nav, contact info at small size). Ensure interactive elements meet 4.5:1 minimum.
+> **Rule (2026-09-16, GEO-Roadmap P10.4):** All text meets 4.5:1. `rgba(255,255,255,0.20–0.45)` and Mid Grey `#9A9590` on light surfaces fail and are no longer used for text. Accepted exceptions: gold italic accents in headlines and gold eyebrows on light surfaces (brand rule, ~1.9:1), and decorative numerals/watermarks (`ink/15`, `ink/25`, `white/[0.03]`).
 
 ### Semantic HTML
 

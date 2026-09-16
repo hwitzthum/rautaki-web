@@ -79,7 +79,7 @@ export default function HeroDark({ locale, onBookingClick }: HeroDarkProps) {
             ))}
           </h1>
 
-          <p className="font-ui text-body font-light leading-body text-white/45 max-w-[470px]">
+          <p className="font-ui text-body font-light leading-body text-white/50 max-w-[470px]">
             {intro}
           </p>
         </div>
@@ -113,7 +113,7 @@ export default function HeroDark({ locale, onBookingClick }: HeroDarkProps) {
           <h2 className="font-serif text-h3 tracking-tight-h3 text-obsidian mb-3">
             {ctaTitle}
           </h2>
-          <p className="font-ui text-sm text-obsidian/55 mb-6 max-w-narrow">
+          <p className="font-ui text-sm text-obsidian/70 mb-6 max-w-narrow">
             {ctaBody}
           </p>
           <Button variant="dark" onClick={onBookingClick} showArrow>

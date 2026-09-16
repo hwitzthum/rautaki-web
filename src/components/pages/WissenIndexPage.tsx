@@ -94,13 +94,13 @@ export default function WissenIndexPage({ locale }: { locale: Locale }) {
                       <h2 className="font-serif text-h3 tracking-tight-h3 font-normal leading-heading text-ink mb-2">
                         {article.title}
                       </h2>
-                      <p className="font-ui text-sm font-light leading-body text-ink/65 md:text-mid-grey">
+                      <p className="font-ui text-sm font-light leading-body text-ink/65 md:text-mid-grey-deep">
                         {article.description}
                       </p>
                     </div>
                     <time
                       dateTime={article.datePublished}
-                      className="font-ui text-xs uppercase tracking-wide-label text-mid-grey whitespace-nowrap lg:text-right"
+                      className="font-ui text-xs uppercase tracking-wide-label text-mid-grey-deep whitespace-nowrap lg:text-right"
                     >
                       {formatArticleDate(locale, article.datePublished)}
                     </time>

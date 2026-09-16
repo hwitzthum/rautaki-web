@@ -166,10 +166,10 @@ export default function AboutPage({ locale }: { locale: Locale }) {
               />
             </div>
             <div className="border border-t-0 border-ink/10 px-5 py-4 bg-white/60">
-              <p className="font-ui text-xs uppercase tracking-wide-label text-mid-grey">
+              <p className="font-ui text-xs uppercase tracking-wide-label text-mid-grey-deep">
                 {c.hero.portraitName}
               </p>
-              <p className="font-serif italic text-sm text-ink/60 leading-snug mt-0.5">
+              <p className="font-serif italic text-sm text-ink/65 leading-snug mt-0.5">
                 {c.hero.portraitRole}
               </p>
             </div>
@@ -189,7 +189,7 @@ export default function AboutPage({ locale }: { locale: Locale }) {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-16 gap-y-6">
             <ScrollReveal>
-              <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey mb-4">
+              <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey-deep mb-4">
                 {c.perspective.para1a}{" "}
                 <span className="font-serif italic text-ink">
                   {c.perspective.und}
@@ -204,13 +204,13 @@ export default function AboutPage({ locale }: { locale: Locale }) {
                 </span>{" "}
                 {c.perspective.para1d}
               </p>
-              <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey">
+              <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey-deep">
                 {c.perspective.para2}
               </p>
             </ScrollReveal>
 
             <ScrollReveal delay={100}>
-              <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey mb-4">
+              <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey-deep mb-4">
                 {c.perspective.para3}
               </p>
               <p className="font-serif italic text-body leading-body text-ink border-l-2 border-gold pl-5">
@@ -260,10 +260,10 @@ export default function AboutPage({ locale }: { locale: Locale }) {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-16 gap-y-8 items-center">
             <ScrollReveal>
-              <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey mb-4">
+              <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey-deep mb-4">
                 {c.approach.para1}
               </p>
-              <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey">
+              <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey-deep">
                 {c.approach.para2}
               </p>
             </ScrollReveal>
@@ -299,16 +299,16 @@ export default function AboutPage({ locale }: { locale: Locale }) {
             <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
               {c.founding.heading}
             </h2>
-            <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey mb-4">
+            <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey-deep mb-4">
               {c.founding.para1}
             </p>
-            <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey mb-4">
+            <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey-deep mb-4">
               {c.founding.para2}
             </p>
-            <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey mb-4">
+            <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey-deep mb-4">
               {c.founding.para3}
             </p>
-            <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey">
+            <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey-deep">
               {c.founding.para4}
             </p>
           </ScrollReveal>
@@ -323,7 +323,7 @@ export default function AboutPage({ locale }: { locale: Locale }) {
               <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-4">
                 {c.workshops.heading}
               </h2>
-              <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey max-w-reading mb-10">
+              <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey-deep max-w-reading mb-10">
                 {c.workshops.intro}
               </p>
             </ScrollReveal>
@@ -352,7 +352,7 @@ export default function AboutPage({ locale }: { locale: Locale }) {
               <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-4">
                 {c.teaching.heading}
               </h2>
-              <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey max-w-reading mb-10">
+              <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey-deep max-w-reading mb-10">
                 {c.teaching.intro}
               </p>
             </ScrollReveal>
@@ -372,7 +372,7 @@ export default function AboutPage({ locale }: { locale: Locale }) {
                     >
                       {course.title}
                     </a>
-                    <span className="font-serif italic text-sm text-mid-grey leading-snug">
+                    <span className="font-serif italic text-sm text-mid-grey-deep leading-snug">
                       {course.institution}
                     </span>
                   </li>

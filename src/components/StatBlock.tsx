@@ -23,11 +23,11 @@ export default function StatBlock({ stats }: StatBlockProps) {
             <div className="font-serif text-d1 leading-none text-ink">
               <AnimatedCounter target={stat.value} suffix={stat.suffix} />
             </div>
-            <div className="mt-1 font-ui text-xs font-medium uppercase tracking-wide-mid text-mid-grey">
+            <div className="mt-1 font-ui text-xs font-medium uppercase tracking-wide-mid text-mid-grey-deep">
               {stat.label}
             </div>
             {stat.source && (
-              <div className="mt-1 font-ui text-xs font-light leading-snug text-ink/45 not-italic">
+              <div className="mt-1 font-ui text-xs font-light leading-snug text-mid-grey-deep not-italic">
                 {stat.source}
               </div>
             )}

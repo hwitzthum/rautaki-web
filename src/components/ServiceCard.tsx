@@ -41,7 +41,7 @@ export default function ServiceCard({
           {title}
         </h3>
 
-        <p className="font-ui text-sm leading-body text-white/45 font-light">
+        <p className="font-ui text-sm leading-body text-white/50 font-light">
           {description}
         </p>
 

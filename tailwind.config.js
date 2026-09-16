@@ -38,7 +38,10 @@ module.exports = {
       white:      '#FAFAFA',
       cream:      '#F4F2EE',
       'warm-grey':'#E8E5DF',
-      'mid-grey': '#9A9590',
+      'mid-grey': {
+        DEFAULT: '#9A9590',
+        deep:    '#6B6661',   // secondary text on light surfaces (≥ 4.5:1 up to warm-grey)
+      },
       error:      '#C53030',
 
       // Semantic aliases — use these in components

@@ -178,11 +178,11 @@ export default function VorgehenPage({ locale }: { locale: Locale }) {
                       <p className="font-serif italic text-body leading-body text-ink mb-3">
                         {item.question}
                       </p>
-                      <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey mb-5 max-w-reading">
+                      <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey-deep mb-5 max-w-reading">
                         {item.activity}
                       </p>
                       <div className="border-l-2 border-gold pl-5 max-w-reading">
-                        <div className="font-ui text-[0.7rem] uppercase tracking-wide-label text-mid-grey mb-1">
+                        <div className="font-ui text-[0.7rem] uppercase tracking-wide-label text-mid-grey-deep mb-1">
                           {c.resultLabel}
                         </div>
                         <p className="font-serif text-body leading-body text-ink">
@@ -233,7 +233,7 @@ export default function VorgehenPage({ locale }: { locale: Locale }) {
             <h2 className="font-serif text-h2 tracking-tight-h2 font-normal leading-heading text-ink mb-6">
               <Highlight text={c.complianceSection.heading} />
             </h2>
-            <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey mb-12 max-w-reading">
+            <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey-deep mb-12 max-w-reading">
               {c.complianceIntro}
             </p>
           </ScrollReveal>
@@ -269,13 +269,13 @@ export default function VorgehenPage({ locale }: { locale: Locale }) {
             {c.collaboration.map((item, index) => (
               <ScrollReveal key={item.title} delay={index * 80}>
                 <div className="border-t-2 border-gold/75 pt-6">
-                  <div className="font-ui text-xs font-medium uppercase tracking-wide-label text-mid-grey mb-3">
+                  <div className="font-ui text-xs font-medium uppercase tracking-wide-label text-mid-grey-deep mb-3">
                     {item.label}
                   </div>
                   <h3 className="font-serif text-h3 tracking-tight-h3 text-ink font-normal mb-3">
                     {item.title}
                   </h3>
-                  <p className="font-ui text-sm font-light leading-body text-mid-grey">
+                  <p className="font-ui text-sm font-light leading-body text-mid-grey-deep">
                     {item.description}
                   </p>
                 </div>
@@ -284,7 +284,7 @@ export default function VorgehenPage({ locale }: { locale: Locale }) {
           </div>
 
           <ScrollReveal>
-            <p className="font-ui text-sm font-light leading-body text-mid-grey mt-12 pt-8 border-t border-ink/10 max-w-reading">
+            <p className="font-ui text-sm font-light leading-body text-mid-grey-deep mt-12 pt-8 border-t border-ink/10 max-w-reading">
               {c.collaborationNote}{" "}
               <a
                 href={localePath(locale, "/services#preise")}

@@ -41,12 +41,13 @@
   --_email-bg:        #DDD9D0;    /* email section backdrop */
 
   /* Greys */
-  --_mid-grey:        #9A9590;    /* secondary text, captions, meta */
+  --_mid-grey:        #9A9590;    /* secondary text on DARK surfaces only (2.8:1 on white) */
+  --_mid-grey-deep:   #6B6661;    /* secondary text, captions, meta on light (5.4:1 on white, 4.5:1 on warm-grey) */
 
   /* Alphas on dark */
-  --_white-alpha-45:  rgba(255, 255, 255, 0.45);  /* body text on dark */
-  --_white-alpha-28:  rgba(255, 255, 255, 0.28);  /* nav + contact on dark */
-  --_white-alpha-20:  rgba(255, 255, 255, 0.20);  /* footer copy, email labels */
+  --_white-alpha-50:  rgba(255, 255, 255, 0.50);  /* body text, labels, nav on dark (≥ 5.2:1) */
+  --_white-alpha-28:  rgba(255, 255, 255, 0.28);  /* decorative only — not for text (2.4:1) */
+  --_white-alpha-20:  rgba(255, 255, 255, 0.20);  /* decorative only — not for text */
   --_white-alpha-05:  rgba(255, 255, 255, 0.05);  /* subtle dividers */
   --_white-alpha-025: rgba(255, 255, 255, 0.025); /* watermark R letterform */
 
@@ -94,14 +95,14 @@
 
   /* --- Text on light backgrounds ------------------------------------ */
   --color-text-primary:   var(--_ink);            /* headings, body — on cream/white */
-  --color-text-secondary: var(--_mid-grey);       /* captions, meta, muted body */
+  --color-text-secondary: var(--_mid-grey-deep);  /* captions, meta, muted body */
   --color-text-muted:     var(--_ink-alpha-45);   /* very muted — secondary annotations */
   --color-text-accent:    var(--_gold-500);       /* gold highlights in headings */
 
   /* --- Text on dark backgrounds ------------------------------------- */
   --color-text-on-dark:           var(--_white);
-  --color-text-on-dark-body:      var(--_white-alpha-45);
-  --color-text-on-dark-secondary: var(--_white-alpha-28);
+  --color-text-on-dark-body:      var(--_white-alpha-50);
+  --color-text-on-dark-secondary: var(--_white-alpha-50);
   --color-text-on-dark-muted:     var(--_white-alpha-20);
 
   /* --- Text on gold backgrounds ------------------------------------- */
@@ -480,7 +481,7 @@
 
 :root {
 
-  --nav-color:          var(--_white-alpha-28);
+  --nav-color:          var(--_white-alpha-50);
   --nav-color-active:   var(--color-gold);
   --nav-color-hover:    var(--color-gold);
   --nav-font:           var(--font-ui);
@@ -560,7 +561,7 @@
   --stat-label-font:      var(--font-ui);
   --stat-label-size:      var(--sz-xs);
   --stat-label-spacing:   var(--kern-label-mid);
-  --stat-label-color:     var(--_mid-grey);
+  --stat-label-color:     var(--_mid-grey-deep);
   --stat-block-gap:       var(--space-9);
 
 }

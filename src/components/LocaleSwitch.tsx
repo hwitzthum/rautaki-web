@@ -28,7 +28,7 @@ export default function LocaleSwitch({
 
   const linkClass = (active: boolean) =>
     `no-underline transition-colors duration-200 ${
-      active ? "text-gold" : "text-white/[0.28] hover:text-gold"
+      active ? "text-gold" : "text-white/50 hover:text-gold"
     }`;
 
   return (

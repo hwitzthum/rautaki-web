@@ -175,7 +175,7 @@ function CalModalContent({
 
         {/* Footer note */}
         <div className="bg-white border-t border-ink/[0.07] px-8 py-3">
-          <p className="font-ui text-xs text-mid-grey">
+          <p className="font-ui text-xs text-mid-grey-deep">
             {common.calModal.footerNote}
           </p>
         </div>
