@@ -1,56 +1,6 @@
 import { withSentryConfig } from "@sentry/nextjs";
 import type { NextConfig } from "next";
-
-function buildCsp(): string {
-  // The chatbot now talks to a same-origin proxy at /api/chat which forwards
-  // to the n8n webhook server-side, so the n8n origin no longer needs to be
-  // in connect-src. The change closes a small attack surface (the browser
-  // can never be tricked into a cross-origin call to the bot's host).
-  const connectSrc = [
-    "'self'",
-    "*.ingest.de.sentry.io",
-    "*.sentry.io",
-    // Cal.com API calls (availability, booking confirmation)
-    "https://cal.com",
-    "https://app.cal.com",
-    // Salesflare website tracking (actual_flare.js) sends visit beacons here
-    // via XHR/fetch/sendBeacon. Only loaded after cookie consent — see
-    // ConsentManager. (The script itself is allowed via script-src below.)
-    "https://api.salesflare.com",
-    // Resend is called server-side only (email-send route handlers) —
-    // the browser never contacts it directly, so it must not appear here.
-  ].join(" ");
-
-  // Salesflare tracking loads in two hops: track.salesflare.com/flare.js (a
-  // thin loader) then storage.googleapis.com/track.salesflare.com/actual_flare.js.
-  // The GCS source is path-restricted to Salesflare's bucket so we don't allow
-  // scripts from arbitrary Google Cloud Storage buckets.
-  const salesflareScriptSrc =
-    "https://track.salesflare.com https://storage.googleapis.com/track.salesflare.com/";
-
-  // Next.js App Router requires 'unsafe-inline' for its hydration scripts.
-  // 'unsafe-eval' is only needed during local development (HMR).
-  // Cal.com's embed script is loaded from app.cal.com.
-  const scriptSrc =
-    process.env.NODE_ENV === "development"
-      ? `'self' 'unsafe-inline' 'unsafe-eval' https://app.cal.com ${salesflareScriptSrc}`
-      : `'self' 'unsafe-inline' https://app.cal.com ${salesflareScriptSrc}`;
-
-  return [
-    "default-src 'self'",
-    `script-src ${scriptSrc}`,
-    "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data: images.unsplash.com",
-    "font-src 'self' data:",
-    `connect-src ${connectSrc}`,
-    "object-src 'none'",
-    // Cal.com renders its booking UI inside an iframe from app.cal.com
-    "frame-src https://cal.com https://app.cal.com",
-    "frame-ancestors 'none'",
-    "base-uri 'self'",
-    "form-action 'self' https://app.cal.com",
-  ].join("; ");
-}
+import { buildCsp } from "./src/lib/csp";
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
@@ -89,7 +39,12 @@ const nextConfig: NextConfig = {
       {
         source: "/(.*)",
         headers: [
-          { key: "Content-Security-Policy", value: buildCsp() },
+          // Static fallback for every path; pages additionally get a per-request
+          // nonce policy from src/proxy.ts (roadmap P10.7).
+          {
+            key: "Content-Security-Policy",
+            value: buildCsp({ dev: process.env.NODE_ENV === "development" }),
+          },
           { key: "X-Frame-Options", value: "DENY" },
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },

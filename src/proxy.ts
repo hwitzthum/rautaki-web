@@ -1,5 +1,6 @@
 import { NextFetchEvent, NextRequest, NextResponse } from "next/server";
 import { classifyGeoSignal, trackGeoSignal } from "@/lib/geo-track";
+import { buildCsp } from "@/lib/csp";
 
 // Maintenance-mode gate — Next.js 16 "proxy" convention (formerly middleware).
 //
@@ -13,6 +14,22 @@ const MAINTENANCE_PATH = "/maintenance";
 // The English site lives under /en; everything else is German. Derived here and
 // forwarded to the layout via x-locale so the server components never have to
 // re-parse the pathname.
+// Per-request nonce CSP for pages (roadmap P10.7). Next.js reads the nonce from
+// this request header during rendering and tags its own scripts with it.
+// Rollout: Report-Only first (the static enforcing policy from next.config.ts
+// stays in force), then switch to the enforcing header.
+const NONCE_CSP_HEADER = "Content-Security-Policy-Report-Only";
+
+function applyNonceCsp(requestHeaders: Headers): string {
+  const nonce = btoa(crypto.randomUUID());
+  const policy = buildCsp({
+    nonce,
+    dev: process.env.NODE_ENV === "development",
+  });
+  requestHeaders.set(NONCE_CSP_HEADER, policy);
+  return policy;
+}
+
 function localeFromPathname(pathname: string): "de" | "en" {
   return pathname === "/en" || pathname.startsWith("/en/") ? "en" : "de";
 }
@@ -55,7 +72,13 @@ export function proxy(request: NextRequest, event: NextFetchEvent) {
     cleaned.delete("x-maintenance");
     cleaned.delete("x-locale");
     cleaned.set("x-locale", locale);
-    return NextResponse.next({ request: { headers: cleaned } });
+    if (pathname.startsWith("/api/")) {
+      return NextResponse.next({ request: { headers: cleaned } });
+    }
+    const policy = applyNonceCsp(cleaned);
+    const response = NextResponse.next({ request: { headers: cleaned } });
+    response.headers.set(NONCE_CSP_HEADER, policy);
+    return response;
   }
 
   // Keep-alive cron must reach Redis even during maintenance — keeping the
@@ -97,6 +120,7 @@ export function proxy(request: NextRequest, event: NextFetchEvent) {
   requestHeaders.delete("x-locale");
   requestHeaders.set("x-locale", locale);
   requestHeaders.set("x-maintenance", "true");
+  const policy = applyNonceCsp(requestHeaders);
 
   const response = NextResponse.rewrite(url, {
     request: { headers: requestHeaders },
@@ -105,6 +129,7 @@ export function proxy(request: NextRequest, event: NextFetchEvent) {
   // Response headers seen by the browser / crawlers / CDNs.
   response.headers.set("cache-control", "no-store, must-revalidate");
   response.headers.set("x-robots-tag", "noindex, nofollow");
+  response.headers.set(NONCE_CSP_HEADER, policy);
 
   return response;
 }
