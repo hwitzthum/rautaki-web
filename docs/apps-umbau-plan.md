@@ -22,7 +22,7 @@ Status-Werte: `offen` · `in Arbeit` · `erledigt` · `blockiert` (Grund in der 
 | 5 | Sitemap, llms.txt, Schemas nachführen | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | App-Texte wörtlich aus `app-schaufenster/src/apps/verzeichnis.ts`; EN-Fassung ist Übersetzung durch Claude — Wortlaut-Freigabe offen |
 | 6 | Dokumentation im Repository | offen | | | |
 | 7 | Neuer Chatbot-Prompt für n8n (vollständig, freigegeben) | offen | | | Wortlaut braucht Freigabe des Auftraggebers |
-| 8 | Ausserhalb des Repositories (Auftraggeber) | offen | | | n8n, Vercel, Netlify, Umami |
+| 8 | Ausserhalb des Repositories (Auftraggeber) | offen | | | apps.rautaki.ch live schalten, n8n, Vercel, Netlify, Umami |
 | 9 | Prüfung und Veröffentlichung | offen | | | |
 | 10 | Kontrolle nach dem Livegang | offen | | | |
 
@@ -47,6 +47,7 @@ Seiten bleiben getrennt, die Änderung gehört ins Projekt `rautaki-web`.
 | Frage | Entscheid | Folge |
 |---|---|---|
 | Zeitpunkt | **Jetzt sofort**, nicht erst nach der Testphase | Bis der Zugangscode auf apps.rautaki.ch entfernt ist, landen Besucher aus dem Menü auf der Zugangsseite. Bewusst in Kauf genommen. |
+| Livegang apps.rautaki.ch (Entscheid vom 2026-09-16, nachgetragen) | **Die Site geht mit diesem Umbau live**: Zugangscode entfernen, `noindex` aufheben, über www.rautaki.ch erreichbar | Besucher aus Menü und Fusszeile landen direkt in den Apps. Der Satz zur Testphase im Chatbot-Prompt (Phase 7) entfällt, sobald Phase 8 den Zugangscode entfernt hat. Umsetzung im Projekt `app-schaufenster` (Phase 8). |
 | Artikel «EU AI Act für Schweizer NPOs» (3 Links DE, 3 Links EN auf den Checker) | **Checker bleibt online** unter `/lab/eu-ai-act-check.html`, ohne E-Mail-Schranke | Artikel bleibt unverändert. Nur Governance-Generator und Multi-Assistant-Anleitung werden archiviert. |
 | E-Mail-Schranke (Adressen ins CRM) | **Kanal fällt weg** | Schranke, `/api/lab-access` und CRM-Weiterleitung werden entfernt. Kontakt nur noch über Buchung und E-Mail. |
 | Wortlaut und alte Adressen | **«Apps»** in DE und EN; `/lab`, `/en/lab` und die zwei archivierten Werkzeuge leiten **dauerhaft auf https://apps.rautaki.ch** | Keine 404-Seiten für alte Links und Suchmaschinen. |
@@ -152,7 +153,7 @@ diese Regel gilt weiter: Was in n8n eingefügt wird, steht wortgleich im Dokumen
 Inhalt des neuen Prompts (was sich gegenüber heute ändert):
 
 - [ ] Abschnitt «LAB — KOSTENLOSE WERKZEUGE» ersetzen durch «APPS — KI-APPS ZUM AUSPROBIEREN»: Link https://apps.rautaki.ch, ein Satz zum Zweck (KI-Apps zum sofortigen Ausprobieren im Browser, kostenlos, ohne Konto), und die sechs Apps je mit Name, Adresse und einem Satz Nutzen: Dokumenten-Chat mit Quellen (`/dokumenten-chat`), Antwort-Assistent (`/antwort-assistent`), Verständlich machen (`/verstaendlich-machen`), Entwurf-Check (`/entwurf-check`), Kommunikation aus einem Anlass (`/kommunikation`), KI-Potenzial-Radar (`/ki-radar`). Wortlaut aus den freigegebenen Texten des Schaufensters (`app-schaufenster/src/apps/*`, Startseite), nicht aus dem Gedächtnis
-- [ ] Regel für die Testphase: Solange apps.rautaki.ch einen Zugangscode verlangt, sagt der Bot das offen («derzeit in einer geschlossenen Testphase, Zugang auf Anfrage an hello@rautaki.ch») und verspricht keinen freien Zugang. Der Satz ist so markiert, dass er nach Ende der Testphase gestrichen wird (Eintrag im Änderungsprotokoll dieses Dokuments)
+- [ ] Regel für die Testphase: Solange apps.rautaki.ch einen Zugangscode verlangt, sagt der Bot das offen («derzeit in einer geschlossenen Testphase, Zugang auf Anfrage an hello@rautaki.ch») und verspricht keinen freien Zugang. Der Satz ist so markiert, dass er nach Ende der Testphase gestrichen wird (Eintrag im Änderungsprotokoll dieses Dokuments). Entfällt ganz, wenn Phase 8 den Zugangscode entfernt hat, bevor der Prompt in n8n eingespielt wird (Entscheid vom 2026-09-16: Site geht live)
 - [ ] EU-AI-Act-Checker als einzelnes, weiterhin kostenloses Werkzeug nennen (`/lab/eu-ai-act-check.html`), mit Bezug zum Artikel «EU AI Act für Schweizer NPOs»; Governance-Generator und Multi-Assistant-Anleitung streichen. Auf Fragen danach: «nicht mehr online», Hinweis auf die Apps
 - [ ] Abgrenzung im Prompt: «Apps» auf apps.rautaki.ch sind fertige KI-Apps zum Ausprobieren; sie sind kein Beratungsersatz und keine Rechtsberatung (bestehende Haltung des Prompts beibehalten)
 - [ ] Regel R4 (Themenrahmen) anpassen: «the Lab tools» → «the Apps on apps.rautaki.ch and the EU AI Act checker»; alle weiteren Stellen, die «Lab», «Werkzeuge», «Tools», «Generatoren» als Auslöser nennen, auf die neue Lage umschreiben
@@ -174,6 +175,7 @@ Ablauf:
 Diese Punkte kann Claude nicht ausführen; sie brauchen Konten und Zugänge.
 
 - [ ] n8n: Systemprompt des Website-Chatbots durch den in Phase 7 freigegebenen Block ersetzen (Anleitung in `security/n8n-workflow-hardening.md`, §1); danach die fünf Kontrollfragen aus Phase 7 live stellen und die Antworten mit den erwarteten vergleichen
+- [ ] apps.rautaki.ch (Projekt `app-schaufenster`): Site live schalten — Zugangscode entfernen, `noindex` aufheben, Sitemap/robots dort prüfen — damit der Klick aus Menü und Fusszeile von www.rautaki.ch direkt in die Apps führt (Entscheid vom 2026-09-16). Danach Datum in §5 «Zugangscode» eintragen
 - [ ] n8n: Workflow «Lab-Anmeldung → Salesflare» deaktivieren oder löschen
 - [ ] Vercel, Projekt `rautaki-web`: Umgebungsvariable `N8N_LAB_WEBHOOK_URL` entfernen
 - [ ] Netlify: offene Formularanfragen der alten Demo prüfen, Site `rautaki-apps.netlify.app` löschen, Konto schliessen, falls sonst nichts darauf liegt
@@ -190,7 +192,7 @@ Diese Punkte kann Claude nicht ausführen; sie brauchen Konten und Zugänge.
 
 ### Phase 10 — Kontrolle nach dem Livegang
 
-- [ ] www.rautaki.ch: Menü und Fusszeile zeigen «Apps», Klick landet auf apps.rautaki.ch
+- [ ] www.rautaki.ch: Menü und Fusszeile zeigen «Apps», Klick landet auf apps.rautaki.ch — ohne Zugangscode direkt im App-Raster (Phase 8 wirksam)
 - [ ] apps.rautaki.ch: Wortmarke führt zurück auf www.rautaki.ch (Profil §4.6)
 - [ ] `https://www.rautaki.ch/lab` und `/en/lab` leiten weiter; Checker erreichbar
 - [ ] Chatbot auf www.rautaki.ch beantwortet die fünf Kontrollfragen aus Phase 7 wie erwartet (Phasen 7 und 8 wirksam)
@@ -200,8 +202,9 @@ Diese Punkte kann Claude nicht ausführen; sie brauchen Konten und Zugänge.
 ## 5. Risiken und offene Punkte
 
 - **Zugangscode:** Solange apps.rautaki.ch in der Testphase ist, sehen Besucher aus dem Menü
-  die Zugangsseite. Entscheid des Auftraggebers vom 2026-09-16. Sobald der Code entfernt wird,
-  hier vermerken.
+  die Zugangsseite. Entscheid des Auftraggebers vom 2026-09-16. Gleichentags nachgetragen: Die
+  Site soll mit dem Umbau live gehen (Phase 8); sobald der Code entfernt ist, Datum hier
+  vermerken: ____
 - **Suchmaschinen:** `/lab` war indexiert. Die Weiterleitung übergibt das Ranking an
   apps.rautaki.ch; dort gilt bis Ende der Testphase `noindex`. Kein Handlungsbedarf, nur wissen.
 - **Chatbot:** Der Prompt liegt in n8n, nicht im Repository. Ohne den neuen Prompt aus Phase 7
@@ -221,4 +224,5 @@ Diese Punkte kann Claude nicht ausführen; sie brauchen Konten und Zugänge.
 - 2026-09-16 — Phase 3 erledigt: Generator und Multi-Assistant-Anleitung samt `html-docx.js` und Font-Kopie nach `archiv/lab/` (README dort); Vendor-Pfade im Archiv relativ gesetzt. Checker und seine Schriften bleiben unter `public/lab/`.
 - 2026-09-16 — Phase 4 erledigt: vier dauerhafte Weiterleitungen (308) in `next.config.ts` auf https://apps.rautaki.ch; Checker bleibt erreichbar.
 - 2026-09-16 — Phase 5 erledigt: Sitemap ohne `/lab` und die zwei Werkzeuge; `llms.txt`/`llms-full.txt` mit Abschnitt «Apps» (sechs Apps aus `verzeichnis.ts`, Checker als Einzelwerkzeug). Diese App-Texte sind dieselbe Quelle, die Phase 7 für den Chatbot-Prompt braucht.
+- 2026-09-16 — Entscheid nachgetragen: apps.rautaki.ch geht mit dem Umbau live (Zugangscode weg, `noindex` aufheben) und ist über www.rautaki.ch erreichbar. Neuer Punkt in Phase 8, Folgehinweise in Phase 7, Phase 10 und §5.
 - 2026-09-16 — Phase 7 «Neuer Chatbot-Prompt für n8n» eingefügt (vollständiger Prompt statt Teilkorrektur, Freigabe des Wortlauts, Kontrollfragen); bisherige Phasen 7 bis 9 sind neu 8 bis 10. Offen: Satz zur Testphase im Prompt nach Ende der Testphase streichen.
