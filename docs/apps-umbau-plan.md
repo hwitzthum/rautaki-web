@@ -39,7 +39,7 @@ Status-Werte: `offen` · `in Arbeit` · `erledigt` · `blockiert` (Grund in der 
 | B4 | Vorlage Verständlich machen | in Arbeit | 2026-09-16 | Claude, Aufgaben 157 (A), 163 (B) | Bau fertig (eine Vorlage mit beiden Stufen); offen nur die Prüfung in Claude je Stufe (Aufgabe 162) |
 | B5 | Vorlage Dokumenten-Chat | in Arbeit | 2026-09-16 | Claude, Aufgaben 158 (A), 164 (B) | Bau fertig; offen nur die Prüfung in Claude mit einem Beispiel-Dokument (Aufgabe 162) |
 | B6 | Vorlage KI-Potenzial-Radar | in Arbeit | 2026-09-16 | Claude, Aufgaben 159 (A), 165 (B) | Bau fertig; offen nur die Prüfung in Claude für einen Organisationstyp (Aufgabe 162) |
-| B7 | Abschluss: Profil, Chatbot-Prompt, Auswertung | in Arbeit | 2026-09-16 | Claude, Aufgaben 167, 169 | Profil, llms.txt/llms-full.txt und Prompt-Nachtrag (freigegeben 2026-09-16) erledigt, in diesem Repo noch nicht committet; Einspielen = Phase 8; Auswertung = Aufgabe 168 (Datum offen bis Livegang) |
+| B7 | Abschluss: Profil, Chatbot-Prompt, Auswertung | in Arbeit | 2026-09-16 | Claude, Aufgaben 167, 169 | Profil, llms.txt/llms-full.txt und Prompt-Nachtrag (freigegeben 2026-09-16) erledigt und in PR #111 committet; Einspielen = Phase 8; Auswertung = Aufgabe 168 (Datum offen bis Livegang) |
 
 **Gesamtstand:** 10 von 19 Phasen erledigt (Teil A: 8 von 11 · Teil B: 2 von 8; B2–B7 gebaut, offen nur Prüfung in
 Claude, Einspielen des Prompts und Auswertung). Livegang Teil A: noch nicht erfolgt. Vorlagen gebaut: 6 von 6 Apps mit
@@ -54,9 +54,9 @@ Knopf «Vorlage herunterladen»; online sind sie erst mit der Veröffentlichung 
   abgelehnt; nichts verändert.
 - Phase 8, übrige Punkte: apps.rautaki.ch live schalten (Zugangscode, `noindex`), Lab-Workflow in n8n, Vercel-Variable,
   Netlify, Umami — unverändert beim Auftraggeber.
-- In diesem Repo nicht committet (Arbeitskopie, Branch `claude/apps-statt-lab`, PR #111 offen): `src/app/llms.txt/route.ts`,
-  `src/app/llms-full.txt/route.ts` (je ein Satz zu den Vorlagen, DE und EN), `security/n8n-workflow-hardening.md`
-  (Absatz zu den Vorlagen, Stand-Hinweis, Kontrollfrage 10), `docs/apps-umbau-plan.md` (dieses Dokument).
+- In diesem Repo committet und in PR #111 (2026-09-16): `src/app/llms.txt/route.ts`, `src/app/llms-full.txt/route.ts`
+  (je ein Satz zu den Vorlagen, DE und EN), `security/n8n-workflow-hardening.md` (Absatz zu den Vorlagen, Stand-Hinweis,
+  Kontrollfrage 10), `docs/apps-umbau-plan.md` (dieses Dokument).
 - In `app-schaufenster`: Aufgabe 162 (Prüfung jeder Vorlage im eigenen Claude, dann die Features F424, F432, F440,
   F448, F456 auf PASSING) und Aufgabe 168 (Auswertung `vorlage` ÷ `benutzt` je App, 30 Tage nach Livegang; Datum
   eintragen, sobald der Livegang feststeht). Dort liegen 17 Commits auf `main` (154–167) und Branch
@@ -436,7 +436,7 @@ Geänderte mit, vorher `git status` lesen.
 
 - [x] `docs/profil/produkte.md` §5.1: Stand «alle sechs Apps mit Vorlage seit 2026-09-16», Pilot-Entscheid aufgehoben, Auswertung je App (Aufgabe 167)
 - [x] Chatbot-Prompt (Teil A, Phase 7): Absatz «Jede App lässt sich als Vorlage mitnehmen» im Abschnitt APPS, Vermerk im Stand-Hinweis, Kontrollfrage 10 in §5 — Wortlaut vom Auftraggeber freigegeben (2026-09-16); Einspielen in n8n = Phase 8
-- [x] `llms.txt`/`llms-full.txt` in `rautaki-web`: je ein Satz zu den Vorlagen im Abschnitt «Apps» (DE und EN); Arbeitskopie, nicht committet
+- [x] `llms.txt`/`llms-full.txt` in `rautaki-web`: je ein Satz zu den Vorlagen im Abschnitt «Apps» (DE und EN); committet in PR #111 (2026-09-16)
 - [x] Auswertung: Aufgabe 168 in `app-schaufenster` angelegt (je App `vorlage` ÷ `benutzt`, 30 Tage nach Livegang); Datum offen, bis der Auftraggeber den Livegang meldet
 - [x] handoff.md in `app-schaufenster` nachgeführt
 - [x] Freigabe des Prompt-Nachtrags durch den Auftraggeber (2026-09-16); Phase 8 (Einspielen) und Kontrollfrage 10 live stehen aus

@@ -55,7 +55,7 @@ Verantwortlichkeiten.`,
     teachingHeading: "Lehrtätigkeit",
     appsHeading: "Apps — KI-Apps zum Ausprobieren",
     appsIntro:
-      "KI im Arbeitsalltag — ausprobieren statt darüber lesen. Jede App erledigt eine konkrete Aufgabe aus dem Alltag von Organisationen, Verwaltungen, Schulen und KMU — mit eigenem Text, direkt im Browser, ohne Anmeldung. Die Apps sind auf Deutsch.",
+      "KI im Arbeitsalltag — ausprobieren statt darüber lesen. Jede App erledigt eine konkrete Aufgabe aus dem Alltag von Organisationen, Verwaltungen, Schulen und KMU — mit eigenem Text, direkt im Browser, ohne Anmeldung. Die Apps sind auf Deutsch. Jede App lässt sich als Vorlage mitnehmen: Unter dem Ergebnis steht «Vorlage herunterladen», eine Datei im offenen Standard Agent Skills (SKILL.md, CC BY 4.0) für das eigene Claude oder ChatGPT; dort gelten Datenschutz und Kosten des eigenen Abos.",
     appsList: `- [Antwort-Assistent](${APPS}/antwort-assistent): Eine eingehende Nachricht rein — heraus kommen das Anliegen in einem Satz, die fehlenden Angaben und ein Antwortentwurf.
 - [Dokumenten-Chat mit Quellen](${APPS}/dokumenten-chat): Eine Frage zu vorliegenden Dokumenten rein — heraus kommt eine Antwort mit Dokumentname und Seitenzahl, oder der offene Hinweis, dass es dazu keinen Beleg gibt.
 - [Verständlich machen](${APPS}/verstaendlich-machen): Ein deutscher Text rein — heraus kommt eine Fassung in Einfacher oder Leichter Sprache, neben dem Original, mit Lesbarkeitswert vorher und nachher und einer Liste dessen, was weggelassen wurde.
@@ -111,7 +111,7 @@ isolated tool but along decision paths, roles and responsibilities.`,
     teachingHeading: "Teaching",
     appsHeading: "Apps — AI apps to try out (German only)",
     appsIntro:
-      "AI in everyday work — try it instead of reading about it. Each app handles one concrete task from the daily work of organisations, public administrations, schools and SMEs — with your own text, directly in the browser, no sign-up. The apps themselves are available in German only.",
+      "AI in everyday work — try it instead of reading about it. Each app handles one concrete task from the daily work of organisations, public administrations, schools and SMEs — with your own text, directly in the browser, no sign-up. The apps themselves are available in German only. Each app can be taken along as a template: below the result, «Vorlage herunterladen» downloads a file in the open Agent Skills standard (SKILL.md, CC BY 4.0) for your own Claude or ChatGPT, where your own subscription's privacy terms and costs apply.",
     appsList: `- [Reply Assistant](${APPS}/antwort-assistent): An incoming message goes in — out come the request in one sentence, the missing details and a draft reply.
 - [Document Chat with Sources](${APPS}/dokumenten-chat): A question about your documents goes in — out comes an answer with document name and page number, or a plain note that there is no evidence for it.
 - [Make it Understandable](${APPS}/verstaendlich-machen): A German text goes in — out comes a version in plain or easy language, next to the original, with a readability score before and after and a list of what was left out.

@@ -39,7 +39,7 @@ akkreditierten CAS-Programmen zu KI-Strategie und KI-Transformation.
 
 ## Apps — KI-Apps zum Ausprobieren
 
-- [apps.rautaki.ch](https://apps.rautaki.ch): KI im Arbeitsalltag — ausprobieren statt darüber lesen. Jede App erledigt eine konkrete Aufgabe aus dem Alltag von Organisationen, Verwaltungen, Schulen und KMU — mit eigenem Text, direkt im Browser, ohne Anmeldung. Die Apps sind auf Deutsch
+- [apps.rautaki.ch](https://apps.rautaki.ch): KI im Arbeitsalltag — ausprobieren statt darüber lesen. Jede App erledigt eine konkrete Aufgabe aus dem Alltag von Organisationen, Verwaltungen, Schulen und KMU — mit eigenem Text, direkt im Browser, ohne Anmeldung. Die Apps sind auf Deutsch. Jede App lässt sich als Vorlage mitnehmen: Unter dem Ergebnis steht «Vorlage herunterladen», eine Datei im offenen Standard Agent Skills (SKILL.md, CC BY 4.0) für das eigene Claude oder ChatGPT; dort gelten Datenschutz und Kosten des eigenen Abos
 - [Antwort-Assistent](https://apps.rautaki.ch/antwort-assistent): Eine eingehende Nachricht rein — heraus kommen das Anliegen in einem Satz, die fehlenden Angaben und ein Antwortentwurf
 - [Dokumenten-Chat mit Quellen](https://apps.rautaki.ch/dokumenten-chat): Eine Frage zu vorliegenden Dokumenten rein — heraus kommt eine Antwort mit Dokumentname und Seitenzahl, oder der offene Hinweis, dass es dazu keinen Beleg gibt
 - [Verständlich machen](https://apps.rautaki.ch/verstaendlich-machen): Ein deutscher Text rein — heraus kommt eine Fassung in Einfacher oder Leichter Sprache, neben dem Original, mit Lesbarkeitswert vorher und nachher und einer Liste dessen, was weggelassen wurde
@@ -85,7 +85,7 @@ Rautaki is a Swiss AI-strategy consultancy for leadership teams — strategic vi
 - [FAQ](https://www.rautaki.ch/en/services#faq): Frequently asked questions on services, prices, process and audience
 - [The path to effective AI](https://www.rautaki.ch/en/vorgehen): The consulting programme in full — three phases, nine steps, two go/no-go gates
 - [About us](https://www.rautaki.ch/en/about): Founding story, profile of Harry Witzthum, how we work
-- [Apps](https://apps.rautaki.ch): AI apps to try out in the browser — no sign-up (the apps themselves are German-only)
+- [Apps](https://apps.rautaki.ch): AI apps to try out in the browser — no sign-up (the apps themselves are German-only); each app can be taken along as a template (Agent Skill, SKILL.md, CC BY 4.0) for your own Claude or ChatGPT
 - [EU AI Act Compliance Checker](https://www.rautaki.ch/lab/eu-ai-act-check.html): Free tool, 12 questions, instant risk classification under the EU AI Act (German-only)
 - [Insights](https://www.rautaki.ch/en/wissen): Grounded analysis on AI strategy, governance and regulation
 - [Book an initial consultation](https://www.rautaki.ch/en/booking): Free, 45 minutes, via video call

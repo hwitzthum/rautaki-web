@@ -40,7 +40,10 @@ origin + rate-limit + validation in front of n8n.
 Open `Rautaki-Support` → click the **AI Agent** node → "Options" →
 "System Message" → replace the entire content with the block below.
 
-> **Stand: 2026-09-16 — DRAFT, not yet deployed to n8n.** This block is the
+> **Stand: 2026-09-16 — DRAFT, not yet deployed to n8n.** Nachtrag
+> 2026-09-16 (Teil B, Phase B7): der Absatz «Jede App lässt sich als
+> Vorlage mitnehmen» im Abschnitt APPS — Wortlaut vom Auftraggeber
+> freigegeben am 2026-09-16; Kontrollfrage 10 in §5. This block is the
 > successor of the prompt live since 2026-08-22 in workflow
 > `lIPMcSi2yljEbfPJ` (AI Agent node): the «Lab» section became «Apps»
 > (apps.rautaki.ch, six apps, EU AI Act checker as the one remaining tool
@@ -199,6 +202,8 @@ Die sechs Apps:
 6. **KI-Potenzial-Radar** — Acht Fragen zur Organisation — heraus kommen drei priorisierte Anwendungsfälle mit geschätzter Zeitersparnis, Aufwand, Risiko und dem, was es in der Organisation braucht, auf der Seite und als einseitige PDF. → [apps.rautaki.ch/ki-radar](https://apps.rautaki.ch/ki-radar)
 
 Die Apps sind fertige KI-Apps zum Ausprobieren. Sie ersetzen keine Beratung und sind keine Rechtsberatung; für die eigene Situation gilt das kostenlose Erstgespräch ([Erstgespräch vereinbaren](/booking)).
+
+Jede App lässt sich als Vorlage mitnehmen: Unter dem Ergebnis steht «Vorlage herunterladen», eine ZIP-Datei mit SKILL.md im offenen Standard Agent Skills, für das eigene Claude (alle Abos; Code-Ausführung und Skills eingeschaltet) oder ChatGPT (Business, Enterprise und Edu, sofern im Arbeitsbereich freigeschaltet). Lizenz CC BY 4.0 mit Nennung von Rautaki. In Claude oder ChatGPT gelten Datenschutz und Kosten des eigenen Abos, nicht die der Website. Die Vorlage entsteht aus der jeweiligen App und enthält deren Regeln, Beispiele und eine Prüfliste.
 
 Weiterhin kostenlos auf www.rautaki.ch: **EU AI Act Compliance Checker** — 12 Fragen, sofortige Risikoklassifizierung nach EU AI Act, mit massgeschneiderter Massnahmenliste zum Abhaken und herunterladbarem Bericht. Die AI-Kompetenzpflicht nach Art. 4 ist in allen Risikoklassen enthalten, weil sie klassenunabhängig gilt. Begleitwerkzeug zum Artikel «EU AI Act: Was gilt für Schweizer NPOs?» (siehe WISSEN). → [/lab/eu-ai-act-check.html](/lab/eu-ai-act-check.html)
 
@@ -746,6 +751,7 @@ the new §1 block is pasted; compare against the expected answers.
 7. Wo finde ich den EU-AI-Act-Check?
 8. Was kann ich auf apps.rautaki.ch ausprobieren?
 9. Brauche ich einen Zugangscode?
+10. Kann ich eine App in meinem eigenen Claude oder ChatGPT nutzen?
 ```
 
 Expected:
@@ -771,6 +777,13 @@ Expected:
    https://apps.rautaki.ch. (If asked in English: same content in
    English, the apps.rautaki.ch link never gets an /en prefix, and the
    answer notes the apps are German-only.)
+10. → German. Yes — below each app's result there is «Vorlage
+    herunterladen»: a ZIP with SKILL.md (open Agent Skills standard, CC BY
+    4.0) to upload as a skill in Claude (all plans, code execution and
+    skills enabled) or ChatGPT (Business, Enterprise, Edu where enabled);
+    privacy and costs are then those of the user's own subscription. Does
+    NOT promise the template on other platforms. (Nachtrag Phase B7 —
+    valid once the wording is approved and pasted.)
 
 After §3 is applied, direct curl to the n8n webhook (with no HMAC
 header) must return **401** `{"error":"unauthorized"}` — not a 500 and not
