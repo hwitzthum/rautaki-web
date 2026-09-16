@@ -22,7 +22,7 @@ Konventionen:
 | P5 | Google-Business-Profile-URL | 1 | — | geschlossen mit Befund | 2026-07-11 |
 | P6 | Aufgeschoben aus P1 | 1 | 2/2 | abgeschlossen | 2026-09-16 |
 | P7 | GEO-Messung | 1 | 5/5 | abgeschlossen | 2026-07-11 |
-| P8 | Indexierung der Kernseiten | 2 | 0/4 | offen — Priorität 1 | 2026-09-16 |
+| P8 | Indexierung der Kernseiten | 2 | 2/4 | in Arbeit — Priorität 1 | 2026-09-16 |
 | P9 | Nicht-Marken-Suchen & Snippets | 2 | 0/6 | offen — Priorität 3 | 2026-09-16 |
 | P10 | Performance & Technik | 2 | 0/6 | offen | 2026-09-16 |
 | P11 | Externe Sichtbarkeitsmessung | 2 | 0/4 | offen | 2026-09-16 |
@@ -140,9 +140,19 @@ Messarten bewusst getrennt. Nach Abschluss von P8/P9 (frühestens 2026-10-16) mi
 
 Befund: GSC «Gefunden – zurzeit nicht indexiert» (Stand 04.09.2026) für `/services`, `/wissen`, `/en/vorgehen`, `/privacy`, drei EN-Artikel und drei alte `/lab`-URLs. Ohne Index weder Rankings noch Zitate in AI Overviews/AI Mode.
 
-- [ ] P8.1 GSC-URL-Prüfung + Indexierung beantragen: `/services`, `/wissen`
-- [ ] P8.2 GSC-URL-Prüfung + Indexierung beantragen: `/en/vorgehen`, `/en/wissen/der-weg-zu-wirksamer-ki`, `/en/wissen/ki-reifegrad-schweizer-npos`, `/en/wissen/ki-strategie-verwaltungsrat`
-- [ ] P8.3 Ursache klären: interne Verlinkung auf `/services` und `/wissen` (Startseite, Artikel, Footer) und `lastModified` in `src/app/sitemap.ts` prüfen; Befund hier dokumentieren
+- [x] P8.1 GSC-URL-Prüfung + Indexierung beantragen: `/services`, `/wissen` (PR #121, 2026-09-16, beide «Indexierung beantragt»). Befund URL-Prüfung (Property `https://www.rautaki.ch/`): `/services` = «URL ist Google nicht bekannt» — keine verweisende Sitemap, keine verweisende Seite erkannt, obwohl in `sitemap.xml` enthalten; `/wissen` = «Gefunden – zurzeit nicht indexiert», bekannt über `sitemap.xml` und `/en/wissen`. Beides fliesst in P8.3 ein. Vorab live geprüft: beide 200, `index, follow`, selbstreferenzierender Canonical, nicht per robots.txt gesperrt.
+- [ ] P8.2 GSC-URL-Prüfung + Indexierung beantragen: `/en/vorgehen`, `/en/wissen/der-weg-zu-wirksamer-ki`, `/en/wissen/ki-reifegrad-schweizer-npos`, `/en/wissen/ki-strategie-verwaltungsrat` — Stand 2026-09-16: 3/4 beantragt. Vorab live geprüft: alle 200, `index, follow`, selbstreferenzierender Canonical.
+  - `/en/vorgehen`: **«Gecrawlt – zurzeit nicht indexiert»** (gecrawlt 11.09.2026, seit Seitenbericht vom 04.09. vorgerückt) → beantragt. Anders als «Gefunden» ist das eine Qualitäts-/Duplikat-Entscheidung von Google — bei P8.4 gezielt prüfen.
+  - `/en/wissen/der-weg-zu-wirksamer-ki`: «URL ist Google nicht bekannt» (gleiche GSC-Inkonsistenz wie `/services`) → beantragt.
+  - `/en/wissen/ki-reifegrad-schweizer-npos`: «Gefunden – zurzeit nicht indexiert» (via Sitemap) → beantragt.
+  - `/en/wissen/ki-strategie-verwaltungsrat`: «Gefunden – zurzeit nicht indexiert» (via Sitemap und DE-Artikel) → **offen**: GSC meldete «Problem beim Senden des Indexierungsantrags»; zweiter Versuch hängte die GSC-Oberfläche auf. Wahrscheinlich Tageskontingent (7 Anträge an diesem Tag) — am Folgetag erneut beantragen.
+- [x] P8.3 Ursache klären: interne Verlinkung auf `/services` und `/wissen` (Startseite, Artikel, Footer) und `lastModified` in `src/app/sitemap.ts` prüfen; Befund hier dokumentieren (PR #121, 2026-09-16) — **keine technische Ursache, sondern geringer Crawl-Bedarf; kein Code-Fix.**
+  - Interne Verlinkung ✓: Jede deutsche Seite (Startseite, `/vorgehen`, `/about`, `/booking`, `/imprint`, `/wissen`, Artikel) liefert server-gerenderte `<a href>` auf `/services` und `/wissen` (Header + Footer); die Startseite verlinkt `/services` zusätzlich im Inhalt (4× plus 4 Anker).
+  - Sitemap ✓: beide URLs enthalten (25 Einträge, hreflang-Alternates); GSC-Sitemaps-Bericht: zuletzt gelesen 08.09.2026, «Erfolg», 29 gefundene Seiten (vor Entfernen der `/lab`-Einträge). `lastModified.services` (de 06.07., en 11.07.) stimmt — spätere Commits waren nur Schema/i18n-Extraktion ohne inhaltliche Änderung; `/wissen` leitet sich aus den Artikeldaten ab.
+  - Technik ✓: 200, `index, follow`, selbstreferenzierender Canonical, Redirects (http/apex/Trailing Slash → `https://www.rautaki.ch/services`) je ein sauberer 308. GSC-Crawling-Statistik: «Host hatte in den letzten 90 Tagen keine Probleme», Ø Antwortzeit 307 ms, 99 % 200.
+  - Ursache: Google crawlt kaum Neues. Crawling-Statistik 10.07.–Mitte 09.2026: 540 Anfragen, davon 92 % Aktualisierung / 8 % Erkennung, nur 19 % HTML (66 % JS-Chunks als Seitenressourcen). 12 der 19 indexierten Seiten wurden zuletzt am 11.07.2026 gecrawlt — dem Tag mit EN-Launch, Sitemap-Einreichung und manuellen Indexierungsanträgen; danach nur noch einzelne HTML-Crawls alle 1–2 Wochen (13.07., 18.07., 20.07., 22.07., 04.08., 18.08., 30.08., 01.09.). Was am 11.07. nicht gecrawlt wurde, blieb in der Warteschlange (alle 10 «Gefunden»-URLs: «Zuletzt gecrawlt: N/A»). Passt zu junger Domain mit 1 verweisenden Domain (P3).
+  - Folgerung: kurzfristig manuelle Anträge (P8.1, P8.2); strukturell nur über externe Links/Erwähnungen (P3). Keine Sitemap- oder Linkänderung nötig.
+  - Randnotiz: Die URL-Prüfung meldet `/services` als «Google nicht bekannt», der Seitenbericht (Stand 04.09.) führt sie unter «Gefunden» — inkonsistente GSC-Daten, keine Aktion.
 - [ ] P8.4 Frühestens 2026-10-01: GSC-Seitenbericht erneut prüfen — Ziel: keine Kernseite mehr in «Gefunden – nicht indexiert»
 - Hinweis: `/lab`-URLs leiten per 308 auf apps.rautaki.ch um — keine Aktion. «Gecrawlt – nicht indexiert» betrifft nur `/_next/static/chunks/*.js` — unkritisch.
 
