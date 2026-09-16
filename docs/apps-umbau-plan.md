@@ -16,7 +16,7 @@ Status-Werte: `offen` · `in Arbeit` · `erledigt` · `blockiert` (Grund in der 
 |---|---|---|---|---|---|
 | 0 | Entscheide und Plan | erledigt | 2026-09-16 | Auftraggeber + Claude | dieses Dokument |
 | 1 | Menü und Fusszeile: «Lab» → «Apps» | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | zusätzlich `localePath` in `src/lib/i18n.ts`: absolute URLs bleiben ohne `/en`-Präfix |
-| 2 | Lab-Seiten und E-Mail-Schranke abbauen | offen | | | |
+| 2 | Lab-Seiten und E-Mail-Schranke abbauen | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | `/lab`, `/en/lab` liefern bis Phase 4 ein 404 |
 | 3 | HTML-Werkzeuge archivieren | offen | | | |
 | 4 | Weiterleitungen alter Lab-Adressen | offen | | | |
 | 5 | Sitemap, llms.txt, Schemas nachführen | offen | | | |
@@ -26,7 +26,7 @@ Status-Werte: `offen` · `in Arbeit` · `erledigt` · `blockiert` (Grund in der 
 | 9 | Prüfung und Veröffentlichung | offen | | | |
 | 10 | Kontrolle nach dem Livegang | offen | | | |
 
-**Gesamtstand:** 2 von 11 Phasen erledigt. Livegang: noch nicht erfolgt.
+**Gesamtstand:** 3 von 11 Phasen erledigt. Livegang: noch nicht erfolgt.
 
 ---
 
@@ -69,7 +69,7 @@ Alles, was der Umbau berührt. Dient als Checkliste, dass nichts vergessen geht.
 | `src/components/LabGateModal.tsx` | E-Mail-Schranke (`LabGate`, `LabToolLink`, `useLabGate`), nur von den zwei Lab-Seiten benutzt | löschen |
 | `src/app/api/lab-access/route.ts` | Anmeldung an der Schranke: Resend-Mails, Rate-Limit, CRM-Weiterleitung an n8n | löschen |
 | `.env.example` | `N8N_LAB_WEBHOOK_URL` (nur von lab-access benutzt); `RESEND_API_KEY` bleibt (andere Routen) | Eintrag `N8N_LAB_WEBHOOK_URL` entfernen, Kommentar zu Resend anpassen |
-| Kommentare in `src/app/api/mahnung-action/route.ts`, `src/lib/rate-limit.ts`, `src/lib/ssrf-guard.ts`, `next.config.ts` | verweisen auf lab-access als Muster | Verweise anpassen, damit sie nicht ins Leere zeigen |
+| Kommentare in `src/app/api/mahnung-action/route.ts`, `src/app/api/chat/route.ts`, `src/lib/rate-limit.ts`, `src/lib/ssrf-guard.ts`, `next.config.ts` | verweisen auf lab-access als Muster | Verweise anpassen, damit sie nicht ins Leere zeigen (erledigt in Phase 2) |
 | `public/lab/eu-ai-act-check.html` + `public/lab/vendor/fonts/` | Checker, braucht nur die Schriften; keine eigene Schranke im HTML | bleibt |
 | `public/lab/ki-governance-policy.html`, `public/lab/multi-assistant-gpt.html`, `public/lab/vendor/html-docx.js` | Generator und Anleitung, brauchen `html-docx.js` und die Schriften | nach `archiv/lab/` verschieben (mit Kopie von `vendor/`, damit das Archiv für sich lauffähig bleibt) |
 | `vercel.json` | strengere Sicherheitsregeln für `/lab/(.*)` | bleibt, weil der Checker weiter unter `/lab/` liegt |
@@ -95,13 +95,13 @@ Alles, was der Umbau berührt. Dient als Checkliste, dass nichts vergessen geht.
 
 ### Phase 2 — Lab-Seiten und E-Mail-Schranke abbauen
 
-- [ ] `src/app/lab/page.tsx` und `src/app/en/lab/page.tsx` löschen
-- [ ] `src/components/LabGateModal.tsx` löschen
-- [ ] `src/app/api/lab-access/route.ts` löschen
-- [ ] `.env.example`: `N8N_LAB_WEBHOOK_URL` entfernen, Resend-Kommentar anpassen
-- [ ] Verweise auf lab-access in Kommentaren (`mahnung-action`, `rate-limit`, `ssrf-guard`, `next.config.ts`) bereinigen
-- [ ] `npm run lint` und `npm run build` grün
-- Status: offen
+- [x] `src/app/lab/page.tsx` und `src/app/en/lab/page.tsx` löschen
+- [x] `src/components/LabGateModal.tsx` löschen
+- [x] `src/app/api/lab-access/route.ts` löschen
+- [x] `.env.example`: `N8N_LAB_WEBHOOK_URL` entfernen, Resend-Kommentar anpassen
+- [x] Verweise auf lab-access in Kommentaren (`mahnung-action`, `chat`, `rate-limit`, `ssrf-guard`, `next.config.ts`) bereinigen
+- [x] `npm run lint` und `npm run build` grün — Hinweis: ein veraltetes `.next/dev/types/validator.ts` aus einer früheren `next dev`-Sitzung listet gelöschte Routen weiter und lässt `tsc`/`build` scheitern; `rm -rf .next/dev` behebt das
+- Status: erledigt (2026-09-16). Geprüft am Produktions-Build: `/lab`, `/en/lab`, `GET`/`POST /api/lab-access` → 404; `/lab/eu-ai-act-check.html` und dessen Schriften → 200
 
 ### Phase 3 — HTML-Werkzeuge archivieren
 
@@ -217,4 +217,5 @@ Diese Punkte kann Claude nicht ausführen; sie brauchen Konten und Zugänge.
 
 - 2026-09-16 — Dokument angelegt; Entscheide des Auftraggebers aufgenommen (Zeitpunkt sofort, Checker bleibt, E-Mail-Kanal fällt weg, «Apps» mit Weiterleitung).
 - 2026-09-16 — Phase 1 erledigt: «Lab» → «Apps» in Menü und Fusszeile (DE/EN). Nebenbefund: `localePath()` hätte `/en` vor die absolute Adresse gesetzt; behoben in `src/lib/i18n.ts`. `npm run lint`, `tsc`, `npm run build` grün.
+- 2026-09-16 — Phase 2 erledigt: Lab-Seiten, `LabGateModal`, `/api/lab-access` und `N8N_LAB_WEBHOOK_URL` entfernt; Kommentare bereinigt (zusätzlich in `src/app/api/chat/route.ts`). Stolperstein: veraltete `.next/dev`-Typen, siehe Phase 2.
 - 2026-09-16 — Phase 7 «Neuer Chatbot-Prompt für n8n» eingefügt (vollständiger Prompt statt Teilkorrektur, Freigabe des Wortlauts, Kontrollfragen); bisherige Phasen 7 bis 9 sind neu 8 bis 10. Offen: Satz zur Testphase im Prompt nach Ende der Testphase streichen.

@@ -17,7 +17,7 @@ function buildCsp(): string {
     // via XHR/fetch/sendBeacon. Only loaded after cookie consent — see
     // ConsentManager. (The script itself is allowed via script-src below.)
     "https://api.salesflare.com",
-    // Resend is called server-side only (/api/lab-access route handler) —
+    // Resend is called server-side only (email-send route handlers) —
     // the browser never contacts it directly, so it must not appear here.
   ].join(" ");
 

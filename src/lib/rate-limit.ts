@@ -6,7 +6,7 @@ import { Redis } from "@upstash/redis";
 // server-to-server (n8n-triggered) email-send routes. Falls back to a
 // per-instance in-memory limiter in dev; fails closed in production if
 // Redis isn't configured, since an in-memory limiter is ineffective across
-// serverless instances (same policy as /api/chat and /api/lab-access).
+// serverless instances (same policy as /api/chat).
 const upstashUrl = process.env.UPSTASH_REDIS_REST_URL;
 const upstashToken = process.env.UPSTASH_REDIS_REST_TOKEN;
 

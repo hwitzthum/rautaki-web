@@ -112,7 +112,7 @@ function clientIp(req: NextRequest): string | null {
 }
 
 function originBlocked(req: NextRequest): boolean {
-  // CSRF defence (mirrors the lab-access route): if a browser sends an
+  // CSRF defence: if a browser sends an
   // Origin header it MUST match the Host. Server-to-server calls without
   // Origin are allowed through to the rate limit + validator.
 
@@ -201,8 +201,7 @@ export async function POST(req: NextRequest) {
   } else if (process.env.NODE_ENV === "production") {
     // Fail closed in production: a per-instance in-memory limiter is
     // ineffective across serverless cold starts and trivially bypassable.
-    // Refuse all requests until Upstash env vars are configured. Matches
-    // the lab-access route's behaviour for the same reason.
+    // Refuse all requests until Upstash env vars are configured.
     console.error(
       "[api/chat] UPSTASH_REDIS_REST_URL/TOKEN not set in production — rejecting request to protect endpoint.",
     );
