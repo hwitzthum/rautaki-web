@@ -6,9 +6,9 @@
 import type { HomeContent } from "../types";
 
 export const home = {
-  metaTitle: "Rautaki — AI Strategy for Decision-Makers",
+  metaTitle: "AI Strategy for Swiss Non-Profits and Boards | Rautaki",
   metaDescription:
-    "Rautaki supports companies with the strategic roll-out of AI — from analysing potential to scalable implementation.",
+    "AI strategy consulting for boards and senior management in Switzerland, with a focus on non-profits: from assessing where you stand to implementation.",
   heroDark: {
     headlineLines: ["Strategy", "in *the AI era*", "with impact."],
     intro:

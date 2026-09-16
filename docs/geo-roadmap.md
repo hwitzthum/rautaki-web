@@ -23,7 +23,7 @@ Konventionen:
 | P6 | Aufgeschoben aus P1 | 1 | 2/2 | abgeschlossen | 2026-09-16 |
 | P7 | GEO-Messung | 1 | 5/5 | abgeschlossen | 2026-07-11 |
 | P8 | Indexierung der Kernseiten | 2 | 2/4 | in Arbeit — Priorität 1 | 2026-09-16 |
-| P9 | Nicht-Marken-Suchen & Snippets | 2 | 0/6 | offen — Priorität 3 | 2026-09-16 |
+| P9 | Nicht-Marken-Suchen & Snippets | 2 | 1/6 | in Arbeit — Priorität 3 | 2026-09-16 |
 | P10 | Performance & Technik | 2 | 0/6 | offen | 2026-09-16 |
 | P11 | Externe Sichtbarkeitsmessung | 2 | 0/4 | offen | 2026-09-16 |
 | R | Re-Verifikation Zyklus 1 | 2 | 0/12 | offen | 2026-09-16 |
@@ -170,7 +170,10 @@ Zielanfragen (Empfehlung) → beste Seite:
 | Wie KI-bereit ist unsere Organisation? | `/wissen/ki-reifegrad-schweizer-npos` | Themen-Fit |
 | KI-Tools und Datenschutz (nDSG) in Verein/Stiftung | neue Seite (P9.5) | keine passende Seite |
 
-- [ ] P9.1 Startseite: Title (50–60 Zeichen) und Meta-Description auf NPO · Verwaltungsrat · Schweiz schärfen, de + en (Entwurf zur Freigabe vor Umsetzung)
+- [x] P9.1 Startseite: Title (50–60 Zeichen) und Meta-Description auf NPO · Verwaltungsrat · Schweiz schärfen, de + en (Entwurf zur Freigabe vor Umsetzung) (2026-09-16, Variante A freigegeben). Title/Description wirken auf `<title>`, `description`, `og:*` und `twitter:*` der Startseite; `lastModified.home` auf 2026-09-16.
+  - DE: «KI-Strategie für Schweizer NPOs & Verwaltungsräte | Rautaki» (59) · «KI-Strategieberatung für Verwaltungsräte und Geschäftsleitungen in der Schweiz, mit Schwerpunkt NPO: von der Standortbestimmung bis zur Umsetzung.» (146)
+  - EN: «AI Strategy for Swiss Non-Profits and Boards | Rautaki» (54) · «AI strategy consulting for boards and senior management in Switzerland, with a focus on non-profits: from assessing where you stand to implementation.» (150)
+  - Vorher: «Rautaki — KI-Strategie für Entscheider» (38) · «Rautaki begleitet Unternehmen …» — der alte Text lebt noch in `common.graph.orgDescription` (Organization-Schema) und im `/wissen`-Title → P9.2
 - [ ] P9.2 Positionierung konsistent nachziehen: Organization-Schema `description`, llms.txt, Wikidata-Beschreibung, LinkedIn — alle Flächen gleichzeitig (Regionsbehauptung nur CH)
 - [ ] P9.3 VR-Artikel: Title/Description auf «KI-Kompetenz im Verwaltungsrat» ausrichten (CTR-Hebel)
 - [ ] P9.4 Startseite: Begriffe aus Title und H1 im Fliesstext aufgreifen (Seobility-Warnungen)
