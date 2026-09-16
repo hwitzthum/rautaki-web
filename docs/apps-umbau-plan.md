@@ -34,15 +34,33 @@ Status-Werte: `offen` · `in Arbeit` · `erledigt` · `blockiert` (Grund in der 
 | 10 | Kontrolle nach dem Livegang | offen | | | |
 | B0 | Entscheide des Auftraggebers zu den Vorlagen | erledigt | 2026-09-16 | Auftraggeber | alle fünf gemäss Empfehlung; decisions.md + Brief in app-schaufenster |
 | B1 | Gemeinsame Vorbereitung im Kern (Knopf-Baustein, `ersetzeGenau`) | erledigt | 2026-09-16 | Claude, Aufgabe 154 | `src/kern/vorlage/download.tsx`, `download-texte.ts`, `ersetze-genau.ts`; Muster im Brief `vorlage-weitere-apps.md` |
-| B2 | Vorlage Entwurf-Check | offen | | | |
-| B3 | Vorlage Kommunikation aus einem Anlass | offen | | | |
-| B4 | Vorlage Verständlich machen | offen | | | Entscheid 3 (Stufe) nötig |
-| B5 | Vorlage Dokumenten-Chat | offen | | | Entscheid 4 (Zitierweise) nötig |
-| B6 | Vorlage KI-Potenzial-Radar | offen | | | Entscheid 5 (ja/nein) nötig |
-| B7 | Abschluss: Profil, Chatbot-Prompt, Auswertung | offen | | | hängt an Teil A Phase 7 |
+| B2 | Vorlage Entwurf-Check | in Arbeit | 2026-09-16 | Claude, Aufgaben 155 (A), 160 (B) | Bau fertig (Vorlage, ZIP-Datei, Knopf, Texte und Titel freigegeben); offen nur die Prüfung in Claude durch den Auftraggeber (Aufgabe 162 in app-schaufenster) |
+| B3 | Vorlage Kommunikation aus einem Anlass | in Arbeit | 2026-09-16 | Claude, Aufgaben 156 (A), 161 (B) | Bau fertig; offen nur die Prüfung in Claude (Aufgabe 162) |
+| B4 | Vorlage Verständlich machen | in Arbeit | 2026-09-16 | Claude, Aufgaben 157 (A), 163 (B) | Bau fertig (eine Vorlage mit beiden Stufen); offen nur die Prüfung in Claude je Stufe (Aufgabe 162) |
+| B5 | Vorlage Dokumenten-Chat | in Arbeit | 2026-09-16 | Claude, Aufgaben 158 (A), 164 (B) | Bau fertig; offen nur die Prüfung in Claude mit einem Beispiel-Dokument (Aufgabe 162) |
+| B6 | Vorlage KI-Potenzial-Radar | in Arbeit | 2026-09-16 | Claude, Aufgaben 159 (A), 165 (B) | Bau fertig; offen nur die Prüfung in Claude für einen Organisationstyp (Aufgabe 162) |
+| B7 | Abschluss: Profil, Chatbot-Prompt, Auswertung | in Arbeit | 2026-09-16 | Claude, Aufgaben 167, 169 | Profil, llms.txt/llms-full.txt und Prompt-Nachtrag (freigegeben 2026-09-16) erledigt, in diesem Repo noch nicht committet; Einspielen = Phase 8; Auswertung = Aufgabe 168 (Datum offen bis Livegang) |
 
-**Gesamtstand:** 10 von 19 Phasen erledigt (Teil A: 8 von 11 · Teil B: 2 von 8). Livegang Teil A: noch nicht
-erfolgt. Vorlagen online: 1 von 6 Apps (Antwort-Assistent, Pilot).
+**Gesamtstand:** 10 von 19 Phasen erledigt (Teil A: 8 von 11 · Teil B: 2 von 8; B2–B7 gebaut, offen nur Prüfung in
+Claude, Einspielen des Prompts und Auswertung). Livegang Teil A: noch nicht erfolgt. Vorlagen gebaut: 6 von 6 Apps mit
+Knopf «Vorlage herunterladen»; online sind sie erst mit der Veröffentlichung von apps.rautaki.ch (Phase 8).
+
+**Übergabe (2026-09-16): `rautaki-web` übernimmt die weiteren Schritte direkt.** Offen, mit Ort:
+
+- Phase 8, n8n: den freigegebenen Block aus `security/n8n-workflow-hardening.md` §1 in den Knoten «AI Agent» des
+  Workflows `Rautaki-Support` (`lIPMcSi2yljEbfPJ`) einsetzen, `<CANARY>` durch den Wert von `N8N_CHAT_SYSTEM_CANARY`
+  ersetzen; danach die zehn Kontrollfragen aus §5 und den Stand-Hinweis auf «deployed on …». Ein Einspielen über die
+  n8n-Anbindung aus `app-schaufenster` heraus wurde am 2026-09-16 von der Sicherheitsregel der Arbeitsumgebung
+  abgelehnt; nichts verändert.
+- Phase 8, übrige Punkte: apps.rautaki.ch live schalten (Zugangscode, `noindex`), Lab-Workflow in n8n, Vercel-Variable,
+  Netlify, Umami — unverändert beim Auftraggeber.
+- In diesem Repo nicht committet (Arbeitskopie, Branch `claude/apps-statt-lab`, PR #111 offen): `src/app/llms.txt/route.ts`,
+  `src/app/llms-full.txt/route.ts` (je ein Satz zu den Vorlagen, DE und EN), `security/n8n-workflow-hardening.md`
+  (Absatz zu den Vorlagen, Stand-Hinweis, Kontrollfrage 10), `docs/apps-umbau-plan.md` (dieses Dokument).
+- In `app-schaufenster`: Aufgabe 162 (Prüfung jeder Vorlage im eigenen Claude, dann die Features F424, F432, F440,
+  F448, F456 auf PASSING) und Aufgabe 168 (Auswertung `vorlage` ÷ `benutzt` je App, 30 Tage nach Livegang; Datum
+  eintragen, sobald der Livegang feststeht). Dort liegen 17 Commits auf `main` (154–167) und Branch
+  `claude/169-freigaben-eintragen` noch nicht hochgeladen bzw. zusammengeführt.
 
 ---
 
@@ -367,61 +385,62 @@ Geänderte mit, vorher `git status` lesen.
 
 ### Phase B2 — Vorlage Entwurf-Check
 
-- [ ] Aufgabe A: `vorlage.ts` + Unit-Tests + ZIP-Route + Tests (B4 Punkte 1–5) · Aufgabe: (Nummer)
-- [ ] Texte dem Auftraggeber vorgelegt und freigegeben (Datum)
-- [ ] Prüfung in Claude durch den Auftraggeber: Datum, Beispiel, Ergebnis in decisions.md
-- [ ] Aufgabe B: Knopf + e2e (B4 Punkte 6–7), Features, README · Aufgabe: (Nummer)
-- [ ] `./scripts/verify.sh --deep` grün, finish-task
-- Status: offen
+- [x] Aufgabe A: `vorlage.ts` + Unit-Tests + ZIP-Route + Tests (B4 Punkte 1–5) · Aufgabe: 155 (2026-09-16)
+- [x] Texte dem Auftraggeber vorgelegt und freigegeben (2026-09-16)
+- [ ] Prüfung in Claude durch den Auftraggeber: Datum, Beispiel, Ergebnis in decisions.md (folgt später)
+- [x] Aufgabe B: Knopf + e2e (B4 Punkte 6–7), Features, README · Aufgabe: 160 (2026-09-16; Entscheid des Auftraggebers: Knopf vor der Prüfung in Claude, F424 bleibt offen)
+- [x] `./scripts/verify.sh --deep` grün, finish-task (155 und 160)
+- Status: in Arbeit — Bau fertig, offen nur die Prüfung in Claude (Aufgabe 162)
 
 ### Phase B3 — Vorlage Kommunikation aus einem Anlass
 
-- [ ] Aufgabe A: Vorlage, Tests, ZIP-Route · Aufgabe: (Nummer)
-- [ ] Texte freigegeben (Datum)
-- [ ] Prüfung in Claude durch den Auftraggeber (Datum, Beispiel)
-- [ ] Aufgabe B: Knopf, e2e, Features, README · Aufgabe: (Nummer)
-- [ ] `./scripts/verify.sh --deep` grün, finish-task
-- Status: offen
+- [x] Aufgabe A: Vorlage, Tests, ZIP-Route · Aufgabe: 156 (2026-09-16); Kern: `skillMarkdown` mit wahlfreier `quelle` je Beispiel (Studie CC BY)
+- [x] Texte freigegeben (2026-09-16)
+- [ ] Prüfung in Claude durch den Auftraggeber (Datum, Beispiel) — folgt später
+- [x] Aufgabe B: Knopf, e2e, Features, README · Aufgabe: 161 (2026-09-16)
+- [x] `./scripts/verify.sh --deep` grün, finish-task (156 und 161)
+- Status: in Arbeit — Bau fertig, offen nur die Prüfung in Claude (Aufgabe 162)
 
 ### Phase B4 — Vorlage Verständlich machen
 
-- [ ] Entscheid 3 liegt vor
-- [ ] `felder.ts` ohne zod angelegt
-- [ ] Aufgabe A: Vorlage (mit Stufenregel), Tests, ZIP-Route · Aufgabe: (Nummer)
-- [ ] Texte freigegeben (Datum)
-- [ ] Prüfung in Claude durch den Auftraggeber, je Stufe einmal (Datum, Beispiel)
-- [ ] Aufgabe B: Knopf, e2e, Features, README · Aufgabe: (Nummer)
-- [ ] `./scripts/verify.sh --deep` grün, finish-task
-- Status: offen
+- [x] Entscheid 3 liegt vor (2026-09-16: eine Vorlage mit allen Stufen)
+- [x] `felder.ts` nicht nötig: Die Seite importiert nur den Typ `Stufe` aus `regeln.ts` (ohne zod), Beschriftungen aus `texte.ts` (decisions.md, 157)
+- [x] Aufgabe A: Vorlage (mit Stufenregel, Regeln und Beispielpaare beider Stufen wörtlich aus den zwei Anweisungen), Tests, ZIP-Route · Aufgabe: 157 (2026-09-16)
+- [x] Texte freigegeben (2026-09-16)
+- [ ] Prüfung in Claude durch den Auftraggeber, je Stufe einmal (Datum, Beispiel) — folgt später (Aufgabe 162)
+- [x] Aufgabe B: Knopf, e2e, Features, README · Aufgabe: 163 (2026-09-16)
+- [x] `./scripts/verify.sh --deep` grün, finish-task (157 und 163)
+- Status: in Arbeit — Bau fertig, offen nur die Prüfung in Claude (Aufgabe 162)
 
 ### Phase B5 — Vorlage Dokumenten-Chat
 
-- [ ] Entscheid 4 liegt vor
-- [ ] Aufgabe A: Vorlage (Anweisung für PDF im Chat, Zitierweise), Tests je Ersatzstelle, ZIP-Route · Aufgabe: (Nummer)
-- [ ] Texte freigegeben (Datum)
-- [ ] Prüfung in Claude durch den Auftraggeber mit einem der Beispiel-Dokumente (Datum, Dokument, Frage)
-- [ ] Aufgabe B: Knopf, e2e, Features, README · Aufgabe: (Nummer)
-- [ ] `./scripts/verify.sh --deep` grün, finish-task
-- Status: offen
+- [x] Entscheid 4 liegt vor (2026-09-16: nach Seiten und wörtlichem Zitat)
+- [x] Aufgabe A: Vorlage (Anweisung für PDF im Chat, Zitierweise; sechs Ersatzstellen je einzeln getestet; Beispiele mit Dokument-Adressen; Prüffall mit Test-PDF fehlt, offen gesagt), ZIP-Route · Aufgabe: 158 (2026-09-16)
+- [x] Texte freigegeben (2026-09-16)
+- [ ] Prüfung in Claude durch den Auftraggeber mit einem der Beispiel-Dokumente (Datum, Dokument, Frage) — folgt später (Aufgabe 162)
+- [x] Aufgabe B: Knopf, e2e, Features, README · Aufgabe: 164 (2026-09-16)
+- [x] `./scripts/verify.sh --deep` grün, finish-task (158 und 164)
+- Status: in Arbeit — Bau fertig, offen nur die Prüfung in Claude (Aufgabe 162)
 
 ### Phase B6 — Vorlage KI-Potenzial-Radar
 
-- [ ] Entscheid 5 liegt vor (bei «nein»: Phase als «entfällt» markieren, Gesamtstand anpassen)
-- [ ] Aufgabe A: Vorlage (Fragen mit Antwortmöglichkeiten, Einschätzung als Text, Hinweis auf fehlende Grafik/PDF), Tests, ZIP-Route · Aufgabe: (Nummer)
-- [ ] Texte freigegeben (Datum)
-- [ ] Prüfung in Claude durch den Auftraggeber (Datum, Organisationstyp)
-- [ ] Aufgabe B: Knopf, e2e, Features, README · Aufgabe: (Nummer)
-- [ ] `./scripts/verify.sh --deep` grün, finish-task
-- Status: offen
+- [x] Entscheid 5 liegt vor (2026-09-16: ja, bauen, als Letztes)
+- [x] Aufgabe A: Vorlage (Fragen mit Antwortmöglichkeiten, Vorgaben als Tabellen aus dem Code, Einschätzung als Text wie «Kopieren», Hinweis auf fehlende Grafik/PDF), Tests, ZIP-Route · Aufgabe: 159 (2026-09-16)
+- [x] Texte freigegeben (2026-09-16)
+- [ ] Prüfung in Claude durch den Auftraggeber (Datum, Organisationstyp) — folgt später (Aufgabe 162)
+- [x] Aufgabe B: Knopf, e2e, Features, README · Aufgabe: 165 (2026-09-16)
+- [x] `./scripts/verify.sh --deep` grün, finish-task (159 und 165)
+- Status: in Arbeit — Bau fertig, offen nur die Prüfung in Claude (Aufgabe 162)
 
 ### Phase B7 — Abschluss des Gesamtpakets
 
-- [ ] `docs/profil/produkte.md` §5.1: Stand «alle sechs Apps mit Vorlage», Datum
-- [ ] Chatbot-Prompt (Teil A, Phase 7): ein Satz, dass sich jede App als Vorlage für Claude oder ChatGPT mitnehmen lässt; wenn Phase 7 schon eingespielt ist, als Nachtrag über denselben Ablauf (Freigabe, n8n, Kontrollfrage)
-- [ ] `llms.txt`/`llms-full.txt` in `rautaki-web`: Hinweis auf die Vorlagen im Abschnitt «Apps»
-- [ ] Auswertung: je App `vorlage` ÷ `benutzt` in Vercel Web Analytics, 30 Tage nach dem Livegang der jeweiligen Vorlage; Aufgabe mit Datum in `app-schaufenster` anlegen
-- [ ] handoff.md in `app-schaufenster` nachgeführt
-- Status: offen
+- [x] `docs/profil/produkte.md` §5.1: Stand «alle sechs Apps mit Vorlage seit 2026-09-16», Pilot-Entscheid aufgehoben, Auswertung je App (Aufgabe 167)
+- [x] Chatbot-Prompt (Teil A, Phase 7): Absatz «Jede App lässt sich als Vorlage mitnehmen» im Abschnitt APPS, Vermerk im Stand-Hinweis, Kontrollfrage 10 in §5 — Wortlaut vom Auftraggeber freigegeben (2026-09-16); Einspielen in n8n = Phase 8
+- [x] `llms.txt`/`llms-full.txt` in `rautaki-web`: je ein Satz zu den Vorlagen im Abschnitt «Apps» (DE und EN); Arbeitskopie, nicht committet
+- [x] Auswertung: Aufgabe 168 in `app-schaufenster` angelegt (je App `vorlage` ÷ `benutzt`, 30 Tage nach Livegang); Datum offen, bis der Auftraggeber den Livegang meldet
+- [x] handoff.md in `app-schaufenster` nachgeführt
+- [x] Freigabe des Prompt-Nachtrags durch den Auftraggeber (2026-09-16); Phase 8 (Einspielen) und Kontrollfrage 10 live stehen aus
+- Status: in Arbeit (2026-09-16); erledigt, sobald Phase 8 den Prompt eingespielt hat und 168 ein Datum hat. Weitere Schritte übernimmt `rautaki-web` direkt (Übergabe im Abschnitt «Stand der Umsetzung»).
 
 ## B7. Risiken und offene Punkte
 
@@ -452,3 +471,16 @@ Geänderte mit, vorher `git status` lesen.
 - 2026-09-16 — Teil B «Vorlagen für die fünf übrigen Apps» angefügt (Phasen B0–B7, Muster je App, Kosten 0 USD, keine bezahlten Läufe); Dokument in Teil A und Teil B gegliedert, Tracker um acht Zeilen erweitert.
 - 2026-09-16 — Phase B0 erledigt: alle fünf Entscheide gemäss Empfehlung; Aufgabe 154 (Phase B1) in app-schaufenster angelegt.
 - 2026-09-16 — Phase B1 erledigt (Aufgabe 154 in app-schaufenster): Knopf-Baustein und `ersetzeGenau` im Kern, Antwort-Assistent umgestellt ohne sichtbare Änderung; Muster je App im Brief `vorlage-weitere-apps.md`.
+- 2026-09-16 — Phase B2 begonnen: Aufgabe 155 (Vorlage und ZIP-Datei des Entwurf-Checks) in app-schaufenster; Freigabe und Prüfung in Claude offen.
+- 2026-09-16 — Phase B3 begonnen: Aufgabe 156 (Vorlage und ZIP-Datei von «Kommunikation aus einem Anlass»). Texte der Vorlage Entwurf-Check (B2) freigegeben, Prüfung in Claude folgt später.
+- 2026-09-16 — Phase B4 begonnen: Aufgabe 157 (Vorlage «Verständlich machen» mit beiden Stufen, ZIP-Datei); kein `felder.ts` nötig.
+- 2026-09-16 — Phase B5 begonnen: Aufgabe 158 (Vorlage Dokumenten-Chat für PDF im Chat, ZIP-Datei).
+- 2026-09-16 — Phase B6 begonnen: Aufgabe 159 (Vorlage KI-Potenzial-Radar als Fragebogen im Chat, ZIP-Datei). Damit sind alle fünf Vorlagen gebaut (Aufgaben A der Phasen B2–B6); offen je App Freigabe, Prüfung in Claude und Aufgabe B.
+- 2026-09-16 — Phase B2, Aufgabe B (160): Knopf auf /entwurf-check, e2e, README. Entscheid des Auftraggebers: Knopf vor der Prüfung in Claude; die Prüfung folgt später.
+- 2026-09-16 — Phase B3, Aufgabe B (161): Texte freigegeben, Knopf auf /kommunikation, e2e, README; Prüfung in Claude folgt später.
+- 2026-09-16 — Phase B4, Aufgabe B (163): Texte freigegeben, Knopf auf /verstaendlich-machen, e2e, README; Prüfung in Claude je Stufe folgt später (Aufgabe 162 in app-schaufenster sammelt die Prüfungen).
+- 2026-09-16 — Phase B5, Aufgabe B (164): Texte freigegeben, Knopf auf /dokumenten-chat, e2e, README; Prüfung in Claude folgt später (162).
+- 2026-09-16 — Phase B6, Aufgabe B (165): Texte freigegeben, Knopf auf /ki-radar, e2e, README. Damit haben alle sechs Apps Vorlage, ZIP-Datei und Knopf; offen sind die Prüfungen in Claude (Aufgabe 162 in app-schaufenster) und Phase B7.
+- 2026-09-16 — Phase B7 (Aufgabe 167 in app-schaufenster): Profil §5.1, Vorlagen in llms.txt/llms-full.txt (DE/EN) und als Nachtrag im Chatbot-Prompt (Freigabe offen, Kontrollfrage 10). Auswertung als Aufgabe 168 angelegt, Datum offen bis Livegang. Aufgabe 166 (Turnstile im Test nachgebildet) ebenfalls erledigt.
+- 2026-09-16 — Freigaben (Aufgabe 169 in app-schaufenster): Prompt-Nachtrag zu den Vorlagen und Titel beim Knopf der fünf Apps. Versuch, den Prompt über die n8n-Anbindung einzuspielen, von der Sicherheitsregel der Arbeitsumgebung abgelehnt; Phase 8 bleibt beim Auftraggeber.
+- 2026-09-16 — Übergabe an `rautaki-web`: Tracker auf den Stand nach Aufgabe 169 gebracht (B2–B6 Bau fertig, offen nur Prüfung in Claude; B7 bis auf Phase 8 und Auswertung erledigt); Liste der offenen Punkte mit Ort im Abschnitt «Stand der Umsetzung».
