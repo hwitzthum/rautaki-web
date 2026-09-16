@@ -451,25 +451,27 @@ export default function ServicesPage({ locale }: { locale: Locale }) {
 
           <dl className="border-t border-ink/10">
             {faq.map((item, index) => (
-              <ScrollReveal key={item.question} delay={(index % 4) * 60}>
-                <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-x-16 gap-y-3 py-8 border-b border-ink/10">
-                  <dt className="font-serif text-h4 tracking-tight-h4 font-normal leading-heading text-ink">
-                    {item.question}
-                  </dt>
-                  <dd className="m-0">
-                    <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey max-w-reading">
-                      {item.answer}
-                    </p>
-                    {item.link && (
-                      <a
-                        href={localePath(locale, item.link.href)}
-                        className="mt-3 inline-block font-sans text-sm text-ink hover:text-gold transition-colors duration-200 tracking-wide"
-                      >
-                        {item.link.label} →
-                      </a>
-                    )}
-                  </dd>
-                </div>
+              <ScrollReveal
+                key={item.question}
+                delay={(index % 4) * 60}
+                className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-x-16 gap-y-3 py-8 border-b border-ink/10"
+              >
+                <dt className="font-serif text-h4 tracking-tight-h4 font-normal leading-heading text-ink">
+                  {item.question}
+                </dt>
+                <dd className="m-0">
+                  <p className="font-ui text-body font-light leading-body text-ink/65 md:text-mid-grey max-w-reading">
+                    {item.answer}
+                  </p>
+                  {item.link && (
+                    <a
+                      href={localePath(locale, item.link.href)}
+                      className="mt-3 inline-block font-sans text-sm text-ink hover:text-gold transition-colors duration-200 tracking-wide"
+                    >
+                      {item.link.label} →
+                    </a>
+                  )}
+                </dd>
               </ScrollReveal>
             ))}
           </dl>

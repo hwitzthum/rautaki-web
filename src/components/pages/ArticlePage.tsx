@@ -8,7 +8,7 @@ import GoldRule from "@/components/GoldRule";
 import ScrollReveal from "@/components/ScrollReveal";
 import SectionLabel from "@/components/SectionLabel";
 import JsonLd from "@/components/JsonLd";
-import { pageShareMeta } from "@/lib/og";
+import { OG_IMAGE, pageShareMeta } from "@/lib/og";
 import { breadcrumbSchema } from "@/lib/breadcrumb";
 import { absoluteUrl, localePath, pageAlternates } from "@/lib/i18n";
 import { getContent } from "@/content";
@@ -155,6 +155,9 @@ export default function ArticlePage({
     datePublished: article.datePublished,
     dateModified,
     inLanguage,
+    // Articles have no own hero image; the site share image is what og:image
+    // already carries, and Google recommends `image` for article results.
+    image: absoluteUrl(OG_IMAGE.url),
     author: { "@id": "https://www.rautaki.ch/#harry-witzthum" },
     publisher: { "@id": "https://www.rautaki.ch/#organization" },
     mainEntityOfPage: articleUrl,

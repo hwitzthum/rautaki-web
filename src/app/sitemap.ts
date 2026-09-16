@@ -11,9 +11,9 @@ const lastModified = {
   home: { de: new Date("2026-09-16"), en: new Date("2026-09-16") }, // P9.1 Title/Description
   services: { de: new Date("2026-09-16"), en: new Date("2026-09-16") }, // P9.2 FAQ-Positionierung
   vorgehen: { de: new Date("2026-07-06"), en: new Date("2026-07-11") },
-  about: { de: new Date("2026-07-06"), en: new Date("2026-07-11") },
+  about: { de: new Date("2026-09-16"), en: new Date("2026-09-16") }, // P9.2 CTA «Ihre Organisation»
   booking: { de: new Date("2026-07-06"), en: new Date("2026-07-11") },
-  imprint: { de: new Date("2026-07-06"), en: new Date("2026-07-11") },
+  imprint: { de: new Date("2026-09-13"), en: new Date("2026-09-13") }, // Rechtsgrundlage UWG
   privacy: { de: new Date("2026-07-11"), en: new Date("2026-07-11") }, // NEXT_LOCALE-Absatz
   labEuAiActCheck: new Date("2026-09-16"), // Header/Titel: «Rautaki Lab» → «Rautaki»
 };
