@@ -190,7 +190,10 @@ Zielanfragen (Empfehlung) → beste Seite:
   - Gemessen gegen den neuen Title (P9.1) + H1 «Strategie im KI-Zeitalter mit Wirkung», Fliesstext in `<main>` ohne Überschriften, DE: «KI-Strategie» 0 → 3, «Schweizer» 0 → 1, «Schweiz» → 4, «Verwaltungsr…» → 3, «KI-Zeitalter» 0 → 1 (347 Wörter; kein Begriff > 4×). EN analog («AI strategy» 3, «AI era» 1, «Swiss» 1).
   - Geänderte Stellen (de + en, `src/content/{de,en}/home.ts`): Hero-Intro, Problem-Abschnitt, «Zuhause, wo Wirkung zählt», Schluss-CTA. Layout unverändert; mobil (390 px) ohne horizontales Scrollen geprüft.
   - Folgeprüfung mit P11.2: Seobility-Check der Startseite wiederholen.
-- [ ] P9.5 Neuer Wissen-Artikel «KI-Tools und Datenschutz (nDSG) in Vereinen und Stiftungen» de + en; llms.txt «## Wissen» und Chatbot-Prompt nachführen
+- [ ] P9.5 Neuer Wissen-Artikel «KI-Tools und Datenschutz (nDSG) in Vereinen und Stiftungen» de + en; llms.txt «## Wissen» und Chatbot-Prompt nachführen — Stand 2026-09-16: Artikel de + en und llms.txt umgesetzt, Chatbot-Prompt offen.
+  - Umfang freigegeben: Praxisleitfaden (8 Abschnitte, Checkliste mit 7 Punkten), Slug `ki-tools-datenschutz-vereine-stiftungen`. Quellenreport: `docs/research/ki-datenschutz-ndsg-quellen.md` (DSG/DSV-Wortlaut, EDÖB, DPF-Register, Anbieterseiten; Stand 16.09.2026).
+  - Befristete Angaben (vor Aktualisierung neu prüfen): DPF-Register (Microsoft/Google gelistet, OpenAI nicht), Anbieterbedingungen ChatGPT/Copilot/Gemini, Status Vernehmlassung KI-Konvention (am 16.09.2026 nicht eröffnet, angekündigt bis Ende 2026 → Artikel dann aktualisieren).
+  - offen: Chatbot-Prompt (Workflow `lIPMcSi2yljEbfPJ`) um den Artikel ergänzen — zusammen mit R8-Befunden (alter VR-Artikeltitel, «vier Fachartikel», KMU in der Zielgruppe).
 - [ ] P9.6 Monatlich GSC-Queries auf neue Nicht-Marken-Anfragen prüfen und der Tabelle oben zuordnen (erste Prüfung 2026-10-16)
 
 ## P10 — Performance & Technik

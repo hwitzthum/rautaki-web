@@ -54,6 +54,7 @@ akkreditierten CAS-Programmen zu KI-Strategie und KI-Transformation.
 - [KI-Kompetenz im Verwaltungsrat: sieben Fragen, die zählen](https://www.rautaki.ch/wissen/ki-strategie-verwaltungsrat): Warum KI zur Oberleitung gehört (Art. 716a OR), welche KI-Kompetenz das Gremium selbst braucht, und die sieben Fragen, die ein Verwaltungs- oder Stiftungsrat der Geschäftsleitung stellen sollte
 - [Der Weg zu wirksamer KI: die Methode hinter dem Rautaki-Beratungsprogramm](https://www.rautaki.ch/wissen/der-weg-zu-wirksamer-ki): Die fünf Designprinzipien hinter dem Programm mit drei Phasen, neun Schritten und zwei Kostenkontroll-Gates
 - [KI-Reifegrad in Schweizer NPOs: Was die Studien zeigen — und was nicht](https://www.rautaki.ch/wissen/ki-reifegrad-schweizer-npos): Synthese der verfügbaren Studien — hohe individuelle Nutzung, strategisches Vakuum, und warum es keine Schweizer NPO-Zahl gibt
+- [KI-Tools und Datenschutz (nDSG) in Vereinen und Stiftungen](https://www.rautaki.ch/wissen/ki-tools-datenschutz-vereine-stiftungen): Was das Datenschutzgesetz für ChatGPT, Copilot & Co. verlangt — Verantwortung des Vorstands, private Konten, besonders schützenswerte Daten, USA-Transfers und eine Checkliste
 
 ## Seiten
 
