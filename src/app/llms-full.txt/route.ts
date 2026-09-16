@@ -14,6 +14,7 @@ import { getArticles } from "@/lib/articles";
 export const dynamic = "force-static";
 
 const BASE = "https://www.rautaki.ch";
+const APPS = "https://apps.rautaki.ch";
 
 // Template scaffolding that frames the content-module strings — headings,
 // the intro/bio paragraphs and the price list, per locale.
@@ -52,12 +53,16 @@ isoliertes Tool ein, sondern entlang von Entscheidungswegen, Rollen und
 Verantwortlichkeiten.`,
     clientsHeading: "Workshops mit Organisationen (Auswahl)",
     teachingHeading: "Lehrtätigkeit",
-    labHeading: "Lab — kostenlose KI-Tools",
-    labIntro:
-      "Interaktive Tools, die direkt im Browser laufen — kein Account, kein Server.",
-    labTools: `- [EU AI Act Compliance Checker](${BASE}/lab/eu-ai-act-check.html): 12 Fragen, sofortige Risikoklassifizierung nach EU AI Act — mit massgeschneiderter Massnahmenliste zum Abhaken und herunterladbarem Bericht.
-- [KI-Governance-Richtlinie Generator](${BASE}/lab/ki-governance-policy.html): Vier Formulare, zehn Abschnitte, ein druckfertiges Word-Dokument — mit Deckblatt, nummerierten Klauseln und Unterschriftenblock.
-- [Multi-Assistant-System mit Custom GPTs](${BASE}/lab/multi-assistant-gpt.html): Team-Router und zwei Spezialisten-GPTs als orchestriertes System — ohne Code, mit Schritt-für-Schritt-Anleitung und Word-Export.`,
+    appsHeading: "Apps — KI-Apps zum Ausprobieren",
+    appsIntro:
+      "KI im Arbeitsalltag — ausprobieren statt darüber lesen. Jede App erledigt eine konkrete Aufgabe aus dem Alltag von Organisationen, Verwaltungen, Schulen und KMU — mit eigenem Text, direkt im Browser, ohne Anmeldung. Die Apps sind auf Deutsch.",
+    appsList: `- [Antwort-Assistent](${APPS}/antwort-assistent): Eine eingehende Nachricht rein — heraus kommen das Anliegen in einem Satz, die fehlenden Angaben und ein Antwortentwurf.
+- [Dokumenten-Chat mit Quellen](${APPS}/dokumenten-chat): Eine Frage zu vorliegenden Dokumenten rein — heraus kommt eine Antwort mit Dokumentname und Seitenzahl, oder der offene Hinweis, dass es dazu keinen Beleg gibt.
+- [Verständlich machen](${APPS}/verstaendlich-machen): Ein deutscher Text rein — heraus kommt eine Fassung in Einfacher oder Leichter Sprache, neben dem Original, mit Lesbarkeitswert vorher und nachher und einer Liste dessen, was weggelassen wurde.
+- [Kommunikation aus einem Anlass](${APPS}/kommunikation): Ein Anlass rein — heraus kommen ein LinkedIn-Beitrag, ein Newsletter-Absatz und eine Website-Meldung, jede kopierbar. Fehlende Angaben stehen als markierte Platzhalter da.
+- [Entwurf-Check](${APPS}/entwurf-check): Ein Entwurf und die Anforderungen rein — heraus kommt je Kriterium ein Status mit Begründung, dazu die Lücken, nicht belegte Aussagen und Vorschläge für die schwachen Stellen.
+- [KI-Potenzial-Radar](${APPS}/ki-radar): Acht Fragen zur Organisation — heraus kommen drei priorisierte Anwendungsfälle mit geschätzter Zeitersparnis, Aufwand, Risiko und dem, was es in der Organisation braucht, auf der Seite und als einseitige PDF.`,
+    checkerNote: `Weiterhin kostenlos auf www.rautaki.ch: [EU AI Act Compliance Checker](${BASE}/lab/eu-ai-act-check.html) — 12 Fragen, sofortige Risikoklassifizierung nach EU AI Act, mit massgeschneiderter Massnahmenliste zum Abhaken und herunterladbarem Bericht. Begleitwerkzeug zum Artikel «EU AI Act: Was gilt für Schweizer NPOs?».`,
     wissenHeading: "Wissen",
     wissenPublished: "Publiziert",
     wissenUpdated: "Aktualisiert",
@@ -104,12 +109,16 @@ build-up of agile structures (including Holacracy). He introduces AI not as an
 isolated tool but along decision paths, roles and responsibilities.`,
     clientsHeading: "Workshops with organisations (selection)",
     teachingHeading: "Teaching",
-    labHeading: "Lab — free AI tools (German only)",
-    labIntro:
-      "Interactive tools that run directly in the browser — no account, no server. The tools themselves are currently available in German only.",
-    labTools: `- [EU AI Act Compliance Checker](${BASE}/lab/eu-ai-act-check.html): 12 questions, instant risk classification under the EU AI Act — with a tailored checklist of measures and a downloadable report.
-- [AI Governance Policy Generator](${BASE}/lab/ki-governance-policy.html): four forms, ten sections, one print-ready Word document — with cover page, numbered clauses and signature block.
-- [Multi-assistant system with Custom GPTs](${BASE}/lab/multi-assistant-gpt.html): a team router and two specialist GPTs as an orchestrated system — no code, with step-by-step instructions and Word export.`,
+    appsHeading: "Apps — AI apps to try out (German only)",
+    appsIntro:
+      "AI in everyday work — try it instead of reading about it. Each app handles one concrete task from the daily work of organisations, public administrations, schools and SMEs — with your own text, directly in the browser, no sign-up. The apps themselves are available in German only.",
+    appsList: `- [Reply Assistant](${APPS}/antwort-assistent): An incoming message goes in — out come the request in one sentence, the missing details and a draft reply.
+- [Document Chat with Sources](${APPS}/dokumenten-chat): A question about your documents goes in — out comes an answer with document name and page number, or a plain note that there is no evidence for it.
+- [Make it Understandable](${APPS}/verstaendlich-machen): A German text goes in — out comes a version in plain or easy language, next to the original, with a readability score before and after and a list of what was left out.
+- [Communication from One Occasion](${APPS}/kommunikation): An occasion goes in — out come a LinkedIn post, a newsletter paragraph and a website notice, each ready to copy. Missing details appear as marked placeholders.
+- [Draft Check](${APPS}/entwurf-check): A draft and its requirements go in — out comes a status with reasoning per criterion, plus the gaps, unsupported claims and suggestions for the weak spots.
+- [AI Potential Radar](${APPS}/ki-radar): Eight questions about your organisation — out come three prioritised use cases with estimated time savings, effort, risk and what the organisation needs, on screen and as a one-page PDF.`,
+    checkerNote: `Still free on www.rautaki.ch: [EU AI Act Compliance Checker](${BASE}/lab/eu-ai-act-check.html) — 12 questions, instant risk classification under the EU AI Act, with a tailored checklist of measures and a downloadable report (German only). Companion tool to the article «EU AI Act: What applies to Swiss NPOs?».`,
     wissenHeading: "Insights",
     wissenPublished: "Published",
     wissenUpdated: "Updated",
@@ -248,11 +257,13 @@ ${clientsSection}
 
 ${teachingSection}
 
-## ${s.labHeading} (${url("/lab")})
+## ${s.appsHeading} (${APPS})
 
-${s.labIntro}
+${s.appsIntro}
 
-${s.labTools}
+${s.appsList}
+
+${s.checkerNote}
 
 ${wissenBlock}## ${s.contactHeading}
 

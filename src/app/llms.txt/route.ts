@@ -37,11 +37,16 @@ akkreditierten CAS-Programmen zu KI-Strategie und KI-Transformation.
 - Halbtag: ab CHF 1'800 (inkl. Vorbereitung und Ergebnissicherung)
 - Stundenansatz: CHF 280 (punktuelles Sparring, ohne Vor- und Nachbereitung)
 
-## Lab — kostenlose KI-Tools
+## Apps — KI-Apps zum Ausprobieren
 
-- [EU AI Act Compliance Checker](https://www.rautaki.ch/lab/eu-ai-act-check.html): 12 Fragen, sofortige Risikoklassifizierung nach EU AI Act — mit Massnahmenliste und herunterladbarem Bericht
-- [KI-Governance-Richtlinie Generator](https://www.rautaki.ch/lab/ki-governance-policy.html): Vier Formulare, zehn Abschnitte, ein druckfertiges Word-Dokument mit Deckblatt und Unterschriftenblock
-- [Multi-Assistant-System mit Custom GPTs](https://www.rautaki.ch/lab/multi-assistant-gpt.html): Schritt-für-Schritt-Anleitung zu einem orchestrierten System aus drei GPTs — ohne Code
+- [apps.rautaki.ch](https://apps.rautaki.ch): KI im Arbeitsalltag — ausprobieren statt darüber lesen. Jede App erledigt eine konkrete Aufgabe aus dem Alltag von Organisationen, Verwaltungen, Schulen und KMU — mit eigenem Text, direkt im Browser, ohne Anmeldung. Die Apps sind auf Deutsch
+- [Antwort-Assistent](https://apps.rautaki.ch/antwort-assistent): Eine eingehende Nachricht rein — heraus kommen das Anliegen in einem Satz, die fehlenden Angaben und ein Antwortentwurf
+- [Dokumenten-Chat mit Quellen](https://apps.rautaki.ch/dokumenten-chat): Eine Frage zu vorliegenden Dokumenten rein — heraus kommt eine Antwort mit Dokumentname und Seitenzahl, oder der offene Hinweis, dass es dazu keinen Beleg gibt
+- [Verständlich machen](https://apps.rautaki.ch/verstaendlich-machen): Ein deutscher Text rein — heraus kommt eine Fassung in Einfacher oder Leichter Sprache, neben dem Original, mit Lesbarkeitswert vorher und nachher und einer Liste dessen, was weggelassen wurde
+- [Kommunikation aus einem Anlass](https://apps.rautaki.ch/kommunikation): Ein Anlass rein — heraus kommen ein LinkedIn-Beitrag, ein Newsletter-Absatz und eine Website-Meldung, jede kopierbar. Fehlende Angaben stehen als markierte Platzhalter da
+- [Entwurf-Check](https://apps.rautaki.ch/entwurf-check): Ein Entwurf und die Anforderungen rein — heraus kommt je Kriterium ein Status mit Begründung, dazu die Lücken, nicht belegte Aussagen und Vorschläge für die schwachen Stellen
+- [KI-Potenzial-Radar](https://apps.rautaki.ch/ki-radar): Acht Fragen zur Organisation — heraus kommen drei priorisierte Anwendungsfälle mit geschätzter Zeitersparnis, Aufwand, Risiko und dem, was es in der Organisation braucht, auf der Seite und als einseitige PDF
+- [EU AI Act Compliance Checker](https://www.rautaki.ch/lab/eu-ai-act-check.html): Kostenloses Werkzeug auf www.rautaki.ch — 12 Fragen, sofortige Risikoklassifizierung nach EU AI Act, mit Massnahmenliste und herunterladbarem Bericht; Begleitwerkzeug zum Artikel «EU AI Act: Was gilt für Schweizer NPOs?»
 
 ## Wissen
 
@@ -57,7 +62,7 @@ akkreditierten CAS-Programmen zu KI-Strategie und KI-Transformation.
 - [FAQ](https://www.rautaki.ch/services#faq): Häufige Fragen zu Angebot, Preisen, Ablauf und Zielgruppen
 - [Vorgehen](https://www.rautaki.ch/vorgehen): Das KI-Beratungspaket im Volltext — alle neun Schritte, Gates, Governance und Zusammenarbeitsmodell
 - [Über uns](https://www.rautaki.ch/about): Gründungsgeschichte, Profil Harry Witzthum, Arbeitsweise
-- [Lab](https://www.rautaki.ch/lab): Kostenlose KI-Tools und Experimente
+- [Apps](https://apps.rautaki.ch): KI-Apps zum Ausprobieren — eigene Seite, siehe Abschnitt «Apps»
 - [Wissen](https://www.rautaki.ch/wissen): Fundierte Analysen zu KI-Strategie, Governance und Regulierung
 - [Erstgespräch buchen](https://www.rautaki.ch/booking)
 
@@ -80,7 +85,8 @@ Rautaki is a Swiss AI-strategy consultancy for leadership teams — strategic vi
 - [FAQ](https://www.rautaki.ch/en/services#faq): Frequently asked questions on services, prices, process and audience
 - [The path to effective AI](https://www.rautaki.ch/en/vorgehen): The consulting programme in full — three phases, nine steps, two go/no-go gates
 - [About us](https://www.rautaki.ch/en/about): Founding story, profile of Harry Witzthum, how we work
-- [Lab](https://www.rautaki.ch/en/lab): Free AI tools (the tools themselves are German-only)
+- [Apps](https://apps.rautaki.ch): AI apps to try out in the browser — no sign-up (the apps themselves are German-only)
+- [EU AI Act Compliance Checker](https://www.rautaki.ch/lab/eu-ai-act-check.html): Free tool, 12 questions, instant risk classification under the EU AI Act (German-only)
 - [Insights](https://www.rautaki.ch/en/wissen): Grounded analysis on AI strategy, governance and regulation
 - [Book an initial consultation](https://www.rautaki.ch/en/booking): Free, 45 minutes, via video call
 

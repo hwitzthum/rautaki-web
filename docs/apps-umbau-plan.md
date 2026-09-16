@@ -19,14 +19,14 @@ Status-Werte: `offen` · `in Arbeit` · `erledigt` · `blockiert` (Grund in der 
 | 2 | Lab-Seiten und E-Mail-Schranke abbauen | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | `/lab`, `/en/lab` liefern bis Phase 4 ein 404 |
 | 3 | HTML-Werkzeuge archivieren | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | `archiv/lab/`, Vendor-Pfade dort relativ; `archiv/**` in ESLint-Ignores |
 | 4 | Weiterleitungen alter Lab-Adressen | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | `redirects()` in `next.config.ts`, 308, exakte Pfade |
-| 5 | Sitemap, llms.txt, Schemas nachführen | offen | | | |
+| 5 | Sitemap, llms.txt, Schemas nachführen | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | App-Texte wörtlich aus `app-schaufenster/src/apps/verzeichnis.ts`; EN-Fassung ist Übersetzung durch Claude — Wortlaut-Freigabe offen |
 | 6 | Dokumentation im Repository | offen | | | |
 | 7 | Neuer Chatbot-Prompt für n8n (vollständig, freigegeben) | offen | | | Wortlaut braucht Freigabe des Auftraggebers |
 | 8 | Ausserhalb des Repositories (Auftraggeber) | offen | | | n8n, Vercel, Netlify, Umami |
 | 9 | Prüfung und Veröffentlichung | offen | | | |
 | 10 | Kontrolle nach dem Livegang | offen | | | |
 
-**Gesamtstand:** 5 von 11 Phasen erledigt. Livegang: noch nicht erfolgt.
+**Gesamtstand:** 6 von 11 Phasen erledigt. Livegang: noch nicht erfolgt.
 
 ---
 
@@ -125,11 +125,11 @@ also nur exakte Pfade, kein Muster `/lab/(.*)`.
 
 ### Phase 5 — Sitemap, llms.txt und Schemas
 
-- [ ] `sitemap.ts`: `/lab`, `/en/lab` und die zwei archivierten Werkzeuge entfernen; Checker-Eintrag bleibt
-- [ ] `llms.txt`: Abschnitt «Lab» durch «Apps» ersetzen (DE und EN), Link auf apps.rautaki.ch, Checker als einzelnes Werkzeug
-- [ ] `llms-full.txt`: dasselbe (`labHeading`, `labIntro`, `labTools` DE/EN)
-- [ ] Prüfen, dass der Checker sein WebApplication-Schema weiterhin im eigenen HTML trägt (bisher wurde es zusätzlich von `/lab` ausgegeben)
-- Status: offen
+- [x] `sitemap.ts`: `/lab`, `/en/lab` und die zwei archivierten Werkzeuge entfernen; Checker-Eintrag bleibt — Sitemap hat neu 25 statt 29 URLs; einziger `/lab/`-Eintrag ist der Checker
+- [x] `llms.txt`: Abschnitt «Lab» durch «Apps» ersetzen (DE und EN), Link auf apps.rautaki.ch, Checker als einzelnes Werkzeug — Abschnitt «Apps — KI-Apps zum Ausprobieren» mit Einleitung (Startseiten-Text des Schaufensters), den sechs Apps (Kartentexte wörtlich aus `verzeichnis.ts`, Reihenfolge wie im Raster) und dem Checker als letztem Punkt; in «Seiten» und «English» je eine «Apps»-Zeile, EN zusätzlich der Checker
+- [x] `llms-full.txt`: dasselbe (`labHeading`, `labIntro`, `labTools` DE/EN) — neu `appsHeading`, `appsIntro`, `appsList`, `checkerNote`; Konstante `APPS`; EN-App-Namen und -Texte sind Übersetzungen (kein freigegebener EN-Text im Schaufenster vorhanden)
+- [x] Prüfen, dass der Checker sein WebApplication-Schema weiterhin im eigenen HTML trägt (bisher wurde es zusätzlich von `/lab` ausgegeben) — ja, `public/lab/eu-ai-act-check.html` Zeile 38 ff. (`WebApplication`, `url`, `offers`, `publisher`)
+- Status: erledigt (2026-09-16). Offen: Freigabe des Wortlauts durch den Auftraggeber (DE-Einleitung leicht angepasst: «mit Ihrem eigenen Text» → «mit eigenem Text»; EN komplett übersetzt)
 
 ### Phase 6 — Dokumentation im Repository
 
@@ -220,4 +220,5 @@ Diese Punkte kann Claude nicht ausführen; sie brauchen Konten und Zugänge.
 - 2026-09-16 — Phase 2 erledigt: Lab-Seiten, `LabGateModal`, `/api/lab-access` und `N8N_LAB_WEBHOOK_URL` entfernt; Kommentare bereinigt (zusätzlich in `src/app/api/chat/route.ts`). Stolperstein: veraltete `.next/dev`-Typen, siehe Phase 2.
 - 2026-09-16 — Phase 3 erledigt: Generator und Multi-Assistant-Anleitung samt `html-docx.js` und Font-Kopie nach `archiv/lab/` (README dort); Vendor-Pfade im Archiv relativ gesetzt. Checker und seine Schriften bleiben unter `public/lab/`.
 - 2026-09-16 — Phase 4 erledigt: vier dauerhafte Weiterleitungen (308) in `next.config.ts` auf https://apps.rautaki.ch; Checker bleibt erreichbar.
+- 2026-09-16 — Phase 5 erledigt: Sitemap ohne `/lab` und die zwei Werkzeuge; `llms.txt`/`llms-full.txt` mit Abschnitt «Apps» (sechs Apps aus `verzeichnis.ts`, Checker als Einzelwerkzeug). Diese App-Texte sind dieselbe Quelle, die Phase 7 für den Chatbot-Prompt braucht.
 - 2026-09-16 — Phase 7 «Neuer Chatbot-Prompt für n8n» eingefügt (vollständiger Prompt statt Teilkorrektur, Freigabe des Wortlauts, Kontrollfragen); bisherige Phasen 7 bis 9 sind neu 8 bis 10. Offen: Satz zur Testphase im Prompt nach Ende der Testphase streichen.

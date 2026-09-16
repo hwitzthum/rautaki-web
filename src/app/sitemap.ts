@@ -13,11 +13,8 @@ const lastModified = {
   vorgehen: { de: new Date("2026-07-06"), en: new Date("2026-07-11") },
   about: { de: new Date("2026-07-06"), en: new Date("2026-07-11") },
   booking: { de: new Date("2026-07-06"), en: new Date("2026-07-11") },
-  lab: { de: new Date("2026-07-06"), en: new Date("2026-07-11") },
   imprint: { de: new Date("2026-07-06"), en: new Date("2026-07-11") },
   privacy: { de: new Date("2026-07-11"), en: new Date("2026-07-11") }, // NEXT_LOCALE-Absatz
-  labMultiAssistant: new Date("2026-05-10"),
-  labGovernancePolicy: new Date("2026-05-11"),
   labEuAiActCheck: new Date("2026-08-21"),
 };
 
@@ -90,12 +87,6 @@ const localizedPages: LocalizedPage[] = [
     priority: 0.8,
   },
   {
-    path: "/lab",
-    dates: lastModified.lab,
-    changeFrequency: "weekly",
-    priority: 0.7,
-  },
-  {
     path: "/wissen",
     // Content-driven: the index's freshness is the newest article per locale,
     // not a hand-maintained date (see wissenIndexDates below).
@@ -117,21 +108,10 @@ const localizedPages: LocalizedPage[] = [
   },
 ];
 
-// The interactive Lab tools are German-only static pages — single entries,
-// no language alternates.
+// The EU AI Act checker is a German-only static page — single entry, no
+// language alternates. (The other Lab tools moved to apps.rautaki.ch, which
+// has its own sitemap — see docs/apps-umbau-plan.md.)
 const singleLocalePages: MetadataRoute.Sitemap = [
-  {
-    url: `${base}/lab/multi-assistant-gpt.html`,
-    lastModified: lastModified.labMultiAssistant,
-    changeFrequency: "monthly",
-    priority: 0.6,
-  },
-  {
-    url: `${base}/lab/ki-governance-policy.html`,
-    lastModified: lastModified.labGovernancePolicy,
-    changeFrequency: "monthly",
-    priority: 0.6,
-  },
   {
     url: `${base}/lab/eu-ai-act-check.html`,
     lastModified: lastModified.labEuAiActCheck,
