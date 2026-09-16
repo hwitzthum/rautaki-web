@@ -54,6 +54,7 @@ Verantwortlichkeiten.`,
     clientsHeading: "Workshops mit Organisationen (Auswahl)",
     teachingHeading: "Lehrtätigkeit",
     appsHeading: "Apps — KI-Apps zum Ausprobieren",
+    appsUrl: APPS,
     appsIntro:
       "KI im Arbeitsalltag — ausprobieren statt darüber lesen. Jede App erledigt eine konkrete Aufgabe aus dem Alltag von Organisationen, Verwaltungen, Schulen und KMU — mit eigenem Text, direkt im Browser, ohne Anmeldung. Die Apps sind auf Deutsch. Jede App lässt sich als Vorlage mitnehmen: Unter dem Ergebnis steht «Vorlage herunterladen», eine Datei im offenen Standard Agent Skills (SKILL.md, CC BY 4.0) für das eigene Claude oder ChatGPT; dort gelten Datenschutz und Kosten des eigenen Abos.",
     appsList: `- [Antwort-Assistent](${APPS}/antwort-assistent): Eine eingehende Nachricht rein — heraus kommen das Anliegen in einem Satz, die fehlenden Angaben und ein Antwortentwurf.
@@ -109,15 +110,16 @@ build-up of agile structures (including Holacracy). He introduces AI not as an
 isolated tool but along decision paths, roles and responsibilities.`,
     clientsHeading: "Workshops with organisations (selection)",
     teachingHeading: "Teaching",
-    appsHeading: "Apps — AI apps to try out (German only)",
+    appsHeading: "Apps — AI apps to try out (apps in German)",
+    appsUrl: `${APPS}/en`,
     appsIntro:
-      "AI in everyday work — try it instead of reading about it. Each app handles one concrete task from the daily work of organisations, public administrations, schools and SMEs — with your own text, directly in the browser, no sign-up. The apps themselves are available in German only. Each app can be taken along as a template: below the result, «Vorlage herunterladen» downloads a file in the open Agent Skills standard (SKILL.md, CC BY 4.0) for your own Claude or ChatGPT, where your own subscription's privacy terms and costs apply.",
-    appsList: `- [Reply Assistant](${APPS}/antwort-assistent): An incoming message goes in — out come the request in one sentence, the missing details and a draft reply.
-- [Document Chat with Sources](${APPS}/dokumenten-chat): A question about your documents goes in — out comes an answer with document name and page number, or a plain note that there is no evidence for it.
-- [Make it Understandable](${APPS}/verstaendlich-machen): A German text goes in — out comes a version in plain or easy language, next to the original, with a readability score before and after and a list of what was left out.
-- [Communication from One Occasion](${APPS}/kommunikation): An occasion goes in — out come a LinkedIn post, a newsletter paragraph and a website notice, each ready to copy. Missing details appear as marked placeholders.
-- [Draft Check](${APPS}/entwurf-check): A draft and its requirements go in — out comes a status with reasoning per criterion, plus the gaps, unsupported claims and suggestions for the weak spots.
-- [AI Potential Radar](${APPS}/ki-radar): Eight questions about your organisation — out come three prioritised use cases with estimated time savings, effort, risk and what the organisation needs, on screen and as a one-page PDF.`,
+      "AI in everyday work — try it instead of reading about it. Each app handles one concrete task from the daily work of organisations, public administrations, schools and SMEs — with your own text, directly in the browser, no sign-up. The overview is available in English; the apps themselves work in German. Each app can be taken along as a template: below the result, «Vorlage herunterladen» downloads a file in the open Agent Skills standard (SKILL.md, CC BY 4.0) for your own Claude or ChatGPT, where your own subscription's privacy terms and costs apply.",
+    appsList: `- [Reply Assistant](${APPS}/en/antwort-assistent): An incoming message goes in — out come the request in one sentence, the missing details and a draft reply.
+- [Document Chat with Sources](${APPS}/en/dokumenten-chat): A question about your documents goes in — out comes an answer with document name and page number, or a plain note that there is no evidence for it.
+- [Make it Understandable](${APPS}/en/verstaendlich-machen): A German text goes in — out comes a version in plain or easy language, next to the original, with a readability score before and after and a list of what was left out.
+- [Communication from One Occasion](${APPS}/en/kommunikation): An occasion goes in — out come a LinkedIn post, a newsletter paragraph and a website notice, each ready to copy. Missing details appear as marked placeholders.
+- [Draft Check](${APPS}/en/entwurf-check): A draft and its requirements go in — out comes a status with reasoning per criterion, plus the gaps, unsupported claims and suggestions for the weak spots.
+- [AI Potential Radar](${APPS}/en/ki-radar): Eight questions about your organisation — out come three prioritised use cases with estimated time savings, effort, risk and what the organisation needs, on screen and as a one-page PDF.`,
     checkerNote: `Still free on www.rautaki.ch: [EU AI Act Compliance Checker](${BASE}/lab/eu-ai-act-check.html) — 12 questions, instant risk classification under the EU AI Act, with a tailored checklist of measures and a downloadable report (German only). Companion tool to the article «EU AI Act: What applies to Swiss NPOs?».`,
     wissenHeading: "Insights",
     wissenPublished: "Published",
@@ -257,7 +259,7 @@ ${clientsSection}
 
 ${teachingSection}
 
-## ${s.appsHeading} (${APPS})
+## ${s.appsHeading} (${s.appsUrl})
 
 ${s.appsIntro}
 

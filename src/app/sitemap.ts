@@ -110,7 +110,8 @@ const localizedPages: LocalizedPage[] = [
 
 // The EU AI Act checker is a German-only static page — single entry, no
 // language alternates. (The other Lab tools moved to apps.rautaki.ch, which
-// has its own sitemap — see docs/apps-umbau-plan.md.)
+// has its own sitemap with both languages at https://apps.rautaki.ch/sitemap.xml
+// — see docs/apps-umbau-plan.md.)
 const singleLocalePages: MetadataRoute.Sitemap = [
   {
     url: `${base}/lab/eu-ai-act-check.html`,
