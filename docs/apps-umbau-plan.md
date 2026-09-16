@@ -30,8 +30,8 @@ Status-Werte: `offen` · `in Arbeit` · `erledigt` · `blockiert` (Grund in der 
 | 6 | Dokumentation im Repository | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | README, geo-roadmap P6, chatbot-hardening-plan |
 | 7 | Neuer Chatbot-Prompt für n8n (vollständig, freigegeben) | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab`; Freigabe Auftraggeber | Block in `security/n8n-workflow-hardening.md` §1, Status dort «DRAFT» bis Phase 8 ihn einspielt |
 | 8 | Ausserhalb des Repositories (Auftraggeber) | offen | | | apps.rautaki.ch live schalten, n8n, Vercel, Netlify, Umami |
-| 9 | Prüfung und Veröffentlichung | in Arbeit | 2026-09-16 | Claude | Prüfung bestanden, PR #111 offen; Merge wartet auf Freigabe |
-| 10 | Kontrolle nach dem Livegang | offen | | | |
+| 9 | Prüfung und Veröffentlichung | erledigt | 2026-09-16 | Claude; Merge-Freigabe Auftraggeber | PR #111 gemerged (`7d093ee`), Vercel-Produktion grün, Livegang 2026-09-16 09:01 UTC |
+| 10 | Kontrolle nach dem Livegang | in Arbeit | 2026-09-16 | Claude | www-Seite geprüft; offen: apps.rautaki.ch ohne Zugangscode, Chatbot (beides nach Phase 8) |
 | B0 | Entscheide des Auftraggebers zu den Vorlagen | erledigt | 2026-09-16 | Auftraggeber | alle fünf gemäss Empfehlung; decisions.md + Brief in app-schaufenster |
 | B1 | Gemeinsame Vorbereitung im Kern (Knopf-Baustein, `ersetzeGenau`) | erledigt | 2026-09-16 | Claude, Aufgabe 154 | `src/kern/vorlage/download.tsx`, `download-texte.ts`, `ersetze-genau.ts`; Muster im Brief `vorlage-weitere-apps.md` |
 | B2 | Vorlage Entwurf-Check | in Arbeit | 2026-09-16 | Claude, Aufgaben 155 (A), 160 (B) | Bau fertig (Vorlage, ZIP-Datei, Knopf, Texte und Titel freigegeben); offen nur die Prüfung in Claude durch den Auftraggeber (Aufgabe 162 in app-schaufenster) |
@@ -41,8 +41,8 @@ Status-Werte: `offen` · `in Arbeit` · `erledigt` · `blockiert` (Grund in der 
 | B6 | Vorlage KI-Potenzial-Radar | in Arbeit | 2026-09-16 | Claude, Aufgaben 159 (A), 165 (B) | Bau fertig; offen nur die Prüfung in Claude für einen Organisationstyp (Aufgabe 162) |
 | B7 | Abschluss: Profil, Chatbot-Prompt, Auswertung | in Arbeit | 2026-09-16 | Claude, Aufgaben 167, 169 | Profil, llms.txt/llms-full.txt und Prompt-Nachtrag (freigegeben 2026-09-16) erledigt und in PR #111 committet; Einspielen = Phase 8; Auswertung = Aufgabe 168 (Datum offen bis Livegang) |
 
-**Gesamtstand:** 10 von 19 Phasen erledigt (Teil A: 8 von 11 · Teil B: 2 von 8; B2–B7 gebaut, offen nur Prüfung in
-Claude, Einspielen des Prompts und Auswertung). Livegang Teil A: noch nicht erfolgt. Vorlagen gebaut: 6 von 6 Apps mit
+**Gesamtstand:** 11 von 19 Phasen erledigt (Teil A: 9 von 11 · Teil B: 2 von 8; B2–B7 gebaut, offen nur Prüfung in
+Claude, Einspielen des Prompts und Auswertung). Livegang Teil A: 2026-09-16 (PR #111, `7d093ee`). Vorlagen gebaut: 6 von 6 Apps mit
 Knopf «Vorlage herunterladen»; online sind sie erst mit der Veröffentlichung von apps.rautaki.ch (Phase 8).
 
 **Übergabe (2026-09-16): `rautaki-web` übernimmt die weiteren Schritte direkt.** Offen, mit Ort:
@@ -222,17 +222,17 @@ Diese Punkte kann Claude nicht ausführen; sie brauchen Konten und Zugänge.
 
 - [x] `npm run lint`, `npm run build` grün; `security/test-libs.mjs` läuft — 2026-09-16: Lint, `tsc --noEmit`, Build, `test:libs` 38/38. Nicht gelaufen: `test-chat-api.sh` (braucht laufenden Server mit n8n-Secrets; von diesem Umbau nicht berührt)
 - [x] Manuelle Prüfung lokal: Menü DE/EN, Fusszeile, vier Weiterleitungen, Checker, Artikel-Links, `/sitemap.xml`, `/llms.txt` — am Produktions-Build: je 3 Apps-Anker (Desktop, Mobil, Fusszeile) auf `/` und `/en`, kein `/lab`-Anker, kein `aria-current`; vier 308 nach apps.rautaki.ch; Checker 200; Artikel DE/EN je 3 Links auf den Checker; Sitemap/llms/llms-full nennen unter `/lab/` nur den Checker. **Nebenbefund behoben:** Checker-Logo zeigte auf `/lab` («Zurück zum Rautaki Lab»), Titel/Kopf/Fuss nannten das Lab → Logo auf `/`, Wortlaut «Rautaki», Sitemap-Datum gesetzt
-- [ ] Pull Request mit Verweis auf dieses Dokument; ehrliche Einschätzung an den Auftraggeber; Freigabe abwarten — PR #111 eröffnet 2026-09-16 (https://github.com/hwitzthum/rautaki-web/pull/111); Freigabe offen
-- [ ] Zusammenführen in `main`; Vercel veröffentlicht automatisch
-- Status: offen
+- [x] Pull Request mit Verweis auf dieses Dokument; ehrliche Einschätzung an den Auftraggeber; Freigabe abwarten — PR #111 eröffnet 2026-09-16 (https://github.com/hwitzthum/rautaki-web/pull/111); freigegeben 2026-09-16
+- [x] Zusammenführen in `main`; Vercel veröffentlicht automatisch — Merge-Commit `7d093ee`, 2026-09-16 09:01 UTC; Vercel-Produktions-Deployment grün nach 30 s
+- Status: erledigt (2026-09-16)
 
 ### Phase 10 — Kontrolle nach dem Livegang
 
-- [ ] www.rautaki.ch: Menü und Fusszeile zeigen «Apps», Klick landet auf apps.rautaki.ch — ohne Zugangscode direkt im App-Raster (Phase 8 wirksam)
+- [ ] www.rautaki.ch: Menü und Fusszeile zeigen «Apps», Klick landet auf apps.rautaki.ch — ohne Zugangscode direkt im App-Raster (Phase 8 wirksam) — Teil 1 geprüft 2026-09-16 (je 3 Apps-Anker auf `/` und `/en`, kein Lab-Anker); apps.rautaki.ch antwortet noch mit 307 auf die Zugangsseite → offen bis Phase 8
 - [ ] apps.rautaki.ch: Wortmarke führt zurück auf www.rautaki.ch (Profil §4.6)
-- [ ] `https://www.rautaki.ch/lab` und `/en/lab` leiten weiter; Checker erreichbar
+- [x] `https://www.rautaki.ch/lab` und `/en/lab` leiten weiter; Checker erreichbar — geprüft 2026-09-16 auf Produktion: vier 308 nach apps.rautaki.ch, Checker 200 (Logo → `/`), `/api/lab-access` 404, Sitemap und llms.txt ohne alte Lab-Links
 - [ ] Chatbot auf www.rautaki.ch beantwortet die fünf Kontrollfragen aus Phase 7 wie erwartet (Phasen 7 und 8 wirksam)
-- [ ] Datum des Livegangs hier eintragen und im Projekt `app-schaufenster` melden (Handoff: Pilot-Auswertung 30 Tage danach)
+- [ ] Datum des Livegangs hier eintragen und im Projekt `app-schaufenster` melden (Handoff: Pilot-Auswertung 30 Tage danach) — Livegang www.rautaki.ch: 2026-09-16; Meldung an `app-schaufenster` (Aufgabe 168, Datum) offen, weil die Auswertung am Livegang von apps.rautaki.ch hängt (Phase 8)
 - Status: offen
 
 ## 5. Risiken und offene Punkte
@@ -464,6 +464,7 @@ Geänderte mit, vorher `git status` lesen.
 - 2026-09-16 — Phase 5 erledigt: Sitemap ohne `/lab` und die zwei Werkzeuge; `llms.txt`/`llms-full.txt` mit Abschnitt «Apps» (sechs Apps aus `verzeichnis.ts`, Checker als Einzelwerkzeug). Diese App-Texte sind dieselbe Quelle, die Phase 7 für den Chatbot-Prompt braucht.
 - 2026-09-16 — Entscheid nachgetragen: apps.rautaki.ch geht mit dem Umbau live (Zugangscode weg, `noindex` aufheben) und ist über www.rautaki.ch erreichbar. Neuer Punkt in Phase 8, Folgehinweise in Phase 7, Phase 10 und §5.
 - 2026-09-16 — Phase 6 erledigt: README (Seiten-/API-Tabelle, CSP-Hinweis), geo-roadmap P6 hinfällig, Notiz im chatbot-hardening-plan.
+- 2026-09-16 — Phase 9 erledigt: PR #111 gemerged (`7d093ee`, 09:01 UTC), Produktion geprüft (Redirects, Menü, Checker, Sitemap, llms.txt). Phase 10 begonnen; Rest hängt an Phase 8.
 - 2026-09-16 — Phase 9 Prüfung bestanden (Lint, tsc, Build, test:libs, manuelle Endprüfung am Produktions-Build); Nebenbefund im Checker behoben; PR #111 eröffnet.
 - 2026-09-16 — Phase 7 erledigt: Wortlaut freigegeben, Offline-Prüfung (Regelabdeckung der neun Testfragen, alle Links aufgelöst) bestanden, an Phase 8 übergeben.
 - 2026-09-16 — Phase 7 Entwurf: vollständiger neuer Prompt in `security/n8n-workflow-hardening.md` §1 (Stand-Hinweis «DRAFT, not yet deployed»), fünf Kontrollfragen mit erwarteten Antworten in §5. Satz zur Testphase weggelassen (Entscheid Auftraggeber).
