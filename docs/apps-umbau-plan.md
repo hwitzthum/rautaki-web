@@ -31,7 +31,7 @@ Status-Werte: `offen` · `in Arbeit` · `erledigt` · `blockiert` (Grund in der 
 | 7 | Neuer Chatbot-Prompt für n8n (vollständig, freigegeben) | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab`; Freigabe Auftraggeber | Block in `security/n8n-workflow-hardening.md` §1, Status dort «DRAFT» bis Phase 8 ihn einspielt |
 | 8 | Ausserhalb des Repositories (Auftraggeber) | erledigt | 2026-09-16 | n8n, Vercel, apps.rautaki.ch: Claude; Netlify, Umami: Auftraggeber | Prompt eingespielt und geprüft (10/10, Schweizer Schreibweise nachgezogen); apps.rautaki.ch öffentlich; Vercel-Variable weg; n8n Lab-Registrierung und Lab Nurture deaktiviert; Netlify und Umami gelöscht |
 | 9 | Prüfung und Veröffentlichung | erledigt | 2026-09-16 | Claude; Merge-Freigabe Auftraggeber | PR #111 gemerged (`7d093ee`), Vercel-Produktion grün, Livegang 2026-09-16 11:01 Uhr |
-| 10 | Kontrolle nach dem Livegang | in Arbeit | 2026-09-16 | Claude | www-Seite geprüft; offen: apps.rautaki.ch ohne Zugangscode, Chatbot (beides nach Phase 8) |
+| 10 | Kontrolle nach dem Livegang | erledigt | 2026-09-16 | Claude | www und apps.rautaki.ch auf Produktion geprüft, Chatbot 10/10, Livegang in `app-schaufenster` eingetragen und gepusht (`82ae83e`) |
 | B0 | Entscheide des Auftraggebers zu den Vorlagen | erledigt | 2026-09-16 | Auftraggeber | alle fünf gemäss Empfehlung; decisions.md + Brief in app-schaufenster |
 | B1 | Gemeinsame Vorbereitung im Kern (Knopf-Baustein, `ersetzeGenau`) | erledigt | 2026-09-16 | Claude, Aufgabe 154 | `src/kern/vorlage/download.tsx`, `download-texte.ts`, `ersetze-genau.ts`; Muster im Brief `vorlage-weitere-apps.md` |
 | B2 | Vorlage Entwurf-Check | in Arbeit | 2026-09-16 | Claude, Aufgaben 155 (A), 160 (B) | Bau fertig (Vorlage, ZIP-Datei, Knopf, Texte und Titel freigegeben); offen nur die Prüfung in Claude durch den Auftraggeber (Aufgabe 162 in app-schaufenster) |
@@ -41,7 +41,7 @@ Status-Werte: `offen` · `in Arbeit` · `erledigt` · `blockiert` (Grund in der 
 | B6 | Vorlage KI-Potenzial-Radar | in Arbeit | 2026-09-16 | Claude, Aufgaben 159 (A), 165 (B) | Bau fertig; offen nur die Prüfung in Claude für einen Organisationstyp (Aufgabe 162) |
 | B7 | Abschluss: Profil, Chatbot-Prompt, Auswertung | in Arbeit | 2026-09-16 | Claude, Aufgaben 167, 169 | Profil, llms.txt/llms-full.txt und Prompt-Nachtrag (freigegeben 2026-09-16) erledigt und in PR #111 committet; Einspielen = Phase 8; Auswertung = Aufgabe 168 (Datum offen bis Livegang) |
 
-**Gesamtstand:** 12 von 19 Phasen erledigt (Teil A: 10 von 11 · Teil B: 2 von 8; B2–B7 gebaut, offen nur Prüfung in
+**Gesamtstand:** 13 von 19 Phasen erledigt (Teil A: 11 von 11 — abgeschlossen · Teil B: 2 von 8; B2–B7 gebaut, offen nur Prüfung in
 Claude, Einspielen des Prompts und Auswertung). Livegang Teil A: 2026-09-16 (PR #111, `7d093ee`). Vorlagen gebaut: 6 von 6 Apps mit
 Knopf «Vorlage herunterladen»; online sind sie erst mit der Veröffentlichung von apps.rautaki.ch (Phase 8).
 
@@ -229,11 +229,11 @@ Diese Punkte kann Claude nicht ausführen; sie brauchen Konten und Zugänge.
 ### Phase 10 — Kontrolle nach dem Livegang
 
 - [x] www.rautaki.ch: Menü und Fusszeile zeigen «Apps», Klick landet auf apps.rautaki.ch — ohne Zugangscode direkt im App-Raster (Phase 8 wirksam) — geprüft 2026-09-16: je 3 Apps-Anker auf `/` und `/en`, kein Lab-Anker; apps.rautaki.ch antwortet seit 11:10 Uhr mit 200 und dem Raster aller sechs Apps
-- [ ] apps.rautaki.ch: Wortmarke führt zurück auf www.rautaki.ch (Profil §4.6)
+- [x] apps.rautaki.ch: Wortmarke führt zurück auf www.rautaki.ch (Profil §4.6) — geprüft 2026-09-16 auf Produktion: Link auf https://www.rautaki.ch im Kopf vorhanden
 - [x] `https://www.rautaki.ch/lab` und `/en/lab` leiten weiter; Checker erreichbar — geprüft 2026-09-16 auf Produktion: vier 308 nach apps.rautaki.ch, Checker 200 (Logo → `/`), `/api/lab-access` 404, Sitemap und llms.txt ohne alte Lab-Links
 - [x] Chatbot auf www.rautaki.ch beantwortet die fünf Kontrollfragen aus Phase 7 wie erwartet (Phasen 7 und 8 wirksam) — 2026-09-16, alle zehn §5-Fragen (Antworten im Protokoll der Session; Erwartungen in §5 des Hardening-Dokuments)
 - [x] Datum des Livegangs hier eintragen und im Projekt `app-schaufenster` melden (Handoff: Pilot-Auswertung 30 Tage danach) — Livegang www.rautaki.ch 2026-09-16 11:01 Uhr, apps.rautaki.ch öffentlich 2026-09-16 11:10 Uhr; in `app-schaufenster` eingetragen (decisions.md, handoff.md, Aufgabe 168: Auswertung ab 2026-10-16)
-- Status: offen
+- Status: erledigt (2026-09-16)
 
 ## 5. Risiken und offene Punkte
 
@@ -464,6 +464,7 @@ Geänderte mit, vorher `git status` lesen.
 - 2026-09-16 — Phase 5 erledigt: Sitemap ohne `/lab` und die zwei Werkzeuge; `llms.txt`/`llms-full.txt` mit Abschnitt «Apps» (sechs Apps aus `verzeichnis.ts`, Checker als Einzelwerkzeug). Diese App-Texte sind dieselbe Quelle, die Phase 7 für den Chatbot-Prompt braucht.
 - 2026-09-16 — Entscheid nachgetragen: apps.rautaki.ch geht mit dem Umbau live (Zugangscode weg, `noindex` aufheben) und ist über www.rautaki.ch erreichbar. Neuer Punkt in Phase 8, Folgehinweise in Phase 7, Phase 10 und §5.
 - 2026-09-16 — Phase 6 erledigt: README (Seiten-/API-Tabelle, CSP-Hinweis), geo-roadmap P6 hinfällig, Notiz im chatbot-hardening-plan.
+- 2026-09-16 — Teil A abgeschlossen: Phase 10 erledigt (Wortmarke apps.rautaki.ch → www geprüft; `app-schaufenster` Commit `82ae83e` gepusht, Vercel dort grün, Site weiterhin öffentlich). Toter Code `/api/nurture-send` entfernt (PR #116).
 - 2026-09-16 — Phase 8 abgeschlossen: Netlify und Umami Cloud vom Auftraggeber gelöscht. Toter Code entfernt: `/api/nurture-send` und `nurture-templates.ts` (einziger Aufrufer war der deaktivierte Nurture-Workflow).
 - 2026-09-16 — Phase 8, Punkte Vercel und n8n erledigt (11:29–11:34 Uhr): `N8N_LAB_WEBHOOK_URL` entfernt; «Lab-Registrierung → Salesflare» und «Lab Nurture (Tag 2/6/12)» deaktiviert (Nurture war im Plan nicht aufgeführt; Entscheid: sofort statt auslaufen lassen). Offen in Phase 8: Netlify, Umami. Nebenbefund: `/api/nurture-send` ohne Aufrufer.
 - 2026-09-16 — Phase 8, Punkt apps.rautaki.ch erledigt (11:10 Uhr): `ACCESS_CODE` in Vercel entfernt, neu ausgerollt, Site öffentlich ohne `noindex`. Prompt-Nachtrag 11:14 Uhr: Regel «Schweizer Schreibweise, ss statt ß» in den LANGUAGE RULES (erster Livelauf antwortete mit «Außerdem»); Version `e408e377…`, byte-gleich rückgelesen, Fragen 5 und 6 ohne ß. Zeitangaben in diesem Dokument ab jetzt in Europe/Zurich (bisherige UTC-Angaben umgerechnet).
