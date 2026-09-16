@@ -175,7 +175,7 @@ Zielanfragen (Empfehlung) → beste Seite:
   - DE: «KI-Strategie für Schweizer NPOs & Verwaltungsräte | Rautaki» (59) · «KI-Strategieberatung für Verwaltungsräte und Geschäftsleitungen in der Schweiz, mit Schwerpunkt NPO: von der Standortbestimmung bis zur Umsetzung.» (146)
   - EN: «AI Strategy for Swiss Non-Profits and Boards | Rautaki» (54) · «AI strategy consulting for boards and senior management in Switzerland, with a focus on non-profits: from assessing where you stand to implementation.» (150)
   - Vorher: «Rautaki — KI-Strategie für Entscheider» (38) · «Rautaki begleitet Unternehmen …» — der alte Text lebt noch in `common.graph.orgDescription` (Organization-Schema) und im `/wissen`-Title → P9.2
-- [ ] P9.2 Positionierung konsistent nachziehen: Organization-Schema `description`, llms.txt, Wikidata-Beschreibung, LinkedIn — alle Flächen gleichzeitig (Regionsbehauptung nur CH) — Stand 2026-09-16: Website-Flächen live, LinkedIn offen.
+- [ ] P9.2 Positionierung konsistent nachziehen: Organization-Schema `description`, llms.txt, Wikidata-Beschreibung, LinkedIn — alle Flächen gleichzeitig (Regionsbehauptung nur CH) — Stand 2026-09-16: Website-Flächen umgesetzt (PR #123), LinkedIn offen.
   - Kernsatz (freigegeben 2026-09-16, Zielgruppe ohne KMU): «Rautaki ist eine Schweizer KI-Strategieberatung für Verwaltungsräte und Geschäftsleitungen, mit Schwerpunkt NPO, Sozialwesen und öffentlicher Sektor — von der Standortbestimmung bis zur Umsetzung.» / «Rautaki is a Swiss AI strategy consultancy for boards and senior management, with a focus on non-profits, the social sector and the public sector — from assessing where you stand to implementation.»
   - ✓ Website (de + en): Organization-Schema `description`, llms.txt (Summary, English-Absatz, Home-Link), llms-full.txt (Summaries), FAQ «Was macht Rautaki?» und «Für wen …» (KMU gestrichen), `/wissen` Title + Description, `/services` Description, RSS-Feed-Description, About-CTA «Ihr Unternehmen» → «Ihre Organisation»; `lastModified.services` → 2026-09-16
   - ✓ Wikidata: entfällt — Items gelöscht (siehe P4/R6); toter Link aus `sameAs`, llms.txt und llms-full.txt entfernt
@@ -211,7 +211,7 @@ Die erledigten Massnahmen aus P1–P7 und «Erledigt» erneut prüfen, damit Zyk
 - [ ] R3 (P1/P2) `llms.txt` («## Wissen», «## English») und `llms-full.txt` enthalten alle Artikel und Apps-Links, keine `/lab`-Reste
 - [ ] R4 (P2) `/wissen` + `/en/wissen`: BlogPosting-Schema im Rich Results Test valide, `/feed.xml` gültig, `dateModified` korrekt
 - [ ] R5 (P3) Offene P3-Items mit Audit-Befund neu priorisieren und Reihenfolge hier festhalten
-- [x] R6 (P4) Wikidata Q140457396 + Q140500710: Claims und Referenzen unverändert vorhanden; Beschreibung mit P9.2 abgleichen — 2026-09-16: ✗ Regression — beide Items am 2026-07-11 gelöscht (Notability); toter Link entfernt (P9.2) → Folge-Item in P3
+- [x] R6 (P4) Wikidata Q140457396 + Q140500710: Claims und Referenzen unverändert vorhanden; Beschreibung mit P9.2 abgleichen — 2026-09-16: ✗ Regression — beide Items am 2026-07-11 gelöscht (Notability); toter Link entfernt (P9.2, PR #123) → Folge-Item in P3
 - [ ] R7 (P5) GBP: prüfen, ob Google inzwischen eine öffentliche Place-Seite anbietet; `share.google`-Link in `src/lib/authority.ts` funktioniert
 - [ ] R8 (P6) Chatbot (Workflow `lIPMcSi2yljEbfPJ`): DE/EN-Antworten, `/en`-Links, Wissen-Artikel und Apps statt Lab im System-Prompt — E2E-Test auf beiden Sprachen
 - [ ] R9 (P7) `/api/geo-stats` liefert Counter für 2026-08 und 2026-09; Proxy-Tracking aktiv
