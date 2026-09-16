@@ -23,7 +23,7 @@ Konventionen:
 | P6 | Aufgeschoben aus P1 | 1 | 2/2 | abgeschlossen | 2026-09-16 |
 | P7 | GEO-Messung | 1 | 5/5 | abgeschlossen | 2026-07-11 |
 | P8 | Indexierung der Kernseiten | 2 | 2/4 | in Arbeit — Priorität 1 | 2026-09-16 |
-| P9 | Nicht-Marken-Suchen & Snippets | 2 | 3/6 | in Arbeit — Priorität 3 | 2026-09-16 |
+| P9 | Nicht-Marken-Suchen & Snippets | 2 | 4/6 | in Arbeit — Priorität 3 | 2026-09-16 |
 | P10 | Performance & Technik | 2 | 0/6 | offen | 2026-09-16 |
 | P11 | Externe Sichtbarkeitsmessung | 2 | 0/4 | offen | 2026-09-16 |
 | R | Re-Verifikation Zyklus 1 | 2 | 1/12 | in Arbeit | 2026-09-16 |
@@ -190,10 +190,10 @@ Zielanfragen (Empfehlung) → beste Seite:
   - Gemessen gegen den neuen Title (P9.1) + H1 «Strategie im KI-Zeitalter mit Wirkung», Fliesstext in `<main>` ohne Überschriften, DE: «KI-Strategie» 0 → 3, «Schweizer» 0 → 1, «Schweiz» → 4, «Verwaltungsr…» → 3, «KI-Zeitalter» 0 → 1 (347 Wörter; kein Begriff > 4×). EN analog («AI strategy» 3, «AI era» 1, «Swiss» 1).
   - Geänderte Stellen (de + en, `src/content/{de,en}/home.ts`): Hero-Intro, Problem-Abschnitt, «Zuhause, wo Wirkung zählt», Schluss-CTA. Layout unverändert; mobil (390 px) ohne horizontales Scrollen geprüft.
   - Folgeprüfung mit P11.2: Seobility-Check der Startseite wiederholen.
-- [ ] P9.5 Neuer Wissen-Artikel «KI-Tools und Datenschutz (nDSG) in Vereinen und Stiftungen» de + en; llms.txt «## Wissen» und Chatbot-Prompt nachführen — Stand 2026-09-16: Artikel de + en und llms.txt umgesetzt (PR #126), Chatbot-Prompt offen.
+- [x] P9.5 Neuer Wissen-Artikel «KI-Tools und Datenschutz (nDSG) in Vereinen und Stiftungen» de + en; llms.txt «## Wissen» und Chatbot-Prompt nachführen — 2026-09-16: Artikel de + en und llms.txt (PR #126), Chatbot-Prompt nachgeführt.
   - Umfang freigegeben: Praxisleitfaden (8 Abschnitte, Checkliste mit 7 Punkten), Slug `ki-tools-datenschutz-vereine-stiftungen`. Quellenreport: `docs/research/ki-datenschutz-ndsg-quellen.md` (DSG/DSV-Wortlaut, EDÖB, DPF-Register, Anbieterseiten; Stand 16.09.2026).
   - Befristete Angaben (vor Aktualisierung neu prüfen): DPF-Register (Microsoft/Google gelistet, OpenAI nicht), Anbieterbedingungen ChatGPT/Copilot/Gemini, Status Vernehmlassung KI-Konvention (am 16.09.2026 nicht eröffnet, angekündigt bis Ende 2026 → Artikel dann aktualisieren).
-  - offen: Chatbot-Prompt (Workflow `lIPMcSi2yljEbfPJ`) um den Artikel ergänzen — zusammen mit R8-Befunden (alter VR-Artikeltitel, «vier Fachartikel», KMU in der Zielgruppe).
+  - ✓ Chatbot-Prompt (Workflow `lIPMcSi2yljEbfPJ`, publiziert 2026-09-16): Artikel 5 mit Kernaussagen, dazu R8-Befunde behoben (VR-Artikeltitel, «fünf Fachartikel», Zielgruppe ohne KMU); live DE/EN getestet. Anschliessend Link-Fix und Prompt-Präzisierung → R8.
 - [ ] P9.6 Monatlich GSC-Queries auf neue Nicht-Marken-Anfragen prüfen und der Tabelle oben zuordnen (erste Prüfung 2026-10-16)
 
 ## P10 — Performance & Technik
@@ -223,7 +223,9 @@ Die erledigten Massnahmen aus P1–P7 und «Erledigt» erneut prüfen, damit Zyk
 - [ ] R5 (P3) Offene P3-Items mit Audit-Befund neu priorisieren und Reihenfolge hier festhalten
 - [x] R6 (P4) Wikidata Q140457396 + Q140500710: Claims und Referenzen unverändert vorhanden; Beschreibung mit P9.2 abgleichen — 2026-09-16: ✗ Regression — beide Items am 2026-07-11 gelöscht (Notability); toter Link entfernt (P9.2, PR #123) → Folge-Item in P3
 - [ ] R7 (P5) GBP: prüfen, ob Google inzwischen eine öffentliche Place-Seite anbietet; `share.google`-Link in `src/lib/authority.ts` funktioniert
-- [ ] R8 (P6) Chatbot (Workflow `lIPMcSi2yljEbfPJ`): DE/EN-Antworten, `/en`-Links, Wissen-Artikel und Apps statt Lab im System-Prompt — E2E-Test auf beiden Sprachen
+- [ ] R8 (P6) Chatbot (Workflow `lIPMcSi2yljEbfPJ`): DE/EN-Antworten, `/en`-Links, Wissen-Artikel und Apps statt Lab im System-Prompt — E2E-Test auf beiden Sprachen — Stand 2026-09-16: ✗ Regression gefunden, Fix in Arbeit; abhaken nach Live-Nachtest.
+  - Befund (9 Live-Fragen über `/api/chat`): Inhalte und Apps korrekt; **englische Antworten verlinken deutsche Seiten** (`/wissen/…`, `/booking` statt `/en/…`) — auch beim unveränderten EU-AI-Act-Artikel, also vorbestehend (P6 war im Juli so verifiziert). Zudem vereinzelt eigene Rechtsurteile («meist nicht zulässig», «not compliant»), ein Link als `[/wissen/…]` ohne URL, Angebot «per E-Mail senden».
+  - Fix: Proxy schreibt interne Links für `locale=en` deterministisch auf `/en/…` um und repariert `[/pfad]` (`src/lib/chat-output-filter.ts`, Tests in `security/test-libs.mjs`); Prompt präzisiert (englische Artikeltitel, keine eigenen Zulässigkeitsurteile, keine E-Mail-/Buchungsangebote, Links immer als Markdown).
 - [ ] R9 (P7) `/api/geo-stats` liefert Counter für 2026-08 und 2026-09; Proxy-Tracking aktiv
 - [ ] R10 (P7) GEO-Probe-Läufe vom 1.8. und 1.9.2026 in `geo_probes` vorhanden, Digest angekommen, alle vier Engines antworten
 - [ ] R11 (Erledigt 2026-07-18) robots.txt sperrt nur `/api/` und `/maintenance`; GSC «Blocked by robots.txt» zeigt genau diese Pfade

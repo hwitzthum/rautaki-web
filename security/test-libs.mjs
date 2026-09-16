@@ -273,6 +273,57 @@ test("keeps images from allowlisted hosts", () => {
   assert.equal(out2, "", "n8n.cloud images should be stripped (not in allowlist)");
 });
 
+test("keeps internal links unchanged for German pages", () => {
+  const md = "[Artikel](/wissen/ki-tools-datenschutz-vereine-stiftungen) · [Erstgespräch](/booking)";
+  assert.equal(filterBotText(md), md);
+  assert.equal(filterBotText(md, "de"), md);
+});
+
+test("prefixes internal section links with /en for English pages", () => {
+  assert.equal(
+    filterBotText("[article](/wissen/ki-strategie-verwaltungsrat) and [book](/booking)", "en"),
+    "[article](/en/wissen/ki-strategie-verwaltungsrat) and [book](/en/booking)",
+  );
+  assert.equal(filterBotText("[prices](/services#preise)", "en"), "[prices](/en/services#preise)");
+  assert.equal(filterBotText("[home](/)", "en"), "[home](/en)");
+  assert.equal(
+    filterBotText("[x](https://www.rautaki.ch/vorgehen)", "en"),
+    "[x](https://www.rautaki.ch/en/vorgehen)",
+  );
+});
+
+test("leaves /en, German-only and external links alone on English pages", () => {
+  for (const md of [
+    "[a](/en/wissen/eu-ai-act-schweizer-npos)",
+    "[checker](/lab/eu-ai-act-check.html)",
+    "[pdf](/downloads/rautaki-ki-beratung-booklet.pdf)",
+    "[apps](https://apps.rautaki.ch/en/ki-radar)",
+    "[mail](mailto:hello@rautaki.ch)",
+    "[w](/wissenschaft)",
+  ]) {
+    assert.equal(filterBotText(md, "en"), md);
+  }
+});
+
+test("turns a bare bracketed internal path into a link", () => {
+  assert.equal(
+    filterBotText("Artikel: [/wissen/ki-tools-datenschutz-vereine-stiftungen]"),
+    "Artikel: [/wissen/ki-tools-datenschutz-vereine-stiftungen](/wissen/ki-tools-datenschutz-vereine-stiftungen)",
+  );
+  assert.equal(
+    filterBotText("see [/booking]", "en"),
+    "see [/booking](/en/booking)",
+  );
+  // Not an internal section path, or already a link: untouched.
+  assert.equal(filterBotText("[optional] note"), "[optional] note");
+  assert.equal(filterBotText("[/booking](/booking)"), "[/booking](/booking)");
+});
+
+test("localising does not re-enable dangerous URLs", () => {
+  const out = filterBotText("[x](javascript:alert(1))", "en");
+  assert.ok(out.includes("about:blank"), `got: ${out}`);
+});
+
 test("filterChatResponse works on {output} envelope", () => {
   const r = filterChatResponse({ output: "hi <script>bad</script>" });
   assert.deepEqual(r, { output: "hi bad" });
