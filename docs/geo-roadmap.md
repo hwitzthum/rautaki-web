@@ -23,7 +23,7 @@ Konventionen:
 | P6 | Aufgeschoben aus P1 | 1 | 2/2 | abgeschlossen | 2026-09-16 |
 | P7 | GEO-Messung | 1 | 5/5 | abgeschlossen | 2026-07-11 |
 | P8 | Indexierung der Kernseiten | 2 | 2/4 | in Arbeit — Priorität 1 | 2026-09-16 |
-| P9 | Nicht-Marken-Suchen & Snippets | 2 | 1/6 | in Arbeit — Priorität 3 | 2026-09-16 |
+| P9 | Nicht-Marken-Suchen & Snippets | 2 | 2/6 | in Arbeit — Priorität 3 | 2026-09-16 |
 | P10 | Performance & Technik | 2 | 0/6 | offen | 2026-09-16 |
 | P11 | Externe Sichtbarkeitsmessung | 2 | 0/4 | offen | 2026-09-16 |
 | R | Re-Verifikation Zyklus 1 | 2 | 1/12 | in Arbeit | 2026-09-16 |
@@ -181,7 +181,11 @@ Zielanfragen (Empfehlung) → beste Seite:
   - ✓ Wikidata: entfällt — Items gelöscht (siehe P4/R6); toter Link aus `sameAs`, llms.txt und llms-full.txt entfernt
   - offen: LinkedIn (persönliches Profil): Headline + Info nach Entwurf aktualisieren (Owner)
   - Bewusst unverändert: Apps-Beschreibungen (Zielgruppe der Apps inkl. Schulen und KMU) und Artikel «Der Weg zu wirksamer KI» (nennt KMU im publizierten Text); n8n-Chatbot-Prompt nicht geprüft
-- [ ] P9.3 VR-Artikel: Title/Description auf «KI-Kompetenz im Verwaltungsrat» ausrichten (CTR-Hebel)
+- [x] P9.3 VR-Artikel: Title/Description auf «KI-Kompetenz im Verwaltungsrat» ausrichten (CTR-Hebel) (PR #124, 2026-09-16, Umfang «Title + Abschnitt» freigegeben)
+  - GSC vorher (3 Monate bis 13.09.2026): 56 Impr., 1 Klick, Ø Pos. 16.4; «verwaltungsrat ki kompetenz» 21 Impr., 0 Klicks, Ø Pos. **22.6** (Seite 3) — bei dieser Position wirkt der Title vor allem auf Relevanz, kaum auf CTR.
+  - Inhaltslücke geschlossen: Artikel behandelte nur die KI-Kompetenz von GL/Mitarbeitenden (Frage 5), nicht die des Gremiums selbst → neuer Abschnitt «Welche KI-Kompetenz braucht der Verwaltungsrat selbst?» (de + en, ohne neue Zahlen/Quellen); `dateModified` → 2026-09-16.
+  - DE: «KI-Kompetenz im Verwaltungsrat: sieben Fragen, die zählen» · Eyebrow «Welche KI-Kompetenz braucht ein Verwaltungsrat?»; EN: «AI literacy in the boardroom: seven questions that matter». Slug unverändert. llms.txt «## Wissen» nachgeführt (Feed, llms-full, Sitemap automatisch).
+  - Folgemessung ab 2026-10-16 (mit P9.6): Position und Klicks für «verwaltungsrat ki kompetenz».
 - [ ] P9.4 Startseite: Begriffe aus Title und H1 im Fliesstext aufgreifen (Seobility-Warnungen)
 - [ ] P9.5 Neuer Wissen-Artikel «KI-Tools und Datenschutz (nDSG) in Vereinen und Stiftungen» de + en; llms.txt «## Wissen» und Chatbot-Prompt nachführen
 - [ ] P9.6 Monatlich GSC-Queries auf neue Nicht-Marken-Anfragen prüfen und der Tabelle oben zuordnen (erste Prüfung 2026-10-16)

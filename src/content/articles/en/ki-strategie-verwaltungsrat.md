@@ -1,9 +1,9 @@
 ---
-title: "AI strategy in the boardroom: the questions that matter"
-description: "AI belongs to the board's overall direction, and thus on its agenda. A board need not understand the technology — it must ask the right questions."
-question: "Which AI questions should a board of directors ask?"
+title: "AI literacy in the boardroom: seven questions that matter"
+description: "What AI literacy does a board need? Not technical expertise, but the right questions for management: seven questions for boards and foundation boards."
+question: "What AI literacy does a board of directors need?"
 datePublished: "2026-07-11"
-dateModified: "2026-08-21"
+dateModified: "2026-09-16"
 tags: [Board of Directors, AI Strategy, Governance]
 ---
 
@@ -23,6 +23,14 @@ The board of directors of a public limited company has a handful of duties it ca
 For nonprofits, the same logic applies through a different legal basis. By settled practice, the foundation board holds the overall direction of the foundation and is subject to a statutory duty of care, loyalty and oversight; the association board conducts the association's affairs and represents it ([Art. 69 ZGB](https://www.fedlex.admin.ch/eli/cc/24/233_245_233/de#art_69), Swiss Civil Code). Delegating a task never releases a supervisory body from the duty of careful selection, instruction and monitoring — and that holds for an outsourced AI service just as much as for any other management function.
 
 That a real gap yawns here is borne out by the figures. The [swissVR Monitor II/2024](https://www.deloitte.com/ch/de/about/press-room/boards-of-directors-are-aware-of-the-importance-and-risks-of-ai.html) (Deloitte, HSLU, n=391) records that 70% of Swiss boards of directors have engaged with generative AI, yet only 17% have all AI outputs reviewed by a human, and roughly three in four receive scarcely any or no regular reporting on AI use. The greatest perceived risk is flawed AI results (60%). The attention, then, is there — the oversight is not yet.
+
+## What AI literacy does the board itself need?
+
+A board of directors need not be able to build, run or technically assess AI. Its AI literacy is a matter of judgement: recognising where AI touches strategy, the risk profile or legal compliance, telling robust answers from vague ones in what executive management presents, and knowing when an independent assessment is needed. It is the same role the board plays on finance or law — there too it scrutinises without being the auditor or the law firm itself.
+
+In practice this means three things. First, a basic understanding of what today's AI systems can do and where they typically fail — for instance with plausible-sounding but wrong results, the very risk Swiss boards of directors themselves rate highest according to the swissVR Monitor. Second, the ability to measure AI initiatives against value creation, risk and cost rather than technical enthusiasm. Third, the willingness to organise its own competence as a body: putting AI on the agenda regularly, pursuing targeted training and, when composing the board, making sure at least one member can assess AI questions soundly. The same applies to foundation boards and association boards.
+
+The seven questions below put this judgement into practice: they translate the duty of oversight into questions a board can ask without technical expertise — and whose answers it can scrutinise.
 
 ## The seven questions
 
