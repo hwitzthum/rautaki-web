@@ -83,6 +83,7 @@ export const common = {
     inputPlaceholder:
       "Fragen zu KI-Strategie, Leistungen oder nächsten Schritten...",
     closeButtonTooltip: "Chat schliessen",
+    openButtonLabel: "Chat öffnen",
   },
   consent: {
     dialogAria: "Cookie-Einstellungen",
