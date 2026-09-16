@@ -170,7 +170,7 @@ Zielanfragen (Empfehlung) → beste Seite:
 | Wie KI-bereit ist unsere Organisation? | `/wissen/ki-reifegrad-schweizer-npos` | Themen-Fit |
 | KI-Tools und Datenschutz (nDSG) in Verein/Stiftung | neue Seite (P9.5) | keine passende Seite |
 
-- [x] P9.1 Startseite: Title (50–60 Zeichen) und Meta-Description auf NPO · Verwaltungsrat · Schweiz schärfen, de + en (Entwurf zur Freigabe vor Umsetzung) (2026-09-16, Variante A freigegeben). Title/Description wirken auf `<title>`, `description`, `og:*` und `twitter:*` der Startseite; `lastModified.home` auf 2026-09-16.
+- [x] P9.1 Startseite: Title (50–60 Zeichen) und Meta-Description auf NPO · Verwaltungsrat · Schweiz schärfen, de + en (Entwurf zur Freigabe vor Umsetzung) (PR #122, 2026-09-16, Variante A freigegeben). Title/Description wirken auf `<title>`, `description`, `og:*` und `twitter:*` der Startseite; `lastModified.home` auf 2026-09-16.
   - DE: «KI-Strategie für Schweizer NPOs & Verwaltungsräte | Rautaki» (59) · «KI-Strategieberatung für Verwaltungsräte und Geschäftsleitungen in der Schweiz, mit Schwerpunkt NPO: von der Standortbestimmung bis zur Umsetzung.» (146)
   - EN: «AI Strategy for Swiss Non-Profits and Boards | Rautaki» (54) · «AI strategy consulting for boards and senior management in Switzerland, with a focus on non-profits: from assessing where you stand to implementation.» (150)
   - Vorher: «Rautaki — KI-Strategie für Entscheider» (38) · «Rautaki begleitet Unternehmen …» — der alte Text lebt noch in `common.graph.orgDescription` (Organization-Schema) und im `/wissen`-Title → P9.2
