@@ -17,7 +17,7 @@ Status-Werte: `offen` · `in Arbeit` · `erledigt` · `blockiert` (Grund in der 
 | 0 | Entscheide und Plan | erledigt | 2026-09-16 | Auftraggeber + Claude | dieses Dokument |
 | 1 | Menü und Fusszeile: «Lab» → «Apps» | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | zusätzlich `localePath` in `src/lib/i18n.ts`: absolute URLs bleiben ohne `/en`-Präfix |
 | 2 | Lab-Seiten und E-Mail-Schranke abbauen | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | `/lab`, `/en/lab` liefern bis Phase 4 ein 404 |
-| 3 | HTML-Werkzeuge archivieren | offen | | | |
+| 3 | HTML-Werkzeuge archivieren | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | `archiv/lab/`, Vendor-Pfade dort relativ; `archiv/**` in ESLint-Ignores |
 | 4 | Weiterleitungen alter Lab-Adressen | offen | | | |
 | 5 | Sitemap, llms.txt, Schemas nachführen | offen | | | |
 | 6 | Dokumentation im Repository | offen | | | |
@@ -26,7 +26,7 @@ Status-Werte: `offen` · `in Arbeit` · `erledigt` · `blockiert` (Grund in der 
 | 9 | Prüfung und Veröffentlichung | offen | | | |
 | 10 | Kontrolle nach dem Livegang | offen | | | |
 
-**Gesamtstand:** 3 von 11 Phasen erledigt. Livegang: noch nicht erfolgt.
+**Gesamtstand:** 4 von 11 Phasen erledigt. Livegang: noch nicht erfolgt.
 
 ---
 
@@ -105,11 +105,11 @@ Alles, was der Umbau berührt. Dient als Checkliste, dass nichts vergessen geht.
 
 ### Phase 3 — HTML-Werkzeuge archivieren
 
-- [ ] Ordner `archiv/lab/` anlegen mit kurzer `README.md`: was hier liegt, warum, seit wann, wie man es lokal öffnet
-- [ ] `ki-governance-policy.html`, `multi-assistant-gpt.html` und `vendor/` (html-docx.js + fonts) nach `archiv/lab/` verschieben; `public/lab/vendor/fonts/` für den Checker behalten, `public/lab/vendor/html-docx.js` entfernen
-- [ ] Beide archivierten Dateien lokal im Browser geöffnet: laufen samt Word-Export
-- [ ] Checker unter `/lab/eu-ai-act-check.html` läuft weiterhin (Schriften laden, Bericht herunterladbar)
-- Status: offen
+- [x] Ordner `archiv/lab/` anlegen mit kurzer `README.md`: was hier liegt, warum, seit wann, wie man es lokal öffnet
+- [x] `ki-governance-policy.html`, `multi-assistant-gpt.html` und `vendor/` (html-docx.js + fonts) nach `archiv/lab/` verschieben; `public/lab/vendor/fonts/` für den Checker behalten, `public/lab/vendor/html-docx.js` entfernen — in den archivierten Dateien `/lab/vendor/` → `vendor/` (relativ), sonst laufen sie nicht aus dem Dateisystem; `archiv/**` in `eslint.config.mjs` ignoriert
+- [x] Beide archivierten Dateien lokal im Browser geöffnet: laufen samt Word-Export — headless geprüft (Playwright, statisch aus `archiv/lab/` serviert): DM Sans geladen, `htmlDocx.asBlob` liefert ein Word-Blob, keine fehlenden Ressourcen
+- [x] Checker unter `/lab/eu-ai-act-check.html` läuft weiterhin (Schriften laden, Bericht herunterladbar) — Produktions-Build: Schriften geladen, `downloadReport()` erzeugt den HTML-Bericht (84 kB), keine Konsolenfehler; `/lab/ki-governance-policy.html`, `/lab/multi-assistant-gpt.html`, `/lab/vendor/html-docx.js` → 404
+- Status: erledigt (2026-09-16)
 
 ### Phase 4 — Weiterleitungen
 
@@ -218,4 +218,5 @@ Diese Punkte kann Claude nicht ausführen; sie brauchen Konten und Zugänge.
 - 2026-09-16 — Dokument angelegt; Entscheide des Auftraggebers aufgenommen (Zeitpunkt sofort, Checker bleibt, E-Mail-Kanal fällt weg, «Apps» mit Weiterleitung).
 - 2026-09-16 — Phase 1 erledigt: «Lab» → «Apps» in Menü und Fusszeile (DE/EN). Nebenbefund: `localePath()` hätte `/en` vor die absolute Adresse gesetzt; behoben in `src/lib/i18n.ts`. `npm run lint`, `tsc`, `npm run build` grün.
 - 2026-09-16 — Phase 2 erledigt: Lab-Seiten, `LabGateModal`, `/api/lab-access` und `N8N_LAB_WEBHOOK_URL` entfernt; Kommentare bereinigt (zusätzlich in `src/app/api/chat/route.ts`). Stolperstein: veraltete `.next/dev`-Typen, siehe Phase 2.
+- 2026-09-16 — Phase 3 erledigt: Generator und Multi-Assistant-Anleitung samt `html-docx.js` und Font-Kopie nach `archiv/lab/` (README dort); Vendor-Pfade im Archiv relativ gesetzt. Checker und seine Schriften bleiben unter `public/lab/`.
 - 2026-09-16 — Phase 7 «Neuer Chatbot-Prompt für n8n» eingefügt (vollständiger Prompt statt Teilkorrektur, Freigabe des Wortlauts, Kontrollfragen); bisherige Phasen 7 bis 9 sind neu 8 bis 10. Offen: Satz zur Testphase im Prompt nach Ende der Testphase streichen.
