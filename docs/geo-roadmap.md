@@ -26,7 +26,7 @@ Konventionen:
 | P9 | Nicht-Marken-Suchen & Snippets | 2 | 4/6 | in Arbeit — Priorität 3 | 2026-09-16 |
 | P10 | Performance & Technik | 2 | 0/6 | offen | 2026-09-16 |
 | P11 | Externe Sichtbarkeitsmessung | 2 | 0/4 | offen | 2026-09-16 |
-| R | Re-Verifikation Zyklus 1 | 2 | 1/12 | in Arbeit | 2026-09-16 |
+| R | Re-Verifikation Zyklus 1 | 2 | 2/12 | in Arbeit | 2026-09-16 |
 
 Zähler aus der Datei neu berechnen (Abgleich mit der Tabelle):
 
@@ -169,7 +169,8 @@ Zielanfragen (Empfehlung) → beste Seite:
 | KI-Kompetenz im Verwaltungsrat | `/wissen/ki-strategie-verwaltungsrat` | GSC: 21 Impr., 0 Klicks |
 | EU AI Act: Was gilt in der Schweiz? | `/wissen/eu-ai-act-schweizer-npos` | GSC-Query + 9 KI-Impressionen |
 | Wie KI-bereit ist unsere Organisation? | `/wissen/ki-reifegrad-schweizer-npos` | Themen-Fit |
-| KI-Tools und Datenschutz (nDSG) in Verein/Stiftung | neue Seite (P9.5) | keine passende Seite |
+| KI-Tools und Datenschutz (nDSG) in Verein/Stiftung | `/wissen/ki-tools-datenschutz-vereine-stiftungen` (P9.5) | keine passende Seite bis 2026-09-16 |
+| KI-Mentoring für Führungsteams | `/services#ki-mentoring` | GSC 2026-09-16: 1–2 Impr., Ø Pos. 55–62, rankt mit Startseite statt `/services` |
 
 - [x] P9.1 Startseite: Title (50–60 Zeichen) und Meta-Description auf NPO · Verwaltungsrat · Schweiz schärfen, de + en (Entwurf zur Freigabe vor Umsetzung) (PR #122, 2026-09-16, Variante A freigegeben). Title/Description wirken auf `<title>`, `description`, `og:*` und `twitter:*` der Startseite; `lastModified.home` auf 2026-09-16.
   - DE: «KI-Strategie für Schweizer NPOs & Verwaltungsräte | Rautaki» (59) · «KI-Strategieberatung für Verwaltungsräte und Geschäftsleitungen in der Schweiz, mit Schwerpunkt NPO: von der Standortbestimmung bis zur Umsetzung.» (146)
@@ -185,7 +186,7 @@ Zielanfragen (Empfehlung) → beste Seite:
   - GSC vorher (3 Monate bis 13.09.2026): 56 Impr., 1 Klick, Ø Pos. 16.4; «verwaltungsrat ki kompetenz» 21 Impr., 0 Klicks, Ø Pos. **22.6** (Seite 3) — bei dieser Position wirkt der Title vor allem auf Relevanz, kaum auf CTR.
   - Inhaltslücke geschlossen: Artikel behandelte nur die KI-Kompetenz von GL/Mitarbeitenden (Frage 5), nicht die des Gremiums selbst → neuer Abschnitt «Welche KI-Kompetenz braucht der Verwaltungsrat selbst?» (de + en, ohne neue Zahlen/Quellen); `dateModified` → 2026-09-16.
   - DE: «KI-Kompetenz im Verwaltungsrat: sieben Fragen, die zählen» · Eyebrow «Welche KI-Kompetenz braucht ein Verwaltungsrat?»; EN: «AI literacy in the boardroom: seven questions that matter». Slug unverändert. llms.txt «## Wissen» nachgeführt (Feed, llms-full, Sitemap automatisch).
-  - Folgemessung ab 2026-10-16 (mit P9.6): Position und Klicks für «verwaltungsrat ki kompetenz».
+  - Folgemessung mit P9.6 (GEO-Digest ab 2026-10-01): Position und Klicks für «verwaltungsrat ki kompetenz».
 - [x] P9.4 Startseite: Begriffe aus Title und H1 im Fliesstext aufgreifen (Seobility-Warnungen) (PR #125, 2026-09-16, Variante «4 Stellen» freigegeben)
   - Gemessen gegen den neuen Title (P9.1) + H1 «Strategie im KI-Zeitalter mit Wirkung», Fliesstext in `<main>` ohne Überschriften, DE: «KI-Strategie» 0 → 3, «Schweizer» 0 → 1, «Schweiz» → 4, «Verwaltungsr…» → 3, «KI-Zeitalter» 0 → 1 (347 Wörter; kein Begriff > 4×). EN analog («AI strategy» 3, «AI era» 1, «Swiss» 1).
   - Geänderte Stellen (de + en, `src/content/{de,en}/home.ts`): Hero-Intro, Problem-Abschnitt, «Zuhause, wo Wirkung zählt», Schluss-CTA. Layout unverändert; mobil (390 px) ohne horizontales Scrollen geprüft.
@@ -194,7 +195,11 @@ Zielanfragen (Empfehlung) → beste Seite:
   - Umfang freigegeben: Praxisleitfaden (8 Abschnitte, Checkliste mit 7 Punkten), Slug `ki-tools-datenschutz-vereine-stiftungen`. Quellenreport: `docs/research/ki-datenschutz-ndsg-quellen.md` (DSG/DSV-Wortlaut, EDÖB, DPF-Register, Anbieterseiten; Stand 16.09.2026).
   - Befristete Angaben (vor Aktualisierung neu prüfen): DPF-Register (Microsoft/Google gelistet, OpenAI nicht), Anbieterbedingungen ChatGPT/Copilot/Gemini, Status Vernehmlassung KI-Konvention (am 16.09.2026 nicht eröffnet, angekündigt bis Ende 2026 → Artikel dann aktualisieren).
   - ✓ Chatbot-Prompt (Workflow `lIPMcSi2yljEbfPJ`, publiziert 2026-09-16): Artikel 5 mit Kernaussagen, dazu R8-Befunde behoben (VR-Artikeltitel, «fünf Fachartikel», Zielgruppe ohne KMU); live DE/EN getestet. Anschliessend Link-Fix und Prompt-Präzisierung → R8.
-- [ ] P9.6 Monatlich GSC-Queries auf neue Nicht-Marken-Anfragen prüfen und der Tabelle oben zuordnen (erste Prüfung 2026-10-16)
+- [ ] P9.6 Monatlich GSC-Queries auf neue Nicht-Marken-Anfragen prüfen und der Tabelle oben zuordnen (erste Prüfung 2026-10-16) — Stand 2026-09-16: automatisiert im GEO-Digest; abhaken nach der ersten Übernahme in die Tabelle.
+  - Umsetzung: n8n-Workflow «Rautaki GEO-Probe (monatlich)» (`9VGsWbFuKGQYU4uV`) holt über die Search Console API (Credential «Google Search Console (readonly)», OAuth, Scope `webmasters.readonly`, Google-Cloud-Projekt `rautaki-n8n`) die Anfragen der letzten 28 Tage (Tag −30 bis −3) und der 28 Tage davor. Digest-Abschnitt «5. Nicht-Marken-Suchanfragen»: Marke (rautaki, witzthum) vs. Nicht-Marke, Top 15 mit Impressionen/Klicks/Position, «NEU» ggü. Vorperiode, automatische Zuordnung zu den Zielanfragen oben inkl. Hinweis, wenn eine andere Seite rankt. Fällt Google aus, zeigt der Digest einen Hinweis statt abzubrechen.
+  - Rhythmus: mit dem Digest am 1. des Monats, 07:00 (statt 16.). Erster Lauf 2026-10-01 (deckt ca. 3.–28.09. ab, P9.1–P9.5 nur teilweise enthalten); erster voll aussagekräftiger Lauf 2026-11-01.
+  - Pflege: Zielanfragen-Regeln stehen im Code von «Digest bauen» (`GSC_TARGETS`) — bei neuer Zeile in der Tabelle oben mitziehen.
+  - Erste Abfrage 2026-09-16: 14/14 Klicks aus Markensuchen; Nicht-Marke «verwaltungsrat ki kompetenz» (21 Impr., Pos. 22.6, rankt mit Zielseite) und «ki-mentoring für führungsteams» (rankt mit Startseite statt `/services`) → Tabelle ergänzt.
 
 ## P10 — Performance & Technik
 
@@ -223,7 +228,7 @@ Die erledigten Massnahmen aus P1–P7 und «Erledigt» erneut prüfen, damit Zyk
 - [ ] R5 (P3) Offene P3-Items mit Audit-Befund neu priorisieren und Reihenfolge hier festhalten
 - [x] R6 (P4) Wikidata Q140457396 + Q140500710: Claims und Referenzen unverändert vorhanden; Beschreibung mit P9.2 abgleichen — 2026-09-16: ✗ Regression — beide Items am 2026-07-11 gelöscht (Notability); toter Link entfernt (P9.2, PR #123) → Folge-Item in P3
 - [ ] R7 (P5) GBP: prüfen, ob Google inzwischen eine öffentliche Place-Seite anbietet; `share.google`-Link in `src/lib/authority.ts` funktioniert
-- [ ] R8 (P6) Chatbot (Workflow `lIPMcSi2yljEbfPJ`): DE/EN-Antworten, `/en`-Links, Wissen-Artikel und Apps statt Lab im System-Prompt — E2E-Test auf beiden Sprachen — Stand 2026-09-16: ✗ Regression gefunden, Fix in PR #127; abhaken nach Live-Nachtest.
+- [x] R8 (P6) Chatbot (Workflow `lIPMcSi2yljEbfPJ`): DE/EN-Antworten, `/en`-Links, Wissen-Artikel und Apps statt Lab im System-Prompt — E2E-Test auf beiden Sprachen — 2026-09-16: ✗ Regression → behoben (PR #127 + Prompt); Live-Nachtest grün: 16 Fragen DE/EN, alle zurückgegebenen Links 200, englische Titel, keine eigenen Rechtsurteile, keine E-Mail-Angebote. Dabei eigenen Folgefehler behoben: englische Titel ohne URL führten zu erfundenem Slug (`/en/wissen/ai-literacy-board` → 404) → Prompt nennt jetzt Titel mit exakter URL. Restrisiko: vereinzelt Anbieter-Aussagen über den Prompt hinaus (Copilot-Training).
   - Befund (9 Live-Fragen über `/api/chat`): Inhalte und Apps korrekt; **englische Antworten verlinken deutsche Seiten** (`/wissen/…`, `/booking` statt `/en/…`) — auch beim unveränderten EU-AI-Act-Artikel, also vorbestehend (P6 war im Juli so verifiziert). Zudem vereinzelt eigene Rechtsurteile («meist nicht zulässig», «not compliant»), ein Link als `[/wissen/…]` ohne URL, Angebot «per E-Mail senden».
   - Fix: Proxy schreibt interne Links für `locale=en` deterministisch auf `/en/…` um und repariert `[/pfad]` (`src/lib/chat-output-filter.ts`, Tests in `security/test-libs.mjs`); Prompt präzisiert (englische Artikeltitel, keine eigenen Zulässigkeitsurteile, keine E-Mail-/Buchungsangebote, Links immer als Markdown).
 - [ ] R9 (P7) `/api/geo-stats` liefert Counter für 2026-08 und 2026-09; Proxy-Tracking aktiv
