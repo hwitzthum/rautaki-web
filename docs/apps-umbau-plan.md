@@ -27,7 +27,7 @@ Status-Werte: `offen` · `in Arbeit` · `erledigt` · `blockiert` (Grund in der 
 | 3 | HTML-Werkzeuge archivieren | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | `archiv/lab/`, Vendor-Pfade dort relativ; `archiv/**` in ESLint-Ignores |
 | 4 | Weiterleitungen alter Lab-Adressen | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | `redirects()` in `next.config.ts`, 308, exakte Pfade |
 | 5 | Sitemap, llms.txt, Schemas nachführen | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | App-Texte wörtlich aus `app-schaufenster/src/apps/verzeichnis.ts`; EN-Fassung ist Übersetzung durch Claude — Wortlaut-Freigabe offen |
-| 6 | Dokumentation im Repository | offen | | | |
+| 6 | Dokumentation im Repository | erledigt | 2026-09-16 | Claude, Branch `claude/apps-statt-lab` | README, geo-roadmap P6, chatbot-hardening-plan |
 | 7 | Neuer Chatbot-Prompt für n8n (vollständig, freigegeben) | offen | | | Wortlaut braucht Freigabe des Auftraggebers |
 | 8 | Ausserhalb des Repositories (Auftraggeber) | offen | | | apps.rautaki.ch live schalten, n8n, Vercel, Netlify, Umami |
 | 9 | Prüfung und Veröffentlichung | offen | | | |
@@ -41,7 +41,7 @@ Status-Werte: `offen` · `in Arbeit` · `erledigt` · `blockiert` (Grund in der 
 | B6 | Vorlage KI-Potenzial-Radar | offen | | | Entscheid 5 (ja/nein) nötig |
 | B7 | Abschluss: Profil, Chatbot-Prompt, Auswertung | offen | | | hängt an Teil A Phase 7 |
 
-**Gesamtstand:** 7 von 19 Phasen erledigt (Teil A: 6 von 11 · Teil B: 1 von 8). Livegang Teil A: noch nicht
+**Gesamtstand:** 8 von 19 Phasen erledigt (Teil A: 7 von 11 · Teil B: 1 von 8). Livegang Teil A: noch nicht
 erfolgt. Vorlagen online: 1 von 6 Apps (Antwort-Assistent, Pilot).
 
 ---
@@ -152,10 +152,10 @@ also nur exakte Pfade, kein Muster `/lab/(.*)`.
 
 ### Phase 6 — Dokumentation im Repository
 
-- [ ] `README.md`: Seitentabelle (`/lab` raus, Checker als Einzelseite, Hinweis auf apps.rautaki.ch), API-Tabelle (`/api/lab-access` raus), CSP-Hinweis
-- [ ] `docs/geo-roadmap.md`: P6-Punkt «Lab-Tools auf Englisch» als hinfällig markieren, Verweis auf dieses Dokument
-- [ ] `security/chatbot-hardening-plan.md`: Hinweis, dass die Route lab-access entfernt wurde
-- Status: offen
+- [x] `README.md`: Seitentabelle (`/lab` raus, Checker als Einzelseite, Hinweis auf apps.rautaki.ch), API-Tabelle (`/api/lab-access` raus), CSP-Hinweis
+- [x] `docs/geo-roadmap.md`: P6-Punkt «Lab-Tools auf Englisch» als hinfällig markieren, Verweis auf dieses Dokument
+- [x] `security/chatbot-hardening-plan.md`: Hinweis, dass die Route lab-access entfernt wurde — Notiz im Kopf (§4, §6, Anhang A nennen die Route weiter; Muster leben in `api/chat` und `lib/rate-limit.ts`), Rest unverändert als historischer Stand
+- Status: erledigt (2026-09-16)
 
 ### Phase 7 — Neuer Chatbot-Prompt für n8n
 
@@ -444,6 +444,7 @@ Geänderte mit, vorher `git status` lesen.
 - 2026-09-16 — Phase 4 erledigt: vier dauerhafte Weiterleitungen (308) in `next.config.ts` auf https://apps.rautaki.ch; Checker bleibt erreichbar.
 - 2026-09-16 — Phase 5 erledigt: Sitemap ohne `/lab` und die zwei Werkzeuge; `llms.txt`/`llms-full.txt` mit Abschnitt «Apps» (sechs Apps aus `verzeichnis.ts`, Checker als Einzelwerkzeug). Diese App-Texte sind dieselbe Quelle, die Phase 7 für den Chatbot-Prompt braucht.
 - 2026-09-16 — Entscheid nachgetragen: apps.rautaki.ch geht mit dem Umbau live (Zugangscode weg, `noindex` aufheben) und ist über www.rautaki.ch erreichbar. Neuer Punkt in Phase 8, Folgehinweise in Phase 7, Phase 10 und §5.
+- 2026-09-16 — Phase 6 erledigt: README (Seiten-/API-Tabelle, CSP-Hinweis), geo-roadmap P6 hinfällig, Notiz im chatbot-hardening-plan.
 - 2026-09-16 — Phase 7 «Neuer Chatbot-Prompt für n8n» eingefügt (vollständiger Prompt statt Teilkorrektur, Freigabe des Wortlauts, Kontrollfragen); bisherige Phasen 7 bis 9 sind neu 8 bis 10. Offen: Satz zur Testphase im Prompt nach Ende der Testphase streichen.
 - 2026-09-16 — Teil B «Vorlagen für die fünf übrigen Apps» angefügt (Phasen B0–B7, Muster je App, Kosten 0 USD, keine bezahlten Läufe); Dokument in Teil A und Teil B gegliedert, Tracker um acht Zeilen erweitert.
 - 2026-09-16 — Phase B0 erledigt: alle fünf Entscheide gemäss Empfehlung; Aufgabe 154 (Phase B1) in app-schaufenster angelegt.
