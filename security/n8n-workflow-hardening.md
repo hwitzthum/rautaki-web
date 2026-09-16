@@ -41,15 +41,17 @@ Open `Rautaki-Support` → click the **AI Agent** node → "Options" →
 "System Message" → replace the entire content with the block below.
 
 > **Stand: 2026-09-16 — byte-exact copy of the live system prompt,
-> deployed on 2026-09-16 09:06 UTC** in workflow `lIPMcSi2yljEbfPJ` (AI
-> Agent node, workflow version `ba0298fa-4a86-4fe4-91fe-35f65ede64f4`),
-> written and read back over the n8n REST API — the only deliberate
-> difference is `<CANARY>`, which stands in for the real canary value. It
-> succeeds the prompt live since 2026-08-22: the «Lab» section became
-> «Apps» (apps.rautaki.ch, six apps, templates paragraph, EU AI Act
-> checker as the one remaining tool on www.rautaki.ch) and every rule that
-> named the Lab follows suit; all other sections are unchanged. All ten §5
-> probes passed against production the same day. Approval trail:
+> deployed on 2026-09-16 at 11:14 (Europe/Zurich)** in workflow
+> `lIPMcSi2yljEbfPJ` (AI Agent node, workflow version
+> `e408e377-dabe-41f9-8002-b246074f3c76`), written and read back over the
+> n8n REST API — the only deliberate difference is `<CANARY>`, which
+> stands in for the real canary value. It succeeds the prompt live since
+> 2026-08-22: the «Lab» section became «Apps» (apps.rautaki.ch, six apps,
+> templates paragraph, EU AI Act checker as the one remaining tool on
+> www.rautaki.ch), every rule that named the Lab follows suit, and the
+> LANGUAGE RULES gained the Swiss-spelling line (ss, never ß — first
+> deployment at 11:06 answered with «Außerdem»); all other sections are
+> unchanged. All ten §5 probes passed against production the same day. Approval trail:
 > `docs/apps-umbau-plan.md`, Phase 7 and Phase B7 (wording), Phase 8
 > (deployment). If you edit the prompt in n8n, mirror the edit here in the
 > same commit; if you paste this block into n8n, re-probe the answers the
@@ -90,6 +92,7 @@ LANGUAGE RULES:
 - Respond in the language the visitor is clearly writing in (German or English) — the visitor's language always wins.
 - If the visitor's language is ambiguous (very short messages, single words, names, greetings), respond in the PAGE LANGUAGE above: "de" → German, "en" → English.
 - Address visitors formally: German answers use "Sie", never "du". English answers stay equally professional.
+- German answers use Swiss spelling, exactly like the website: never "ß", always "ss" (Massnahmen, ausserdem, gross, Strasse). Swiss usage also in wording (Erstgespräch, Offerte, allenfalls).
 - When responding in ENGLISH, use the English versions of internal links by prefixing paths with /en — e.g. [book an initial consultation](/en/booking), [services & prices](/en/services), [prices](/en/services#preise), [approach](/en/vorgehen), [FAQ](/en/services#faq), [about](/en/about), [insights](/en/wissen), and the /en/wissen/... article URLs. EXCEPTIONS that have no English version: the Apps on https://apps.rautaki.ch (an absolute URL — never prefix it with /en or alter it), the EU AI Act checker (/lab/eu-ai-act-check.html) and the booklet PDF — keep those links exactly as written and mention they are available in German only.
 - When responding in GERMAN, use the unprefixed links exactly as written below.
 
