@@ -14,23 +14,24 @@ const MAINTENANCE_PATH = "/maintenance";
 // The English site lives under /en; everything else is German. Derived here and
 // forwarded to the layout via x-locale so the server components never have to
 // re-parse the pathname.
-// Per-request nonce CSP for pages (roadmap P10.7). Rollout: Report-Only first
-// (the static enforcing policy from next.config.ts stays in force), then
-// switch the response header to the enforcing one.
-const NONCE_CSP_HEADER = "Content-Security-Policy-Report-Only";
+// Per-request CSP for pages (roadmap P10.7). The proxy owns the CSP for every
+// HTML route: next.config.ts only covers /api. Reason: on Vercel a header from
+// next.config.ts is also merged into the request headers and wins over the
+// proxy's request-header override, and Next.js reads the nonce only from the
+// request's `content-security-policy` (falling back to `…-report-only`), so a
+// static policy there means no script ever gets a nonce.
+//
+// Rollout: the enforced policy is the previous static one; the nonce policy
+// ships as Report-Only until production shows no violations, then it becomes
+// the enforced header.
+const isDev = process.env.NODE_ENV === "development";
 
-function applyNonceCsp(requestHeaders: Headers): string {
+function applyCsp(requestHeaders: Headers, response: NextResponse): void {
   const nonce = btoa(crypto.randomUUID());
-  const policy = buildCsp({
-    nonce,
-    dev: process.env.NODE_ENV === "development",
-  });
-  // Next.js takes the nonce from the `content-security-policy` REQUEST header
-  // and only falls back to the report-only one. On Vercel the static policy
-  // from next.config.ts (no nonce) already arrives there, so the nonce policy
-  // must overwrite exactly this header — otherwise no script gets a nonce.
-  requestHeaders.set("content-security-policy", policy);
-  return policy;
+  const noncePolicy = buildCsp({ nonce, dev: isDev });
+  requestHeaders.set("content-security-policy", noncePolicy);
+  response.headers.set("Content-Security-Policy", buildCsp({ dev: isDev }));
+  response.headers.set("Content-Security-Policy-Report-Only", noncePolicy);
 }
 
 function localeFromPathname(pathname: string): "de" | "en" {
@@ -75,12 +76,13 @@ export function proxy(request: NextRequest, event: NextFetchEvent) {
     cleaned.delete("x-maintenance");
     cleaned.delete("x-locale");
     cleaned.set("x-locale", locale);
-    if (pathname.startsWith("/api/")) {
+    // /api gets its CSP from next.config.ts, /lab (static HTML with its own
+    // inline scripts) from vercel.json — neither must receive the nonce policy.
+    if (pathname.startsWith("/api/") || pathname.startsWith("/lab/")) {
       return NextResponse.next({ request: { headers: cleaned } });
     }
-    const policy = applyNonceCsp(cleaned);
     const response = NextResponse.next({ request: { headers: cleaned } });
-    response.headers.set(NONCE_CSP_HEADER, policy);
+    applyCsp(cleaned, response);
     return response;
   }
 
@@ -123,7 +125,6 @@ export function proxy(request: NextRequest, event: NextFetchEvent) {
   requestHeaders.delete("x-locale");
   requestHeaders.set("x-locale", locale);
   requestHeaders.set("x-maintenance", "true");
-  const policy = applyNonceCsp(requestHeaders);
 
   const response = NextResponse.rewrite(url, {
     request: { headers: requestHeaders },
@@ -132,7 +133,7 @@ export function proxy(request: NextRequest, event: NextFetchEvent) {
   // Response headers seen by the browser / crawlers / CDNs.
   response.headers.set("cache-control", "no-store, must-revalidate");
   response.headers.set("x-robots-tag", "noindex, nofollow");
-  response.headers.set(NONCE_CSP_HEADER, policy);
+  applyCsp(requestHeaders, response);
 
   return response;
 }

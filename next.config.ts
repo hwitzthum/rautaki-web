@@ -39,12 +39,6 @@ const nextConfig: NextConfig = {
       {
         source: "/(.*)",
         headers: [
-          // Static fallback for every path; pages additionally get a per-request
-          // nonce policy from src/proxy.ts (roadmap P10.7).
-          {
-            key: "Content-Security-Policy",
-            value: buildCsp({ dev: process.env.NODE_ENV === "development" }),
-          },
           { key: "X-Frame-Options", value: "DENY" },
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
@@ -73,6 +67,19 @@ const nextConfig: NextConfig = {
           // ERR_BLOCKED_BY_RESPONSE and the embed spins forever. The site uses
           // no SharedArrayBuffer / cross-origin-isolation features, so COEP
           // provides no benefit here while breaking the booking flow.
+        ],
+      },
+      {
+        // HTML routes get their CSP (with a per-request nonce) from
+        // src/proxy.ts; only the JSON API keeps the static policy here. A
+        // CSP set in this file would also reach the request headers on Vercel
+        // and hide the proxy's nonce from Next.js (see proxy.ts, P10.7).
+        source: "/api/(.*)",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: buildCsp({ dev: process.env.NODE_ENV === "development" }),
+          },
         ],
       },
       {
