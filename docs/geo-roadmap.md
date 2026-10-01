@@ -22,10 +22,10 @@ Konventionen:
 | P5 | Google-Business-Profile-URL | 1 | — | geschlossen mit Befund | 2026-07-11 |
 | P6 | Aufgeschoben aus P1 | 1 | 2/2 | abgeschlossen | 2026-09-16 |
 | P7 | GEO-Messung | 1 | 5/5 | abgeschlossen | 2026-07-11 |
-| P8 | Indexierung der Kernseiten | 2 | 3/4 | in Arbeit — offen nur P8.4 (ab 2026-10-01) | 2026-09-17 |
+| P8 | Indexierung der Kernseiten | 2 | 3/4 | in Arbeit — P8.4 ✗ am 2026-10-01: `/services` und `/wissen/ki-reifegrad-schweizer-npos` nicht indexiert, erneut beantragt; Folgeprüfung 2026-10-16 | 2026-10-01 |
 | P9 | Nicht-Marken-Suchen & Snippets | 2 | 5/6 | in Arbeit — offen nur P9.6 (ab 2026-10-16) | 2026-09-16 |
 | P10 | Performance & Technik | 2 | 6/7 | in Arbeit — offen nur P10.6 (CWV-Felddaten) | 2026-09-16 |
-| P11 | Externe Sichtbarkeitsmessung | 2 | 1/5 | in Arbeit — P11.5 GEO-Probe-Lücken | 2026-09-16 |
+| P11 | Externe Sichtbarkeitsmessung | 2 | 2/5 | in Arbeit — P11.5 ✓ abgeschlossen (alle vier Engines ohne Fehler) | 2026-10-01 |
 | R | Re-Verifikation Zyklus 1 | 2 | 12/12 | abgeschlossen — 4 Regressionen (R2, R6, R8, R10 → P3.8/P11.5) | 2026-09-16 |
 
 Zähler aus der Datei neu berechnen (Abgleich mit der Tabelle):
@@ -133,7 +133,7 @@ Messarten bewusst getrennt. Nach Abschluss von P8/P9 (frühestens 2026-10-16) mi
 | KI-Erwähnungen | HubSpot AI Search Grader (Rautaki / Switzerland / KI-Strategieberatung / Management Consulting) | ChatGPT 33 · Perplexity 35 · Gemini 44; Share of Voice 0/10 | |
 | KI-Erwähnungen | Peekaboo (ChatGPT + Google AI Overview, auto-generierte Prompts) | Sichtbarkeit 3 %, Ø Position 3.0 | |
 | KI-Erwähnungen | Semrush AI Search Visibility Checker | keine Daten (N/A) | |
-| KI-Erwähnungen | GEO-Probe n8n (P7), erwähnt/zitiert von 10 | Jul: OpenAI 2/2, Perplexity 0/0, Gemini – (keine Antworten), Claude 0/0 · Aug: OpenAI 2/2, Perplexity 0/0, Gemini 0/0, Claude 0/0 · Sep: OpenAI 2/2, Perplexity 1/1 (nur 1 von 10 Antworten), Gemini 0/0, Claude – (keine Antworten); Lücken → P11.5 | |
+| KI-Erwähnungen | GEO-Probe n8n (P7), erwähnt/zitiert von 10 | Jul: OpenAI 2/2, Perplexity 0/0, Gemini – (keine Antworten), Claude 0/0 · Aug: OpenAI 2/2, Perplexity 0/0, Gemini 0/0, Claude 0/0 · Sep: OpenAI 2/2, Perplexity 1/1 (nur 1 von 10 Antworten), Gemini 0/0, Claude – (keine Antworten); Lücken → P11.5 · Okt (erster fehlerfreier Lauf, alle 4 Engines): OpenAI 3/3, Perplexity 2/2, Gemini 0/0, Claude 0/0 | |
 | Google-Impressionen | GSC Websuche 10.07.–13.09.2026 | 48 Klicks · 318 Impr. · CTR 15.1 % · Ø Pos. 13.4; 69 % der Klicks Markensuchen | |
 | Google-KI-Impressionen | GSC «Generative AI features» (Beta), gleicher Zeitraum | 38 Impr. (CH 29, DE 4) | |
 | Indexierung | GSC Seitenbericht (Stand 04.09.2026) | 19 indexiert / 15 nicht indexiert | |
@@ -160,7 +160,17 @@ Befund: GSC «Gefunden – zurzeit nicht indexiert» (Stand 04.09.2026) für `/s
   - Folgerung: kurzfristig manuelle Anträge (P8.1, P8.2); strukturell nur über externe Links/Erwähnungen (P3). Keine Sitemap- oder Linkänderung nötig.
   - Randnotiz: Die URL-Prüfung meldet `/services` als «Google nicht bekannt», der Seitenbericht (Stand 04.09.) führt sie unter «Gefunden» — inkonsistente GSC-Daten, keine Aktion.
 - [ ] P8.4 Frühestens 2026-10-01: GSC-Seitenbericht erneut prüfen — Ziel: keine Kernseite mehr in «Gefunden – nicht indexiert» (Kalendertermin 2026-10-01 09:00, zusammen mit P11.5)
-- Hinweis: `/lab`-URLs leiten per 308 auf apps.rautaki.ch um — keine Aktion. «Gecrawlt – nicht indexiert» betrifft nur `/_next/static/chunks/*.js` — unkritisch.
+  - Stand 2026-10-01: **✗ Ziel nicht erreicht → offen, Folgeprüfung 2026-10-16 (mit P11.2).** Seitenbericht (letzte Aktualisierung 21.09.2026): **24 indexiert / 9 nicht indexiert** (04.09.: 19 / 15).
+    - «Gefunden – zurzeit nicht indexiert» (3): `/services`, `/privacy`, `/en/booking`, alle «Zuletzt gecrawlt: N/A». `/wissen` und alle EN-Artikel sind raus.
+    - «Gecrawlt – zurzeit nicht indexiert» (4): drei alte `/_next/static/chunks/*.js` (unkritisch) und **neu `/wissen/ki-reifegrad-schweizer-npos`** (DE-Artikel, war am 04.09. nicht betroffen).
+    - «Durch robots.txt blockiert» (2): unverändert die alten Chunks (siehe R11).
+  - URL-Prüfung (live, 2026-10-01):
+    - `/en/vorgehen` ✓ «Seite ist indexiert», zuletzt gecrawlt 16.09.2026 14:31 — der P8.2-Antrag hat gewirkt.
+    - `/wissen` ✓ indexiert.
+    - `/services` ✗ weiterhin «URL ist Google nicht bekannt», nie gecrawlt — 15 Tage nach dem P8.1-Antrag ohne Wirkung → erneut beantragt, «Indexierung wurde beantragt».
+    - `/wissen/ki-reifegrad-schweizer-npos` ✗ «Gecrawlt – zurzeit nicht indexiert», zuletzt gecrawlt 13.07.2026, Abruf erfolgreich, Google-Canonical = eigene URL (kein Duplikat-Problem) → beantragt, «Indexierung wurde beantragt».
+  - Technik erneut ✓: beide URLs 200, `index, follow`, selbstreferenzierender Canonical, in `sitemap.xml` (27 Einträge); Startseite verlinkt `/services` 4× plus 4 Anker, `/wissen` verlinkt den Artikel. GSC-Sitemaps-Bericht: zuletzt gelesen 28.09.2026, «Erfolgreich», 27 erkannte Seiten. Das Sitemap-Feld der URL-Prüfung zeigt bei `/en/vorgehen` und beim Reifegrad-Artikel weiterhin «Vorübergehender Verarbeitungsfehler» — Anzeigeproblem der URL-Prüfung, da der Sitemap-Bericht selbst fehlerfrei ist. Befund P8.3 bestätigt: kein Code-Fix, Hebel bleibt P3 (externe Links).
+- Hinweis: `/lab`-URLs leiten per 308 auf apps.rautaki.ch um — keine Aktion. «Gecrawlt – nicht indexiert» betraf am 04.09. nur `/_next/static/chunks/*.js` — unkritisch; seit dem Bericht vom 21.09. auch `/wissen/ki-reifegrad-schweizer-npos` (siehe P8.4).
 
 ## P9 — Nicht-Marken-Suchen & Snippets
 
@@ -240,10 +250,18 @@ Zielanfragen (Empfehlung) → beste Seite:
 - [ ] P11.1 Peekaboo: deutsche Prompts zu NPO/Verwaltungsrat/Schweiz und echte Mitbewerber (transformind.ch, sollbergeraiconsulting.ch, kimpact.ch, spekt.ch) statt Big Four hinterlegen, falls im Gratisplan möglich
 - [ ] P11.2 Audit wiederholen mit identischen Eingaben (frühestens 2026-10-16) und Baseline-Spalte «Folgemessung» füllen (Kalendertermin 2026-10-16 09:00; dabei auch P10.6 CWV-Felddaten prüfen)
 - [x] P11.3 GEO-Probe-Resultate August + September 2026 aus `geo_probes` in die Baseline übernehmen (2026-09-16) — Baseline-Zeile ergänzt. Zählweise unverändert: «erwähnt» = `/rautaki/i` im Antworttext, «zitiert» = Zitations-URL enthält `rautaki.ch`. OpenAI stabil 2/10; alle anderen 0 — ausser Perplexity Sep 1/1 aus nur einer Antwort. Sep für Perplexity/Claude nicht vergleichbar (→ P11.5).
-- [ ] P11.5 GEO-Probe: leere Antworten beheben (Folge-Item aus R10). Befund: jeder Such-Node hat `neverError: true` + `onError: continueRegularOutput`, die «Auswertung …»-Nodes speichern jeden Fehler als `snippet: ""` — Fehler sind von «keine Erwähnung» nicht zu unterscheiden. Alle leeren Zeilen haben `citation_count: 0`. Lauf 01.09. endete nach ~2¼ Min (Aug ~3¾ Min) → Claude- und Perplexity-Aufrufe scheiterten schnell; Modelle/Bodies seit August unverändert. Wahrscheinlich Guthaben/Key (Anthropic, Perplexity) oder 429 durch 10 parallele Anfragen; OpenAI-Aussetzer wahrscheinlich 90-s-Timeout. Nicht verifiziert: Test-Workflow konnte ohne Aktivierung nicht laufen (Execution-Logs gelöscht).
+- [x] P11.5 GEO-Probe: leere Antworten beheben (Folge-Item aus R10). Befund: jeder Such-Node hat `neverError: true` + `onError: continueRegularOutput`, die «Auswertung …»-Nodes speichern jeden Fehler als `snippet: ""` — Fehler sind von «keine Erwähnung» nicht zu unterscheiden. Alle leeren Zeilen haben `citation_count: 0`. Lauf 01.09. endete nach ~2¼ Min (Aug ~3¾ Min) → Claude- und Perplexity-Aufrufe scheiterten schnell; Modelle/Bodies seit August unverändert. Wahrscheinlich Guthaben/Key (Anthropic, Perplexity) oder 429 durch 10 parallele Anfragen; OpenAI-Aussetzer wahrscheinlich 90-s-Timeout. Nicht verifiziert: Test-Workflow konnte ohne Aktivierung nicht laufen (Execution-Logs gelöscht).
   - ✓ Workflow umgesetzt (2026-09-16, Rollback-Snapshot n8n-mcp #496): Timeout 300 s + Batching 2/3 s an allen vier Such-Nodes; «Auswertung …» speichert Fehler als `FEHLER: …` (keine neuen Spalten); Digest zeigt ab 3 Fehlern «Messung fehlgeschlagen (N/10 Fehler)», sonst «(N Fehler)»; Claude `max_tokens` 16000, `max_uses: 5`, `pause_turn`/`max_tokens` → «[unvollständig]». Validiert, aktiv.
   - ✓ Ursache bestätigt (Test-Workflow, eine Frage, danach gelöscht): **Claude — «Your credit balance is too low to access the Anthropic API»**. OpenAI, Perplexity, Gemini antworten (OpenAI und Perplexity nennen und zitieren Rautaki). Perplexity-Ausfälle vom 01.09. waren vorübergehend (Guthaben oder Rate-Limit).
   - Offen (Owner): Anthropic-Guthaben aufladen. Abhaken nach dem Lauf vom 2026-10-01, wenn alle vier Engines ohne `FEHLER` antworten.
+  - Stand 2026-10-01: **✗ Lauf 07:00 (Execution 36237, 3:05 Min) nicht fehlerfrei.** Digest angekommen. OpenAI 3/10 erwähnt + zitiert (+1), Gemini 0/10, **Claude 10/10 `FEHLER`**, **Perplexity 5/10 `FEHLER`**. Die neue Fehlerkennzeichnung hat funktioniert, der Digest zeigt «Messung fehlgeschlagen».
+    - Claude: weiterhin «Your credit balance is too low to access the Anthropic API», auch im Test um 09:09 → Guthaben noch nicht aufgeladen.
+    - Perplexity: `request_rate_limit_exceeded` (429) bei den Fragen 1, 4, 6, 8, 10, also genau eine Anfrage pro 2er-Batch. Das `sonar`-Limit lässt keine zwei gleichzeitigen Anfragen zu. ✓ Behoben: Batching 2 → **1 Anfrage / 3 s** am Node «Perplexity Web-Suche» (veröffentlicht 2026-10-01 07:09). Verifiziert mit einem Test-Workflow (alle 10 Fragen, gleiche Konfiguration, danach gelöscht): 10/10 Antworten, je 18–40 Quellen.
+    - Nebenbefund behoben: Digest-Abschnitt 3 «Website-Signale» verglich den eben begonnenen Monat (1.10., 00–07 Uhr: 2 Crawler-Hits) mit dem ganzen Vormonat (368). Jetzt wird der abgeschlossene Vormonat mit dem Monat davor verglichen (z. B. Sep vs. Aug); `Website-Signale` ruft `/api/geo-stats?months=3` ab.
+    - Neulauf 2026-10-01 09:27 (manuell, Execution 36275, 3:24 Min; die 40 Zeilen vom 07:00-Lauf wurden vorher gelöscht): **Perplexity 10/10 Antworten, 0 `FEHLER`** (2/10 erwähnt + zitiert, +1); OpenAI 4/10 (+2); Gemini 0/10. Digest-Abschnitt 3 zeigt korrekt 2026-09 vs. 2026-08 (Referrer 5 / 15, Crawler-Hits 368 / 668). **Claude weiterhin 10/10 «credit balance is too low»** — obwohl laut Owner aufgeladen.
+    - Ursache Claude: Der API-Key der n8n-Credential «Anthropic Account» (angelegt 2026-07-11) gehört nicht zur Console-Organisation «Harry's Individual Org» (harrywitzthum@gmail.com). Dort lagen US$19.71 Guthaben, inkl. Aufladung vom 01.10., aber nur zwei Keys vom 13.09. Der alte Key lief also über eine andere Organisation ohne Guthaben. ✓ Behoben: neuer Key aus «Harry's Individual Org» (Workspace Default) in der Credential hinterlegt; Test-Request um 09:43 → Antwort «OK».
+    - **✓ Abgeschlossen 2026-10-01** — Neulauf 09:44 (manuell, Execution 36280, 5:09 Min; die vorherigen 40 Zeilen wurden gelöscht): **alle vier Engines 10/10 Antworten, 0 `FEHLER`**, 40 Zeilen in `geo_probes`. Erwähnt + zitiert: OpenAI 3/10, Perplexity 2/10, Gemini 0/10, Claude 0/10. Digest angekommen.
+    - Beobachtung Claude: Die Antworttexte beginnen mit Zwischenschritten der Web-Suche («Let me fix the parsing…»), mehrfach steht «Suchlimit erreicht» (`max_uses: 5`). Keine Antwort ist als `[unvollständig]` markiert, 27–47 Quellen je Antwort. Die Zählung bleibt korrekt, weil «erwähnt» den ganzen Text prüft — kein Handlungsbedarf.
   - Workflow (Freigabe nötig, Speichern publiziert sofort): Timeout 90 s → 300 s und Batching (2 Anfragen / 3 s) an allen Such-Nodes; Fehler als `FEHLER: …` speichern und im Digest als «Messung fehlgeschlagen» statt ✗ zählen; Claude `max_tokens` 1024 → 16000 (August-Snippets enthalten nur Einleitungstext) und `pause_turn`/`max_tokens` als unvollständig werten.
 - [ ] P11.4 Spam-Backlinks (PBN-/Statistikseiten laut Semrush) beobachten; Disavow nur bei manueller Massnahme in der GSC
 
