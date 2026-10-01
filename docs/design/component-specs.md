@@ -145,7 +145,7 @@ A small uppercase label that introduces a section. Always has a short gold horiz
 
 /* Dark variant */
 .section-label--dark {
-  color: rgba(255, 255, 255, 0.20);
+  color: rgba(255, 255, 255, 0.50);
 }
 .section-label--dark::before {
   background: rgba(255, 255, 255, 0.20);
@@ -320,7 +320,7 @@ Horizontal navigation used inside dark hero sections and the site header.
 }
 
 .nav-item {
-  color: var(--nav-color);       /* rgba(255,255,255,0.28) */
+  color: var(--nav-color);       /* rgba(255,255,255,0.50) */
   text-decoration: none;
   cursor: pointer;
   transition: var(--nav-transition);
@@ -468,7 +468,7 @@ Full-viewport dark hero for the home page. Left panel: logo + headline + body. R
   font-size: var(--sz-body);          /* 15px */
   font-weight: var(--fw-light);       /* 300 */
   line-height: var(--lh-body);        /* 1.75 */
-  color: var(--color-text-on-dark-body); /* rgba(255,255,255,0.45) */
+  color: var(--color-text-on-dark-body); /* rgba(255,255,255,0.50) */
   max-width: 470px;
 }
 
@@ -490,7 +490,7 @@ Full-viewport dark hero for the home page. Left panel: logo + headline + body. R
 .cta-block p {
   font-family: var(--font-ui);
   font-size: var(--sz-sm);            /* 13px */
-  color: var(--color-text-on-gold-muted); /* rgba(0,0,0,0.55) */
+  color: var(--color-text-on-gold-muted); /* rgba(0,0,0,0.70) */
   margin-bottom: var(--space-5);      /* 20px */
 }
 ```
@@ -627,7 +627,7 @@ A vertical stack of metrics — large Georgia numeral with a gold suffix, small 
   font-size: var(--stat-label-size);   /* 11px */
   letter-spacing: var(--stat-label-spacing); /* 0.18em */
   text-transform: uppercase;
-  color: var(--stat-label-color);      /* #9A9590 */
+  color: var(--stat-label-color);      /* #6B6661 */
   margin-top: var(--space-1);          /* 4px */
 }
 ```
@@ -742,7 +742,7 @@ A three-column dark grid showcasing services. Each card has a ghost ordinal numb
   font-family: var(--font-ui);
   font-size: var(--sz-sm);            /* 13px */
   line-height: var(--lh-body);        /* 1.75 */
-  color: var(--card-body-color);      /* rgba(255,255,255,0.38) */
+  color: var(--card-body-color);      /* rgba(255,255,255,0.50) */
   font-weight: var(--card-body-weight); /* 300 */
 }
 ```
