@@ -25,7 +25,7 @@ Konventionen:
 | P8 | Indexierung der Kernseiten | 2 | 3/4 | in Arbeit — P8.4 ✗ am 2026-10-01: `/services` und `/wissen/ki-reifegrad-schweizer-npos` nicht indexiert, erneut beantragt; Folgeprüfung 2026-10-16 | 2026-10-01 |
 | P9 | Nicht-Marken-Suchen & Snippets | 2 | 5/6 | in Arbeit — offen nur P9.6 (ab 2026-10-16) | 2026-09-16 |
 | P10 | Performance & Technik | 2 | 6/7 | in Arbeit — offen nur P10.6 (CWV-Felddaten) | 2026-09-16 |
-| P11 | Externe Sichtbarkeitsmessung | 2 | 1/5 | in Arbeit — P11.5: Perplexity-429 behoben, Claude wartet auf Anthropic-Guthaben | 2026-10-01 |
+| P11 | Externe Sichtbarkeitsmessung | 2 | 1/5 | in Arbeit — P11.5: Perplexity im Neulauf 10/10 ✓, Claude weiterhin ohne API-Guthaben | 2026-10-01 |
 | R | Re-Verifikation Zyklus 1 | 2 | 12/12 | abgeschlossen — 4 Regressionen (R2, R6, R8, R10 → P3.8/P11.5) | 2026-09-16 |
 
 Zähler aus der Datei neu berechnen (Abgleich mit der Tabelle):
@@ -258,7 +258,8 @@ Zielanfragen (Empfehlung) → beste Seite:
     - Claude: weiterhin «Your credit balance is too low to access the Anthropic API», auch im Test um 09:09 → Guthaben noch nicht aufgeladen.
     - Perplexity: `request_rate_limit_exceeded` (429) bei den Fragen 1, 4, 6, 8, 10, also genau eine Anfrage pro 2er-Batch. Das `sonar`-Limit lässt keine zwei gleichzeitigen Anfragen zu. ✓ Behoben: Batching 2 → **1 Anfrage / 3 s** am Node «Perplexity Web-Suche» (veröffentlicht 2026-10-01 07:09). Verifiziert mit einem Test-Workflow (alle 10 Fragen, gleiche Konfiguration, danach gelöscht): 10/10 Antworten, je 18–40 Quellen.
     - Nebenbefund behoben: Digest-Abschnitt 3 «Website-Signale» verglich den eben begonnenen Monat (1.10., 00–07 Uhr: 2 Crawler-Hits) mit dem ganzen Vormonat (368). Jetzt wird der abgeschlossene Vormonat mit dem Monat davor verglichen (z. B. Sep vs. Aug); `Website-Signale` ruft `/api/geo-stats?months=3` ab.
-    - Nächster Schritt: Sobald das Anthropic-Guthaben aufgeladen ist, die 40 Zeilen `2026-10` in `geo_probes` löschen, den Workflow einmal manuell starten (sendet einen neuen Digest) und bei 0 `FEHLER` abhaken.
+    - Neulauf 2026-10-01 09:27 (manuell, Execution 36275, 3:24 Min; die 40 Zeilen vom 07:00-Lauf wurden vorher gelöscht): **Perplexity 10/10 Antworten, 0 `FEHLER`** (2/10 erwähnt + zitiert, +1); OpenAI 4/10 (+2); Gemini 0/10. Digest-Abschnitt 3 zeigt korrekt 2026-09 vs. 2026-08 (Referrer 5 / 15, Crawler-Hits 368 / 668). **Claude weiterhin 10/10 «credit balance is too low»** — obwohl laut Owner aufgeladen.
+    - Nächster Schritt (Owner): In der Anthropic Console prüfen, ob das Guthaben in derselben Organisation liegt wie der API-Key der n8n-Credential «Anthropic Account» (API-Guthaben unter Settings → Billing, nicht das claude.ai-Abo). Danach die 40 Zeilen `2026-10` erneut löschen, den Workflow einmal manuell starten und bei 0 `FEHLER` abhaken.
   - Workflow (Freigabe nötig, Speichern publiziert sofort): Timeout 90 s → 300 s und Batching (2 Anfragen / 3 s) an allen Such-Nodes; Fehler als `FEHLER: …` speichern und im Digest als «Messung fehlgeschlagen» statt ✗ zählen; Claude `max_tokens` 1024 → 16000 (August-Snippets enthalten nur Einleitungstext) und `pause_turn`/`max_tokens` als unvollständig werten.
 - [ ] P11.4 Spam-Backlinks (PBN-/Statistikseiten laut Semrush) beobachten; Disavow nur bei manueller Massnahme in der GSC
 
