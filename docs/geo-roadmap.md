@@ -22,10 +22,10 @@ Konventionen:
 | P5 | Google-Business-Profile-URL | 1 | — | geschlossen mit Befund | 2026-07-11 |
 | P6 | Aufgeschoben aus P1 | 1 | 2/2 | abgeschlossen | 2026-09-16 |
 | P7 | GEO-Messung | 1 | 5/5 | abgeschlossen | 2026-07-11 |
-| P8 | Indexierung der Kernseiten | 2 | 3/4 | in Arbeit — P8.4 ✗ am 2026-10-01: `/services` und `/wissen/ki-reifegrad-schweizer-npos` nicht indexiert, erneut beantragt; Folgeprüfung 2026-10-16 | 2026-10-01 |
-| P9 | Nicht-Marken-Suchen & Snippets | 2 | 5/6 | in Arbeit — offen nur P9.6 (ab 2026-10-16) | 2026-09-16 |
-| P10 | Performance & Technik | 2 | 6/7 | in Arbeit — offen nur P10.6 (CWV-Felddaten) | 2026-09-16 |
-| P11 | Externe Sichtbarkeitsmessung | 2 | 2/5 | in Arbeit — P11.5 ✓ abgeschlossen (alle vier Engines ohne Fehler) | 2026-10-01 |
+| P8 | Indexierung der Kernseiten | 2 | 3/4 | in Arbeit — P8.4 ✗ auch am 2026-10-19: 22 / 11, `/services` nie gecrawlt; 4 Kernseiten erneut beantragt, nächste Prüfung 2026-11-01 | 2026-10-19 |
+| P9 | Nicht-Marken-Suchen & Snippets | 2 | 6/6 | abgeschlossen — P9.6 erste Übernahme 2026-10-19, Prüfung läuft monatlich im GEO-Digest weiter | 2026-10-19 |
+| P10 | Performance & Technik | 2 | 6/7 | in Arbeit — offen nur P10.6 (CWV-Felddaten, 2026-10-19 weiterhin keine) | 2026-10-19 |
+| P11 | Externe Sichtbarkeitsmessung | 2 | 2/5 | in Arbeit — P11.2 Folgemessung 2026-10-19 erfasst bis auf Peekaboo (Owner-Login) | 2026-10-19 |
 | R | Re-Verifikation Zyklus 1 | 2 | 12/12 | abgeschlossen — 4 Regressionen (R2, R6, R8, R10 → P3.8/P11.5) | 2026-09-16 |
 
 Zähler aus der Datei neu berechnen (Abgleich mit der Tabelle):
@@ -125,19 +125,19 @@ Messarten bewusst getrennt. Nach Abschluss von P8/P9 (frühestens 2026-10-16) mi
 
 | Messart | Quelle | Wert 2026-09-16 | Folgemessung |
 |---|---|---|---|
-| SEO-Score | Semrush SEO Checker (nur Startseite) | 46/100 — On-Page 85 %, Technik 80 %, Off-Page 0 %, Social 20 % | |
-| SEO-Score | Seobility SEO-Check (Startseite) | On-Page 78 % — Seitenqualität 48 %, Links 86 %, Externe Faktoren 3 % | |
-| Performance | Lighthouse 12 lokal | Mobil 78 (LCP 5.3 s, TBT 140 ms, CLS 0) · Desktop 100 (LCP 0.7 s) | |
-| Strukturierte Daten | Rich Results Test / validator.schema.org | 2 gültige Elemente / 0 Fehler, 2 Warnungen | |
+| SEO-Score | Semrush SEO Checker (nur Startseite) | 46/100 — On-Page 85 %, Technik 80 %, Off-Page 0 %, Social 20 % | 2026-10-19: **47/100** — On-Page 90 %, Technik 80 %, Off-Page 0 %, Social 20 %. Tool läuft jetzt unter `/siteaudit/`, gleiches Format. 6 kritische Befunde: 4× fehlende Social-Profile (YouTube, X, Instagram, Facebook), Meta-Description 146 Zeichen «zu lang», «Structured Data: critical errors» — widerspricht Rich Results Test und validator.schema.org (beide 0 Fehler) |
+| SEO-Score | Seobility SEO-Check (Startseite) | On-Page 78 % — Seitenqualität 48 %, Links 86 %, Externe Faktoren 3 % | 2026-10-19: **On-Page 81 %** — Seitenqualität 63 %, Links 86 %, Externe Faktoren 0 %; Meta-Angaben, Seitenstruktur, Server je 100 %. Einzige Warnung: «Wörter aus H1-Überschrift nicht im Text» (Title-Warnung nach P9.4 weg) |
+| Performance | Lighthouse 12 lokal | Mobil 78 (LCP 5.3 s, TBT 140 ms, CLS 0) · Desktop 100 (LCP 0.7 s) | 2026-10-19 (Lighthouse 12.8.2 lokal gegen `https://www.rautaki.ch/`, Standard-Simulation, je 3 Läufe): **Mobil 91 / 99 / 99** (Median LCP 2.2 s, TBT 10 ms, CLS 0; Ausreisser Lauf 1 LCP 3.5 s) · Desktop 100 / 100 / 100 (LCP 0.5 s) |
+| Strukturierte Daten | Rich Results Test / validator.schema.org | 2 gültige Elemente / 0 Fehler, 2 Warnungen | 2026-10-19: Rich Results Test 2 gültige Elemente (Lokales Unternehmen, Organisation), 0 Fehler, 2 optionale Hinweise (`telephone`, `image` fehlen) · validator.schema.org 0 Fehler / 0 Warnungen (nach P10.2) |
 | Sicherheit | Mozilla Observatory / securityheaders.com | B+ (80/100) / A | Observatory **A+ (130/100)**, 12/12 (2026-09-16, nach P10.7) |
-| KI-Erwähnungen | HubSpot AI Search Grader (Rautaki / Switzerland / KI-Strategieberatung / Management Consulting) | ChatGPT 33 · Perplexity 35 · Gemini 44; Share of Voice 0/10 | |
-| KI-Erwähnungen | Peekaboo (ChatGPT + Google AI Overview, auto-generierte Prompts) | Sichtbarkeit 3 %, Ø Position 3.0 | |
-| KI-Erwähnungen | Semrush AI Search Visibility Checker | keine Daten (N/A) | |
-| KI-Erwähnungen | GEO-Probe n8n (P7), erwähnt/zitiert von 10 | Jul: OpenAI 2/2, Perplexity 0/0, Gemini – (keine Antworten), Claude 0/0 · Aug: OpenAI 2/2, Perplexity 0/0, Gemini 0/0, Claude 0/0 · Sep: OpenAI 2/2, Perplexity 1/1 (nur 1 von 10 Antworten), Gemini 0/0, Claude – (keine Antworten); Lücken → P11.5 · Okt (erster fehlerfreier Lauf, alle 4 Engines): OpenAI 3/3, Perplexity 2/2, Gemini 0/0, Claude 0/0 | |
-| Google-Impressionen | GSC Websuche 10.07.–13.09.2026 | 48 Klicks · 318 Impr. · CTR 15.1 % · Ø Pos. 13.4; 69 % der Klicks Markensuchen | |
-| Google-KI-Impressionen | GSC «Generative AI features» (Beta), gleicher Zeitraum | 38 Impr. (CH 29, DE 4) | |
-| Indexierung | GSC Seitenbericht (Stand 04.09.2026) | 19 indexiert / 15 nicht indexiert | |
-| Lokale Präsenz | local.ch / search.ch / Zefix | kein Eintrag | |
+| KI-Erwähnungen | HubSpot AI Search Grader (Rautaki / Switzerland / KI-Strategieberatung / Management Consulting) | ChatGPT 33 · Perplexity 35 · Gemini 44; Share of Voice 0/10 | 2026-10-19: ChatGPT 33 · Perplexity 35 · Gemini 44; Share of Voice 0/10 — bis auf jeden Teilwert identisch (z. B. ChatGPT Brand Recognition 4/20, Sentiment 21/40), also sehr wahrscheinlich ein zwischengespeichertes Ergebnis für dieselben Eingaben, keine echte Neumessung |
+| KI-Erwähnungen | Peekaboo (ChatGPT + Google AI Overview, auto-generierte Prompts) | Sichtbarkeit 3 %, Ø Position 3.0 | offen — der Gratis-Check führt ohne Anmeldung ins Konto-Onboarding; Messung im bestehenden Konto durch den Owner |
+| KI-Erwähnungen | Semrush AI Search Visibility Checker | keine Daten (N/A) | 2026-10-19: weiterhin N/A (Score, Erwähnungen, Zitate, Reichweite) |
+| KI-Erwähnungen | GEO-Probe n8n (P7), erwähnt/zitiert von 10 | Jul: OpenAI 2/2, Perplexity 0/0, Gemini – (keine Antworten), Claude 0/0 · Aug: OpenAI 2/2, Perplexity 0/0, Gemini 0/0, Claude 0/0 · Sep: OpenAI 2/2, Perplexity 1/1 (nur 1 von 10 Antworten), Gemini 0/0, Claude – (keine Antworten); Lücken → P11.5 · Okt (erster fehlerfreier Lauf, alle 4 Engines): OpenAI 3/3, Perplexity 2/2, Gemini 0/0, Claude 0/0 | Okt (01.10., erster vergleichbarer Lauf): OpenAI 3/3, Perplexity 2/2, Gemini 0/0, Claude 0/0 — Rautaki nur bei Fragen 1, 6, 8 (NPO bzw. Sozialwesen); nächster Lauf 2026-11-01 |
+| Google-Impressionen | GSC Websuche 10.07.–13.09.2026 | 48 Klicks · 318 Impr. · CTR 15.1 % · Ø Pos. 13.4; 69 % der Klicks Markensuchen | 14.09.–18.10.2026 (35 statt 66 Tage): **15 Klicks · 693 Impr.** · CTR 2.2 % · Ø Pos. 22.7. Pro Tag: Impressionen 4.8 → 19.8, Klicks 0.73 → 0.43. Gelistete Anfragen: alle 7 zuordenbaren Klicks aus Markensuchen (8 Klicks auf anonymisierte Anfragen), aber 428 von 441 Impressionen Nicht-Marke (97 %) — Nicht-Marke rankt, klickt noch nicht |
+| Google-KI-Impressionen | GSC «Generative AI features» (Beta), gleicher Zeitraum | 38 Impr. (CH 29, DE 4) | 14.09.–18.10.2026: **134 Impr.** (CH 56, BR 7, IN 6, DE 5); pro Tag 0.6 → 3.8 |
+| Indexierung | GSC Seitenbericht (Stand 04.09.2026) | 19 indexiert / 15 nicht indexiert | Stand 12.10.2026: 22 indexiert / 11 nicht indexiert (21.09.: 24 / 9) — Details P8.4 |
+| Lokale Präsenz | local.ch / search.ch / Zefix | kein Eintrag | 2026-10-19: weiterhin kein Eintrag — local.ch korrigiert «Rautaki» auf «Rutari» (4 fremde Treffer), search.ch «Keine Einträge», Zefix keine Firma |
 
 ## P8 — Indexierung der Kernseiten
 
@@ -170,6 +170,16 @@ Befund: GSC «Gefunden – zurzeit nicht indexiert» (Stand 04.09.2026) für `/s
     - `/services` ✗ weiterhin «URL ist Google nicht bekannt», nie gecrawlt — 15 Tage nach dem P8.1-Antrag ohne Wirkung → erneut beantragt, «Indexierung wurde beantragt».
     - `/wissen/ki-reifegrad-schweizer-npos` ✗ «Gecrawlt – zurzeit nicht indexiert», zuletzt gecrawlt 13.07.2026, Abruf erfolgreich, Google-Canonical = eigene URL (kein Duplikat-Problem) → beantragt, «Indexierung wurde beantragt».
   - Technik erneut ✓: beide URLs 200, `index, follow`, selbstreferenzierender Canonical, in `sitemap.xml` (27 Einträge); Startseite verlinkt `/services` 4× plus 4 Anker, `/wissen` verlinkt den Artikel. GSC-Sitemaps-Bericht: zuletzt gelesen 28.09.2026, «Erfolgreich», 27 erkannte Seiten. Das Sitemap-Feld der URL-Prüfung zeigt bei `/en/vorgehen` und beim Reifegrad-Artikel weiterhin «Vorübergehender Verarbeitungsfehler» — Anzeigeproblem der URL-Prüfung, da der Sitemap-Bericht selbst fehlerfrei ist. Befund P8.3 bestätigt: kein Code-Fix, Hebel bleibt P3 (externe Links).
+  - Stand 2026-10-19 (Seitenbericht vom 12.10.2026, mit P11.2): **✗ Ziel weiterhin nicht erreicht → offen.** 22 indexiert / 11 nicht indexiert (21.09.: 24 / 9).
+    - «Gefunden – zurzeit nicht indexiert» (2): `/services`, `/privacy`, beide «Zuletzt gecrawlt: N/A» — `/services` zum Berichtsstand 11 Tage nach dem zweiten Antrag (01.10.) weiterhin nie gecrawlt. `/en/booking` ist raus.
+    - «Gecrawlt – zurzeit nicht indexiert» (7): drei alte Chunks (unkritisch), `/lab/ki-governance-policy.html` (308 auf apps.rautaki.ch, unkritisch) und **neu** `/wissen/der-weg-zu-wirksamer-ki` (gecrawlt 16.09.), `/en/services` und `/en/about` (beide zuletzt gecrawlt 11.07.). `/wissen/ki-reifegrad-schweizer-npos` ist nicht mehr in der Liste.
+    - Neue Indexierungsanträge 2026-10-19, vorab live geprüft (alle 200, `index, follow`, selbstreferenzierender Canonical, in `sitemap.xml`); alle vier «Indexierung beantragt»:
+      - `/services`: «Gefunden – zurzeit nicht indexiert», nie gecrawlt — Google kennt sie inzwischen aber über Sitemap und verweisende Seiten (`/`, `/en/services`). Dritter Antrag nach P8.1 und 01.10.
+      - `/wissen/der-weg-zu-wirksamer-ki`: «Gecrawlt – zurzeit nicht indexiert», zuletzt gecrawlt 16.09.2026, verweisende Seite `/en/wissen/der-weg-zu-wirksamer-ki`.
+      - `/en/services`: «Gecrawlt – zurzeit nicht indexiert», zuletzt gecrawlt 11.07.2026, nur über die Sitemap bekannt.
+      - `/en/about`: «Gecrawlt – zurzeit nicht indexiert», zuletzt gecrawlt 11.07.2026, nur über die Sitemap bekannt.
+      - Bei allen: kein von Google gewählter Canonical (also kein Duplikat-Befund); das Sitemap-Feld zeigt bei drei URLs weiterhin «Vorübergehender Verarbeitungsfehler» (Anzeigeproblem, siehe 2026-10-01). `/privacy` bewusst nicht beantragt (keine Kernseite).
+    - Befund P8.3 (geringer Crawl-Bedarf, Hebel P3) gilt weiter. Nächste Prüfung mit dem Digest 2026-11-01.
 - Hinweis: `/lab`-URLs leiten per 308 auf apps.rautaki.ch um — keine Aktion. «Gecrawlt – nicht indexiert» betraf am 04.09. nur `/_next/static/chunks/*.js` — unkritisch; seit dem Bericht vom 21.09. auch `/wissen/ki-reifegrad-schweizer-npos` (siehe P8.4).
 
 ## P9 — Nicht-Marken-Suchen & Snippets
@@ -180,11 +190,11 @@ Zielanfragen (Empfehlung) → beste Seite:
 
 | Anfrage (Schweiz) | Seite | Beleg |
 |---|---|---|
-| KI-Strategie Beratung für NPO Schweiz | `/services` (P8.1) | Kernquery Benchmark 2026-07 |
-| KI-Kompetenz im Verwaltungsrat | `/wissen/ki-strategie-verwaltungsrat` | GSC: 21 Impr., 0 Klicks |
+| KI-Strategie Beratung für NPO Schweiz | `/services` (P8.1) | Kernquery Benchmark 2026-07 · Digest 2026-10-01: «ai consultant lugano», «ai consulting companies lugano» (je 1 Impr., Pos. 44/74, ranken mit `/en` statt `/services`) |
+| KI-Kompetenz im Verwaltungsrat | `/wissen/ki-strategie-verwaltungsrat` | GSC: 21 Impr., 0 Klicks · Digest 2026-10-01: 57 Impr., Pos. 18.0, rankt mit Zielseite; Varianten «ki briefing verwaltungsrat» (12 Impr.), «ki vr sitzung vorbereitung» (4), «ki wissen geschäftsleitung» (1) |
 | EU AI Act: Was gilt in der Schweiz? | `/wissen/eu-ai-act-schweizer-npos` | GSC-Query + 9 KI-Impressionen |
 | Wie KI-bereit ist unsere Organisation? | `/wissen/ki-reifegrad-schweizer-npos` | Themen-Fit |
-| KI-Tools und Datenschutz (nDSG) in Verein/Stiftung | `/wissen/ki-tools-datenschutz-vereine-stiftungen` (P9.5) | keine passende Seite bis 2026-09-16 |
+| KI-Tools und Datenschutz (nDSG) in Verein/Stiftung | `/wissen/ki-tools-datenschutz-vereine-stiftungen` (P9.5) | keine passende Seite bis 2026-09-16 · Digest 2026-10-01: «datenschutzfolgenabschätzung ki schweiz» (9 Impr., Pos. 2.0), «datenschutz tools» (1 Impr., Pos. 3.0), beide ranken mit Zielseite |
 | KI-Mentoring für Führungsteams | `/services#ki-mentoring` | GSC 2026-09-16: 1–2 Impr., Ø Pos. 55–62, rankt mit Startseite statt `/services` |
 
 - [x] P9.1 Startseite: Title (50–60 Zeichen) und Meta-Description auf NPO · Verwaltungsrat · Schweiz schärfen, de + en (Entwurf zur Freigabe vor Umsetzung) (PR #122, 2026-09-16, Variante A freigegeben). Title/Description wirken auf `<title>`, `description`, `og:*` und `twitter:*` der Startseite; `lastModified.home` auf 2026-09-16.
@@ -211,11 +221,16 @@ Zielanfragen (Empfehlung) → beste Seite:
   - Umfang freigegeben: Praxisleitfaden (8 Abschnitte, Checkliste mit 7 Punkten), Slug `ki-tools-datenschutz-vereine-stiftungen`. Quellenreport: `docs/research/ki-datenschutz-ndsg-quellen.md` (DSG/DSV-Wortlaut, EDÖB, DPF-Register, Anbieterseiten; Stand 16.09.2026).
   - Befristete Angaben (vor Aktualisierung neu prüfen): DPF-Register (Microsoft/Google gelistet, OpenAI nicht), Anbieterbedingungen ChatGPT/Copilot/Gemini, Status Vernehmlassung KI-Konvention (am 16.09.2026 nicht eröffnet, angekündigt bis Ende 2026 → Artikel dann aktualisieren).
   - ✓ Chatbot-Prompt (Workflow `lIPMcSi2yljEbfPJ`, publiziert 2026-09-16): Artikel 5 mit Kernaussagen, dazu R8-Befunde behoben (VR-Artikeltitel, «fünf Fachartikel», Zielgruppe ohne KMU); live DE/EN getestet. Anschliessend Link-Fix und Prompt-Präzisierung → R8.
-- [ ] P9.6 Monatlich GSC-Queries auf neue Nicht-Marken-Anfragen prüfen und der Tabelle oben zuordnen (erste Prüfung 2026-10-16) — Stand 2026-09-16: automatisiert im GEO-Digest (PR #128); abhaken nach der ersten Übernahme in die Tabelle (Kalendertermin 2026-10-16 09:00, zusammen mit P11.2).
+- [x] P9.6 Monatlich GSC-Queries auf neue Nicht-Marken-Anfragen prüfen und der Tabelle oben zuordnen (erste Prüfung 2026-10-16) — Stand 2026-09-16: automatisiert im GEO-Digest (PR #128); abhaken nach der ersten Übernahme in die Tabelle (Kalendertermin 2026-10-16 09:00, zusammen mit P11.2).
   - Umsetzung: n8n-Workflow «Rautaki GEO-Probe (monatlich)» (`9VGsWbFuKGQYU4uV`) holt über die Search Console API (Credential «Google Search Console (readonly)», OAuth, Scope `webmasters.readonly`, Google-Cloud-Projekt `rautaki-n8n`) die Anfragen der letzten 28 Tage (Tag −30 bis −3) und der 28 Tage davor. Digest-Abschnitt «5. Nicht-Marken-Suchanfragen»: Marke (rautaki, witzthum) vs. Nicht-Marke, Top 15 mit Impressionen/Klicks/Position, «NEU» ggü. Vorperiode, automatische Zuordnung zu den Zielanfragen oben inkl. Hinweis, wenn eine andere Seite rankt. Fällt Google aus, zeigt der Digest einen Hinweis statt abzubrechen.
   - Rhythmus: mit dem Digest am 1. des Monats, 07:00 (statt 16.). Erster Lauf 2026-10-01 (deckt ca. 3.–28.09. ab, P9.1–P9.5 nur teilweise enthalten); erster voll aussagekräftiger Lauf 2026-11-01.
   - Pflege: Zielanfragen-Regeln stehen im Code von «Digest bauen» (`GSC_TARGETS`) — bei neuer Zeile in der Tabelle oben mitziehen.
   - Erste Abfrage 2026-09-16: 14/14 Klicks aus Markensuchen; Nicht-Marke «verwaltungsrat ki kompetenz» (21 Impr., Pos. 22.6, rankt mit Zielseite) und «ki-mentoring für führungsteams» (rankt mit Startseite statt `/services`) → Tabelle ergänzt.
+  - **✓ Erste Übernahme 2026-10-19** (Digest-Abschnitt 5 vom 2026-10-01, Zeitraum 01.–28.09.): Marke / Nicht-Marke 12 / 0 Klicks, 56 / 88 Impressionen; alle 10 Nicht-Marken-Anfragen «NEU».
+    - 7 waren bereits zugeordnet und stehen jetzt als Beleg in ihren Zeilen: VR (3), nDSG (2), Beratung (2× Lugano, EN, rankt mit `/en` statt `/services`). Dazu «ki wissen geschäftsleitung» (bisher nicht zugeordnet) → VR. Keine neue Zeile.
+    - `GSC_TARGETS`: VR-Regel um `geschäftsleitung` ergänzt («ki wissen geschäftsleitung» war nicht zugeordnet, rankt mit dem VR-Artikel). Veröffentlicht 2026-10-19 (aktive Version `6a38ac59`).
+    - Nicht übernommen: «ai tool für rechtsabteilung schweiz» und «ki schulung rechtsabteilung schweiz» (je 1 Impr., ranken mit nDSG- bzw. EU-AI-Act-Artikel) — ausserhalb der Positionierung, beobachten; erscheinen im Digest weiter als «nicht zugeordnet».
+    - Ausblick für den Lauf vom 2026-11-01 (GSC 14.09.–18.10.): Lugano-Cluster wächst (6 EN-Varianten, zusammen 71 Impr., Pos. 15–94), neue VR-Varianten «verantwortlichkeiten des vr im bereich ki» (50), «verwaltungsrat ki beratung» (49), «verwaltungsrat ai act audit» (18) — alle von den bestehenden Regeln erfasst.
 
 ## P10 — Performance & Technik
 
@@ -239,6 +254,7 @@ Zielanfragen (Empfehlung) → beste Seite:
   - Messung (Lighthouse 12, `--force-prefers-reduced-motion`, damit `ScrollReveal`-Inhalte mitgeprüft werden; ohne das übersieht axe alles mit `opacity: 0`): keine Kontrastbefunde mehr ausser den bewusst akzeptierten — Gold-Kursiv/Gold-Eyebrows auf Hell (Markenregel) und dekorative Ziffern/Wasserzeichen (`ink/15`, `ink/25`, `white/[0.03]`). Score bleibt deshalb 0.96–0.97; Artikelseite 1.0.
 - [x] P10.5 Apple-Touch-Icon ergänzen (Seobility-Warnung, geringe Priorität) (2026-09-16) — `src/app/apple-icon.png` (180×180, Next-Dateikonvention → `<link rel="apple-touch-icon" sizes="180x180">`): weisses Dreieck des Favicons auf vollflächigem Schwarz, da iOS die Ecken selbst rundet und Transparenz schwarz füllt. Proxy-Matcher schliesst `.png` aus.
 - [ ] P10.6 Core Web Vitals in GSC beobachten — derzeit «keine Daten» (zu wenig Traffic); bei ersten Felddaten hier eintragen — Stand 2026-09-16 (abends): GSC «Not enough usage data in the last 90 days» für Mobil und Desktop; PSI-Laborwerte siehe P10.1. Nächste Prüfung mit P11.2 (2026-10-16).
+  - Stand 2026-10-19: unverändert «Not enough usage data in the last 90 days» (Mobil und Desktop) → offen, nächste Prüfung mit dem Digest 2026-11-01.
 - [x] P10.7 CSP-Nonce gemäss P10.3 Option A umsetzen (Report-Only → erzwingen); Durchklicktest: Startseite, `/booking` + Cal-Modal, Chat, Consent → Salesflare, Sentry-Testfehler — 2026-09-16, erzwungen seit PR #135 (Vorarbeit PR #134). **Mozilla Observatory: B+ (80) → A+ (130/100), 12/12 Tests bestanden.**
   - Umsetzung: CSP-Builder in `src/lib/csp.ts`; `src/proxy.ts` erzeugt pro Seiten-Request einen Nonce und setzt die Policy (`'nonce-…' 'strict-dynamic'`, `style-src` weiterhin `'unsafe-inline'`) als erzwungenen Header auf Request und Response; `next.config.ts` behält die statische Policy nur für `/api/(.*)`, `/lab/` bleibt bei der Policy aus `vercel.json` (eigene Inline-Skripte). Maintenance-Rewrite ebenfalls mit Nonce.
   - Befund Vercel (kostete zwei Anläufe, Report-Only lokal sauber, in Produktion ohne Wirkung): Vercel mischt die **Response-Header des Proxys** in die Request-Header der Seitenfunktion, und sie gewinnen über die Request-Header-Überschreibung; ebenso landen `headers()`-Einträge aus `next.config.ts` im Request. Next liest den Nonce aus dem Request-Header `content-security-policy` (Fallback `…-report-only`) — solange dort eine Policy ohne Nonce steht, bekommt kein Skript einen Nonce. Folge: Ein Report-Only-Rollout neben der alten erzwungenen Policy ist auf Vercel nicht möglich; der erzwungene Header selbst muss den Nonce tragen. Verifikation deshalb auf dem Preview-Deployment mit erzwungener Policy statt Report-Only in Produktion.
@@ -249,6 +265,9 @@ Zielanfragen (Empfehlung) → beste Seite:
 
 - [ ] P11.1 Peekaboo: deutsche Prompts zu NPO/Verwaltungsrat/Schweiz und echte Mitbewerber (transformind.ch, sollbergeraiconsulting.ch, kimpact.ch, spekt.ch) statt Big Four hinterlegen, falls im Gratisplan möglich
 - [ ] P11.2 Audit wiederholen mit identischen Eingaben (frühestens 2026-10-16) und Baseline-Spalte «Folgemessung» füllen (Kalendertermin 2026-10-16 09:00; dabei auch P10.6 CWV-Felddaten prüfen)
+  - Stand 2026-10-19: Spalte «Folgemessung» gefüllt für alle Messarten ausser **Peekaboo** (Gratis-Check endet ohne Anmeldung im Konto-Onboarding → Owner misst im bestehenden Konto; danach abhaken). P10.6 mitgeprüft: weiterhin keine CWV-Felddaten.
+    - Eingaben wie 2026-09-16: Startseite `https://www.rautaki.ch/` (Semrush, Seobility, Lighthouse, Rich Results Test, validator.schema.org), Domain `rautaki.ch` (Semrush AI), HubSpot «Rautaki / Switzerland / KI-Strategieberatung / Management Consulting», Suche «Rautaki» (local.ch, search.ch, Zefix). GSC-Zeitraum bewusst ab Baseline-Ende (14.09.–18.10., 35 Tage) statt gleicher Fensterlänge, damit nur die Wirkung von P8/P9 drin ist → Vergleich über Tageswerte.
+    - Lesart: Google zeigt die Seite deutlich häufiger für Nicht-Marken-Anfragen (Impressionen/Tag ×4, KI-Impressionen/Tag ×6, fast nur VR-Themen), Klicks bleiben aus (Ø Pos. 22.7). On-Page-Werte leicht besser (Semrush +1, Seobility +3 Pp.), Off-Page unverändert 0 → Hebel bleibt P3. HubSpot ist als Messinstrument für Folgemessungen wertlos, solange es Ergebnisse zwischenspeichert.
 - [x] P11.3 GEO-Probe-Resultate August + September 2026 aus `geo_probes` in die Baseline übernehmen (2026-09-16) — Baseline-Zeile ergänzt. Zählweise unverändert: «erwähnt» = `/rautaki/i` im Antworttext, «zitiert» = Zitations-URL enthält `rautaki.ch`. OpenAI stabil 2/10; alle anderen 0 — ausser Perplexity Sep 1/1 aus nur einer Antwort. Sep für Perplexity/Claude nicht vergleichbar (→ P11.5).
 - [x] P11.5 GEO-Probe: leere Antworten beheben (Folge-Item aus R10). Befund: jeder Such-Node hat `neverError: true` + `onError: continueRegularOutput`, die «Auswertung …»-Nodes speichern jeden Fehler als `snippet: ""` — Fehler sind von «keine Erwähnung» nicht zu unterscheiden. Alle leeren Zeilen haben `citation_count: 0`. Lauf 01.09. endete nach ~2¼ Min (Aug ~3¾ Min) → Claude- und Perplexity-Aufrufe scheiterten schnell; Modelle/Bodies seit August unverändert. Wahrscheinlich Guthaben/Key (Anthropic, Perplexity) oder 429 durch 10 parallele Anfragen; OpenAI-Aussetzer wahrscheinlich 90-s-Timeout. Nicht verifiziert: Test-Workflow konnte ohne Aktivierung nicht laufen (Execution-Logs gelöscht).
   - ✓ Workflow umgesetzt (2026-09-16, Rollback-Snapshot n8n-mcp #496): Timeout 300 s + Batching 2/3 s an allen vier Such-Nodes; «Auswertung …» speichert Fehler als `FEHLER: …` (keine neuen Spalten); Digest zeigt ab 3 Fehlern «Messung fehlgeschlagen (N/10 Fehler)», sonst «(N Fehler)»; Claude `max_tokens` 16000, `max_uses: 5`, `pause_turn`/`max_tokens` → «[unvollständig]». Validiert, aktiv.
