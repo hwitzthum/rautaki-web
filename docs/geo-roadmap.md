@@ -22,7 +22,7 @@ Konventionen:
 | P5 | Google-Business-Profile-URL | 1 | — | geschlossen mit Befund | 2026-07-11 |
 | P6 | Aufgeschoben aus P1 | 1 | 2/2 | abgeschlossen | 2026-09-16 |
 | P7 | GEO-Messung | 1 | 5/5 | abgeschlossen | 2026-07-11 |
-| P8 | Indexierung der Kernseiten | 2 | 3/4 | in Arbeit — P8.4 ✗ auch am 2026-10-19: 22 / 11, `/services` nie gecrawlt; Hebel P3 | 2026-10-19 |
+| P8 | Indexierung der Kernseiten | 2 | 3/4 | in Arbeit — P8.4 ✗ auch am 2026-10-19: 22 / 11, `/services` nie gecrawlt; 4 Kernseiten erneut beantragt, nächste Prüfung 2026-11-01 | 2026-10-19 |
 | P9 | Nicht-Marken-Suchen & Snippets | 2 | 6/6 | abgeschlossen — P9.6 erste Übernahme 2026-10-19, Prüfung läuft monatlich im GEO-Digest weiter | 2026-10-19 |
 | P10 | Performance & Technik | 2 | 6/7 | in Arbeit — offen nur P10.6 (CWV-Felddaten, 2026-10-19 weiterhin keine) | 2026-10-19 |
 | P11 | Externe Sichtbarkeitsmessung | 2 | 2/5 | in Arbeit — P11.2 Folgemessung 2026-10-19 erfasst bis auf Peekaboo (Owner-Login) | 2026-10-19 |
@@ -173,7 +173,13 @@ Befund: GSC «Gefunden – zurzeit nicht indexiert» (Stand 04.09.2026) für `/s
   - Stand 2026-10-19 (Seitenbericht vom 12.10.2026, mit P11.2): **✗ Ziel weiterhin nicht erreicht → offen.** 22 indexiert / 11 nicht indexiert (21.09.: 24 / 9).
     - «Gefunden – zurzeit nicht indexiert» (2): `/services`, `/privacy`, beide «Zuletzt gecrawlt: N/A» — `/services` zum Berichtsstand 11 Tage nach dem zweiten Antrag (01.10.) weiterhin nie gecrawlt. `/en/booking` ist raus.
     - «Gecrawlt – zurzeit nicht indexiert» (7): drei alte Chunks (unkritisch), `/lab/ki-governance-policy.html` (308 auf apps.rautaki.ch, unkritisch) und **neu** `/wissen/der-weg-zu-wirksamer-ki` (gecrawlt 16.09.), `/en/services` und `/en/about` (beide zuletzt gecrawlt 11.07.). `/wissen/ki-reifegrad-schweizer-npos` ist nicht mehr in der Liste.
-    - Keine erneuten Anträge in dieser Prüfung; Befund P8.3 (geringer Crawl-Bedarf, Hebel P3) gilt weiter.
+    - Neue Indexierungsanträge 2026-10-19, vorab live geprüft (alle 200, `index, follow`, selbstreferenzierender Canonical, in `sitemap.xml`); alle vier «Indexierung beantragt»:
+      - `/services`: «Gefunden – zurzeit nicht indexiert», nie gecrawlt — Google kennt sie inzwischen aber über Sitemap und verweisende Seiten (`/`, `/en/services`). Dritter Antrag nach P8.1 und 01.10.
+      - `/wissen/der-weg-zu-wirksamer-ki`: «Gecrawlt – zurzeit nicht indexiert», zuletzt gecrawlt 16.09.2026, verweisende Seite `/en/wissen/der-weg-zu-wirksamer-ki`.
+      - `/en/services`: «Gecrawlt – zurzeit nicht indexiert», zuletzt gecrawlt 11.07.2026, nur über die Sitemap bekannt.
+      - `/en/about`: «Gecrawlt – zurzeit nicht indexiert», zuletzt gecrawlt 11.07.2026, nur über die Sitemap bekannt.
+      - Bei allen: kein von Google gewählter Canonical (also kein Duplikat-Befund); das Sitemap-Feld zeigt bei drei URLs weiterhin «Vorübergehender Verarbeitungsfehler» (Anzeigeproblem, siehe 2026-10-01). `/privacy` bewusst nicht beantragt (keine Kernseite).
+    - Befund P8.3 (geringer Crawl-Bedarf, Hebel P3) gilt weiter. Nächste Prüfung mit dem Digest 2026-11-01.
 - Hinweis: `/lab`-URLs leiten per 308 auf apps.rautaki.ch um — keine Aktion. «Gecrawlt – nicht indexiert» betraf am 04.09. nur `/_next/static/chunks/*.js` — unkritisch; seit dem Bericht vom 21.09. auch `/wissen/ki-reifegrad-schweizer-npos` (siehe P8.4).
 
 ## P9 — Nicht-Marken-Suchen & Snippets
