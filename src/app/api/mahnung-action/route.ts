@@ -222,7 +222,14 @@ export async function POST(request: NextRequest) {
       try {
         const statusRes = await fetch(webhookCheck.url.toString(), {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            // Shared secret for the n8n webhook (Header Auth). Optional so the
+            // write-back keeps working until n8n enforces it.
+            ...(process.env.N8N_MAHNUNG_STATUS_TOKEN
+              ? { "x-rautaki-token": process.env.N8N_MAHNUNG_STATUS_TOKEN }
+              : {}),
+          },
           body: JSON.stringify({ invoiceId, level }),
           signal: controller.signal,
         });
