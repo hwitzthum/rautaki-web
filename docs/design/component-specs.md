@@ -980,7 +980,7 @@ Print-ready business card templates. Two variants: Dark (obsidian with gold bott
 .bc-contact {
   font-family: var(--font-ui);
   font-size: var(--sz-xs);
-  line-height: var(--lh-loose);       /* 1.9 */
+  line-height: var(--lh-loose);       /* 1.8 */
 }
 .bc-bottom {
   display: flex;
